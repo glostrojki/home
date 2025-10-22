@@ -32,8 +32,26 @@ nav a:hover::after {width:100%;}
 /* Sekcje i karty wydarzeń */
 section {padding:40px 20px;}
 .events {display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;}
-.event-card {background:#fff; border-radius:15px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.1); transform:translateY(20px); opacity:0; animation: fadeInUp 1s forwards; transition: transform 0.5s, box-shadow 0.5s;}
-.event-card img {width:100%; height:150px; object-fit:cover;} /* usunięto hover */
+.event-card {
+    background:#fff; 
+    border-radius:15px; 
+    overflow:hidden; 
+    box-shadow:0 5px 15px rgba(0,0,0,0.1); 
+    transform:translateY(20px); 
+    opacity:0; 
+    animation: fadeInUp 1s forwards; 
+    transition: transform 0.5s, box-shadow 0.5s;
+}
+
+/* 🔧 poprawione, aby było widać całe zdjęcie */
+.event-card img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    background: #000; /* tło wokół, gdy zdjęcie nie wypełnia całej karty */
+}
+
 .event-card .content {padding:15px; animation: fadeIn 1.5s ease forwards;}
 .event-card h2 {font-size:1.3em; margin-bottom:10px;}
 .event-card p {font-size:0.95em; color:#555;}
@@ -83,7 +101,7 @@ footer {background:#000; color:#fff; text-align:center; padding:20px; margin-top
     <div class="header-container">
         <h1>Głos Trójki</h1>
         <div class="search-inline">
-            <input type="text" id="searchInput" placeholder="Szukaj wydarzeń, konkursów, redakcji...">
+            <input type="text" id="searchInput" placeholder="Szukaj...">
             <button onclick="searchItems()">Szukaj</button>
         </div>
         <nav>
@@ -97,13 +115,12 @@ footer {background:#000; color:#fff; text-align:center; padding:20px; margin-top
 
 <section id="home" class="events">
     <div class="event-card" style="animation-delay:0s;">
-        <img src="https://th.bing.com/th/id/OIP.vdSanx-n2NZ9cxim8RuqWwHaG8?w=172&h=180&c=7&r=0&o=7&cb=12&pid=1.7&rm=3.png" alt="Wydarzenie 1">
+        <img src="https://imgur.com/9G2vFjB.png" alt="Wydarzenie 1">
         <div class="content">
-            <h2>STRONA GAZETKI</h2>
-            <p>Strona gazetki ma dużą aktualizacje. Cały czas trwają nad nią prace techniczne...</p>
+            <h2>Witamy po wakacjach :D</h2>
+            <p>Szykujemy dla Was kolejne numery :D</p>
         </div>
     </div>
-   
 </section>
 
 <section id="konkursy">
@@ -175,11 +192,11 @@ function searchItems(){
         if(text.includes(input)){
             card.scrollIntoView({behavior:'smooth', block:'start'});
             card.classList.remove('blink'); void card.offsetWidth; card.classList.add('blink');
-            setTimeout(()=>card.classList.remove('blink'),2000); // usuwa po 2 sekundach
+            setTimeout(()=>card.classList.remove('blink'),2000);
             found=true; break;
         }
     }
-    if(!found){ // szukaj w sekcjach
+    if(!found){
         const sections=[
             {id:'home', text:'wycieczka klasowa wydarzenia'},
             {id:'konkursy', text:'konkurs konkursy wydarzenia'},
@@ -190,7 +207,7 @@ function searchItems(){
                 const el = document.getElementById(s.id);
                 el.scrollIntoView({behavior:'smooth'});
                 el.classList.remove('blink'); void el.offsetWidth; el.classList.add('blink');
-                setTimeout(()=>el.classList.remove('blink'),2000); // usuwa po 2 sekundach
+                setTimeout(()=>el.classList.remove('blink'),2000);
                 found=true; break;
             }
         }
