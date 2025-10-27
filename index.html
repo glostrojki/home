@@ -3,247 +3,273 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Głos Trójki - Gazetka Szkolna</title>
+<title>Głos Trójki</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 <style>
 * {margin:0;padding:0;box-sizing:border-box;}
-body {font-family: 'Roboto', sans-serif; background:#f5f5f5; color:#333; scroll-behavior:smooth;}
+body {font-family:'Roboto',sans-serif;background:#f5f5f5;color:#333;scroll-behavior:smooth;}
 
-/* Pasek górny */
-header {background:#000; color:#fff; padding:20px; position:sticky; top:0; z-index:100; animation: slideDown 1s ease;}
-.header-container {display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;}
-header h1 {font-size:2em; color:#fff; position:relative; animation: fadeIn 1.5s ease forwards;}
-header h1::after {content:''; display:block; width:60%; height:5px; background:gold; margin:5px 0 0; border-radius:2px; transition:width 0.3s ease;}
+header {background:#000;color:#fff;padding:20px;position:sticky;top:0;z-index:100;animation:slideDown 1s ease;}
+.header-container {display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;}
+header h1 {font-size:2em;color:#fff;position:relative;animation:fadeIn 1.5s ease forwards;}
+header h1::after {content:'';display:block;width:60%;height:5px;background:gold;margin:5px 0 0;border-radius:2px;transition:width 0.3s;}
 header h1:hover::after {width:80%;}
 
-/* Menu */
-nav {display:flex; gap:15px;}
-nav a {color:#fff; text-decoration:none; font-weight:500; position:relative; animation: fadeIn 1.5s ease forwards;}
-nav a::after {content:''; display:block; width:0%; height:2px; background:gold; transition:width 0.3s;}
+nav {display:flex;gap:15px;}
+nav a {color:#fff;text-decoration:none;font-weight:500;position:relative;animation:fadeIn 1.5s ease forwards;}
+nav a::after {content:'';display:block;width:0%;height:2px;background:gold;transition:width 0.3s;}
 nav a:hover::after {width:100%;}
 
-/* Wyszukiwarka inline */
-.search-inline {display:flex; align-items:center; gap:10px; margin-left:20px;}
-.search-inline input[type="text"] {padding:7px 10px; border-radius:5px 0 0 5px; border:none; width:200px; transition:transform 0.3s, box-shadow 0.3s;}
-.search-inline input[type="text"]:focus {transform:scale(1.05); box-shadow:0 0 10px gold;}
-.search-inline button {padding:7px 12px; border-radius:0 5px 5px 0; border:none; background:gold; cursor:pointer; font-weight:bold; transition: transform 0.3s, background 0.3s;}
-.search-inline button:hover {transform:scale(1.1); background:#ffde59;}
+.search-inline {display:flex;align-items:center;gap:10px;margin-left:20px;}
+.search-inline input[type="text"] {padding:7px 10px;border-radius:5px 0 0 5px;border:none;width:200px;transition:transform 0.3s,box-shadow 0.3s;}
+.search-inline input[type="text"]:focus {transform:scale(1.05);box-shadow:0 0 10px gold;}
+.search-inline button {padding:7px 12px;border-radius:0 5px 5px 0;border:none;background:#000;color:#fff;cursor:pointer;font-weight:bold;transition:transform 0.3s,background 0.3s;}
+.search-inline button:hover {transform:scale(1.1);background:#333;}
 
-/* Sekcje i karty wydarzeń */
 section {padding:40px 20px;}
-.events {display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;}
-.event-card {
-    background:#fff; 
-    border-radius:15px; 
-    overflow:hidden; 
-    box-shadow:0 5px 15px rgba(0,0,0,0.1); 
-    transform:translateY(20px); 
-    opacity:0; 
-    animation: fadeInUp 1s forwards; 
-    transition: transform 0.5s, box-shadow 0.5s;
+.events {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;position:relative;}
+
+/* Karty okienka */
+.container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
 }
 
-/* 🔧 poprawione, aby było widać całe zdjęcie */
-.event-card img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    background: radial-gradient(circle at center, #fff 60%, #f5f5f5 100%);
-    padding: 10px;
-    transition: transform 0.4s ease;
+.card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  width: 280px;
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.4s, opacity 0.4s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* lekkie powiększenie przy najechaniu */
-.event-card:hover img {
-    transform: scale(1.03);
+.card.hidden {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
 }
 
-
-.event-card .content {padding:15px; animation: fadeIn 1.5s ease forwards;}
-.event-card h2 {font-size:1.3em; margin-bottom:10px;}
-.event-card p {font-size:0.95em; color:#555;}
-
-/* Footer */
-footer {background:#000; color:#fff; text-align:center; padding:20px; margin-top:40px;}
-
-/* Popup Logowania */
-#loginModal {display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:200;}
-#loginModal.show {display:flex; animation:fadeIn 0.5s ease forwards;}
-#loginModal .modal-content {background:#fff; padding:30px; border-radius:15px; width:300px; text-align:center; transform:scale(0); animation:scaleIn 0.5s forwards;}
-#loginModal input {width:90%; padding:8px 10px; margin:10px 0; border-radius:5px; border:1px solid #ccc;}
-#loginModal button {padding:8px 15px; background:gold; border:none; border-radius:5px; cursor:pointer; font-weight:bold; margin-top:10px; transition:transform 0.3s;}
-#loginModal button:hover {transform:scale(1.05);}
-#loginModal .close-btn {position:absolute; top:15px; right:20px; color:#fff; font-size:25px; cursor:pointer;}
-
-/* Cookie Banner */
-#cookieBanner {position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#000; color:#fff; padding:15px 20px; border-radius:10px; display:flex; align-items:center; gap:15px; z-index:300; box-shadow:0 5px 15px rgba(0,0,0,0.3); animation:fadeInUp 1s ease;}
-#cookieBanner button {padding:5px 12px; border:none; border-radius:5px; font-weight:bold; cursor:pointer;}
-#cookieBanner button.accept {background:gold;}
-#cookieBanner button.reject {background:#555;}
-
-/* Cookie Notice */
-#cookieNotice {position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#000; color:#fff; padding:15px 20px; border-radius:10px; display:none; align-items:center; gap:15px; overflow:hidden; z-index:300;}
-#cookieNotice .progress {position:absolute; bottom:0; left:0; height:4px; background:gold; width:0;}
-
-/* Migająca ramka */
-@keyframes blinkSmooth {
-    0% {border-color:gold; opacity:1;}
-    25% {border-color:transparent; opacity:0.6;}
-    50% {border-color:gold; opacity:1;}
-    75% {border-color:transparent; opacity:0.6;}
-    100% {border-color:gold; opacity:1;}
+.card:hover {
+  transform: translateY(-5px);
 }
-.blink {border:3px solid gold !important; animation:blinkSmooth 1s ease-in-out;}
 
-/* Animacje wejścia */
-@keyframes fadeInUp {0% {transform:translateY(20px); opacity:0;} 100% {transform:translateY(0); opacity:1;}}
-@keyframes fadeIn {0% {opacity:0;} 100% {opacity:1;}}
-@keyframes scaleIn {0% {transform:scale(0);} 100% {transform:scale(1);}}
-@keyframes slideDown {0% {transform:translateY(-100px); opacity:0;} 100% {transform:translateY(0); opacity:1;}}
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: #555;
+  padding: 0 10px 10px;
+}
+
+.card button {
+  background: #000;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.card button:hover {
+  background: #333;
+}
+
+/* Popup */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup-content {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  max-width: 500px;
+  text-align: center;
+  position: relative;
+}
+
+.popup-content img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.popup-content h2 {
+  margin-bottom: 10px;
+}
+
+.popup-content p {
+  color: #333;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+}
+
+footer {background:#000;color:#fff;text-align:center;padding:20px;margin-top:40px;}
+
+@keyframes fadeInUp {0%{transform:translateY(20px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
+@keyframes fadeIn {0%{opacity:0;}100%{opacity:1;}}
+@keyframes scaleIn {0%{transform:scale(0);}100%{transform:scale(1);}}
+@keyframes slideDown {0%{transform:translateY(-100px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
 </style>
 </head>
 <body>
 
 <header>
-    <div class="header-container">
-        <h1>Głos Trójki</h1>
-        <div class="search-inline">
-            <input type="text" id="searchInput" placeholder="Szukaj...">
-            <button onclick="searchItems()">Szukaj</button>
-        </div>
-        <nav>
-            <a href="#home">Strona główna</a>
-            <a href="#konkursy">Konkursy</a>
-            <a href="#redakcja">Redakcja</a>
-            <a href="#" id="loginBtn">Logowanie</a>
-        </nav>
+  <div class="header-container">
+    <h1>Głos Trójki</h1>
+    <div class="search-inline">
+      <input type="text" id="searchInput" placeholder="Szukaj...">
+      <button id="searchBtn">Szukaj</button>
     </div>
+    <nav>
+      <a href="#home">Strona główna</a>
+      <a href="#konkursy">Ustawienia</a>
+
+    </nav>
+  </div>
 </header>
 
 <section id="home" class="events">
-    <div class="event-card" style="animation-delay:0s;">
-        <img src="https://imgur.com/9G2vFjB.png" alt="Wydarzenie 1">
-        <div class="content">
-            <h2>Witamy po wakacjach :D</h2>
-            <p>Szykujemy dla Was kolejne numery :D</p>
-        </div>
+  <div class="container" id="cardContainer">
+    <div class="card" data-id="1">
+      <img src="https://imgur.com/9G2vFjB.png" alt="Obraz 1">
+      <h3>Witamy po wakacjach 😎</h3>
+      <p>Hej, jak minęły Wam wakacje</p>
+      <button class="read-more">Czytaj dalej</button>
     </div>
+    <div class="card" data-id="2">
+      <img src="https://imgur.com/9G2vFjB.png" alt="Obraz 2">
+      <h3>Testowe 32</h3>
+      <p>Krótki opis drugiego okienka...</p>
+      <button class="read-more">Czytaj dalej</button>
+    </div>
+    <div class="card" data-id="3">
+      <img src="https://imgur.com/9G2vFjB.png" alt="Obraz 3">
+      <h3>Tytuł 3</h3>
+      <p>Krótki opis trzeciego okienka...</p>
+      <button class="read-more">Czytaj dalej</button>
+    </div>
+  </div>
 </section>
 
 <section id="konkursy">
-    <h2>Konkursy</h2>
-    <p>Wkrótce...</p>
+  <h2>Konkursy</h2>
+  <p>Wkrótce...</p>
 </section>
 
 <section id="redakcja">
-    <h2>Redakcja</h2>
-    <p>Wkrótce...</p>
+  <h2>Redakcja</h2>
+  <p>Wkrótce...</p>
 </section>
 
 <footer>&copy; 2025 Głos Trójki - Gazetka Szkolna</footer>
 
-<!-- Popup Logowania -->
-<div id="loginModal">
-    <div class="modal-content">
-        <span class="close-btn" id="closeLogin">&times;</span>
-        <h2>Logowanie</h2>
-        <input type="text" id="loginUser" placeholder="Login">
-        <input type="password" id="loginPass" placeholder="Hasło">
-        <button onclick="checkLogin()">Zaloguj</button>
-    </div>
-</div>
-
-<!-- Cookie Banner -->
-<div id="cookieBanner">
-    Czy wyrażasz zgodę na używanie plików cookie?
-    <button class="accept" onclick="handleCookie(true)">Akceptuj</button>
-    <button class="reject" onclick="handleCookie(false)">Odrzuć</button>
-</div>
-
-<!-- Powiadomienie Cookie -->
-<div id="cookieNotice">
-    <span id="cookieMessage"></span>
-    <div class="progress"></div>
+<!-- Popup -->
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <span class="close-btn">&times;</span>
+    <img id="popup-img" src="" alt="">
+    <h2 id="popup-title"></h2>
+    <p id="popup-desc"></p>
+  </div>
 </div>
 
 <script>
-// Animacja kart
-document.querySelectorAll('.event-card').forEach((card, idx)=>{
-    card.style.animationDelay = (idx*0.2)+'s';
-    card.style.animationFillMode = 'forwards';
+// Dane kart
+const cardData = {
+  1: { 
+    title:'Witamy po wakacjach', 
+    img:'https://i.imgur.com/9G2vFjB.png', 
+    desc:`Hej, jak minęły Wam wakacje? 😎 My już szykujemy kolejne numery gazetki i nie możemy się doczekać, żeby podzielić się z Wami nowościami ze szkolnego życia. Bądźcie z nami!`
+  },
+  2: { title:'Tytuł 2', img:'https://i.imgur.com/9G2vFjB.png', desc:'Więcej szczegółów o drugim okienku.' },
+  3: { title:'Tytuł 3', img:'https://i.imgur.com/9G2vFjB.png', desc:'Trzeci popup z pełnym opisem i grafiką.' }
+};
+
+
+// Popup
+const popup = document.getElementById('popup');
+const popupImg = document.getElementById('popup-img');
+const popupTitle = document.getElementById('popup-title');
+const popupDesc = document.getElementById('popup-desc');
+const closeBtn = document.querySelector('.close-btn');
+
+document.querySelectorAll('.read-more').forEach(button=>{
+  button.addEventListener('click', e=>{
+    const card = e.target.closest('.card');
+    const id = card.getAttribute('data-id');
+    const data = cardData[id];
+    popupImg.src = data.img;
+    popupTitle.textContent = data.title;
+    popupDesc.textContent = data.desc;
+    popup.style.display = 'flex';
+  });
 });
 
-// Logowanie popup
-const loginBtn = document.getElementById('loginBtn');
-const loginModal = document.getElementById('loginModal');
-const closeLogin = document.getElementById('closeLogin');
-loginBtn.onclick = ()=> loginModal.classList.add('show');
-closeLogin.onclick = ()=> loginModal.classList.remove('show');
-window.onclick = e => { if(e.target==loginModal) loginModal.classList.remove('show'); }
+closeBtn.addEventListener('click', ()=>popup.style.display='none');
+popup.addEventListener('click', e=>{if(e.target===popup) popup.style.display='none';});
 
-function checkLogin(){
-    const user = document.getElementById('loginUser').value;
-    const pass = document.getElementById('loginPass').value;
-    if(user==='redaktor1' && pass==='Głos Trójki1'){
-        window.location.href='https://glostrojki.github.io/admin/';
-    } else { alert('Niepoprawny login lub hasło!'); }
+// Funkcja filtrowania kart od razu
+function filterCards(){
+  const term = document.getElementById('searchInput').value.toLowerCase();
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card=>{
+    const id = card.getAttribute('data-id');
+    const data = cardData[id];
+    const title = card.querySelector('h3').textContent.toLowerCase();
+    const desc = card.querySelector('p').textContent.toLowerCase();
+    const popupTitle = data.title.toLowerCase();
+    const popupDesc = data.desc.toLowerCase();
+
+    if(title.includes(term) || desc.includes(term) || popupTitle.includes(term) || popupDesc.includes(term)){
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
 }
 
-// Wyszukiwarka z migającą ramką
-function searchItems(){
-    const input = document.getElementById('searchInput').value.toLowerCase();
-    const cards = document.querySelectorAll('.event-card');
-    let found=false;
-    for(let card of cards){
-        const text = card.querySelector('h2').innerText.toLowerCase();
-        if(text.includes(input)){
-            card.scrollIntoView({behavior:'smooth', block:'start'});
-            card.classList.remove('blink'); void card.offsetWidth; card.classList.add('blink');
-            setTimeout(()=>card.classList.remove('blink'),2000);
-            found=true; break;
-        }
-    }
-    if(!found){
-        const sections=[
-            {id:'home', text:'wycieczka klasowa wydarzenia'},
-            {id:'konkursy', text:'konkurs konkursy wydarzenia'},
-            {id:'redakcja', text:'redakcja gazetka'}
-        ];
-        for(let s of sections){
-            if(s.text.includes(input)){
-                const el = document.getElementById(s.id);
-                el.scrollIntoView({behavior:'smooth'});
-                el.classList.remove('blink'); void el.offsetWidth; el.classList.add('blink');
-                setTimeout(()=>el.classList.remove('blink'),2000);
-                found=true; break;
-            }
-        }
-    }
-    if(!found) alert('Nie znaleziono pasującej sekcji.');
-}
-
-// Obsługa cookie
-function handleCookie(accepted){
-    const banner=document.getElementById('cookieBanner');
-    const notice=document.getElementById('cookieNotice');
-    const message=document.getElementById('cookieMessage');
-    const progress=notice.querySelector('.progress');
-    banner.style.display='none';
-    message.textContent = accepted ? 'Zaakceptowałeś pliki cookie' : 'Odrzuciłeś pliki cookie';
-    notice.style.display='flex';
-    progress.style.width='0';
-    let start=null;
-    function animate(time){
-        if(!start) start=time;
-        let width=(time-start)/1000*100;
-        progress.style.width = width+'%';
-        if(width<100) requestAnimationFrame(animate);
-        else notice.style.display='none';
-    }
-    requestAnimationFrame(animate);
-}
+// Reaguj natychmiast na wpisanie tekstu
+document.getElementById('searchInput').addEventListener('input', filterCards);
 </script>
+
 </body>
 </html>
-
