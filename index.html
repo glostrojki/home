@@ -4,10 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Głos Trójki</title>
+<link rel="icon" href="https://i.imgur.com/0zwKgFH.png" type="image/png">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 <style>
 * {margin:0;padding:0;box-sizing:border-box;}
-body {font-family:'Roboto',sans-serif;background:#f5f5f5;color:#333;scroll-behavior:smooth;}
+body {font-family:'Roboto',sans-serif;background:#f5f5f5;color:#333;scroll-behavior:smooth;transition: background 0.3s, color 0.3s;}
+body.dark {background:#121212;color:#eee;}
 
 header {background:#000;color:#fff;padding:20px;position:sticky;top:0;z-index:100;animation:slideDown 1s ease;}
 .header-container {display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;}
@@ -16,7 +18,7 @@ header h1::after {content:'';display:block;width:60%;height:5px;background:gold;
 header h1:hover::after {width:80%;}
 
 nav {display:flex;gap:15px;}
-nav a {color:#fff;text-decoration:none;font-weight:500;position:relative;animation:fadeIn 1.5s ease forwards;}
+nav a {color:#fff;text-decoration:none;font-weight:500;position:relative;animation:fadeIn 1.5s ease forwards;cursor:pointer;}
 nav a::after {content:'';display:block;width:0%;height:2px;background:gold;transition:width 0.3s;}
 nav a:hover::after {width:100%;}
 
@@ -29,140 +31,56 @@ nav a:hover::after {width:100%;}
 section {padding:40px 20px;}
 .events {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;position:relative;}
 
-/* Karty okienka */
-.container {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 20px;
-}
+.container {display: flex;gap: 20px;flex-wrap: wrap;justify-content: center;margin-top: 20px;}
+.card {background: white;border-radius: 16px;box-shadow: 0 4px 10px rgba(0,0,0,0.1);width: 280px;overflow: hidden;text-align: center;transition: transform 0.4s, opacity 0.4s;display: flex;flex-direction: column;align-items: center;opacity: 1;transform: translateY(0);}
+.card.dark {background: black;border-radius: 16px;box-shadow: 0 4px 10px rgba(0,0,0,0.1);width: 280px;overflow: hidden;text-align: center;transition: transform 0.4s, opacity 0.4s;display: flex;flex-direction: column;align-items: center;opacity: 1;transform: translateY(0);}
+.card.hidden {opacity: 0;transform: translateY(20px);pointer-events: none;}
+.card:hover {transform: translateY(-5px);}
+.card img {width: 100%;height: 180px;object-fit: cover;flex-shrink: 0;}
+.card h3 {font-size: 1.2rem;margin: 10px 0;}
+.card p {font-size: 0.95rem;color: #555;padding: 0 10px 10px;}
+.card button {background: #000;color: white;border: none;padding: 10px 16px;border-radius: 8px;margin-bottom: 15px;cursor: pointer;transition: background 0.2s;}
+.card button:hover {background: #333;}
 
-.card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  width: 280px;
-  overflow: hidden;
-  text-align: center;
-  transition: transform 0.4s, opacity 0.4s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.card.hidden {
-  opacity: 0;
-  transform: translateY(20px);
-  pointer-events: none;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-}
-
-.card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.card h3 {
-  font-size: 1.2rem;
-  margin: 10px 0;
-}
-
-.card p {
-  font-size: 0.95rem;
-  color: #555;
-  padding: 0 10px 10px;
-}
-
-.card button {
-  background: #000;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.card button:hover {
-  background: #333;
-}
-
-/* Popup */
-.popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-}
-
-.popup-content {
-  background: white;
-  border-radius: 16px;
-  padding: 20px;
-  max-width: 500px;
-  text-align: center;
-  position: relative;
-}
-
-.popup-content img {
-  width: 100%;
-  border-radius: 10px;
-  margin-bottom: 15px;
-}
-
-.popup-content h2 {
-  margin-bottom: 10px;
-}
-
-.popup-content p {
-  color: #333;
-}
-
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #666;
-}
+.popup {position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,0.6);display: none;justify-content: center;align-items: center;z-index: 999;}
+.popup-content {background: white;border-radius: 16px;padding: 20px;max-width: 500px;text-align: center;position: relative;}
+.popup-content.dark {background: black;border-radius: 16px;padding: 20px;max-width: 500px;text-align: center;position: relative;}
+.popup-content img {width: 100%;border-radius: 10px;margin-bottom: 15px;}
+.popup-content h2 {margin-bottom: 10px;}
+.popup-content p {color: #333;}
+.close-btn {position: absolute;top: 10px;right: 15px;font-size: 1.5rem;cursor: pointer;color: #666;}
 
 footer {background:#000;color:#fff;text-align:center;padding:20px;margin-top:40px;}
 
-@keyframes fadeInUp {0%{transform:translateY(20px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
-@keyframes fadeIn {0%{opacity:0;}100%{opacity:1;}}
-@keyframes scaleIn {0%{transform:scale(0);}100%{transform:scale(1);}}
-@keyframes slideDown {0%{transform:translateY(-100px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
+/* Settings */
+.setting-item {display:flex;justify-content:space-between;align-items:center;margin:15px 0;font-size:1rem;}
+.toggle-switch {position: relative;width: 50px;height: 24px;}
+.toggle-switch input {opacity:0;width:0;height:0;}
+.slider {position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#ccc;transition:.4s;border-radius:34px;}
+.slider:before {position:absolute;content:"";height:18px;width:18px;left:3px;bottom:3px;background:white;transition:.4s;border-radius:50%;}
+input:checked + .slider {background:#2196F3;}
+input:checked + .slider:before {transform: translateX(26px);}
+
+select {padding:5px 10px;border-radius:6px;border:1px solid #ccc;}
+
+/* Dark mode popup style */
+body.dark .popup-content {background:black;color:#eee;}
+body.dark select {background:#333;color:#eee;border:1px solid #555;}
+body.dark .slider {background:#555;}
 </style>
 </head>
 <body>
 
 <header>
   <div class="header-container">
-    <h1>Głos Trójki</h1>
+    <h1 id="siteTitle">Głos Trójki</h1>
     <div class="search-inline">
       <input type="text" id="searchInput" placeholder="Szukaj...">
       <button id="searchBtn">Szukaj</button>
     </div>
     <nav>
-      <a href="#home">Strona główna</a>
-      <a href="#konkursy">Ustawienia</a>
-
+      <a href="#home" id="homeNav">Strona główna</a>
+      <a id="settingsBtn">Ustawienia</a>
     </nav>
   </div>
 </header>
@@ -171,38 +89,38 @@ footer {background:#000;color:#fff;text-align:center;padding:20px;margin-top:40p
   <div class="container" id="cardContainer">
     <div class="card" data-id="1">
       <img src="https://imgur.com/9G2vFjB.png" alt="Obraz 1">
-      <h3>Witamy po wakacjach 😎</h3>
-      <p>Hej, jak minęły Wam wakacje</p>
-      <button class="read-more">Czytaj dalej</button>
+      <h3 class="card-title" data-key="card1Title">Witamy po wakacjach 😎</h3>
+      <p class="card-desc" data-key="card1Desc">Hej, jak minęły Wam wakacje</p>
+      <button class="read-more" data-key="readMore">Czytaj dalej</button>
     </div>
     <div class="card" data-id="2">
       <img src="https://imgur.com/9G2vFjB.png" alt="Obraz 2">
-      <h3>Testowe 32</h3>
-      <p>Krótki opis drugiego okienka...</p>
-      <button class="read-more">Czytaj dalej</button>
+      <h3 class="card-title" data-key="card2Title">Testowe 32</h3>
+      <p class="card-desc" data-key="card2Desc">Krótki opis drugiego okienka...</p>
+      <button class="read-more" data-key="readMore">Czytaj dalej</button>
     </div>
     <div class="card" data-id="3">
       <img src="https://imgur.com/9G2vFjB.png" alt="Obraz 3">
-      <h3>Tytuł 3</h3>
-      <p>Krótki opis trzeciego okienka...</p>
-      <button class="read-more">Czytaj dalej</button>
+      <h3 class="card-title" data-key="card3Title">Tytuł 3</h3>
+      <p class="card-desc" data-key="card3Desc">Krótki opis trzeciego okienka...</p>
+      <button class="read-more" data-key="readMore">Czytaj dalej</button>
     </div>
   </div>
 </section>
 
 <section id="konkursy">
-  <h2>Konkursy</h2>
-  <p>Wkrótce...</p>
+  <h2 data-key="contests">Konkursy</h2>
+  <p data-key="comingSoon">Wkrótce...</p>
 </section>
 
 <section id="redakcja">
-  <h2>Redakcja</h2>
-  <p>Wkrótce...</p>
+  <h2 data-key="editorial">Redakcja</h2>
+  <p data-key="comingSoon">Wkrótce...</p>
 </section>
 
-<footer>&copy; 2025 Głos Trójki - Gazetka Szkolna</footer>
+<footer>&copy; 2025 <span data-key="siteName">Głos Trójki</span> -<span data-key="opis"> Gazetka Szkolna </span></footer>
 
-<!-- Popup -->
+<!-- Popup for cards -->
 <div class="popup" id="popup">
   <div class="popup-content">
     <span class="close-btn">&times;</span>
@@ -212,25 +130,109 @@ footer {background:#000;color:#fff;text-align:center;padding:20px;margin-top:40p
   </div>
 </div>
 
+<!-- Popup for settings -->
+<div class="popup" id="settingsPopup">
+  <div class="popup-content">
+    <span class="close-btn" id="settingsClose">&times;</span>
+    <h2 data-key="settingsTitle">Ustawienia</h2>
+    <div class="setting-item">
+      <span data-key="darkModeText">Tryb ciemny</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="darkModeToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <br>
+    <div class="setting-item">
+      <span data-key="languageText">Język strony</span>
+      <select id="languageSelect">
+        <option value="pl">Polski</option>
+        <option value="en">English</option>
+        <option value="ua">Українська</option>
+      </select>
+    </div>
+  </div>
+</div>
+
 <script>
-// Dane kart
-const cardData = {
-  1: { 
-    title:'Witamy po wakacjach', 
-    img:'https://i.imgur.com/9G2vFjB.png', 
-    desc:`Hej, jak minęły Wam wakacje? 😎 My już szykujemy kolejne numery gazetki i nie możemy się doczekać, żeby podzielić się z Wami nowościami ze szkolnego życia. Bądźcie z nami!`
+// Teksty w różnych językach
+const translations = {
+  pl: {
+    siteTitle: "Głos Trójki",
+    homeNav: "Strona główna",
+    readMore: "Czytaj dalej",
+    contests: "Konkursy",
+    comingSoon: "Wkrótce...",
+    editorial: "Redakcja",
+    settingsTitle: "Ustawienia",
+    darkModeText: "Tryb ciemny",
+    languageText: "Język strony",
+    siteName: "Głos Trójki",
+    card1Title: "Witamy po wakacjach 😎",
+    card1Desc: "Hej, jak minęły Wam wakacje",
+    card2Title: "Testowe 32",
+    card2Desc: "Krótki opis drugiego okienka...",
+    card3Title: "Tytuł 3",
+    card3Desc: "Krótki opis trzeciego okienka..."
   },
-  2: { title:'Tytuł 2', img:'https://i.imgur.com/9G2vFjB.png', desc:'Więcej szczegółów o drugim okienku.' },
-  3: { title:'Tytuł 3', img:'https://i.imgur.com/9G2vFjB.png', desc:'Trzeci popup z pełnym opisem i grafiką.' }
+  en: {
+    siteTitle: "Voice of Three",
+    homeNav: "Home",
+    readMore: "Read more",
+    contests: "Contests",
+    comingSoon: "Coming soon...",
+    editorial: "Editorial",
+    settingsTitle: "Settings",
+    darkModeText: "Dark mode",
+    languageText: "Site language",
+    siteName: "Glos Trojki",
+    card1Title: "Welcome back from holidays 😎",
+    card1Desc: "Hey, how was your holiday?",
+    card2Title: "Test 32",
+    card2Desc: "Short description of the second card...",
+    card3Title: "Title 3",
+    card3Desc: "Short description of the third card..."
+  },
+  ua: {
+    siteTitle: "Glos Trojki",
+    homeNav: "Головна",
+    readMore: "Читати далі",
+    contests: "Конкурси",
+    comingSoon: "Незабаром...",
+    editorial: "Редакція",
+    settingsTitle: "Налаштування",
+    darkModeText: "Темний режим",
+    languageText: "Мова сайту",
+    siteName: "Glos Trojki",
+    card1Title: "Ласкаво просимо після канікул 😎",
+    card1Desc: "Привіт, як пройшли ваші канікули?",
+    card2Title: "Тест 32",
+    card2Desc: "Короткий опис другої картки...",
+    card3Title: "Назва 3",
+    card3Desc: "Короткий опис третьої картки..."
+  }
 };
 
+// Funkcja zmiany języka
+function applyLanguage(lang){
+  document.querySelectorAll('[data-key]').forEach(el=>{
+    const key = el.getAttribute('data-key');
+    if(translations[lang][key]) el.textContent = translations[lang][key];
+  });
+}
 
-// Popup
+// Popup dla kart
+const cardData = {
+  1: { title:'Witamy po wakacjach', img:'https://i.imgur.com/9G2vFjB.png', desc:'Hej, jak minęły Wam wakacje? 😎' },
+  2: { title:'Tytuł 2', img:'https://i.imgur.com/9G2vFjB.png', desc:'Krótki opis drugiego okienka...' },
+  3: { title:'Tytuł 3', img:'https://i.imgur.com/9G2vFjB.png', desc:'Krótki opis trzeciego okienka...' }
+};
+
 const popup = document.getElementById('popup');
 const popupImg = document.getElementById('popup-img');
 const popupTitle = document.getElementById('popup-title');
 const popupDesc = document.getElementById('popup-desc');
-const closeBtn = document.querySelector('.close-btn');
+const closeBtn = document.querySelector('#popup .close-btn');
 
 document.querySelectorAll('.read-more').forEach(button=>{
   button.addEventListener('click', e=>{
@@ -247,29 +249,59 @@ document.querySelectorAll('.read-more').forEach(button=>{
 closeBtn.addEventListener('click', ()=>popup.style.display='none');
 popup.addEventListener('click', e=>{if(e.target===popup) popup.style.display='none';});
 
-// Funkcja filtrowania kart od razu
-function filterCards(){
+// Filtrowanie kart
+document.getElementById('searchInput').addEventListener('input', ()=>{
   const term = document.getElementById('searchInput').value.toLowerCase();
-  const cards = document.querySelectorAll('.card');
-  cards.forEach(card=>{
+  document.querySelectorAll('.card').forEach(card=>{
     const id = card.getAttribute('data-id');
     const data = cardData[id];
     const title = card.querySelector('h3').textContent.toLowerCase();
     const desc = card.querySelector('p').textContent.toLowerCase();
     const popupTitle = data.title.toLowerCase();
     const popupDesc = data.desc.toLowerCase();
-
-    if(title.includes(term) || desc.includes(term) || popupTitle.includes(term) || popupDesc.includes(term)){
+    if(title.includes(term)||desc.includes(term)||popupTitle.includes(term)||popupDesc.includes(term)){
       card.classList.remove('hidden');
-    } else {
-      card.classList.add('hidden');
-    }
+    } else { card.classList.add('hidden'); }
   });
+});
+
+// Popup ustawień
+const settingsBtn = document.getElementById('settingsBtn');
+const settingsPopup = document.getElementById('settingsPopup');
+const settingsClose = document.getElementById('settingsClose');
+const darkModeToggle = document.getElementById('darkModeToggle');
+const languageSelect = document.getElementById('languageSelect');
+
+settingsBtn.addEventListener('click', ()=>settingsPopup.style.display='flex');
+settingsClose.addEventListener('click', ()=>settingsPopup.style.display='none');
+settingsPopup.addEventListener('click', e=>{if(e.target===settingsPopup) settingsPopup.style.display='none';});
+
+// Funkcje ustawień
+function saveSettings(){
+  localStorage.setItem('darkMode', darkModeToggle.checked);
+  localStorage.setItem('language', languageSelect.value);
 }
 
-// Reaguj natychmiast na wpisanie tekstu
-document.getElementById('searchInput').addEventListener('input', filterCards);
-</script>
+function loadSettings(){
+  const darkMode = localStorage.getItem('darkMode')==='true';
+  const language = localStorage.getItem('language') || 'pl';
+  darkModeToggle.checked = darkMode;
+  languageSelect.value = language;
+  document.body.classList.toggle('dark', darkMode);
+  applyLanguage(language);
+}
 
+darkModeToggle.addEventListener('change', ()=>{
+  document.body.classList.toggle('dark', darkModeToggle.checked);
+  saveSettings();
+});
+
+languageSelect.addEventListener('change', ()=>{
+  applyLanguage(languageSelect.value);
+  saveSettings();
+});
+
+loadSettings();
+</script>
 </body>
 </html>
