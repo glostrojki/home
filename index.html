@@ -1,307 +1,356 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Głos Trójki</title>
-<link rel="icon" href="https://i.imgur.com/0zwKgFH.png" type="image/png">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
 <style>
-* {margin:0;padding:0;box-sizing:border-box;}
-body {font-family:'Roboto',sans-serif;background:#f5f5f5;color:#333;scroll-behavior:smooth;transition: background 0.3s, color 0.3s;}
-body.dark {background:#121212;color:#eee;}
+  :root{
+    --bg:#000;          
+    --paper:#111;
+    --muted:#bbbbbb;    
+    --accent:#ffd100;   
+  }
 
-header {background:#000;color:#fff;padding:20px;position:sticky;top:0;z-index:100;animation:slideDown 1s ease;}
-.header-container {display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;}
-header h1 {font-size:2em;color:#fff;position:relative;animation:fadeIn 1.5s ease forwards;}
-header h1::after {content:'';display:block;width:60%;height:5px;background:gold;margin:5px 0 0;border-radius:2px;transition:width 0.3s;}
-header h1:hover::after {width:80%;}
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter,system-ui;
+    background:#000;
+    color:#fff;
+  }
 
-nav {display:flex;gap:15px;}
-nav a {color:#fff;text-decoration:none;font-weight:500;position:relative;animation:fadeIn 1.5s ease forwards;cursor:pointer;}
-nav a::after {content:'';display:block;width:0%;height:2px;background:gold;transition:width 0.3s;}
-nav a:hover::after {width:100%;}
+  /* FULL WIDTH */
+  .wrap{
+    width:100%;
+    margin:0;
+    background:#000;
+    padding:0;
+  }
 
-.search-inline {display:flex;align-items:center;gap:10px;margin-left:20px;}
-.search-inline input[type="text"] {padding:7px 10px;border-radius:5px 0 0 5px;border:none;width:200px;transition:transform 0.3s,box-shadow 0.3s;}
-.search-inline input[type="text"]:focus {transform:scale(1.05);box-shadow:0 0 10px gold;}
-.search-inline button {padding:7px 12px;border-radius:0 5px 5px 0;border:none;background:#000;color:#fff;cursor:pointer;font-weight:bold;transition:transform 0.3s,background 0.3s;}
-.search-inline button:hover {transform:scale(1.1);background:#333;}
+  /* GLOBAL */
+  a{color:var(--accent);text-decoration:none;}
+  button{
+    background:var(--accent);
+    color:#111;
+    border:0;
+    padding:8px 12px;
+    border-radius:4px;
+    cursor:pointer;
+  }
 
-section {padding:40px 20px;}
-.events {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;position:relative;}
+  /* HEADER */
+  header{
+    border-bottom:1px solid rgba(255,255,255,0.1);
+    padding-bottom:10px;
+  }
 
-.container {display: flex;gap: 20px;flex-wrap: wrap;justify-content: center;margin-top: 20px;}
-.card {background: white;border-radius: 16px;box-shadow: 0 4px 10px rgba(0,0,0,0.1);width: 280px;overflow: hidden;text-align: center;transition: transform 0.4s, opacity 0.4s;display: flex;flex-direction: column;align-items: center;opacity: 1;transform: translateY(0);}
-.card.dark {background: black;border-radius: 16px;box-shadow: 0 4px 10px rgba(0,0,0,0.1);width: 280px;overflow: hidden;text-align: center;transition: transform 0.4s, opacity 0.4s;display: flex;flex-direction: column;align-items: center;opacity: 1;transform: translateY(0);}
-.card.hidden {opacity: 0;transform: translateY(20px);pointer-events: none;}
-.card:hover {transform: translateY(-5px);}
-.card img {width: 100%;height: 180px;object-fit: cover;flex-shrink: 0;}
-.card h3 {font-size: 1.2rem;margin: 10px 0;}
-.card p {font-size: 0.95rem;color: #555;padding: 0 10px 10px;}
-.card button {background: #000;color: white;border: none;padding: 10px 16px;border-radius: 8px;margin-bottom: 15px;cursor: pointer;transition: background 0.2s;}
-.card button:hover {background: #333;}
+  .logo-block{
+    padding:28px 36px;
+  }
 
-.popup {position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,0.6);display: none;justify-content: center;align-items: center;z-index: 999;}
-.popup-content {background: white;border-radius: 16px;padding: 20px;max-width: 500px;text-align: center;position: relative;}
-.popup-content.dark {background: black;border-radius: 16px;padding: 20px;max-width: 500px;text-align: center;position: relative;}
-.popup-content img {width: 100%;border-radius: 10px;margin-bottom: 15px;}
-.popup-content h2 {margin-bottom: 10px;}
-.popup-content p {color: #333;}
-.close-btn {position: absolute;top: 10px;right: 15px;font-size: 1.5rem;cursor: pointer;color: #666;}
+  .logo{
+    font-size:100px;
+    font-weight:900;
+    letter-spacing:-4px;
+    line-height:0.9;
+    margin:0;
+    color:#fff;
+    display:inline-block;
+  }
 
-footer {background:#000;color:#fff;text-align:center;padding:20px;margin-top:40px;}
+  .logo-underline{
+    display:block;
+    height:8px;
+    background:var(--accent);
+    width:100%;
+    margin-top:6px;
+  }
 
-/* Settings */
-.setting-item {display:flex;justify-content:space-between;align-items:center;margin:15px 0;font-size:1rem;}
-.toggle-switch {position: relative;width: 50px;height: 24px;}
-.toggle-switch input {opacity:0;width:0;height:0;}
-.slider {position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#ccc;transition:.4s;border-radius:34px;}
-.slider:before {position:absolute;content:"";height:18px;width:18px;left:3px;bottom:3px;background:white;transition:.4s;border-radius:50%;}
-input:checked + .slider {background:#2196F3;}
-input:checked + .slider:before {transform: translateX(26px);}
+  .slogan{
+    color:var(--accent);
+    font-style:italic;
+    margin-top:8px;
+    font-size:20px;
+  }
 
-select {padding:5px 10px;border-radius:6px;border:1px solid #ccc;}
+  nav.topnav{
+    display:flex;
+    gap:18px;
+    align-items:center;
+    padding:0 36px 18px;
+    font-size:15px;
+  }
 
-/* Dark mode popup style */
-body.dark .popup-content {background:black;color:#eee;}
-body.dark select {background:#333;color:#eee;border:1px solid #555;}
-body.dark .slider {background:#555;}
+  /* CATEGORY BAR */
+  .categorybar{
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+    padding:12px 36px;
+    border-top:1px solid rgba(255,255,255,0.1);
+    border-bottom:1px solid rgba(255,255,255,0.1);
+    color:#fff;
+    font-weight:600;
+    font-size:13px;
+  }
+
+  /* TICKER */
+  .ticker{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 36px;
+    background:#111;
+    color:#fff;
+    font-size:14px;
+    border-bottom:1px solid rgba(255,255,255,0.07);
+  }
+  .ticker b{
+    background:var(--accent);
+    color:#111;
+    padding:6px 10px;
+    border-radius:4px;
+    font-size:12px;
+  }
+
+  /* LAYOUT main */
+  .container{
+    padding:28px 36px;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:28px;
+  }
+
+  .hero{
+    background:#111;
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow:0 8px 30px rgba(0,0,0,0.5);
+    position:relative;
+  }
+  .hero .media{
+    width:100%;
+    height:320px;
+    object-fit:cover;
+    display:block;
+  }
+  .hero .meta{
+    padding:22px;
+  }
+  .kicker{
+    font-size:12px;
+    color:var(--accent);
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  .hero h1{
+    margin:0 0 6px 0;
+    font-family:'Playfair Display', serif;
+    font-size:28px;
+    color:#fff;
+  }
+
+  .highlight{
+    margin-top:22px;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+  }
+
+  .card{
+    background:#111;
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow:0 6px 18px rgba(0,0,0,0.4);
+    position:relative;
+  }
+  .card img{
+    width:100%;
+    height:110px;
+    object-fit:cover;
+  }
+  .card .card-body{
+    padding:12px;
+    font-size:14px;
+  }
+
+  .cat{
+    font-size:11px;
+    color:var(--accent);
+    font-weight:700;
+    margin-bottom:8px;
+    text-transform:uppercase;
+  }
+  .title{
+    font-weight:700;
+    color:#fff;
+    margin:0;
+    font-size:14px;
+    line-height:1.2;
+  }
+
+  .latest{
+    margin-top:30px;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:20px;
+  }
+  .latest .list{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+
+  .post{
+    display:flex;
+    gap:12px;
+    background:#111;
+    padding:12px;
+    border-radius:6px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.3);
+    position:relative;
+  }
+  .post img{
+    width:160px;
+    height:90px;
+    object-fit:cover;
+    border-radius:4px;
+  }
+
+  .pmeta{
+    font-size:12px;
+    color:var(--accent);
+    margin-bottom:6px;
+  }
+  .ptitle{
+    font-weight:700;
+    margin:0;
+    font-size:15px;
+    color:#fff;
+  }
+
+  aside .ad{
+    background:var(--accent);
+    color:#111;
+    padding:18px;
+    border-radius:8px;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    justify-content:center;
+    min-height:220px;
+  }
+
+  footer{
+    padding:20px 36px;
+    color:#fff;
+    font-size:13px;
+    border-top:1px solid rgba(255,255,255,0.1);
+    text-align:center;
+  }
+
+
+
+  @media(max-width:900px){
+    .container{
+      grid-template-columns:1fr;
+    }
+    .grid{
+      grid-template-columns:repeat(2,1fr);
+    }
+    .latest{
+      grid-template-columns:1fr;
+    }
+  }
+  @media(max-width:600px){
+    .grid{
+      grid-template-columns:1fr;
+    }
+  }
 </style>
 </head>
+
 <body>
 
-<header>
-  <div class="header-container">
-    <h1 id="siteTitle">Głos Trójki</h1>
-    <div class="search-inline">
-      <input type="text" id="searchInput" placeholder="Szukaj...">
-      <button id="searchBtn">Szukaj</button>
+<div class="wrap">
+
+  <header>
+    <div class="logo-block">
+      <h1 class="logo">Głos Trójki
+        <span class="logo-underline"></span>
+      </h1>
+      <div class="slogan">Nasza szkoła na bieżąco!</div>
     </div>
-    <nav>
-      <a href="#home" id="homeNav">Strona główna</a>
-      <a id="settingsBtn">Ustawienia</a>
+
+
+  </header>
+
+  <div class="categorybar">
+    <nav class="topnav">
+      <a href="#">Start</a>
+      <a href="#">Aktualności</a>
+      <a href="#">Wydarzenia</a>
+      <a href="#">Sport</a>
+      <a href="#">Kontakt</a>
     </nav>
   </div>
-</header>
 
-<section id="home" class="events">
-  <div class="container" id="cardContainer">
-    <div class="card" data-id="1">
-      <img src="https://imgur.com/9G2vFjB.png" alt="Obraz 1">
-      <h3 class="card-title" data-key="card1Title">Witamy po wakacjach 😎</h3>
-      <p class="card-desc" data-key="card1Desc">Hej, jak minęły Wam wakacje</p>
-      <button class="read-more" data-key="readMore">Czytaj dalej</button>
-    </div>
-    <div class="card" data-id="2">
-      <img src="https://imgur.com/9G2vFjB.png" alt="Obraz 2">
-      <h3 class="card-title" data-key="card2Title">Testowe 32</h3>
-      <p class="card-desc" data-key="card2Desc">Krótki opis drugiego okienka...</p>
-      <button class="read-more" data-key="readMore">Czytaj dalej</button>
-    </div>
-    <div class="card" data-id="3">
-      <img src="https://imgur.com/9G2vFjB.png" alt="Obraz 3">
-      <h3 class="card-title" data-key="card3Title">Tytuł 3</h3>
-      <p class="card-desc" data-key="card3Desc">Krótki opis trzeciego okienka...</p>
-      <button class="read-more" data-key="readMore">Czytaj dalej</button>
-    </div>
+  <div class="ticker">
+    <b>WAŻNE</b>
+    <div>Strona jest w fazie testów – mogą występować błędy.</div>
   </div>
-</section>
 
-<section id="konkursy">
-  <h2 data-key="contests">Konkursy</h2>
-  <p data-key="comingSoon">Wkrótce...</p>
-</section>
+  <main class="container">
 
-<section id="redakcja">
-  <h2 data-key="editorial">Redakcja</h2>
-  <p data-key="comingSoon">Wkrótce...</p>
-</section>
+    <section>
+      <article class="hero">
+        <img class="media"
+          src="https://imgur.com/9G2vFjB.png"
+          alt="">
+        <div class="meta">
+          <div class="kicker">STRONA</div>
+          <h1>Nowa strona internetowa już gotowa!</h1>
+        </div>
+      </article>
 
-<footer>&copy; 2025 <span data-key="siteName">Głos Trójki</span> -<span data-key="opis"> Gazetka Szkolna </span></footer>
+      <div class="highlight">
+        <h2 style="margin:18px 0 12px 2px;font-size:18px;color:#fff">Wyróżnione</h2>
 
-<!-- Popup for cards -->
-<div class="popup" id="popup">
-  <div class="popup-content">
-    <span class="close-btn">&times;</span>
-    <img id="popup-img" src="" alt="">
-    <h2 id="popup-title"></h2>
-    <p id="popup-desc"></p>
-  </div>
+        <div class="grid">
+          <div class="card"><img src="https://imgur.com/jKoxmfY.png"><div class="card-body"><div class="cat">REDAKCJA</div><div class="title">Świąteczny konkurs 2025</div></div></div>
+          <div class="card"><img src="https://imgur.com/CuMg6rr.png"><div class="card-body"><div class="cat">KĄCIK "ZRÓB TO SAM"</div><div class="title">Jak zrobić Pantograf</div></div></div>
+         
+          
+        </div>
+      </div>
+
+      <div class="latest" style="margin-top:30px">
+        <div class="list">
+          <h3 style="margin:0 0 8px 2px;color:#fff">Najnowsze</h3>
+
+          <div class="post"><img src="https://imgur.com/jKoxmfY.png"><div><div class="pmeta">09.12.2025</div><div class="ptitle">Napisz artykuł do gazetki!</div></div></div>
+          <div class="post"><img src="https://imgur.com/CuMg6rr.png"><div><div class="pmeta">08.12.2025</div><div class="ptitle">Jak zrobić Pantograf</div></div></div>
+         
+        </div>
+
+
+      </div>
+
+    </section>
+  </main>
+
+  <footer>
+    © 2025 Głos Trójki – szkolna strona informacyjna.
+  </footer>
+
 </div>
 
-<!-- Popup for settings -->
-<div class="popup" id="settingsPopup">
-  <div class="popup-content">
-    <span class="close-btn" id="settingsClose">&times;</span>
-    <h2 data-key="settingsTitle">Ustawienia</h2>
-    <div class="setting-item">
-      <span data-key="darkModeText">Tryb ciemny</span>
-      <label class="toggle-switch">
-        <input type="checkbox" id="darkModeToggle">
-        <span class="slider"></span>
-      </label>
-    </div>
-    <br>
-    <div class="setting-item">
-      <span data-key="languageText">Język strony</span>
-      <select id="languageSelect">
-        <option value="pl">Polski</option>
-        <option value="en">English</option>
-        <option value="ua">Українська</option>
-      </select>
-    </div>
-  </div>
-</div>
-
-<script>
-// Teksty w różnych językach
-const translations = {
-  pl: {
-    siteTitle: "Głos Trójki",
-    homeNav: "Strona główna",
-    readMore: "Czytaj dalej",
-    contests: "Konkursy",
-    comingSoon: "Wkrótce...",
-    editorial: "Redakcja",
-    settingsTitle: "Ustawienia",
-    darkModeText: "Tryb ciemny",
-    languageText: "Język strony",
-    siteName: "Głos Trójki",
-    card1Title: "Witamy po wakacjach 😎",
-    card1Desc: "Hej, jak minęły Wam wakacje",
-    card2Title: "Testowe 32",
-    card2Desc: "Krótki opis drugiego okienka...",
-    card3Title: "Tytuł 3",
-    card3Desc: "Krótki opis trzeciego okienka..."
-  },
-  en: {
-    siteTitle: "Voice of Three",
-    homeNav: "Home",
-    readMore: "Read more",
-    contests: "Contests",
-    comingSoon: "Coming soon...",
-    editorial: "Editorial",
-    settingsTitle: "Settings",
-    darkModeText: "Dark mode",
-    languageText: "Site language",
-    siteName: "Glos Trojki",
-    card1Title: "Welcome back from holidays 😎",
-    card1Desc: "Hey, how was your holiday?",
-    card2Title: "Test 32",
-    card2Desc: "Short description of the second card...",
-    card3Title: "Title 3",
-    card3Desc: "Short description of the third card..."
-  },
-  ua: {
-    siteTitle: "Glos Trojki",
-    homeNav: "Головна",
-    readMore: "Читати далі",
-    contests: "Конкурси",
-    comingSoon: "Незабаром...",
-    editorial: "Редакція",
-    settingsTitle: "Налаштування",
-    darkModeText: "Темний режим",
-    languageText: "Мова сайту",
-    siteName: "Glos Trojki",
-    card1Title: "Ласкаво просимо після канікул 😎",
-    card1Desc: "Привіт, як пройшли ваші канікули?",
-    card2Title: "Тест 32",
-    card2Desc: "Короткий опис другої картки...",
-    card3Title: "Назва 3",
-    card3Desc: "Короткий опис третьої картки..."
-  }
-};
-
-// Funkcja zmiany języka
-function applyLanguage(lang){
-  document.querySelectorAll('[data-key]').forEach(el=>{
-    const key = el.getAttribute('data-key');
-    if(translations[lang][key]) el.textContent = translations[lang][key];
-  });
-}
-
-// Popup dla kart
-const cardData = {
-  1: { title:'Witamy po wakacjach', img:'https://i.imgur.com/9G2vFjB.png', desc:'Hej, jak minęły Wam wakacje? 😎' },
-  2: { title:'Tytuł 2', img:'https://i.imgur.com/9G2vFjB.png', desc:'Krótki opis drugiego okienka...' },
-  3: { title:'Tytuł 3', img:'https://i.imgur.com/9G2vFjB.png', desc:'Krótki opis trzeciego okienka...' }
-};
-
-const popup = document.getElementById('popup');
-const popupImg = document.getElementById('popup-img');
-const popupTitle = document.getElementById('popup-title');
-const popupDesc = document.getElementById('popup-desc');
-const closeBtn = document.querySelector('#popup .close-btn');
-
-document.querySelectorAll('.read-more').forEach(button=>{
-  button.addEventListener('click', e=>{
-    const card = e.target.closest('.card');
-    const id = card.getAttribute('data-id');
-    const data = cardData[id];
-    popupImg.src = data.img;
-    popupTitle.textContent = data.title;
-    popupDesc.textContent = data.desc;
-    popup.style.display = 'flex';
-  });
-});
-
-closeBtn.addEventListener('click', ()=>popup.style.display='none');
-popup.addEventListener('click', e=>{if(e.target===popup) popup.style.display='none';});
-
-// Filtrowanie kart
-document.getElementById('searchInput').addEventListener('input', ()=>{
-  const term = document.getElementById('searchInput').value.toLowerCase();
-  document.querySelectorAll('.card').forEach(card=>{
-    const id = card.getAttribute('data-id');
-    const data = cardData[id];
-    const title = card.querySelector('h3').textContent.toLowerCase();
-    const desc = card.querySelector('p').textContent.toLowerCase();
-    const popupTitle = data.title.toLowerCase();
-    const popupDesc = data.desc.toLowerCase();
-    if(title.includes(term)||desc.includes(term)||popupTitle.includes(term)||popupDesc.includes(term)){
-      card.classList.remove('hidden');
-    } else { card.classList.add('hidden'); }
-  });
-});
-
-// Popup ustawień
-const settingsBtn = document.getElementById('settingsBtn');
-const settingsPopup = document.getElementById('settingsPopup');
-const settingsClose = document.getElementById('settingsClose');
-const darkModeToggle = document.getElementById('darkModeToggle');
-const languageSelect = document.getElementById('languageSelect');
-
-settingsBtn.addEventListener('click', ()=>settingsPopup.style.display='flex');
-settingsClose.addEventListener('click', ()=>settingsPopup.style.display='none');
-settingsPopup.addEventListener('click', e=>{if(e.target===settingsPopup) settingsPopup.style.display='none';});
-
-// Funkcje ustawień
-function saveSettings(){
-  localStorage.setItem('darkMode', darkModeToggle.checked);
-  localStorage.setItem('language', languageSelect.value);
-}
-
-function loadSettings(){
-  const darkMode = localStorage.getItem('darkMode')==='true';
-  const language = localStorage.getItem('language') || 'pl';
-  darkModeToggle.checked = darkMode;
-  languageSelect.value = language;
-  document.body.classList.toggle('dark', darkMode);
-  applyLanguage(language);
-}
-
-darkModeToggle.addEventListener('change', ()=>{
-  document.body.classList.toggle('dark', darkModeToggle.checked);
-  saveSettings();
-});
-
-languageSelect.addEventListener('change', ()=>{
-  applyLanguage(languageSelect.value);
-  saveSettings();
-});
-
-loadSettings();
-</script>
 </body>
 </html>
