@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Głos Trójki – Wydarzenia</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#000;--paper:#111;--muted:#bbbbbb;--accent:#ffd100;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui;background:#000;color:#fff;}
+  .wrap{width:100%;margin:0;background:#000;padding:0;}
+  a{color:var(--accent);text-decoration:none;}
+  header{border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:10px;}
+  .logo-block{padding:28px 36px;}
+  .logo{font-size:100px;font-weight:900;letter-spacing:-4px;line-height:0.9;margin:0;color:#fff;display:inline-block;}
+  .logo-underline{display:block;height:8px;background:var(--accent);width:100%;margin-top:6px;}
+  .slogan{color:var(--accent);font-style:italic;margin-top:8px;font-size:20px;}
+  nav.topnav{display:flex;gap:18px;align-items:center;padding:0 36px 18px;font-size:15px;}
+  .categorybar{display:flex;gap:18px;flex-wrap:wrap;padding:12px 36px;border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1);font-weight:600;font-size:13px;}
+  .ticker{display:flex;align-items:center;gap:12px;padding:10px 36px;background:#111;font-size:14px;border-bottom:1px solid rgba(255,255,255,0.07);} 
+  .ticker b{background:var(--accent);color:#111;padding:6px 10px;border-radius:4px;font-size:12px;}
+  .container{padding:28px 36px;display:grid;grid-template-columns:1fr 320px;gap:28px;}
+  h2.sec-title{margin:0 0 18px 2px;font-size:20px;color:#fff;font-weight:800;}
+  .event-list{display:flex;flex-direction:column;gap:18px;}
+  .event{background:#111;padding:18px;border-radius:6px;box-shadow:0 6px 18px rgba(0,0,0,0.4);display:flex;gap:18px;align-items:flex-start;}
+  .event img{width:180px;height:110px;object-fit:cover;border-radius:4px;}
+  .event .etitle{font-size:18px;font-family:'Playfair Display',serif;margin:0 0 6px;color:#fff;}
+  .event .edate{color:var(--accent);font-size:13px;margin-bottom:6px;}
+  .estatus{color:#4cd964;font-weight:700;font-size:13px;margin-bottom:6px;}
+  .range{font-size:13px;color:#ccc;margin-bottom:10px;}
+  .event button{background:var(--accent);color:#111;border:0;padding:8px 12px;border-radius:4px;cursor:pointer;font-weight:600;}
+  .popup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:none;justify-content:center;align-items:center;padding:20px;}
+  .popup-content{background:#111;border-radius:8px;max-width:600px;width:100%;box-shadow:0 8px 30px rgba(0,0,0,0.5);overflow:hidden;}
+  .popup-content img{width:100%;height:200px;object-fit:cover;}
+  .popup-inner{padding:20px;}
+  .popup-title{font-family:'Playfair Display',serif;font-size:22px;margin:0 0 10px;color:#fff;}
+  .popup-text{font-size:15px;color:#ccc;}
+  .close-btn{margin-top:16px;background:#ffd100;color:#111;padding:8px 12px;border:0;border-radius:4px;cursor:pointer;font-weight:700;}
+  @media(max-width:900px){.container{grid-template-columns:1fr;} .event{flex-direction:column;} .event img{width:100%;height:180px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo-block">
+      <h1 class="logo">Głos Trójki<span class="logo-underline"></span></h1>
+      <div class="slogan">Nasza szkoła na bieżąco!</div>
+    </div>
+  </header>
+
+  <div class="categorybar">
+    <nav class="topnav">
+      <a href="https://glostrojki.github.io/home" >Strona Główna</a>
+      <a href="#">Aktualności</a>
+      <a href="#" style="color:var(--accent)">Wydarzenia</a>
+      <a href="#">Redakcja</a>
+    </nav>
+  </div>
+
+  <div class="ticker"><b>WAŻNE</b><div>Strona jest w fazie testów – mogą występować błędy.</div></div>
+
+  <main class="container">
+    <section>
+      <h2 class="sec-title">Najbliższe wydarzenia</h2>
+      <div class="event-list">
+
+
+        <!-- EVENT 2 -->
+        <div class="event">
+          <img src="https://imgur.com/jKoxmfY.png" alt="">
+          <div>
+            <div class="estatus" style="color:#ff9500">NADCHODZI</div>
+            <div class="range">Od 15.12.2025 do 17.12.2025</div>
+            <h3 class="etitle">Świąteczny konkurs</h3>
+            <button onclick="openPopup('popup2')">Opis</button>
+          </div>
+        </div>
+
+
+
+      </div>
+    </section>
+  </main>
+
+  <!-- POPUPS -->
+
+
+  <div class="popup" id="popup2">
+    <div class="popup-content">
+      <img src="https://imgur.com/jKoxmfY.png">
+      <div class="popup-inner">
+        <h3 class="popup-title">Świąteczny konkurs</h3>
+        <div class="popup-text">Aby wziąć udział w konkursie należy wyciąć kartę z pytaniami następnie podpisać się imieniem i nazwiskiem i odpowiedzieć na pytania. Potem wrzucić do pojemnika <b>(z napisem „KONKURS ŚWIĄTECZNY QUIZ”) który znajduje się na górnym i dolnym korytarzu szkoły</b>.Członkowie redakcji gazetki szkolnej (czyli też organizatorzy konkursu) wylosują <b>3 karty z odpowiedziami</b>.Jeśli wylosowana karta będzie miała same dobre odpowiedzi to wtedy właściciel karty dostanie nagrodę, w przeciwnym razie(gdy przynajmniej będzie 1 błędna odpowiedź) karta nie bierze udziału w losowaniu!
+
+</div>
+        <button class="close-btn" onclick="closePopup('popup2')">Zamknij</button>
+      </div>
+    </div>
+  </div>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+  <footer>© 2025 Głos Trójki – Nasza szkoła na bieżąco!</footer>
+</div>
+
+<script>
+function openPopup(id){document.getElementById(id).style.display='flex';}
+function closePopup(id){document.getElementById(id).style.display='none';}
+</script>
+</body>
+</html>
