@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Redakcja – Głos Trójki</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#000;
+    --paper:#111;
+    --muted:#bbbbbb;
+    --accent:#ffd100;
+    --new:#27ff61;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter,system-ui;
+    background:#000;
+    color:#fff;
+  }
+
+  .wrap{
+    width:100%;
+    margin:0;
+    padding:0;
+  }
+
+  header{
+    border-bottom:1px solid rgba(255,255,255,0.1);
+    padding-bottom:10px;
+  }
+
+  .logo-block{
+    padding:28px 36px;
+  }
+
+  .logo{
+    font-size:100px;
+    font-weight:900;
+    letter-spacing:-4px;
+    line-height:0.9;
+    margin:0;
+    color:#fff;
+  }
+
+  .logo-underline{
+    display:block;
+    height:8px;
+    background:var(--accent);
+    margin-top:6px;
+  }
+
+  .slogan{
+    color:var(--accent);
+    font-style:italic;
+    margin-top:8px;
+    font-size:20px;
+  }
+
+  nav.topnav{
+    display:flex;
+    gap:18px;
+    align-items:center;
+    padding:0 36px 18px;
+    font-size:15px;
+  }
+
+  a{color:var(--accent);text-decoration:none;}
+
+  .ticker{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 36px;
+    background:#111;
+    color:#fff;
+    font-size:14px;
+    border-bottom:1px solid rgba(255,255,255,0.07);
+  }
+  .ticker b{
+    background:var(--accent);
+    color:#111;
+    padding:6px 10px;
+    border-radius:4px;
+    font-size:12px;
+  }
+
+  main{
+    padding:28px 36px;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+  }
+
+  .card{
+    background:#111;
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow:0 6px 18px rgba(0,0,0,0.4);
+  }
+
+  .card img{
+    width:100%;
+    height:160px;
+    object-fit:cover;
+  }
+
+  .card-body{
+    padding:14px;
+    font-size:14px;
+  }
+
+  .cat{
+    font-size:11px;
+    color:var(--accent);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+
+  .new-tag{
+    color:var(--new);
+    font-weight:700;
+    font-size:11px;
+    margin-left:6px;
+  }
+
+  .title{
+    font-weight:700;
+    font-size:15px;
+    margin:0;
+  }
+
+  footer{
+    padding:20px 36px;
+    color:#fff;
+    font-size:13px;
+    border-top:1px solid rgba(255,255,255,0.1);
+    text-align:center;
+    margin-top:40px;
+  }
+
+  @media(max-width:900px){
+    .grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media(max-width:600px){
+    .grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <header>
+    <div class="logo-block">
+      <h1 class="logo">Głos Trójki
+        <span class="logo-underline"></span>
+      </h1>
+      <div class="slogan">Nasza szkoła na bieżąco!</div>
+    </div>
+
+    <nav class="topnav">
+      <a href="index.html">Strona Główna</a>
+      <a href="#">Aktualności</a>
+      <a href="https://glostrojki.github.io/home/wydarzenia">Wydarzenia</a>
+      <a href="https://glostrojki.github.io/home/redakcja">Redakcja</a>
+    </nav>
+  </header>
+
+  <div class="ticker">
+    <b>WAŻNE</b>
+    <div>Strona jest w fazie testów – mogą występować błędy.</div>
+  </div>
+
+  <main>
+    <h2 style="font-size:26px;margin-bottom:20px;color:#fff;">Redakcja</h2>
+
+    <div class="grid">
+
+      <!-- 1: Jakub Łebkowski -->
+      <div class="card">
+        <img src="https://imgur.com/jKoxmfY.png" alt="">
+        <div class="card-body">
+          <div class="cat">Redaktor Naczelny</div>
+          <div class="title">Jakub Łebkowski</div>
+          <p style="margin-top:8px;color:#bbb;font-size:13px;">
+            Redaktor naczelny, projektant strony gazetki i gazetki. Autor kącika kulinarnego, informatycznego i modelarskiego.
+          </p>
+        </div>
+      </div>
+
+      <!-- 2: Ignacy Peter -->
+      <div class="card">
+        <img src="https://imgur.com/jKoxmfY.png" alt="">
+        <div class="card-body">
+          <div class="cat">Redaktor</div>
+          <div class="title">Ignacy Peter</div>
+          <p style="margin-top:8px;color:#bbb;font-size:13px;">
+            Autor kącika „Zrób to sam” oraz kącika fotograficznego.
+          </p>
+        </div>
+      </div>
+
+      <!-- 3: Julia Wiśniewska -->
+
+
+      <!-- 4: Julia Oleksiak -->
+      <div class="card">
+        <img src="https://imgur.com/jKoxmfY.png" alt="">
+        <div class="card-body">
+          <div class="cat">Redaktor</div>
+          <div class="title">Julia Oleksiak</div>
+          <p style="margin-top:8px;color:#bbb;font-size:13px;">
+            Autorka kącika historycznego.
+          </p>
+        </div>
+      </div>
+
+      <!-- 5: Aleksander Stasiak -->
+      <div class="card">
+        <img src="https://imgur.com/jKoxmfY.png" alt="">
+        <div class="card-body">
+          <div class="cat">Redaktor</div>
+          <div class="title">Aleksander Stasiak</div>
+          <p style="margin-top:8px;color:#bbb;font-size:13px;">
+            Autor kącika gamingowego
+          </p>
+        </div>
+      </div>
+
+      <!-- 6: Zuzanna Zielińska -->
+      <div class="card">
+        <img src="https://imgur.com/jKoxmfY.png" alt="">
+        <div class="card-body">
+          <div class="cat">Redaktor</div>
+          <div class="title">Zuzanna Zielińska</div>
+          <p style="margin-top:8px;color:#bbb;font-size:13px;">
+            Autorka kącika „Pupilove”
+          </p>
+        </div>
+      </div>
+
+      <!-- 7: Filip Dudziak -->
+      <div class="card">
+        <img src="https://imgur.com/jKoxmfY.png" alt="">
+        <div class="card-body">
+          <div class="cat">Grafik / Ilustrator</div>
+          <div class="title">Filip Dudziak</div>
+          <p style="margin-top:8px;color:#bbb;font-size:13px;">
+            Tworzy ilustracje i rysunki do gazetki
+          </p>
+        </div>
+      </div>
+
+      <!-- 8: Pani Justyna Komorowska -->
+      <div class="card">
+        <img src="https://imgur.com/jKoxmfY.png" alt="">
+        <div class="card-body">
+          <div class="cat">Redaktor / Nadzór merytoryczny</div>
+          <div class="title">Pani Justyna Komorowska</div>
+          <p style="margin-top:8px;color:#bbb;font-size:13px;">
+            Autorka „Wieści z Trójki”. Sprawuje nadzór nad poprawnością merytoryczną i wspiera pracę redakcji.
+          </p>
+        </div>
+      </div>
+
+      <!-- 9: Pani Marta Waszczuk -->
+      <div class="card">
+        <img src="https://imgur.com/jKoxmfY.png" alt="">
+        <div class="card-body">
+          <div class="cat">Redaktor</div>
+          <div class="title">Pani Marta Waszczuk</div>
+          <p style="margin-top:8px;color:#bbb;font-size:13px;">
+            Autorka kącika psychicznego
+          </p>
+        </div>
+      </div>
+
+      <!-- NOWI -->
+
+      <!-- 10: Maciej Wołek -->
+      <div class="card">
+        <img src="https://imgur.com/jKoxmfY.png" alt="">
+        <div class="card-body">
+          <div class="cat">Redaktor <span class="new-tag">NOWY</span></div>
+          <div class="title">Maciej Wołek</div>
+          <p style="margin-top:8px;color:#bbb;font-size:13px;">
+            Autor artykułów 
+          </p>
+        </div>
+      </div>
+
+      <!-- 11: Alicja Przebinda -->
+      <div class="card">
+        <img src="https://imgur.com/jKoxmfY.png" alt="">
+        <div class="card-body">
+          <div class="cat">Redaktor <span class="new-tag">NOWA</span></div>
+          <div class="title">Alicja Przebinda</div>
+          <p style="margin-top:8px;color:#bbb;font-size:13px;">
+            Autorka artykułów.
+          </p>
+        </div>
+      </div>
+
+      <!-- 12: Aleksander Brzostek -->
+      <div class="card">
+        <img src="https://imgur.com/jKoxmfY.png" alt="">
+        <div class="card-body">
+          <div class="cat">Redaktor <span class="new-tag">NOWY</span></div>
+          <div class="title">Aleksander Brzostek</div>
+          <p style="margin-top:8px;color:#bbb;font-size:13px;">
+            Autor artykułów 
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Głos Trójki – Nasza szkoła na bieżąco!
+  </footer>
+
+</div>
+
+</body>
+</html>
