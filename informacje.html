@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rozdanie Gazetki – Głos Trójki</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#000;
+  --paper:#111;
+  --accent:#ffd100;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,system-ui;
+  background:var(--bg);
+  color:#fff;
+}
+a{color:var(--accent);text-decoration:none}
+
+/* HEADER */
+header{
+  padding:28px 36px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  animation:fadeIn 1s ease;
+}
+.logo{
+  font-size:64px;
+  font-weight:900;
+  letter-spacing:-3px;
+}
+.logo span{
+  display:block;
+  height:6px;
+  width:240px;
+  background:var(--accent);
+  margin-top:6px;
+}
+
+/* MAIN */
+main{
+  padding:28px 36px;
+  animation:fadeIn 1.2s ease;
+}
+
+/* TABLES */
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:28px;
+  animation:slideUp 1s ease;
+}
+th,td{
+  padding:12px;
+  text-align:left;
+  border-bottom:1px solid rgba(255,255,255,.2);
+}
+th{
+  background:var(--paper);
+  color:var(--accent);
+}
+td{
+  background:var(--bg);
+}
+tr:hover td{
+  background:rgba(255,209,0,0.1);
+  transition:.3s;
+}
+
+/* TABELKA NAWIGACJI / INFO */
+.table-title{
+  margin-bottom:8px;
+  font-weight:700;
+  font-size:20px;
+  color:var(--accent);
+}
+
+/* ANIMACJE */
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+@keyframes slideUp{
+  from{transform:translateY(40px);opacity:0}
+  to{transform:none;opacity:1}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1 class="logo">Głos Trójki<span></span></h1>
+  <div class="slogan">Rozdajemy gazetkę w naszej szkole!</div>
+</header>
+
+<main>
+<h2 class="table-title">Harmonogram rozdawania gazetki</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Numer</th>
+      <th>Data sprzedawania</th>
+      <th>Godzina lekcyjna</th>
+      <th>Uwagi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>14</td>
+      <td>15.12.2025</td>
+      <td>6</td>
+      <td>-</td>
+    </tr>
+  <tr>
+      <td>14</td>
+      <td>16.12.2025</td>
+      <td>2</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 class="table-title">Termin nadsyłania artykułów do gazetki:</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Numer</th>
+      <th>Od</th>
+      <th>Do</th>
+      <th>Uwagi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>14 grudzien</td>
+      <td>01.12.2025</td>
+      <td>10.12.2025</td>
+      <td>Brak uwag</td>
+    </tr>
+      <tr>
+      <td>15 styczen</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>Brak uwag</td>
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+</main>
+
+</body>
+</html>
