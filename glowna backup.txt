@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Głos Trójki - Portal Szkolny</title>
+    <title>Głos Trójki</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -264,6 +264,7 @@
                 <li><a href="https://glostrojki.github.io/home/informacje">Informacje</a></li>
                 <li><a href="https://glostrojki.github.io/home/wydarzenia">Wydarzenia</a></li>
                 <li><a href="https://glostrojki.github.io/home/redakcja">Redakcja</a></li>
+                <li><a href="https://glostrojki.github.io/home/panel">Panel redaktora</a></li>
             </ul>
             
             <div class="search-wrapper">
@@ -292,7 +293,7 @@
                 <div class="card-body" style="position: absolute; bottom: 0; background: linear-gradient(to top, rgba(0,0,0,0.95), transparent); width: 100%; color: #fff;">
                     <span class="badge">Wyróżnione</span>
                     <h2 style="font-family: 'Playfair Display'; font-size: 2.2rem; margin: 10px 0;">Nowa strona internetowa już gotowa!</h2>
-                    <p>Kliknij, aby przeczytać o zmianach...</p>
+                    <p>Witamy na stronie!</p>
                 </div>
             </div>
 
@@ -307,15 +308,14 @@
                 <div class="widget-title">Pogoda</div>
                 <div id="weatherData" style="text-align: center;">
                     <i class="fas fa-spinner fa-spin" style="font-size: 2rem;"></i>
-                    <p>Ładowanie pogody...</p>
+                    <p>Ładowanie...</p>
                 </div>
             </div>
 
             <div class="sidebar-widget">
                 <div class="widget-title">Kalendarz</div>
                 <ul class="event-list">
-                    <li><div class="event-date"><b>16</b>STY</div> <div>Sprzedawanie 15 numeru gazetki</div></li>
-                    <li><div class="event-date"><b>17</b>STY</div> <div>Początek ferii zimowych</div></li>
+                    <li><div>Brak nadchodzących wydarzeń...</div></li>
                 </ul>
             </div>
         </aside>
@@ -353,14 +353,15 @@
 
     <script>
         // --- ARTYKUŁY (Zredukowane do 3 pozycji) ---
-        const articlesData = [
+const articlesData = [
             {
                 id: 0,
                 title: "Nowa strona internetowa już gotowa!",
                 category: "STRONA",
                 date: "2026-01-12T10:00:00", 
                 img: "https://imgur.com/9G2vFjB.png",
-                content: "Witamy na nowej stronie! Wkrótce pojawi się tutaj pełen opis wszystkich funkcjonalności.",
+                content: `Witamy na nowej stronie!
+Wkrótce pojawi się tutaj pełen opis wszystkich funkcjonalności.`,
                 baseLikes: 7
             },
             {
@@ -369,7 +370,8 @@
                 category: "REDAKCJA",
                 date: "2026-01-01T08:00:00", 
                 img: "https://imgur.com/jjbo7sp.png",
-                content: "Z radością ogłaszamy zwycięzców Świątecznego Konkursu 2025!<br>🏆 Zwycięzcy konkursu:<br>Piotr Łebkowski – klasa 3a<br>Michał Matejak – klasa 3b<br>Zuzanna Stegenka – klasa 5<br>Serdecznie gratulujemy zwycięzcom oraz dziękujemy wszystkim uczestnikom za udział i zaangażowanie. Wasze prace wprowadziły nas w prawdziwie świąteczny nastrój! ✨<br>Zachęcamy do udziału w kolejnych konkursach organizowanych przez redakcję gazetki.",
+                content: `Z radością ogłaszamy zwycięzców Świątecznego Konkursu 2025!<br>🏆 Zwycięzcy konkursu:<br>Piotr Łebkowski – klasa 3a<br>Michał Matejak – klasa 3b<br>Zuzanna Stegenka – klasa 5<br>Serdecznie gratulujemy zwycięzcom oraz dziękujemy wszystkim uczestnikom za udział i zaangażowanie.
+Wasze prace wprowadziły nas w prawdziwie świąteczny nastrój! ✨<br>Zachęcamy do udziału w kolejnych konkursach organizowanych przez redakcję gazetki.`,
                 baseLikes: 5
             },
             {
@@ -378,7 +380,46 @@
                 category: "REDAKCJA",
                 date: "2026-01-12T22:54:00",
                 img: "https://imgur.com/kIshS5G.png",
-                content: "Chcesz spróbować swoich sił jako dziennikarz w redakcji gazetki szkolnej? Napisz swój artykuł już teraz i prześlij go na nasz adres <u>gtrojki@gmail.com</u>.<br><b>Twój artykuł powinien zawierać minimum 200 słów.</b>",
+                content: `Chcesz spróbować swoich sił jako dziennikarz w redakcji gazetki szkolnej?
+Napisz swój artykuł już teraz i prześlij go na nasz adres <u>gtrojki@gmail.com</u>.<br><b>Twój artykuł powinien zawierać minimum 200 słów.</b>`,
+                baseLikes: 2
+            },
+            {
+                id: 3,
+                title: "Zmiana terminu sprzedaży 15 numeru!",
+                category: "REDAKCJA",
+                date: "2026-01-14T18:53:00",
+                img: "https://imgur.com/7oyesaj.png",
+                content: `Informujemy, że planowana na dzień 15.01 sprzedaż numeru 15 gazetki <b>zostaje przełożona na inny termin</b>.
+O nowej dacie sprzedaży poinformujemy wkrótce.`,
+                baseLikes: 0
+            }, // <-- TUTAJ DODANO BRAKUJĄCY PRZECINEK
+            {
+                id: 4,
+                title: "Międzynarodowy Dzień Języku Ojczystego!",
+                category: "Pani Justyna Komorowska",
+                date: "2026-02-22T20:33:00",
+                img: "https://imgur.com/fcXJwvA.png",
+                content: `21 LUTEGO - MIĘDZYNARODOWY DZIEŃ JĘZYKA OJCZYSTEGO DJO został ustanowiony 21 lat temu (17 listopada 1999 r.) przez UNESCO jako upamiętnienie wydarzenia, które miało miejsce w 1952 r.
+w Dhace, późniejszej stolicy Bangladeszu. W tym dniu zginęło pięciu studentów, którzy chcieli, aby język bengalski był językiem urzędowym.
+Wydarzenia te stały się symbolem walki o prawa językowe i poszanowanie tożsamości kulturowej.
+Głównym założeniem tego święta jest promowanie wiedzy na temat bogactwa różnorodności językowej świata.
+Czy wiesz, że… wiele języków zagrożonych jest wymarciem. W Europie do języków potencjalnie zagrożonych wyginięciem należą np.
+język białoruski i kaszubski. języka arabskiego używa prawie 300 milionów ludzi.
+Jest to język urzędowy w krajach Bliskiego Wschodu i Afryki Północnej, m.in.
+w Egipcie, Arabii Saudyjskiej, Zjednoczonych Emiratach Arabskich, Tunezji i Maroko. języka angielskiego używa ponad 370 milionów ludzi na całym świecie.
+Jest to język urzędowy w wielu krajach, m.in. w Wielkiej Brytanii, Stanach Zjednoczonych, Kanadzie, Irlandii i Australii.
+język chiński używany jest przez ponad miliard ludzi. Jest to najczęściej używany język na świecie.
+według Biblii wszyscy ludzie posługiwali się kiedyś jednym językiem. Kiedy jednak postanowili wznieść budowlę tak wysoką, że sięgnie ona nieba – Wieżę Babel - Bóg ukarał ich próżność i rozproszył po całym świecie, mieszając im języki tak, aby nie mogli się porozumieć i dokończyć budowy.
+język polski wchodzi w skład wielkiej rodziny języków, którą określa się jako indoeuropejską.
+Ich wspólnym przodkiem był język praindoeuropejski, którym przed tysiącami lat mówiły plemiona zamieszkujące obszary od Półwyspu Indyjskiego po Europę Środkową.
+język polski wyłonił się jako oddzielny język około IX wieku. Łączy się to z powstaniem wspólnoty państwowej, jednoczącej różne plemiona.
+Ważny cytat! - „A niechaj narodowie wżdy postronni znają, iż Polacy nie gęsi, iż swój język mają”.
+Jego autorem jest Mikołaj Rej, pisarz, który jako pierwszy tworzył wyłącznie w języku ojczystym, podkreślał konieczność zerwania z panującą wówczas modą pisania po łacinie.
+„Gęsi” język, o którym mowa w cytacie, to właśnie łacina. Ważne zdanie!
+Za najstarsze polskie zdanie uznaje się zapisane w pochodzącej z XIII wieku „Księdze Henrykowskiej” słowa, oznaczające: „Daj, ać ja pobruczę, a ty poczywaj” – co znaczy „Pozwól, abym ja mełł, a ty odpocznij”.
+Autorem tych słów miał być Czech, Boguchwał, który wypowiedział je do swojej żony. POŁAM język!
+„W gąszczu szczawiu we Wrzeszczu klaszczą kleszcze na deszczu, szepcze szczygieł w szczelinie, szczeka szczeniak w Szczuczynie, piszczy pszczoła pod Pszczyną, świszcze świerszcz pod leszczyną, a trzy pliszki i liszka taszczą płaszcze w Szypliszkach”.`,
                 baseLikes: 2
             }
         ];
@@ -686,3 +727,4 @@
     </script>
 </body>
 </html>
+
