@@ -128,8 +128,7 @@
 
         .nav-links { list-style: none; flex-grow: 1; overflow-y: auto; }
         .nav-link {
-            display: flex;
-            align-items: center; gap: 12px; padding: 12px 15px;
+            display: flex; align-items: center; gap: 12px; padding: 12px 15px;
             color: var(--text-muted); text-decoration: none; border-radius: 12px;
             transition: all 0.3s; margin-bottom: 5px; font-size: 0.95rem;
         }
@@ -142,8 +141,7 @@
             display: flex; align-items: center; gap: 10px;
         }
         .user-avatar {
-            width: 40px;
-            height: 40px; border-radius: 50%;
+            width: 40px; height: 40px; border-radius: 50%;
             background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
             display: flex; align-items: center; justify-content: center; font-weight: bold;
         }
@@ -163,14 +161,12 @@
         /* Artykuły */
         .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .article-card {
-            background: rgba(0,0,0,0.25);
-            border-radius: 15px; padding: 1.5rem;
+            background: rgba(0,0,0,0.25); border-radius: 15px; padding: 1.5rem;
             border: 1px solid transparent; transition: 0.3s;
         }
         .article-card:hover { border-color: var(--primary-color); transform: translateY(-5px); }
         .btn-add {
-            background: var(--success-color);
-            color: #fff; padding: 10px 20px; border-radius: 8px;
+            background: var(--success-color); color: #fff; padding: 10px 20px; border-radius: 8px;
             border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; text-decoration: none;
         }
         
@@ -204,8 +200,7 @@
 
         /* Notatnik */
         #notepad-area {
-            width: 100%;
-            height: 300px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);
+            width: 100%; height: 300px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);
             border-radius: 10px; padding: 20px; color: white; font-family: 'Poppins', sans-serif; resize: none;
         }
 
@@ -214,56 +209,37 @@
         
         /* Kalendarz */
         .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr); 
-            gap: 10px; 
-            margin-top: 20px; 
-            text-align: center;
+            display: grid; grid-template-columns: repeat(7, 1fr); 
+            gap: 10px; margin-top: 20px; text-align: center;
         }
         .calendar-day {
-            padding: 10px;
-            background: rgba(255,255,255,0.05); 
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-            min-height: 80px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            position: relative;
+            padding: 10px; background: rgba(255,255,255,0.05); 
+            border-radius: 5px; cursor: pointer; transition: 0.3s;
+            min-height: 80px; display: flex; flex-direction: column;
+            justify-content: flex-start; align-items: center; position: relative;
         }
         .calendar-day:hover { background: rgba(255,255,255,0.15); }
         .calendar-day.has-event { border: 1px solid var(--accent-color); background: rgba(0, 210, 211, 0.05); }
-        .event-dot {
-            width: 8px; height: 8px; background: var(--accent-color); border-radius: 50%; margin-top: 5px;
-        }
+        .event-dot { width: 8px; height: 8px; background: var(--accent-color); border-radius: 50%; margin-top: 5px; }
         .event-count { font-size: 0.7rem; color: var(--accent-color); margin-top: 4px; }
         .calendar-header { font-weight: bold; color: var(--accent-color); padding-bottom: 10px;}
 
         /* Media */
         .media-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px; margin-top: 20px;
         }
         .media-item {
-            height: 150px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 8px;
-            position: relative;
-            background-size: cover;
-            background-position: center;
+            height: 150px; background: rgba(255,255,255,0.1);
+            border-radius: 8px; position: relative;
+            background-size: cover; background-position: center;
             border: 1px solid var(--glass-border);
         }
         .media-delete {
-            position: absolute;
-            top: 5px; right: 5px;
+            position: absolute; top: 5px; right: 5px;
             background: var(--danger-color); color: white;
             border: none; border-radius: 50%; width: 25px; height: 25px;
-            cursor: pointer; display: flex;
-            align-items: center; justify-content: center;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
         }
 
         /* Modal Overlay for Calendar */
@@ -277,8 +253,7 @@
             background: #2A2D3E; border: 1px solid var(--glass-border);
             width: 500px; max-width: 90%; max-height: 90vh;
             border-radius: 15px; padding: 25px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            display: flex; flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: flex; flex-direction: column;
             overflow: hidden;
         }
         .modal-header {
@@ -301,9 +276,7 @@
         }
         .event-time { font-weight: bold; font-size: 0.9rem; color: var(--text-muted); min-width: 80px; }
         .event-title { font-weight: 600; font-size: 1rem; flex: 1; }
-        .event-actions button {
-            background: none; border: none; cursor: pointer; margin-left: 5px; color: var(--text-muted);
-        }
+        .event-actions button { background: none; border: none; cursor: pointer; margin-left: 5px; color: var(--text-muted); }
         .event-actions button:hover { color: white; }
 
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -336,6 +309,7 @@
                     </div>
                 </div>
                 <div class="error-msg" id="login-error">Błędny login lub hasło!</div>
+             
                 <button type="submit" class="btn-login" style="margin-top: 20px;">Zaloguj się</button>
             </form>
         </div>
@@ -351,6 +325,7 @@
             
             <ul class="nav-links">
                 <li class="nav-item"><a href="#" class="nav-link active" onclick="switchTab('articles', this)"><i class="fas fa-pen-nib"></i> Artykuły</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="switchTab('generator', this)"><i class="fas fa-code"></i> Generator kodu</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="switchTab('research', this)"><i class="fas fa-search"></i> Wyszukiwarka</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="switchTab('notes', this)"><i class="fas fa-sticky-note"></i> Szybkie Notatki</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="switchTab('news', this)"><i class="fas fa-bullhorn"></i> Aktualności</a></li>
@@ -379,6 +354,61 @@
                 </div>
                 <div id="clock" style="font-size:1.5rem; font-weight:300;">12:00</div>
             </div>
+
+            <section id="tab-generator" class="content-card" style="display: none;">
+                <h3><i class="fas fa-magic"></i> Generator Artykułu HTML</h3>
+                <p style="color:var(--text-muted); margin-bottom:1.5rem;">Wypełnij formularz, aby wygenerować gotowy obiekt JSON do wklejenia w kodzie.</p>
+                
+                <div style="max-width: 600px;">
+                    <label style="display:block; margin-bottom:5px; color:var(--text-muted); font-size:0.85rem;">Tytuł artykułu</label>
+                    <input type="text" id="gen-title" class="form-control" placeholder="Wpisz tytuł..." required>
+                    
+                    <label style="display:block; margin-bottom:5px; color:var(--text-muted); font-size:0.85rem;">Link do miniaturki</label>
+                    <input type="text" id="gen-thumb" class="form-control" placeholder="np. https://.../obrazek.png">
+                    
+                    <label style="display:block; margin-bottom:5px; color:var(--text-muted); font-size:0.85rem;">Data i czas publikacji</label>
+                    <input type="datetime-local" id="gen-date" class="form-control" required>
+                    
+                    <label style="display:block; margin-bottom:5px; color:var(--text-muted); font-size:0.85rem;">Autor / Kategoria</label>
+                    <input type="text" id="gen-category" class="form-control" placeholder="np. Jan Kowalski / Wywiad">
+                    
+                    <label style="display:block; margin-bottom:10px; color:var(--text-muted); font-size:0.85rem;">Format treści:</label>
+                    <div style="display:flex; gap:20px; margin-bottom: 15px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
+                        <label style="cursor:pointer; display:flex; align-items:center; gap:5px;">
+                            <input type="radio" name="gen-type" value="text" checked onchange="toggleGenFormat()"> Tekst
+                        </label>
+                        <label style="cursor:pointer; display:flex; align-items:center; gap:5px;">
+                            <input type="radio" name="gen-type" value="image" onchange="toggleGenFormat()"> Obraz
+                        </label>
+                    </div>
+
+                    <div id="gen-text-box">
+                        <label style="display:block; margin-bottom:5px; color:var(--text-muted); font-size:0.85rem;">Treść artykułu</label>
+                        <textarea id="gen-content-text" class="form-control" rows="6" placeholder="Wpisz lub wklej treść artykułu..."></textarea>
+                    </div>
+
+                    <div id="gen-image-box" style="display:none;">
+                        <label style="display:block; margin-bottom:5px; color:var(--text-muted); font-size:0.85rem;">Link do obrazu jako treść</label>
+                        <input type="text" id="gen-content-image" class="form-control" placeholder="np. https://.../artykul.jpg">
+                    </div>
+
+                    <label style="display:block; margin-bottom:5px; color:var(--text-muted); font-size:0.85rem;">Początkowa ilość polubień</label>
+                    <input type="number" id="gen-likes" class="form-control" value="0" min="0">
+
+                    <button class="btn-add" onclick="generateArticleCode()" style="margin-top: 10px; width: 100%; justify-content: center;">Generuj kod</button>
+                </div>
+
+                <div id="gen-result-area" style="display:none; margin-top:2rem; border-top:1px solid var(--glass-border); padding-top:2rem;">
+                    <h4 style="color: var(--success-color); margin-bottom: 10px;">Gotowy Kod:</h4>
+                    <div style="position:relative;">
+                        <textarea id="gen-output" class="form-control" rows="12" readonly style="font-family: monospace; background: rgba(0,0,0,0.5); font-size: 0.9rem;"></textarea>
+                        <button class="btn-add" onclick="copyGenCode()" style="position:absolute; top:10px; right:10px; padding: 5px 10px; font-size:0.8rem; background: var(--primary-color);">Kopiuj</button>
+                    </div>
+                    <div style="background:rgba(0, 210, 211, 0.1); border-left:4px solid var(--accent-color); padding:15px; margin-top:10px; font-size:0.9rem;">
+                        <strong>Instrukcja wklejenia:</strong> Skopiuj powyższy kod i wklej go do pliku strony głównej w miejscu tablicy przechowującej artykuły (zazwyczaj oznaczanej jako <code>const articles = [</code> lub podobnie), dopisując go jako kolejny element tablicy. Pamiętaj o przecinku na końcu, jeśli to nie jest ostatni element!
+                    </div>
+                </div>
+            </section>
 
             <section id="tab-articles" class="content-card active-tab">
                 <div style="display:flex; justify-content:space-between; margin-bottom:1.5rem;">
@@ -451,7 +481,6 @@
 
             <section id="tab-media" class="content-card">
                 <h3><i class="fas fa-images"></i> Biblioteka Mediów</h3>
-                
                 <input type="file" id="media-upload" hidden accept="image/*" onchange="handleImageUpload(this)">
 
                 <div onclick="document.getElementById('media-upload').click()" style="border: 2px dashed var(--glass-border); padding:40px; text-align:center; border-radius:10px; margin-bottom:20px; cursor:pointer; transition:0.3s;" onmouseover="this.style.borderColor=var(--primary-color)" onmouseout="this.style.borderColor=var(--glass-border)">
@@ -460,7 +489,7 @@
                 </div>
 
                 <div id="media-list" class="media-grid">
-                    </div>
+                </div>
             </section>
 
             <section id="tab-users" class="content-card">
@@ -535,7 +564,7 @@
                 <button class="close-modal" onclick="closeModal('modal-day-view')">&times;</button>
             </div>
             <div id="day-events-list" class="event-list">
-                </div>
+            </div>
             <button class="btn-add" style="width:100%; justify-content:center;" onclick="openAddEventForm()">
                 <i class="fas fa-plus-circle"></i> Dodaj wydarzenie
             </button>
@@ -588,7 +617,7 @@
             'Redaktor4': { pass: 'Głos Trójki4', defaultName: 'Julia', role: 'Redaktor' },
             'Redaktor5': { pass: 'Głos Trójki5', defaultName: 'Aleksander', role: 'Redaktor' },
             'Redaktor6': { pass: 'Głos Trójki6', defaultName: 'Filip', role: 'Grafik' },
-            'ADMIN':     { pass: '.',            defaultName: 'Admin', role: 'Administrator' }
+            'ADMIN':     { pass: '.', defaultName: 'Admin', role: 'Administrator' }
         };
 
         // --- 2. ZMIENNE GLOBALNE ---
@@ -712,7 +741,7 @@
             const title = document.getElementById('art-title').value;
             const content = document.getElementById('art-content').value;
             const now = new Date().toLocaleDateString('pl-PL');
-
+            
             if(id) {
                 const idx = articles.findIndex(a => a.id == id);
                 if(idx !== -1) {
@@ -793,9 +822,7 @@
             }
         }
 
-        // --- 6. KALENDARZ (ZMODYFIKOWANY) ---
-        
-        // Renderuje siatkę kalendarza
+        // --- 6. KALENDARZ ---
         function renderCalendar() {
             const container = document.getElementById('calendar-days');
             container.innerHTML = '';
@@ -818,30 +845,23 @@
             }
         }
 
-        // Otwiera widok dnia (Lista)
         let currentOpenDay = 1;
-
         function openDayModal(day) {
             currentOpenDay = day;
             const modal = document.getElementById('modal-day-view');
             modal.style.display = 'flex';
             
-            // Ustaw tytuł
             document.getElementById('day-view-title').innerText = `${day} ${currentMonthName} - Plan`;
-            
             renderDayEventsList(day);
         }
 
-        // Renderuje listę wewnątrz modala
         function renderDayEventsList(day) {
             const listContainer = document.getElementById('day-events-list');
             listContainer.innerHTML = '';
             
             const events = calendarEvents[`day_${day}`] || [];
-            
-            // Sortowanie po godzinie
             events.sort((a, b) => a.start.localeCompare(b.start));
-
+            
             if(events.length === 0) {
                 listContainer.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px;">Brak zaplanowanych wydarzeń na ten dzień.</p>';
                 return;
@@ -868,13 +888,11 @@
             });
         }
 
-        // Otwiera formularz dodawania
         function openAddEventForm() {
             document.getElementById('event-form-title').innerText = 'Dodaj wydarzenie';
-            document.getElementById('event-id').value = ''; // puste ID = nowe
+            document.getElementById('event-id').value = ''; 
             document.getElementById('event-day-index').value = currentOpenDay;
             
-            // Reset pól
             document.getElementById('event-name').value = '';
             document.getElementById('event-start').value = '08:00';
             document.getElementById('event-end').value = '09:00';
@@ -884,7 +902,6 @@
             document.getElementById('modal-event-form').style.display = 'flex';
         }
 
-        // Otwiera formularz edycji
         function editEvent(day, id) {
             const events = calendarEvents[`day_${day}`];
             const ev = events.find(e => e.id === id);
@@ -893,7 +910,6 @@
             document.getElementById('event-form-title').innerText = 'Edytuj wydarzenie';
             document.getElementById('event-id').value = ev.id;
             document.getElementById('event-day-index').value = day;
-            
             document.getElementById('event-name').value = ev.title;
             document.getElementById('event-start').value = ev.start;
             document.getElementById('event-end').value = ev.end;
@@ -903,7 +919,6 @@
             document.getElementById('modal-event-form').style.display = 'flex';
         }
 
-        // Zapisuje wydarzenie
         function saveEvent(e) {
             e.preventDefault();
             const day = document.getElementById('event-day-index').value;
@@ -920,13 +935,11 @@
             }
 
             if(id) {
-                // Edycja
                 const idx = calendarEvents[`day_${day}`].findIndex(ev => ev.id == id);
                 if(idx !== -1) {
                     calendarEvents[`day_${day}`][idx] = { id: parseInt(id), title, start, end, allDay, desc };
                 }
             } else {
-                // Nowe
                 const newEvent = { id: Date.now(), title, start, end, allDay, desc };
                 calendarEvents[`day_${day}`].push(newEvent);
             }
@@ -935,7 +948,7 @@
             
             closeModal('modal-event-form');
             renderDayEventsList(day);
-            renderCalendar(); // odśwież kafelki
+            renderCalendar();
         }
 
         function deleteEvent(day, id) {
@@ -968,7 +981,6 @@
             document.getElementById(id).style.display = 'none';
         }
 
-        // Zamknij modal klikając poza
         window.onclick = function(event) {
             if (event.target.classList.contains('modal-overlay')) {
                 event.target.style.display = "none";
@@ -1012,7 +1024,7 @@
             status.innerText = 'Zapisano...';
             setTimeout(() => status.innerText = '', 1000);
         });
-
+        
         function saveSettings() {
             const newNick = document.getElementById('setting-nickname').value;
             if(newNick) {
@@ -1048,6 +1060,63 @@
                 const now = new Date();
                 document.getElementById('clock').innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             }, 1000);
+        }
+
+        // --- 8. GENERATOR KODU HTML ---
+        function toggleGenFormat() {
+            const format = document.querySelector('input[name="gen-type"]:checked').value;
+            if(format === 'text') {
+                document.getElementById('gen-text-box').style.display = 'block';
+                document.getElementById('gen-image-box').style.display = 'none';
+            } else {
+                document.getElementById('gen-text-box').style.display = 'none';
+                document.getElementById('gen-image-box').style.display = 'block';
+            }
+        }
+
+        function generateArticleCode() {
+            const title = document.getElementById('gen-title').value || 'Brak tytułu';
+            const thumb = document.getElementById('gen-thumb').value;
+            const category = document.getElementById('gen-category').value;
+            const dateRaw = document.getElementById('gen-date').value;
+            const likes = document.getElementById('gen-likes').value || 0;
+            const format = document.querySelector('input[name="gen-type"]:checked').value;
+
+            // Formatowanie daty do wymaganej postaci "YYYY-MM-DDTHH:MM:00"
+            let formattedDate = "";
+            if(dateRaw) {
+                formattedDate = dateRaw + ':00'; // input datetime-local daje format YYYY-MM-DDTHH:MM
+            }
+
+            let contentOutput = "";
+            if (format === 'text') {
+                const textValue = document.getElementById('gen-content-text').value;
+                // Używamy grawisów (`), więc zabezpieczamy te użyte w tekście przez ucieczkę
+                contentOutput = `\`${textValue.replace(/`/g, '\\`')}\``; 
+            } else {
+                const imgLink = document.getElementById('gen-content-image').value;
+                contentOutput = `\`<img src="${imgLink}" style="max-width: 100%; height: auto; border-radius: 8px;">\``;
+            }
+
+            const codeTemplate = `{
+    id: 0,
+    title: "${title.replace(/"/g, '\\"')}",
+    category: "${category.replace(/"/g, '\\"')}",
+    date: "${formattedDate}", 
+    img: "${thumb}",
+    content: ${contentOutput},
+    baseLikes: ${likes}
+},`;
+
+            document.getElementById('gen-output').value = codeTemplate;
+            document.getElementById('gen-result-area').style.display = 'block';
+        }
+
+        function copyGenCode() {
+            const outputTextarea = document.getElementById('gen-output');
+            outputTextarea.select();
+            document.execCommand('copy');
+            alert('Gotowe! Kod został skopiowany do schowka.');
         }
     </script>
 </body>
