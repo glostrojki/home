@@ -156,7 +156,7 @@
         /* --- TICKER --- */
         .news-ticker { background: var(--accent); color: #000; padding: 8px 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 0.9rem; }
         [data-theme="light"] .news-ticker { color: #fff; }
-        .ticker-content { display: inline-block; animation: marquee 20s linear infinite; }
+        .ticker-content { display: inline-block; animation: marquee 40s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
         /* --- LAYOUT --- */
@@ -359,7 +359,7 @@
 
     <div class="news-ticker">
         <div class="ticker-content">
-            <i class="fas fa-fire"></i> WAŻNE: Strona w fazie testów beta &nbsp;&bull;&nbsp; Zapisy do redakcji gazetki szkolnej trwają 
+            <i class="fas fa-fire"></i> WAŻNE: Numer 19 będzie sprzedawany tylko na festynie szkolnym. Więcej informacji w zakładce "Informacje" &nbsp;&bull;&nbsp; Napisz artykuł do gazetki! Więcej informacji w zakładke "Informacje" &nbsp;&bull;&nbsp; Jesteś świadkiem ciekawych wydarzeń w naszej szkole? Napisz o tym w gazetce! Więcej informaci w zakładce "Informacje"
         </div>
     </div>
 
@@ -367,12 +367,12 @@
         <section>
             <div class="card anim-entry anim-delay-3" style="margin-bottom: 40px;" onclick="openArticle(5)">
                 <div class="card-img-wrap" style="height: 350px;">
-                    <img src="https://imgur.com/MfF0uG5.png" class="card-img">
+                    <img src="https://imgur.com/7RTopGQ.png" class="card-img">
                 </div>
                 <div class="card-body" style="position: absolute; bottom: 0; background: linear-gradient(to top, rgba(0,0,0,0.95), transparent); width: 100%; color: #fff;">
                     <span class="badge">Wyróżnione</span>
-                    <h2 style="font-family: 'Playfair Display'; font-size: 2.2rem; margin: 10px 0;">Psy</h2>
-                    <p>Autor: Róża Burzyńska</p>
+                    <h2 style="font-family: 'Playfair Display'; font-size: 2.2rem; margin: 10px 0;">Zwycięstwo Polaków nad Armią Czerwoną</h2>
+                    <p>Autor: Aleksander Stasiak</p>
                 </div>
             </div>
 
@@ -430,19 +430,7 @@
         </div>
     </div>
 
-    <div class="ad-overlay" id="adOverlay">
-        <div class="ad-content">
-            <img src="https://i.imgur.com/kpI9kpg.gif" alt="Reklama">
-            
-            <div class="ad-controls" id="adTimerBox">
-                <span id="adTimerText">Pomiń za 5...</span>
-            </div>
-            
-            <div class="ad-controls" id="adSkipBox" style="display: none; cursor: pointer;" onclick="closeAd()">
-                <button class="ad-skip-btn">Pomiń reklamę <i class="fas fa-step-forward"></i></button>
-            </div>
-        </div>
-    </div>
+   
 
     <script>
         const articlesData = [
@@ -493,11 +481,12 @@
             },
             {
                 id: 5,
-                title: "Psy",
-                category: "Róża Burzyńska",
+                title: "Zwycięstwo Polaków nad Armią Czerwoną",
+                category: "Aleksander Stasiak",
                 date: "2026-04-29T21:16:11",
-                img: "https://imgur.com/MfF0uG5.png",
-                content: `<img src="https://imgur.com/qzBUjt0.png" style="max-width: 100%; height: auto; border-radius: 8px;">`,
+                img: "https://imgur.com/7RTopGQ.png",
+                content: `Cześć, witajcie w trzecim wydaniu kącika pt. ,,Operacje wojskowe”. W tym numerze  przedstawię Wam niespodziewane zwycięstwo Polaków nad Armią Czerwoną w 1921 roku czyli cud nad Wisłą. Ale na początku opowiem wam jak doszło do tej bitwy. Wszystko zaczęło się od wybuchu wojny z Rosją radziecką w 1919 roku w tym samym czasie w Rosji trwała wojna domowa. Więc Polacy wykorzystując sytuację przeszli do ataku. Polacy zepchnęli bolszewików nad rzekę Berezynę. Rosjanie byli zajęci wojną domową więc pojawił się mały opór z ich strony. W kwietniu 1920 roku Józef Piłsudski zawarł sojusz z dowódcą wojsk ukraińskich Symonem Petlurą i wojska polskie sprzymierzone z wojskami ukraińskimi ruszyły na Kijów. Bez oporu zajęły miasto. Było to łatwe zwycięstwo ponieważ, główne siły Bolszewików były skoncentrowane na północy gdzie szykowały się do uderzenia w słabe flanki naszej armii. Polacy zaczęli się wycofywać  nad Wisłę gdzie szykowali się do kontruderzenia . W tym czasie rząd powołał radę obrony państwa kierowaną przez Józefa Piłsudskiego. W I połowie sierpnia Sowieci dotarli nad Wisłę, ale nad rzeką Wieprz pojawiła się luka, którą Piłsudski zamierzał wykorzystać. Aby  ten ryzykowny plan zadziałał Warszawa musiała przetrwać. W ten oto sposób doszło do bitwy Warszawskiej. Od 13 do 15 sierpnia odbyły zacięte walki na przedpolu Warszawy, rankiem 16 sierpnia ruszyła Polska ofensywa znad rzeki Wieprz, która wywołała chaos w szeregach Armii Czerwonej i zmusiła ją do odwrotu. W ten sposób doszło do cudu nad Wisłą który uratował Europę przed bolszewikami. Dziękuje za przeczytanie artykułu i zachęcam do przeczytania kolejnych.       
+`,
                 baseLikes: 6
             },
             {
@@ -553,6 +542,15 @@
                 img: "https://imgur.com/kIshS5G.png",
                 content: `1 Miejsce: Jagna<br>2 Miejsce: Ania Kulik<br>3 Miejsce: Izabela Nowak<br><br>Gratulujemy!`,
                 baseLikes: 2
+            },
+            {
+                id: 12,
+                title: "Pszczoły",
+                category: "Zuzanna Zielińska",
+                date: "2026-05-20T21:10:11",
+                img: "https://imgur.com/IeQovN5.png",
+                content: `Każdy na pewno słyszał o tych owadach oraz, że są pożyteczne. Czy jednak wiecie jak ważną pełnią one rolę?<br><br>Bez pszczół nie byłoby nas, ponieważ od ich pracy zależy ogromna część roślin, które jemy każdego dnia. Chroniąc pszczoły, chronimy też siebie.<br><br>Jedna pszczoła przez całe życie produkuje tylko około jednej łyżeczki miodu. Następnym razem, gdy będziesz jeść miód, pomyśl, ile pracy i ile pszczelich istnień trzymasz w dłoniach.<br><br>W ulu panuje doskonały porządek. Tak jak w domu każdy ma swoje obowiązki, tak samo jest u pszczół. Robotnice opiekują się młodymi, budują plastry, sprzątają i zbierają nektar. Trutnie odpowiadają za rozmnażanie, a królowa daje początek kolejnym pokoleniom.<br><br>Gdy królowa umiera, ul nie może prawidłowo funkcjonować. Pszczoły nie organizują jednak wyborów – zamiast tego wychowują nową królową z larwy, karmiąc ją specjalnym pokarmem, czyli mleczkiem pszczelim. Dzięki temu kolonia może przetrwać.<br><br>Mam nadzieję, że dzięki temu kącikowi uświadomiłam wam, jak ważną rolę pszczoły odgrywają w naszym życiu.<br>Dziękuję też wszystkim za udział w konkursie i gorąco gratuluję zwycięzcom!`,
+                baseLikes: 1
             }
         ];
 
