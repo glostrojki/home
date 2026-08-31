@@ -48,6 +48,12 @@
         .login-box { background: var(--bg-white); padding: 40px; border-radius: var(--radius-md); width: 100%; max-width: 400px; box-shadow: 0 20px 25px rgba(0,0,0,0.3); text-align: center; }
         .login-box img { height: 60px; margin-bottom: 20px; }
 
+        /* MODAL PODGLĄDU ARTYKUŁU */
+        #previewModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; padding: 20px;}
+        .modal-content-box { background: var(--bg-white); padding: 30px; border-radius: var(--radius-md); max-width: 750px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; box-shadow: var(--shadow-md); }
+        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--text-muted); transition: var(--transition); }
+        .modal-close:hover { color: #f44336; }
+
         /* NAWIGACJA */
         .top-bar { background-color: var(--secondary-dark); color: var(--bg-white); font-size: 0.85rem; padding: 8px 0; font-weight: 600; }
         .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
@@ -77,31 +83,33 @@
         @media (max-width: 1024px) { .admin-grid { grid-template-columns: 1fr; } }
 
         .admin-card { background: var(--bg-white); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); margin-bottom: 30px; }
-        .admin-card-title { font-size: 1.4rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-gray); display: flex; align-items: center; gap: 10px; }
+        .admin-card-title { font-size: 1.2rem; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-gray); display: flex; align-items: center; gap: 10px; }
 
         /* LISTA ZGŁOSZEŃ I ARTYKUŁÓW */
-        .submission-item, .calendar-manage-item { background: var(--bg-body); padding: 15px; border-radius: var(--radius-sm); margin-bottom: 15px; border-left: 4px solid var(--primary-yellow); display: flex; justify-content: space-between; align-items: center; gap: 15px; }
-        .submission-info h4 { font-size: 1.1rem; margin-bottom: 4px; }
+        .submission-item, .calendar-manage-item { background: var(--bg-body); padding: 15px; border-radius: var(--radius-sm); margin-bottom: 15px; border-left: 4px solid var(--primary-yellow); display: flex; justify-content: space-between; align-items: center; gap: 15px; transition: var(--transition); }
+        .submission-item:hover { background: var(--bg-gray); }
+        .submission-info h4 { font-size: 1.1rem; margin-bottom: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+        .submission-info h4:hover { color: #d99b00; }
         .submission-info p { font-size: 0.85rem; color: var(--text-muted); }
         
         .action-buttons { display: flex; gap: 8px; flex-shrink: 0; }
-        .btn { padding: 8px 14px; border-radius: var(--radius-sm); font-weight: 700; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; transition: var(--transition); }
-        .btn-success { background: #e8f5e9; color: #2e7d32; }
+        .btn { padding: 8px 14px; border-radius: var(--radius-sm); font-weight: 700; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; transition: var(--transition); border: 1px solid transparent; }
+        .btn-success { background: #e8f5e9; color: #2e7d32; border-color: #c8e6c9; }
         .btn-success:hover { background: #c8e6c9; }
-        .btn-danger { background: #ffebee; color: #c62828; }
+        .btn-danger { background: #ffebee; color: #c62828; border-color: #ffcdd2; }
         .btn-danger:hover { background: #ffcdd2; }
-        .btn-primary { background: var(--primary-yellow); color: var(--secondary-dark); }
+        .btn-primary { background: var(--primary-yellow); color: var(--secondary-dark); border-color: var(--primary-yellow-hover); }
         .btn-primary:hover { background: var(--primary-yellow-hover); }
-        .btn-info { background: #e3f2fd; color: #1565c0; }
+        .btn-info { background: #e3f2fd; color: #1565c0; border-color: #bbdefb; }
         .btn-info:hover { background: #bbdefb; }
 
         /* FORMULARZE W PANELU */
         .form-group { margin-bottom: 15px; text-align: left; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem; }
-        .form-group input { width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-family: inherit; font-size: 0.95rem; outline: none; }
-        .form-group input:focus { border-color: var(--primary-yellow); }
+        .form-group input { width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-family: inherit; font-size: 0.95rem; outline: none; transition: var(--transition); }
+        .form-group input:focus { border-color: var(--primary-yellow); box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2); }
 
-        .empty-box { text-align: center; color: var(--text-muted); padding: 20px; font-size: 0.9rem; }
+        .empty-box { text-align: center; color: var(--text-muted); padding: 30px; font-size: 0.95rem; background: var(--bg-body); border-radius: var(--radius-sm); border: 1px dashed var(--border-color); }
         
         /* STOPKA */
         .site-footer { background-color: var(--secondary-dark); color: var(--bg-white); padding: 50px 0 20px; margin-top: auto; }
@@ -109,6 +117,7 @@
         .footer-heading { font-size: 1.2rem; color: var(--primary-yellow); margin-bottom: 20px; font-family: var(--font-headings); }
         .footer-links li { margin-bottom: 10px; }
         .footer-links a { color: var(--text-light); }
+        .footer-links a:hover { color: var(--primary-yellow); }
     </style>
 </head>
 <body>
@@ -123,11 +132,21 @@
                     <label>Login</label>
                     <input type="text" id="loginUser" required placeholder="Wpisz login (redaktor1)">
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;">
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px; padding: 12px;">
                     <i class="fas fa-sign-in-alt"></i> Zaloguj się
                 </button>
-                <p id="loginError" style="color: #c62828; font-size: 0.85rem; margin-top: 10px; display: none;">Niepoprawny login!</p>
+                <p id="loginError" style="color: #c62828; font-size: 0.85rem; margin-top: 15px; font-weight: 600; display: none;">Niepoprawny login!</p>
             </form>
+        </div>
+    </div>
+
+    <!-- MODAL PODGLĄDU ARTYKUŁU -->
+    <div id="previewModal">
+        <div class="modal-content-box">
+            <button class="modal-close" onclick="closePreview()"><i class="fas fa-times"></i></button>
+            <h3 id="modalTitle" style="margin-bottom: 10px; padding-right: 25px; font-size: 1.5rem;"></h3>
+            <p id="modalMeta" style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;"></p>
+            <div id="modalContent" style="white-space: pre-wrap; font-size: 0.95rem; line-height: 1.7; color: var(--text-main); background: var(--bg-gray); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);"></div>
         </div>
     </div>
 
@@ -154,9 +173,9 @@
             </a>
             <nav class="main-nav">
                 <ul class="nav-list">
-                    <li><a href="/home">Strona Główna</a></li>
-                    <li><a href="/home/mojeartykuly.html">Moje artykuły</a></li>
-                    <li><a href="/home/panel.html" class="active">Panel Admina</a></li>
+                    <li><a href="/">Strona Główna</a></li>
+                    <li><a href="/formularz.html">Dodaj Artykuł</a></li>
+                    <li><a href="#" class="active">Panel Admina</a></li>
                 </ul>
             </nav>
         </div>
@@ -164,7 +183,7 @@
 
     <!-- ZAWARTOŚĆ PANELU -->
     <main class="container admin-section">
-        <h2 class="admin-title"><i class="fas fa-tools"></i> Centrum Dowodzenia Redaktora</h2>
+        <h2 class="admin-title"><i class="fas fa-tools"></i> Centrum Dowodzenia Redakcji</h2>
 
         <div class="admin-grid">
             
@@ -172,17 +191,17 @@
             <div>
                 <!-- Nadesłane artykuły (Do akceptacji / odrzucenia) -->
                 <div class="admin-card">
-                    <h3 class="admin-card-title"><i class="fas fa-inbox"></i> Nadesłane artykuły od uczniów</h3>
+                    <h3 class="admin-card-title"><i class="fas fa-inbox" style="color: var(--primary-yellow);"></i> Nadesłane artykuły od uczniów</h3>
                     <div id="submissionsList">
-                        <div class="empty-box"><i class="fas fa-spinner fa-spin"></i> Ładowanie zgłoszeń...</div>
+                        <div class="empty-box"><i class="fas fa-spinner fa-spin fa-2x" style="color: var(--primary-yellow); margin-bottom: 10px; display:block;"></i> Ładowanie zgłoszeń...</div>
                     </div>
                 </div>
 
                 <!-- Opublikowane artykuły (Zarządzanie wyróżnieniem i usuwaniem) -->
                 <div class="admin-card">
-                    <h3 class="admin-card-title"><i class="fas fa-newspaper"></i> Opublikowane artykuły (Wyróżnianie / Usuwanie)</h3>
+                    <h3 class="admin-card-title"><i class="fas fa-newspaper" style="color: #4caf50;"></i> Opublikowane artykuły na stronie głównej</h3>
                     <div id="publishedArticlesList">
-                        <div class="empty-box"><i class="fas fa-spinner fa-spin"></i> Ładowanie artykułów...</div>
+                        <div class="empty-box"><i class="fas fa-spinner fa-spin fa-2x" style="color: #4caf50; margin-bottom: 10px; display:block;"></i> Ładowanie artykułów...</div>
                     </div>
                 </div>
             </div>
@@ -190,7 +209,7 @@
             <!-- PRAWA KOLUMNA: KALENDARZ SZKOLNY -->
             <div>
                 <div class="admin-card">
-                    <h3 class="admin-card-title"><i class="fas fa-calendar-plus"></i> Dodaj wydarzenie do kalendarza</h3>
+                    <h3 class="admin-card-title"><i class="fas fa-calendar-plus" style="color: #2196f3;"></i> Dodaj wydarzenie do kalendarza</h3>
                     <form id="calendarForm">
                         <div class="form-group">
                             <label>Nazwa wydarzenia</label>
@@ -204,16 +223,16 @@
                             <label>Szczegóły / Godzina / Miejsce</label>
                             <input type="text" id="eventDetails" required placeholder="np. Sala gimnastyczna, godz. 9:00">
                         </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 12px; font-size: 0.95rem;">
                             <i class="fas fa-plus"></i> Dodaj do kalendarza
                         </button>
                     </form>
                 </div>
 
                 <div class="admin-card">
-                    <h3 class="admin-card-title"><i class="fas fa-calendar-alt"></i> Istniejące wydarzenia</h3>
+                    <h3 class="admin-card-title"><i class="fas fa-calendar-alt" style="color: var(--secondary-dark);"></i> Istniejące wydarzenia</h3>
                     <div id="calendarManageList">
-                        <div class="empty-box"><i class="fas fa-spinner fa-spin"></i> Ładowanie kalendarza...</div>
+                        <div class="empty-box"><i class="fas fa-spinner fa-spin fa-2x" style="color: var(--secondary-dark); margin-bottom: 10px; display:block;"></i> Ładowanie kalendarza...</div>
                     </div>
                 </div>
             </div>
@@ -227,12 +246,13 @@
             <div class="footer-grid">
                 <div>
                     <h3 style="color: white; margin-bottom: 15px;">Głos Trójki</h3>
-                    <p style="color: var(--text-light); font-size: 0.9rem;">Panel administracyjny systemu zarządzania gazetką szkolną.</p>
+                    <p style="color: var(--text-light); font-size: 0.9rem;">Panel administracyjny systemu zarządzania gazetką szkolną. Narzędzie przeznaczone wyłącznie dla autoryzowanych redaktorów.</p>
                 </div>
                 <div>
                     <h4 class="footer-heading">Szybkie linki</h4>
                     <ul class="footer-links">
-                        <li><a href="/">Przejdź do strony głównej</a></li>
+                        <li><a href="/"><i class="fas fa-home"></i> Przejdź do strony głównej</a></li>
+                        <li><a href="/formularz.html"><i class="fas fa-pen"></i> Formularz dla uczniów</a></li>
                     </ul>
                 </div>
             </div>
@@ -295,12 +315,30 @@
             fetchCalendarManage();
         }
 
+        // OTWIERANIE PODGLĄDU ARTYKUŁU
+        window.viewArticle = function(encodedData) {
+            const data = JSON.parse(decodeURIComponent(encodedData));
+            document.getElementById('modalTitle').innerText = data.title || "Bez tytułu";
+            
+            const categoryLabel = data.type === 'kacik' ? `Kącik: ${data.cornerName}` : 'Artykuł jednorazowy';
+            document.getElementById('modalMeta').innerHTML = `<i class="fas fa-user"></i> Autor: <strong>${data.author || 'Anonim'}</strong> (${data.authorClass || 'Brak klasy'}) | <i class="fas fa-tag"></i> Typ: ${categoryLabel}`;
+            
+            document.getElementById('modalContent').innerText = data.content || data.textContent || data.body || "Brak treści.";
+
+            document.getElementById('previewModal').style.display = 'flex';
+        }
+
+        window.closePreview = function() {
+            document.getElementById('previewModal').style.display = 'none';
+        }
+
+        // POBIERANIE ZGŁOSZEŃ OD UCZNIÓW
         async function fetchSubmissions() {
             const container = document.getElementById('submissionsList');
             try {
                 const snapshot = await getDocs(collection(db, "submitted_articles"));
                 if (snapshot.empty) {
-                    container.innerHTML = '<div class="empty-box">Brak nadesłanych artykułów do sprawdzenia.</div>';
+                    container.innerHTML = '<div class="empty-box"><i class="fas fa-check-circle fa-2x" style="color: #4caf50; display:block; margin-bottom:10px;"></i>Brak nowych nadesłanych prac. Jesteś na bieżąco!</div>';
                     return;
                 }
 
@@ -308,47 +346,71 @@
                 snapshot.forEach((docSnap) => {
                     const data = docSnap.data();
                     const id = docSnap.id;
+                    const encoded = encodeURIComponent(JSON.stringify(data));
+                    const typeDisplay = data.type === 'kacik' ? `Kącik (${data.cornerName})` : 'Jednorazowy';
                     
                     const itemHTML = `
                         <div class="submission-item">
                             <div class="submission-info">
-                                <h4>${data.title}</h4>
-                                <p>Autor: <strong>${data.author}</strong> (${data.authorClass}) | Typ: ${data.type}</p>
+                                <h4 onclick="viewArticle('${encoded}')" title="Kliknij, aby przeczytać treść">${data.title || 'Bez tytułu'} <i class="fas fa-eye" style="font-size:0.8rem; color:var(--text-muted);"></i></h4>
+                                <p><i class="fas fa-user-edit"></i> Autor: <strong>${data.author}</strong> (${data.authorClass}) | <i class="fas fa-tag"></i> ${typeDisplay}</p>
                             </div>
                             <div class="action-buttons">
-                                ${data.fileUrl ? `<a href="${data.fileUrl}" target="_blank" download class="btn btn-info" title="Pobierz plik artykułu"><i class="fas fa-download"></i></a>` : ''}
-                                <button class="btn btn-success" onclick="acceptSubmission('${id}', '${encodeURIComponent(JSON.stringify(data))}')" title="Zaakceptuj i opublikuj"><i class="fas fa-check"></i></button>
-                                <button class="btn btn-danger" onclick="deleteDocument('submitted_articles', '${id}')" title="Odrzuć / Usuń"><i class="fas fa-trash"></i></button>
+                                <button class="btn btn-info" onclick="viewArticle('${encoded}')" title="Podgląd treści"><i class="fas fa-book-open"></i> Czytaj</button>
+                                <button class="btn btn-success" onclick="acceptSubmission('${id}', '${encoded}')" title="Zaakceptuj i opublikuj na stronie głównej"><i class="fas fa-check"></i> Publikuj</button>
+                                <button class="btn btn-danger" onclick="deleteDocument('submitted_articles', '${id}')" title="Odrzuć / Usuń ze zgłoszeń"><i class="fas fa-trash"></i></button>
                             </div>
                         </div>
                     `;
                     container.insertAdjacentHTML('beforeend', itemHTML);
                 });
             } catch (e) {
-                container.innerHTML = '<div class="empty-box">Błąd podczas pobierania zgłoszeń.</div>';
+                container.innerHTML = '<div class="empty-box" style="color: #c62828;"><i class="fas fa-exclamation-triangle fa-2x"></i><br>Błąd podczas pobierania zgłoszeń. Sprawdź zasady Firebase.</div>';
+                console.error(e);
             }
         }
 
+        // AKCEPTACJA I PUBLIKACJA ARTYKUŁU
         window.acceptSubmission = async function(id, encodedData) {
             const data = JSON.parse(decodeURIComponent(encodedData));
-            if(!confirm(`Czy na pewno chcesz zatwierdzić i opublikować artykuł "${data.title}"?`)) return;
+
+            // Prompt 1: Tytuł artykułu
+            const finalTitle = prompt("Wpisz ostateczny tytuł artykułu do publikacji na stronie głównej:", data.title || "");
+            if (finalTitle === null || finalTitle.trim() === "") {
+                alert("Publikacja anulowana - tytuł jest wymagany.");
+                return;
+            }
+
+            // Prompt 2: Link do obrazu
+            const defaultImg = "https://images.unsplash.com/photo-1546422904-90eab23c3d7e?auto=format&fit=crop&w=800&q=80";
+            const finalImageUrl = prompt("Wklej link do obrazu nagłówkowego artykułu (URL). Pozostaw domyślny, jeśli nie masz własnego:", defaultImg);
+            if (finalImageUrl === null || finalImageUrl.trim() === "") {
+                alert("Publikacja anulowana - link do obrazu jest wymagany.");
+                return;
+            }
+
+            if(!confirm(`Czy na pewno chcesz opublikować artykuł "${finalTitle.trim()}"? Zostanie on przeniesiony na stronę główną.`)) return;
+
+            const articleText = data.content || data.textContent || data.body || "";
 
             try {
+                // Zapisz do docelowej kolekcji "articles" (widocznej na stronie głównej)
                 await addDoc(collection(db, "articles"), {
-                    title: data.title,
-                    excerpt: `Artykuł nadesłany przez ${data.author} (${data.authorClass}).`,
+                    title: finalTitle.trim(),
+                    content: articleText,
+                    excerpt: articleText ? (articleText.substring(0, 150) + "...") : `Artykuł nadesłany przez ${data.author} (${data.authorClass}).`,
                     author: `${data.author} (${data.authorClass})`,
-                    category: data.type === 'kacik' ? data.cornerName : 'Artykuł',
-                    imageUrl: "https://images.unsplash.com/photo-1546422904-90eab23c3d7e?auto=format&fit=crop&w=800&q=80",
-                    fileUrl: data.fileUrl || "",
+                    category: data.type === 'kacik' ? (data.cornerName || 'Kącik tematyczny') : 'Artykuł',
+                    imageUrl: finalImageUrl.trim(),
                     likes: 0,
                     isFeatured: false,
                     createdAt: serverTimestamp()
                 });
 
+                // Usuń ze zgłoszeń (submitted_articles)
                 await deleteDoc(doc(db, "submitted_articles", id));
                 
-                alert("Artykuł został pomyślnie zaakceptowany i opublikowany na stronie głównej!");
+                alert("Sukces! Artykuł został pomyślnie zaakceptowany i opublikowany na stronie głównej!");
                 fetchSubmissions();
                 fetchPublishedArticles();
             } catch (e) {
@@ -357,6 +419,7 @@
             }
         }
 
+        // POBIERANIE OPUBLIKOWANYCH ARTYKUŁÓW (Zarządzanie ze strony głównej)
         async function fetchPublishedArticles() {
             const container = document.getElementById('publishedArticlesList');
             try {
@@ -364,7 +427,7 @@
                 const snapshot = await getDocs(q);
                 
                 if (snapshot.empty) {
-                    container.innerHTML = '<div class="empty-box">Brak opublikowanych artykułów.</div>';
+                    container.innerHTML = '<div class="empty-box"><i class="fas fa-folder-open fa-2x" style="display:block; margin-bottom:10px;"></i>Brak opublikowanych artykułów.</div>';
                     return;
                 }
 
@@ -375,38 +438,42 @@
                     const isFeatured = data.isFeatured === true;
 
                     const itemHTML = `
-                        <div class="submission-item" style="border-left-color: ${isFeatured ? '#e91e63' : 'var(--primary-yellow)'};">
+                        <div class="submission-item" style="border-left-color: ${isFeatured ? '#e91e63' : 'var(--primary-yellow)'}; background-color: ${isFeatured ? '#fdf0f4' : 'var(--bg-body)'};">
                             <div class="submission-info">
-                                <h4>${data.title} ${isFeatured ? '<span style="color: #e91e63; font-size: 0.75rem; font-weight: bold;">(WYRÓŻNIONY)</span>' : ''}</h4>
-                                <p>Autor: ${data.author} | Kategoria: ${data.category}</p>
+                                <h4>${data.title} ${isFeatured ? '<span style="color: #e91e63; font-size: 0.75rem; font-weight: bold; background: #fce4ec; padding: 2px 6px; border-radius: 4px; margin-left: 8px;"><i class="fas fa-star"></i> WYRÓŻNIONY</span>' : ''}</h4>
+                                <p><i class="fas fa-user"></i> Autor: ${data.author} | <i class="fas fa-folder"></i> Kategoria: ${data.category}</p>
                             </div>
                             <div class="action-buttons">
-                                ${data.fileUrl ? `<a href="${data.fileUrl}" target="_blank" download class="btn btn-info" title="Pobierz załączony plik"><i class="fas fa-download"></i></a>` : ''}
-                                <button class="btn btn-primary" onclick="toggleFeatured('${id}', ${isFeatured})" title="${isFeatured ? 'Usuń wyróżnienie' : 'Ustaw jako wyróżniony'}">
-                                    <i class="fas fa-star"></i>
+                                <button class="btn btn-primary" style="background: ${isFeatured ? '#e91e63' : 'var(--primary-yellow)'}; border-color: ${isFeatured ? '#d81b60' : 'var(--primary-yellow-hover)'}; color: ${isFeatured ? '#fff' : 'var(--secondary-dark)'};" onclick="toggleFeatured('${id}', ${isFeatured})" title="${isFeatured ? 'Usuń wyróżnienie' : 'Ustaw jako wyróżniony (Hero)'}">
+                                    <i class="${isFeatured ? 'fas fa-star-half-alt' : 'fas fa-star'}"></i>
                                 </button>
-                                <button class="btn btn-danger" onclick="deleteDocument('articles', '${id}')" title="Usuń artykuł"><i class="fas fa-trash"></i></button>
+                                <button class="btn btn-danger" onclick="deleteDocument('articles', '${id}')" title="Usuń opublikowany artykuł"><i class="fas fa-trash"></i></button>
                             </div>
                         </div>
                     `;
                     container.insertAdjacentHTML('beforeend', itemHTML);
                 });
             } catch (e) {
-                container.innerHTML = '<div class="empty-box">Błąd ładowania opublikowanych artykułów.</div>';
+                container.innerHTML = '<div class="empty-box" style="color: #c62828;">Błąd ładowania opublikowanych artykułów.</div>';
+                console.error(e);
             }
         }
 
+        // WYRÓŻNIANIE ARTYKUŁÓW (Trafiają na główny "Hero" baner na stronie)
         window.toggleFeatured = async function(id, currentStatus) {
             try {
                 const articleRef = doc(db, "articles", id);
                 await updateDoc(articleRef, { isFeatured: !currentStatus });
-                alert("Zmieniono status wyróżnienia artykułu.");
-                fetchPublishedArticles();
+                fetchPublishedArticles(); // Odśwież listę bez alertu by było płynniej
             } catch (e) {
+                console.error(e);
                 alert("Nie udało się zmienić statusu wyróżnienia.");
             }
         }
 
+        // --- ZARZĄDZANIE KALENDARZEM ---
+
+        // Dodawanie wydarzenia
         document.getElementById('calendarForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const title = document.getElementById('eventTitle').value;
@@ -421,14 +488,16 @@
                     details: details
                 });
 
-                alert("Dodano wydarzenie do kalendarza!");
+                alert("Wydarzenie zostało pomyślnie dodane do kalendarza szkolnego!");
                 document.getElementById('calendarForm').reset();
-                fetchCalendarManage();
+                fetchCalendarManage(); // Odśwież listę wydarzeń
             } catch (e) {
+                console.error(e);
                 alert("Błąd podczas dodawania wydarzenia.");
             }
         });
 
+        // Pobieranie wydarzeń z kalendarza
         async function fetchCalendarManage() {
             const container = document.getElementById('calendarManageList');
             try {
@@ -436,7 +505,7 @@
                 const snapshot = await getDocs(q);
 
                 if (snapshot.empty) {
-                    container.innerHTML = '<div class="empty-box">Brak zaplanowanych wydarzeń.</div>';
+                    container.innerHTML = '<div class="empty-box"><i class="fas fa-calendar-times fa-2x" style="display:block; margin-bottom:10px;"></i>Brak zaplanowanych wydarzeń.</div>';
                     return;
                 }
 
@@ -447,39 +516,45 @@
                     let dateStr = "Brak daty";
                     
                     if(data.eventDate && data.eventDate.toDate) {
-                        dateStr = data.eventDate.toDate().toLocaleDateString('pl-PL');
+                        dateStr = data.eventDate.toDate().toLocaleDateString('pl-PL', { day: '2-digit', month: 'long', year: 'numeric' });
                     }
 
                     const itemHTML = `
-                        <div class="calendar-manage-item">
+                        <div class="calendar-manage-item" style="border-left-color: #2196f3;">
                             <div>
-                                <h4 style="font-size: 0.95rem;">${data.title}</h4>
-                                <p style="font-size: 0.8rem; color: var(--text-muted);">${dateStr} - ${data.details}</p>
+                                <h4 style="font-size: 1rem; margin-bottom: 3px; color: var(--secondary-dark);"><i class="fas fa-calendar-day" style="color: #2196f3; margin-right: 5px;"></i> ${data.title}</h4>
+                                <p style="font-size: 0.85rem; color: var(--text-muted);"><strong>${dateStr}</strong> &bull; ${data.details}</p>
                             </div>
-                            <button class="btn btn-danger" onclick="deleteDocument('calendar_events', '${id}')"><i class="fas fa-trash"></i></button>
+                            <button class="btn btn-danger" onclick="deleteDocument('calendar_events', '${id}')" title="Usuń to wydarzenie"><i class="fas fa-trash"></i></button>
                         </div>
                     `;
                     container.insertAdjacentHTML('beforeend', itemHTML);
                 });
             } catch (e) {
-                container.innerHTML = '<div class="empty-box">Błąd ładowania kalendarza.</div>';
+                container.innerHTML = '<div class="empty-box" style="color: #c62828;">Błąd ładowania kalendarza.</div>';
+                console.error(e);
             }
         }
 
+        // UNIWERSALNA FUNKCJA USUWANIA (używana do zgłoszeń, artykułów i kalendarza)
         window.deleteDocument = async function(collectionName, id) {
-            if(!confirm("Czy na pewno chcesz usunąć ten element?")) return;
+            let itemType = collectionName === 'submitted_articles' ? 'to zgłoszenie' : (collectionName === 'articles' ? 'ten opublikowany artykuł' : 'to wydarzenie z kalendarza');
+            
+            if(!confirm(`Czy na pewno chcesz bezpowrotnie usunąć ${itemType}?`)) return;
             try {
                 await deleteDoc(doc(db, collectionName, id));
-                alert("Usunięto pomyślnie.");
-                fetchSubmissions();
-                fetchPublishedArticles();
-                fetchCalendarManage();
+                
+                // Odśwież odpowiednią listę w zależności od kolekcji
+                if(collectionName === 'submitted_articles') fetchSubmissions();
+                if(collectionName === 'articles') fetchPublishedArticles();
+                if(collectionName === 'calendar_events') fetchCalendarManage();
             } catch (e) {
-                alert("Błąd podczas usuwania.");
+                console.error(e);
+                alert("Błąd podczas usuwania. Sprawdź uprawnienia bazy danych.");
             }
         }
 
-        // Sprawdź autoryzację przy starcie
+        // Sprawdź autoryzację przy starcie i zainicjuj pobieranie danych
         checkAuth();
     </script>
 </body>
