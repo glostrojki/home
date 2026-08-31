@@ -114,7 +114,7 @@
 </head>
 <body>
 
-    <!-- PASEK GÓRNY I LOGO (Zgodne z [source: 2]) -->
+    <!-- PASEK GÓRNY I LOGO -->
     <div class="top-bar">
         <div class="container">
             <div class="top-bar-left">
@@ -154,7 +154,7 @@
         <div class="dashboard-header">
             <div>
                 <h2><i class="fas fa-folder-open" style="color: var(--primary-yellow);"></i> Moje przesłane artykuły</h2>
-                <p style="color: var(--text-muted); margin-top: 5px;">Artykuły i materiały wysłane do redakcji z tego urządzenia.</p>
+                <p style="color: var(--text-muted); margin-top: 5px;">Artykuły i materiały wysłane do redakcji.</p>
             </div>
             <button class="btn-primary" onclick="openModal()">
                 <i class="fas fa-plus"></i> Prześlij artykuł
@@ -162,7 +162,11 @@
         </div>
 
         <div class="articles-grid" id="localArticlesList">
-            <!-- Artykuły z localStorage będą renderowane tutaj -->
+            <!-- Artykuły z Firestore będą renderowane tutaj -->
+            <div class="empty-state">
+                <i class="fas fa-spinner fa-spin"></i>
+                <h3>Ładowanie artykułów...</h3>
+            </div>
         </div>
     </main>
 
@@ -234,7 +238,7 @@
         </div>
     </div>
 
-    <!-- STOPKA (Zgodna z [source: 2]) -->
+    <!-- STOPKA -->
     <footer class="site-footer">
         <div class="container">
             <div class="footer-grid">
@@ -259,13 +263,12 @@
         </div>
     </footer>
 
-    <!-- SKRYPTY LOGIKI, LOCALSTORAGE ORAZ FIREBASE -->
+    <!-- SKRYPTY LOGIKI ORAZ FIREBASE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-storage.js";
 
-        // Konfiguracja Firebase zgodna ze strukturą Głos Trójki[cite: 2]
         const firebaseConfig = {
             apiKey: "AIzaSyCwWO7gJQjfhxusvDBhSFZGmX5UqzeHWsM",
             authDomain: "glos-trojki-sp3.firebaseapp.com",
@@ -279,7 +282,6 @@
         const db = getFirestore(app);
         const storage = getStorage(app);
 
-        // -- LOGIKA MODALA I FORMULARZA -- //
         window.openModal = () => document.getElementById('uploadModal').style.display = 'flex';
         window.closeModal = () => {
             document.getElementById('uploadModal').style.display = 'none';
@@ -310,7 +312,7 @@
             }
         };
 
-        // -- LOGIKA WYSYŁANIA DANYCH -- //
+        // -- WYSYŁANIE DO FIREBASE -- //
         document.getElementById('articleForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -327,7 +329,6 @@
             document.getElementById('formLoader').style.display = 'flex';
 
             try {
-                // 1. Upload pliku do Firebase Storage (Katalog: user_submissions/)
                 const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '');
                 const storageRefPath = `user_submissions/${Date.now()}_${safeName}`;
                 const fileRef = ref(storage, storageRefPath);
@@ -335,7 +336,6 @@
                 await uploadBytes(fileRef, file);
                 const fileUrl = await getDownloadURL(fileRef);
 
-                // 2. Utworzenie obiektu z danymi
                 const submissionData = {
                     author: author,
                     authorClass: authorClass,
@@ -344,83 +344,83 @@
                     cornerName: corner,
                     fileUrl: fileUrl,
                     fileName: file.name,
-                    status: "Oczekujący na redakcję",
-                    submittedAt: serverTimestamp() // Firestore Time
+                    status: "Oczekujący na redakcję"
                 };
 
-                // 3. Wysłanie informacji do bazy Firestore (Panel Admina)
                 await addDoc(collection(db, "submitted_articles"), submissionData);
 
-                // 4. Zapis do LocalStorage na urządzeniu użytkownika
-                const localData = {
-                    ...submissionData,
-                    submittedAt: new Date().toLocaleDateString('pl-PL', { hour: '2-digit', minute: '2-digit' }) // Lokalna data dla czytelności
-                };
-                
-                let myArticles = JSON.parse(localStorage.getItem('myGlosTrojkiArticles')) || [];
-                myArticles.unshift(localData); // Dodaj na początek
-                localStorage.setItem('myGlosTrojkiArticles', JSON.stringify(myArticles));
-
-                // Sukces
                 document.getElementById('formLoader').style.display = 'none';
                 closeModal();
-                loadLocalArticles();
+                loadArticlesFromFirebase();
                 alert("Twój artykuł został pomyślnie przesłany do redakcji! Dziękujemy.");
 
             } catch (error) {
                 console.error("Błąd podczas wysyłania:", error);
                 document.getElementById('formLoader').style.display = 'none';
-                alert("Wystąpił błąd podczas wysyłania plików. Sprawdź połączenie internetowe lub spróbuj ponownie później.");
+                alert("Wystąpił błąd podczas wysyłania plików. Sprawdź konsolę (F12).");
             }
         });
 
-        // -- LOGIKA WYŚWIETLANIA NA PULPICIE -- //
-        function loadLocalArticles() {
+        // -- POBIERANIE BEZPOŚREDNIO Z FIREBASE (BEZ ZAWASZANIA NA KÓŁKU) -- //
+        async function loadArticlesFromFirebase() {
             const listContainer = document.getElementById('localArticlesList');
-            const savedArticles = JSON.parse(localStorage.getItem('myGlosTrojkiArticles')) || [];
+            
+            try {
+                const querySnapshot = await getDocs(collection(db, "submitted_articles"));
+                
+                if (querySnapshot.empty) {
+                    listContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="far fa-folder-open"></i>
+                            <h3>Brak nadesłanych materiałów w bazie.</h3>
+                            <p style="color: var(--text-muted);">Użyj przycisku powyżej, aby dodać swój pierwszy tekst lub zdjęcie!</p>
+                        </div>
+                    `;
+                    return;
+                }
 
-            if(savedArticles.length === 0) {
+                listContainer.innerHTML = '';
+                
+                querySnapshot.forEach((docSnap) => {
+                    const article = docSnap.data();
+                    const isKacik = article.type === 'kacik';
+                    const tagColor = isKacik ? '#e8f5e9' : '#fff3e0';
+                    const tagTextColor = isKacik ? '#2e7d32' : '#e65100';
+
+                    const cardHTML = `
+                        <div class="article-card">
+                            <span class="badge" style="background: ${tagColor}; color: ${tagTextColor};">
+                                ${isKacik ? `Kącik: ${article.cornerName}` : 'Jednorazowy'}
+                            </span>
+                            <h3 style="font-size: 1.2rem; margin: 10px 0 5px;">${article.title}</h3>
+                            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 5px;">
+                                <i class="fas fa-user-edit"></i> ${article.author} (${article.authorClass})
+                            </p>
+                            ${article.fileUrl ? `
+                                <a href="${article.fileUrl}" target="_blank" download class="btn" style="background: #e3f2fd; color: #1565c0; font-size: 0.85rem; padding: 6px 10px; border-radius: 6px; width: max-content; display: inline-flex; align-items: center; gap: 6px; margin: 5px 0 10px;">
+                                    <i class="fas fa-download"></i> Pobierz plik
+                                </a>
+                            ` : ''}
+                            <span class="badge status"><i class="fas fa-history"></i> ${article.status || 'Oczekujący'}</span>
+                        </div>
+                    `;
+                    listContainer.insertAdjacentHTML('beforeend', cardHTML);
+                });
+
+            } catch (error) {
+                console.error("Błąd pobierania:", error);
                 listContainer.innerHTML = `
                     <div class="empty-state">
-                        <i class="far fa-folder-open"></i>
-                        <h3>Nie masz jeszcze przesłanych materiałów.</h3>
-                        <p style="color: var(--text-muted);">Użyj przycisku powyżej, aby dodać swój pierwszy tekst lub zdjęcie!</p>
+                        <i class="fas fa-exclamation-triangle" style="color: #c62828;"></i>
+                        <h3 style="color: #c62828;">Błąd ładowania artykułów</h3>
+                        <p style="color: var(--text-muted);">Sprawdź połączenie z internetem oraz reguły Firebase.</p>
                     </div>
                 `;
-                return;
             }
-
-            listContainer.innerHTML = '';
-            
-            savedArticles.forEach(article => {
-                const isKacik = article.type === 'kacik';
-                const tagColor = isKacik ? '#e8f5e9' : '#fff3e0';
-                const tagTextColor = isKacik ? '#2e7d32' : '#e65100';
-
-                const cardHTML = `
-                    <div class="article-card">
-                        <span class="badge" style="background: ${tagColor}; color: ${tagTextColor};">
-                            ${isKacik ? `Kącik: ${article.cornerName}` : 'Jednorazowy'}
-                        </span>
-                        <h3 style="font-size: 1.2rem; margin: 10px 0 5px;">${article.title}</h3>
-                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 5px;">
-                            <i class="fas fa-user-edit"></i> ${article.author} (${article.authorClass})
-                        </p>
-                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">
-                            <i class="far fa-clock"></i> Przesłano: ${article.submittedAt}
-                        </p>
-                        <a href="${article.fileUrl}" target="_blank" style="font-size: 0.85rem; color: var(--primary-yellow-hover); font-weight: bold; margin-bottom: 10px;">
-                            <i class="fas fa-file-download"></i> Zobacz wysłany plik
-                        </a>
-                        <span class="badge status"><i class="fas fa-history"></i> ${article.status}</span>
-                    </div>
-                `;
-                listContainer.insertAdjacentHTML('beforeend', cardHTML);
-            });
         }
 
-        // Inicjalizacja listy po wejściu na stronę
-        loadLocalArticles();
+        // Uruchomienie ładowania po starcie
+        loadArticlesFromFirebase();
     </script>
 </body>
 </html>
