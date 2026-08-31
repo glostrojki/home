@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Głos Trójki - Moje Artykuły</title>
+    
+    <link rel="icon" type="image/png" href="https://imgur.com/nwkFXR1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-yellow: #FFC107; 
+            --primary-yellow-hover: #FFB300;
+            --primary-yellow-light: #FFF8E1;
+            --secondary-dark: #1E2227; 
+            --text-main: #333333;
+            --text-muted: #6c757d;
+            --text-light: #a0aab5;
+            --bg-body: #f4f6f9;
+            --bg-white: #ffffff;
+            --bg-gray: #eef1f5;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 4px 6px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 15px rgba(0,0,0,0.05);
+            --shadow-lg: 0 20px 25px rgba(0,0,0,0.1);
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-full: 9999px;
+            --font-headings: 'Montserrat', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
+            --container-width: 1280px;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-body); background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; }
+        h1, h2, h3, h4 { font-family: var(--font-headings); font-weight: 700; color: var(--secondary-dark); }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+        button { font-family: inherit; cursor: pointer; outline: none; border: none; }
+
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 20px; }
+
+        /* NAWIGACJA ZGODNA ZE STRONĄ GŁÓWNĄ */
+        .top-bar { background-color: var(--secondary-dark); color: var(--bg-white); font-size: 0.85rem; padding: 8px 0; font-weight: 600; }
+        .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
+        .top-bar-left span { margin-right: 20px; display: inline-flex; align-items: center; gap: 6px; }
+        .top-bar-left i { color: var(--primary-yellow); }
+        
+        .main-header { background-color: var(--bg-white); box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; height: 90px; }
+        .logo-area { display: flex; align-items: center; gap: 15px; }
+        .logo-img { height: 65px; border-radius: var(--radius-sm); }
+        .logo-text h1 { font-size: 2rem; font-weight: 900; line-height: 1; }
+        .logo-text h1 span { color: var(--primary-yellow); }
+        .logo-text small { font-family: var(--font-headings); font-size: 0.8rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+
+        .main-nav { display: flex; align-items: center; gap: 35px; }
+        .nav-list { display: flex; gap: 30px; }
+        .nav-list li a { font-family: var(--font-headings); font-weight: 700; font-size: 0.95rem; position: relative; padding: 8px 0; color: var(--secondary-dark); }
+        .nav-list li a::after { content: ''; position: absolute; width: 0%; height: 3px; bottom: 0; left: 0; background-color: var(--primary-yellow); transition: var(--transition); border-radius: 2px; }
+        .nav-list li a:hover::after, .nav-list li a.active::after { width: 100%; }
+
+        .btn-primary { background-color: var(--primary-yellow); color: var(--secondary-dark); padding: 12px 28px; border-radius: var(--radius-full); font-family: var(--font-headings); font-weight: 800; display: inline-flex; align-items: center; gap: 10px; box-shadow: var(--shadow-sm); transition: var(--transition); }
+        .btn-primary:hover { background-color: var(--primary-yellow-hover); transform: translateY(-2px); }
+
+        /* SEKCJA GŁÓWNA - MOJE ARTYKUŁY */
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; padding: 40px 0 20px; border-bottom: 2px solid var(--border-color); margin-bottom: 30px; }
+        
+        .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; margin-bottom: 60px; }
+        .article-card { background: var(--bg-white); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 10px; position: relative; overflow: hidden; }
+        .article-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--primary-yellow); }
+        .badge { display: inline-block; padding: 4px 10px; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; background: var(--bg-gray); color: var(--text-muted); width: max-content; }
+        .badge.status { background: #e3f2fd; color: #1976d2; margin-top: auto; }
+        
+        .empty-state { text-align: center; padding: 60px 20px; background: var(--bg-white); border-radius: var(--radius-md); border: 1px dashed var(--border-color); grid-column: 1 / -1; }
+        .empty-state i { font-size: 3rem; color: var(--text-muted); margin-bottom: 15px; }
+
+        /* MODAL (POPUP) DO PRZESYŁANIA */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: var(--bg-white); width: 100%; max-width: 600px; border-radius: var(--radius-md); padding: 35px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); }
+        .close-modal { position: absolute; top: 20px; right: 25px; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; transition: var(--transition); }
+        .close-modal:hover { color: #f44336; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.95rem; }
+        .form-group input[type="text"], 
+        .form-group select { width: 100%; padding: 12px 15px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-family: inherit; font-size: 1rem; outline: none; transition: var(--transition); }
+        .form-group input[type="text"]:focus, 
+        .form-group select:focus { border-color: var(--primary-yellow); box-shadow: 0 0 0 3px var(--primary-yellow-light); }
+        
+        .file-upload-wrapper { border: 2px dashed var(--border-color); padding: 30px; text-align: center; border-radius: var(--radius-sm); background: var(--bg-gray); cursor: pointer; transition: var(--transition); }
+        .file-upload-wrapper:hover { border-color: var(--primary-yellow); background: var(--primary-yellow-light); }
+        .file-upload-wrapper i { font-size: 2.5rem; color: var(--text-muted); margin-bottom: 10px; }
+        .file-upload-wrapper input[type="file"] { display: none; }
+        
+        .checkbox-group { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 15px; }
+        .checkbox-group input { margin-top: 5px; cursor: pointer; }
+        .checkbox-group label { font-size: 0.9rem; color: var(--text-muted); cursor: pointer; line-height: 1.4; }
+
+        .loader-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 10; border-radius: var(--radius-md); font-weight: 700; color: var(--secondary-dark); }
+        
+        /* STOPKA */
+        .site-footer { background-color: var(--secondary-dark); color: var(--bg-white); padding: 70px 0 20px; margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; margin-bottom: 50px; }
+        .footer-heading { font-size: 1.2rem; color: var(--primary-yellow); margin-bottom: 25px; font-family: var(--font-headings); }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: var(--text-light); }
+    </style>
+</head>
+<body>
+
+    <!-- PASEK GÓRNY I LOGO (Zgodne z [source: 2]) -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                <span><i class="fas fa-school"></i> Gazetka szkolna Szkoły Podstawowej nr 3 w Sulejówku</span>
+                <span><i class="far fa-clock"></i> Wersja strony 3.0.1a</span>
+            </div>
+            <div class="top-bar-right">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <div class="container header-content">
+            <a href="/" class="logo-area">
+                <img src="https://imgur.com/nwkFXR1.png" alt="Logo Głos Trójki" class="logo-img">
+                <div class="logo-text">
+                    <h1>Głos <span>Trójki</span></h1>
+                    <small>Nasza szkoła na bieżąco!</small>
+                </div>
+            </a>
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li><a href="/">Strona Główna</a></li>
+                    <li><a href="#">Wydarzenia</a></li>
+                    <li><a href="#">Redakcja</a></li>
+                </ul>
+                <a href="/mojeartykuly.html" class="btn-primary" style="background: transparent; border: 2px solid var(--primary-yellow);">
+                    <i class="fas fa-pen-nib"></i> Moje artykuły
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- GŁÓWNA SEKCJA -->
+    <main class="container">
+        <div class="dashboard-header">
+            <div>
+                <h2><i class="fas fa-folder-open" style="color: var(--primary-yellow);"></i> Moje przesłane artykuły</h2>
+                <p style="color: var(--text-muted); margin-top: 5px;">Artykuły i materiały wysłane do redakcji z tego urządzenia.</p>
+            </div>
+            <button class="btn-primary" onclick="openModal()">
+                <i class="fas fa-plus"></i> Prześlij artykuł
+            </button>
+        </div>
+
+        <div class="articles-grid" id="localArticlesList">
+            <!-- Artykuły z localStorage będą renderowane tutaj -->
+        </div>
+    </main>
+
+    <!-- MODAL PRZESYŁANIA ARTYKUŁU -->
+    <div class="modal-overlay" id="uploadModal">
+        <div class="modal-content">
+            <div class="loader-overlay" id="formLoader">
+                <i class="fas fa-circle-notch fa-spin fa-3x" style="color: var(--primary-yellow); margin-bottom: 15px;"></i>
+                <p>Wysyłanie plików do redakcji...</p>
+            </div>
+
+            <i class="fas fa-times close-modal" onclick="closeModal()"></i>
+            <h2 style="margin-bottom: 25px;">Formularz zgłoszeniowy</h2>
+            
+            <form id="articleForm">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Imię i nazwisko</label>
+                        <input type="text" id="authorName" required placeholder="np. Jan Kowalski">
+                    </div>
+                    <div class="form-group">
+                        <label>Klasa</label>
+                        <input type="text" id="authorClass" required placeholder="np. 7B">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Typ materiału</label>
+                    <select id="articleType" onchange="toggleCornerField()" required>
+                        <option value="jednorazowy">Jednorazowy artykuł</option>
+                        <option value="kacik">Kącik (seria tematyczna)</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="cornerNameGroup" style="display: none;">
+                    <label>Nazwa kącika</label>
+                    <input type="text" id="cornerName" placeholder="np. Kącik Historyczny">
+                </div>
+
+                <div class="form-group">
+                    <label>Tytuł artykułu</label>
+                    <input type="text" id="articleTitle" required placeholder="O czym jest ten tekst?">
+                </div>
+
+                <div class="form-group">
+                    <label>Plik z artykułem (Word, PowerPoint, Notatnik, Zdjęcia)</label>
+                    <label class="file-upload-wrapper" for="articleFile">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h4 id="fileNameDisplay">Kliknij, aby wybrać plik</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px;">.doc, .docx, .png, .jpg, .ppt, .txt</p>
+                    </label>
+                    <input type="file" id="articleFile" required accept=".doc,.docx,.png,.jpg,.jpeg,.ppt,.pptx,.txt" onchange="updateFileName()">
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="consentName" required>
+                    <label for="consentName">Wyrażam zgodę na publikowanie mojego imienia i nazwiska na stronie internetowej oraz w fizycznej gazetce "Głos Trójki".</label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="consentCopyright" required>
+                    <label for="consentCopyright">Oświadczam, że załączone pliki i teksty są mojego autorstwa i nie zawierają materiałów chronionych prawem autorskim osób trzecich.</label>
+                </div>
+
+                <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 15px;">
+                    <i class="fas fa-paper-plane"></i> Prześlij do weryfikacji
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- STOPKA (Zgodna z [source: 2]) -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3 style="color: white; margin-bottom: 15px;">Głos Trójki</h3>
+                    <p>Gazetka szkolna tworzona z pasją przez uczniów SP 3 w Sulejówku.</p>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Nawigacja</h4>
+                    <ul class="footer-links">
+                        <li><a href="/">Strona Główna</a></li>
+                        <li><a href="/mojeartykuly.html">Panel ucznia (Prześlij)</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Kontakt</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope" style="color: var(--primary-yellow);"></i> gtrojki@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SKRYPTY LOGIKI, LOCALSTORAGE ORAZ FIREBASE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-storage.js";
+
+        // Konfiguracja Firebase zgodna ze strukturą Głos Trójki[cite: 2]
+        const firebaseConfig = {
+            apiKey: "AIzaSyCwWO7gJQjfhxusvDBhSFZGmX5UqzeHWsM",
+            authDomain: "glos-trojki-sp3.firebaseapp.com",
+            projectId: "glos-trojki-sp3",
+            storageBucket: "glos-trojki-sp3.firebasestorage.app",
+            messagingSenderId: "1014711078934",
+            appId: "1:1014711078934:web:144c5acedae00ff31c2537"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // -- LOGIKA MODALA I FORMULARZA -- //
+        window.openModal = () => document.getElementById('uploadModal').style.display = 'flex';
+        window.closeModal = () => {
+            document.getElementById('uploadModal').style.display = 'none';
+            document.getElementById('articleForm').reset();
+            document.getElementById('fileNameDisplay').innerText = "Kliknij, aby wybrać plik";
+            toggleCornerField();
+        };
+
+        window.toggleCornerField = () => {
+            const type = document.getElementById('articleType').value;
+            const cornerGroup = document.getElementById('cornerNameGroup');
+            const cornerInput = document.getElementById('cornerName');
+            if(type === 'kacik') {
+                cornerGroup.style.display = 'block';
+                cornerInput.setAttribute('required', 'true');
+            } else {
+                cornerGroup.style.display = 'none';
+                cornerInput.removeAttribute('required');
+            }
+        };
+
+        window.updateFileName = () => {
+            const fileInput = document.getElementById('articleFile');
+            const display = document.getElementById('fileNameDisplay');
+            if (fileInput.files.length > 0) {
+                display.innerText = fileInput.files[0].name;
+                display.style.color = 'var(--secondary-dark)';
+            }
+        };
+
+        // -- LOGIKA WYSYŁANIA DANYCH -- //
+        document.getElementById('articleForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const fileInput = document.getElementById('articleFile');
+            if(fileInput.files.length === 0) return alert("Wybierz plik z artykułem.");
+
+            const file = fileInput.files[0];
+            const author = document.getElementById('authorName').value;
+            const authorClass = document.getElementById('authorClass').value;
+            const type = document.getElementById('articleType').value;
+            const title = document.getElementById('articleTitle').value;
+            const corner = type === 'kacik' ? document.getElementById('cornerName').value : null;
+
+            document.getElementById('formLoader').style.display = 'flex';
+
+            try {
+                // 1. Upload pliku do Firebase Storage (Katalog: user_submissions/)
+                const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '');
+                const storageRefPath = `user_submissions/${Date.now()}_${safeName}`;
+                const fileRef = ref(storage, storageRefPath);
+                
+                await uploadBytes(fileRef, file);
+                const fileUrl = await getDownloadURL(fileRef);
+
+                // 2. Utworzenie obiektu z danymi
+                const submissionData = {
+                    author: author,
+                    authorClass: authorClass,
+                    type: type,
+                    title: title,
+                    cornerName: corner,
+                    fileUrl: fileUrl,
+                    fileName: file.name,
+                    status: "Oczekujący na redakcję",
+                    submittedAt: serverTimestamp() // Firestore Time
+                };
+
+                // 3. Wysłanie informacji do bazy Firestore (Panel Admina)
+                await addDoc(collection(db, "submitted_articles"), submissionData);
+
+                // 4. Zapis do LocalStorage na urządzeniu użytkownika
+                const localData = {
+                    ...submissionData,
+                    submittedAt: new Date().toLocaleDateString('pl-PL', { hour: '2-digit', minute: '2-digit' }) // Lokalna data dla czytelności
+                };
+                
+                let myArticles = JSON.parse(localStorage.getItem('myGlosTrojkiArticles')) || [];
+                myArticles.unshift(localData); // Dodaj na początek
+                localStorage.setItem('myGlosTrojkiArticles', JSON.stringify(myArticles));
+
+                // Sukces
+                document.getElementById('formLoader').style.display = 'none';
+                closeModal();
+                loadLocalArticles();
+                alert("Twój artykuł został pomyślnie przesłany do redakcji! Dziękujemy.");
+
+            } catch (error) {
+                console.error("Błąd podczas wysyłania:", error);
+                document.getElementById('formLoader').style.display = 'none';
+                alert("Wystąpił błąd podczas wysyłania plików. Sprawdź połączenie internetowe lub spróbuj ponownie później.");
+            }
+        });
+
+        // -- LOGIKA WYŚWIETLANIA NA PULPICIE -- //
+        function loadLocalArticles() {
+            const listContainer = document.getElementById('localArticlesList');
+            const savedArticles = JSON.parse(localStorage.getItem('myGlosTrojkiArticles')) || [];
+
+            if(savedArticles.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="far fa-folder-open"></i>
+                        <h3>Nie masz jeszcze przesłanych materiałów.</h3>
+                        <p style="color: var(--text-muted);">Użyj przycisku powyżej, aby dodać swój pierwszy tekst lub zdjęcie!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            listContainer.innerHTML = '';
+            
+            savedArticles.forEach(article => {
+                const isKacik = article.type === 'kacik';
+                const tagColor = isKacik ? '#e8f5e9' : '#fff3e0';
+                const tagTextColor = isKacik ? '#2e7d32' : '#e65100';
+
+                const cardHTML = `
+                    <div class="article-card">
+                        <span class="badge" style="background: ${tagColor}; color: ${tagTextColor};">
+                            ${isKacik ? `Kącik: ${article.cornerName}` : 'Jednorazowy'}
+                        </span>
+                        <h3 style="font-size: 1.2rem; margin: 10px 0 5px;">${article.title}</h3>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 5px;">
+                            <i class="fas fa-user-edit"></i> ${article.author} (${article.authorClass})
+                        </p>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">
+                            <i class="far fa-clock"></i> Przesłano: ${article.submittedAt}
+                        </p>
+                        <a href="${article.fileUrl}" target="_blank" style="font-size: 0.85rem; color: var(--primary-yellow-hover); font-weight: bold; margin-bottom: 10px;">
+                            <i class="fas fa-file-download"></i> Zobacz wysłany plik
+                        </a>
+                        <span class="badge status"><i class="fas fa-history"></i> ${article.status}</span>
+                    </div>
+                `;
+                listContainer.insertAdjacentHTML('beforeend', cardHTML);
+            });
+        }
+
+        // Inicjalizacja listy po wejściu na stronę
+        loadLocalArticles();
+    </script>
+</body>
+</html>
