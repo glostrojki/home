@@ -363,7 +363,8 @@
     <!-- SKRYPTY OBSŁUGI LOGOWANIA I FIREBASE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, addDoc, doc, deleteDoc, updateDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        // UWAGA: Dodano Timestamp do listy importowanych modułów
+        import { getFirestore, collection, getDocs, addDoc, doc, deleteDoc, updateDoc, serverTimestamp, query, orderBy, Timestamp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         // --- OBSŁUGA LOGOWANIA ---
         const CORRECT_LOGIN = "redaktor1"; // Tutaj znajduje się login
@@ -582,7 +583,8 @@
             try {
                 await addDoc(collection(db, "calendar_events"), {
                     title: title,
-                    eventDate: new Date(dateVal),
+                    // Poprawka: prawidłowe formatowanie daty na obiekt Timestamp dla bazy
+                    eventDate: Timestamp.fromDate(new Date(dateVal)),
                     details: details
                 });
                 alert("Wydarzenie dodane do kalendarza!");
@@ -636,7 +638,8 @@
             try {
                 await addDoc(collection(db, "harmonogram"), {
                     title: title,
-                    eventDate: new Date(dateVal),
+                    // Poprawka: prawidłowe formatowanie daty na obiekt Timestamp dla bazy
+                    eventDate: Timestamp.fromDate(new Date(dateVal)),
                     details: details
                 });
                 alert("Termin rozdawania został dodany!");
