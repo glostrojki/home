@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +15,7 @@
     
     <style>
         :root {
-            --primary-yellow: #FFC107; 
+            --primary-yellow: #FFC107;
             --primary-yellow-hover: #FFB300;
             --primary-yellow-light: #FFF8E1;
             --secondary-dark: #1E2227; 
@@ -31,10 +31,11 @@
             --shadow-sm: 0 4px 6px rgba(0,0,0,0.05);
             --shadow-md: 0 10px 15px rgba(0,0,0,0.05);
             --shadow-lg: 0 20px 25px rgba(0,0,0,0.1);
-            --shadow-glow: 0 0 15px rgba(255, 193, 7, 0.4);
-            --radius-sm: 6px;
-            --radius-md: 12px;
-            --radius-lg: 20px;
+            --shadow-glow: 0 0 20px rgba(255, 193, 7, 0.5);
+            
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 22px;
             --radius-full: 9999px;
             --font-headings: 'Montserrat', sans-serif;
             --font-body: 'Open Sans', sans-serif;
@@ -42,9 +43,24 @@
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
+        [data-theme="dark"] {
+            --secondary-dark: #f8f9fa; 
+            --secondary-dark-hover: #e9ecef;
+            --text-main: #e2e8f0;
+            --text-muted: #a0aec0;
+            --bg-body: #0d1117;
+            --bg-white: #161b22;
+            --bg-gray: #21262d;
+            --border-color: #30363d;
+            --shadow-xs: 0 1px 3px rgba(0,0,0,0.2);
+            --shadow-sm: 0 4px 6px rgba(0,0,0,0.3);
+            --shadow-md: 0 10px 15px rgba(0,0,0,0.4);
+            --shadow-lg: 0 20px 25px rgba(0,0,0,0.5);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { font-family: var(--font-body); background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+        body { font-family: var(--font-body); background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; overflow-x: hidden; transition: background-color 0.3s, color 0.3s; }
 
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: var(--bg-body); }
@@ -58,14 +74,19 @@
 
         .container { max-width: var(--container-width); margin: 0 auto; padding: 0 20px; }
 
-        .top-bar { background-color: var(--secondary-dark); color: var(--bg-white); font-size: 0.85rem; padding: 8px 0; font-weight: 600; }
+        /* Top Bar */
+        .top-bar { background-color: #1E2227; color: #ffffff; font-size: 0.85rem; padding: 8px 0; font-weight: 600; }
         .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
         .top-bar-left span { margin-right: 20px; display: inline-flex; align-items: center; gap: 6px; }
         .top-bar-left i { color: var(--primary-yellow); }
-        .top-bar-right { display: flex; gap: 15px; }
+        .top-bar-right { display: flex; gap: 15px; align-items: center; }
         .top-bar-right a:hover { color: var(--primary-yellow); transform: translateY(-2px); }
+        
+        .theme-toggle { background: transparent; color: var(--primary-yellow); font-size: 1.2rem; display: flex; align-items: center; justify-content: center; padding: 5px; border-radius: 50%; transition: var(--transition); }
+        .theme-toggle:hover { background: rgba(255, 255, 255, 0.1); transform: rotate(15deg); }
 
-        .main-header { background-color: var(--bg-white); box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 1000; }
+        /* Header */
+        .main-header { background-color: var(--bg-white); box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 1000; transition: background-color 0.3s; }
         .header-content { display: flex; justify-content: space-between; align-items: center; height: 90px; }
         .logo-area { display: flex; align-items: center; gap: 15px; }
         .logo-img { height: 65px; border-radius: var(--radius-sm); transition: var(--transition); }
@@ -81,131 +102,220 @@
         .nav-list li a::after { content: ''; position: absolute; width: 0%; height: 3px; bottom: 0; left: 0; background-color: var(--primary-yellow); transition: var(--transition); border-radius: 2px; }
         .nav-list li a:hover::after, .nav-list li a.active::after { width: 100%; }
 
-        .btn-my-articles { background-color: var(--primary-yellow); color: var(--secondary-dark); padding: 12px 28px; border-radius: var(--radius-full); font-family: var(--font-headings); font-weight: 800; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-sm); border: 2px solid var(--primary-yellow); transition: var(--transition); }
-        .btn-my-articles:hover { background-color: transparent; transform: translateY(-2px); box-shadow: var(--shadow-glow); }
+        .btn-my-articles { background-color: var(--primary-yellow); color: #1E2227; padding: 12px 28px; border-radius: var(--radius-full); font-family: var(--font-headings); font-weight: 800; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-sm); border: 2px solid var(--primary-yellow); transition: var(--transition); }
+        .btn-my-articles:hover { background-color: transparent; color: var(--primary-yellow); transform: translateY(-2px); box-shadow: var(--shadow-glow); }
 
-        .hero-section { background: linear-gradient(135deg, var(--secondary-dark) 0%, #0d1117 100%); padding: 90px 0; position: relative; overflow: hidden; text-align: center; }
-        .hero-bg-shapes { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-        .shape-1 { position: absolute; top: -100px; right: -50px; width: 400px; height: 400px; background: var(--primary-yellow); border-radius: 50%; opacity: 0.05; filter: blur(50px); }
-        .shape-2 { position: absolute; bottom: -50px; left: -100px; width: 300px; height: 300px; background: var(--primary-yellow); border-radius: 50%; opacity: 0.08; filter: blur(40px); }
-        .hero-content { position: relative; z-index: 2; max-width: 850px; margin: 0 auto; }
-        .hero-content h2 { font-size: 3.5rem; color: var(--bg-white); margin-bottom: 20px; line-height: 1.2; }
-        .hero-content h2 span { color: var(--primary-yellow); }
-        .hero-content p { font-size: 1.2rem; color: var(--text-light); margin-bottom: 45px; }
+        /* HERO BANNER */
+        .hero-banner-section {
+            background: linear-gradient(135deg, #0f141c 0%, #1e2530 50%, #0d1117 100%);
+            padding: 90px 20px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            border-bottom: 3px solid var(--primary-yellow);
+        }
+        .hero-banner-bg {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 50% 30%, rgba(255, 193, 7, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+            pointer-events: none;
+        }
+        .banner-badge {
+            display: inline-block;
+            background: rgba(255, 193, 7, 0.15);
+            border: 1px solid var(--primary-yellow);
+            color: var(--primary-yellow);
+            font-family: var(--font-headings);
+            font-weight: 800;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            padding: 8px 24px;
+            border-radius: var(--radius-full);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(255, 193, 7, 0.2);
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(255, 193, 7, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(255, 193, 7, 0.5); }
+        }
+        .banner-wow-title {
+            font-size: 4.8rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.05;
+            margin-bottom: 15px;
+            text-shadow: 0 5px 25px rgba(0,0,0,0.5);
+        }
+        .banner-wow-title span {
+            color: var(--primary-yellow);
+            background: linear-gradient(45deg, #FFC107, #FFE082);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            filter: drop-shadow(0 0 10px rgba(255,193,7,0.4));
+        }
+        .banner-subtitle {
+            font-size: 1.3rem;
+            color: #a0aab5;
+            max-width: 650px;
+            margin: 0 auto;
+            font-weight: 500;
+        }
 
-        .search-wrapper { display: flex; background: var(--bg-white); border-radius: var(--radius-full); padding: 8px; box-shadow: var(--shadow-lg); position: relative; max-width: 700px; margin: 0 auto; }
+        /* SEKCJA WYSZUKIWANIA */
+        .search-bar-section {
+            margin-top: -35px;
+            position: relative;
+            z-index: 100;
+        }
+        .search-wrapper { 
+            display: flex; 
+            background: var(--bg-white); 
+            border-radius: var(--radius-full); 
+            padding: 8px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
+            position: relative; 
+            max-width: 750px; 
+            margin: 0 auto; 
+            border: 2px solid var(--border-color); 
+            transition: var(--transition);
+        }
+        .search-wrapper:focus-within {
+            border-color: var(--primary-yellow);
+            box-shadow: var(--shadow-glow);
+        }
         .search-icon { position: absolute; left: 25px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.2rem; }
-        .search-wrapper input { flex: 1; border: none; background: transparent; padding: 18px 20px 18px 60px; font-size: 1.1rem; font-family: inherit; outline: none; color: var(--secondary-dark); border-radius: var(--radius-full); }
-        .search-wrapper button { background-color: var(--primary-yellow); color: var(--secondary-dark); border-radius: var(--radius-full); padding: 0 35px; font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 10px; transition: var(--transition); }
+        .search-wrapper input { flex: 1; border: none; background: transparent; padding: 18px 20px 18px 60px; font-size: 1.1rem; font-family: inherit; outline: none; color: var(--text-main); border-radius: var(--radius-full); }
+        .search-wrapper button { background-color: var(--primary-yellow); color: #1E2227; border-radius: var(--radius-full); padding: 0 35px; font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; gap: 10px; transition: var(--transition); }
         .search-wrapper button:hover { background-color: var(--primary-yellow-hover); transform: scale(1.03); }
 
-        .portal-layout { display: grid; grid-template-columns: 1fr 350px; gap: 40px; padding: 60px 0; align-items: start; }
+        .category-filters { display: flex; justify-content: center; gap: 10px; margin-top: 25px; flex-wrap: wrap; }
+        .filter-btn { background: var(--bg-white); color: var(--text-main); padding: 8px 20px; border-radius: var(--radius-full); font-size: 0.9rem; font-weight: 700; border: 1px solid var(--border-color); transition: var(--transition); box-shadow: var(--shadow-xs); }
+        .filter-btn:hover, .filter-btn.active { background: var(--primary-yellow); color: #1E2227; border-color: var(--primary-yellow); transform: translateY(-2px); }
+
+        /* Layout Main */
+        .portal-layout { display: grid; grid-template-columns: 1fr 350px; gap: 40px; padding: 50px 0 60px; align-items: start; }
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; border-bottom: 2px solid var(--border-color); padding-bottom: 15px; }
         .section-title { font-size: 2rem; display: flex; align-items: center; gap: 12px; }
         .section-title i { color: var(--primary-yellow); }
 
-        .no-results { text-align: center; padding: 50px 20px; background: var(--bg-white); border-radius: var(--radius-md); border: 1px dashed var(--border-color); display: none; flex-direction: column; align-items: center; gap: 15px; }
+        .no-results { text-align: center; padding: 50px 20px; background: var(--bg-white); border-radius: var(--radius-md); border: 1px dashed var(--border-color); display: none; flex-direction: column; align-items: center; gap: 15px; margin-bottom: 30px; }
         .no-results i { font-size: 3rem; color: var(--text-muted); }
         .no-results h3 { font-size: 1.5rem; }
 
-        /* Wyróżniony artykuł (zmniejszony) */
+        /* Artykuły */
         .featured-article { display: flex; flex-direction: column; background: var(--bg-white); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-md); border: 2px solid var(--primary-yellow); margin-bottom: 30px; cursor: pointer; transition: var(--transition); }
         .featured-article:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
-        .featured-img-wrap { width: 100%; height: 280px; position: relative; } /* Zmniejszono wys. z 350 na 280 */
-        .featured-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-        .featured-body { padding: 25px; } /* Zmniejszono padding z 30 na 25 */
-        .featured-title { font-size: 1.6rem; margin-bottom: 12px; color: var(--secondary-dark); } /* Mniejszy tytuł */
+        .featured-img-wrap { width: 100%; height: 280px; position: relative; overflow: hidden; } 
+        .featured-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .featured-article:hover .featured-img-wrap img { transform: scale(1.05); }
+        .featured-body { padding: 25px; } 
+        .featured-title { font-size: 1.6rem; margin-bottom: 12px; color: var(--secondary-dark); } 
         .featured-excerpt { font-size: 1rem; color: var(--text-muted); margin-bottom: 20px; }
 
-        /* Strumień mniejszych artykułów (zmniejszony) */
-        .articles-feed { display: flex; flex-direction: column; gap: 20px; } /* Mniejszy odstęp z 30 na 20 */
-        .article-card { background: var(--bg-white); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); display: flex; transition: var(--transition); position: relative; height: 200px; } /* Zmniejszono wys z 240 na 200 */
+        .articles-feed { display: flex; flex-direction: column; gap: 20px; } 
+        .article-card { background: var(--bg-white); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); display: flex; transition: var(--transition); position: relative; height: 200px; }
         .article-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); border-color: var(--primary-yellow); }
         .article-img-wrap { width: 35%; position: relative; overflow: hidden; cursor: pointer; }
         .article-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
         .article-card:hover .article-img-wrap img { transform: scale(1.1); }
-        .article-category { position: absolute; top: 15px; left: 15px; background: var(--primary-yellow); color: var(--secondary-dark); padding: 5px 12px; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; z-index: 2; }
-        .article-body { width: 65%; padding: 15px 20px; display: flex; flex-direction: column; justify-content: space-between; } /* Mniejszy padding */
-        .article-meta { display: flex; gap: 15px; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 8px; font-weight: 600; }
+        .article-category { position: absolute; top: 15px; left: 15px; background: var(--primary-yellow); color: #1E2227; padding: 5px 12px; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; z-index: 2; box-shadow: var(--shadow-sm); }
+        
+        .article-body { width: 65%; padding: 15px 20px; display: flex; flex-direction: column; justify-content: space-between; } 
+        .article-meta { display: flex; gap: 15px; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 8px; font-weight: 600; flex-wrap: wrap; }
         .article-meta i { color: var(--primary-yellow); margin-right: 5px; }
-        .article-title { font-size: 1.25rem; margin-bottom: 8px; line-height: 1.3; color: var(--secondary-dark); cursor: pointer; transition: var(--transition); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } /* Mniejszy tytuł */
+        .article-title { font-size: 1.25rem; margin-bottom: 8px; line-height: 1.3; color: var(--secondary-dark); cursor: pointer; transition: var(--transition); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } 
         .article-title:hover { color: var(--primary-yellow-hover); }
-        .article-excerpt { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } /* Mniejszy font */
+        .article-excerpt { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } 
         .article-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 12px; }
         
         .author-box { display: flex; align-items: center; gap: 10px; }
         .author-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--bg-gray); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--secondary-dark); font-size: 0.8rem; border: 2px solid var(--border-color); }
-        .author-name { font-size: 0.85rem; font-weight: 700; }
+        .author-name { font-size: 0.85rem; font-weight: 700; color: var(--text-main); }
 
-        .like-btn { display: flex; align-items: center; gap: 8px; background: var(--bg-gray); padding: 6px 14px; border-radius: var(--radius-full); font-weight: 700; color: var(--text-muted); font-size: 0.9rem; transition: var(--transition); border: 1px solid transparent; }
-        .like-btn i { font-size: 1rem; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .like-btn:hover { background: #ffebee; color: #f44336; }
-        .like-btn:hover i { transform: scale(1.2); }
-        .like-btn.liked { background: #ffebee; color: #f44336; border-color: #ffcdd2; }
-        .like-btn.liked i { font-weight: 900; animation: heartBurst 0.4s ease; }
+        .article-stats { display: flex; gap: 10px; }
+        .stat-btn { display: flex; align-items: center; gap: 6px; background: var(--bg-gray); padding: 6px 12px; border-radius: var(--radius-full); font-weight: 700; color: var(--text-muted); font-size: 0.85rem; transition: var(--transition); border: 1px solid transparent; }
+        .stat-btn.views { cursor: default; }
+        .stat-btn.like-btn { cursor: pointer; }
+        .stat-btn.like-btn i { transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .stat-btn.like-btn:hover { background: #ffebee; color: #f44336; }
+        .stat-btn.like-btn:hover i { transform: scale(1.2); }
+        .stat-btn.like-btn.liked { background: #ffebee; color: #f44336; border-color: #ffcdd2; }
+        .stat-btn.like-btn.liked i { font-weight: 900; animation: heartBurst 0.4s ease; }
         @keyframes heartBurst { 0% { transform: scale(1); } 50% { transform: scale(1.4); } 100% { transform: scale(1); } }
 
-        .skeleton { background: #e0e0e0; border-radius: 4px; animation: pulse 1.5s infinite ease-in-out; }
+        /* Skeletons */
+        .skeleton { background: var(--bg-gray); border-radius: 4px; animation: pulse 1.5s infinite ease-in-out; }
         @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
 
-        /* Style dla modala (Popupu z artykułem) */
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.75); z-index: 2000;
-            align-items: center; justify-content: center;
-            opacity: 0; transition: opacity 0.3s ease;
-        }
-        .modal-overlay.active { display: flex; opacity: 1; }
-        .modal-content {
-            background: var(--bg-white); width: 90%; max-width: 800px; max-height: 90vh;
-            border-radius: var(--radius-md); position: relative; overflow-y: auto;
-            transform: translateY(30px); transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: var(--shadow-lg);
-        }
-        .modal-overlay.active .modal-content { transform: translateY(0); }
-        .modal-close {
-            position: absolute; top: 15px; right: 15px; background: var(--primary-yellow);
-            color: var(--secondary-dark); width: 40px; height: 40px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
-            z-index: 10; transition: var(--transition); border: none; cursor: pointer;
-            box-shadow: var(--shadow-sm);
-        }
-        .modal-close:hover { background: var(--primary-yellow-hover); transform: scale(1.1) rotate(90deg); }
-        .modal-body-img { width: 100%; height: 350px; object-fit: cover; }
-        .modal-body-content { padding: 40px; }
-        .modal-body-content .modal-title { font-size: 2.2rem; line-height: 1.2; margin-bottom: 20px; color: var(--secondary-dark); }
-        .modal-body-content .modal-text { font-size: 1.1rem; line-height: 1.8; color: var(--text-main); }
-        
-        /* Sidebar i Reszta */
+        /* Sidebar Styles */
         .sidebar { display: flex; flex-direction: column; gap: 30px; position: sticky; top: 110px; }
         .widget { background: var(--bg-white); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); }
-        .widget-title { font-size: 1.2rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-gray); position: relative; }
+        .widget-title { font-size: 1.2rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-gray); position: relative; color: var(--secondary-dark); }
         .widget-title::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 50px; height: 2px; background: var(--primary-yellow); }
         .widget-title i { color: var(--primary-yellow); }
 
         .calendar-list { display: flex; flex-direction: column; gap: 15px; }
         .event-item { display: flex; gap: 15px; align-items: center; padding: 12px; background: var(--bg-body); border-radius: var(--radius-sm); border-left: 4px solid var(--primary-yellow); transition: var(--transition); }
-        .event-item:hover { transform: translateX(5px); background: var(--primary-yellow-light); }
+        .event-item:hover { transform: translateX(5px); background: var(--bg-gray); }
         .event-date-badge { background: var(--bg-white); min-width: 55px; height: 60px; border-radius: var(--radius-sm); display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: var(--shadow-xs); border: 1px solid var(--border-color); }
         .event-day { font-size: 1.4rem; font-weight: 900; color: var(--secondary-dark); line-height: 1; }
         .event-month { font-size: 0.7rem; font-weight: 700; color: #f44336; text-transform: uppercase; margin-top: 3px; }
-        .event-details h4 { font-size: 0.95rem; line-height: 1.3; margin-bottom: 5px; }
+        .event-details h4 { font-size: 0.95rem; line-height: 1.3; margin-bottom: 5px; color: var(--text-main); }
         .event-details p { font-size: 0.8rem; color: var(--text-muted); margin: 0; }
         .empty-calendar { text-align: center; color: var(--text-muted); font-size: 0.9rem; padding: 20px 0; }
 
-        .tags-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
-        .tag { background: var(--bg-gray); color: var(--text-main); font-size: 0.8rem; font-weight: 600; padding: 6px 12px; border-radius: var(--radius-full); transition: var(--transition); }
-        .tag:hover { background: var(--primary-yellow); color: var(--secondary-dark); }
+        /* WIDGET: TERMINY ROZDAWANIA GAZETKI */
+        .distribution-card {
+            background: var(--bg-body);
+            border-radius: var(--radius-sm);
+            padding: 15px;
+            border-left: 4px solid var(--primary-yellow);
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: var(--transition);
+        }
+        .distribution-card:last-child { margin-bottom: 0; }
+        .distribution-card:hover { transform: translateX(5px); background: var(--bg-gray); }
+        .dist-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .dist-issue { font-weight: 800; font-size: 0.85rem; background: var(--primary-yellow); color: #1E2227; padding: 3px 10px; border-radius: var(--radius-full); }
+        .dist-date { font-size: 0.9rem; font-weight: 800; color: var(--secondary-dark); }
+        .dist-details { font-size: 0.85rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 4px; }
+        .dist-details span { display: flex; align-items: center; gap: 8px; }
+        .dist-details i { color: var(--primary-yellow); width: 14px; text-align: center; }
 
-        .site-footer { background-color: var(--secondary-dark); color: var(--bg-white); padding: 70px 0 20px; margin-top: 60px; }
+        .tags-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag { background: var(--bg-gray); color: var(--text-main); font-size: 0.8rem; font-weight: 600; padding: 6px 12px; border-radius: var(--radius-full); transition: var(--transition); cursor: pointer; border: 1px solid var(--border-color); }
+        .tag:hover, .tag.active { background: var(--primary-yellow); color: #1E2227; border-color: var(--primary-yellow); }
+
+        /* Footer */
+        .site-footer { background-color: #1E2227; color: #ffffff; padding: 70px 0 20px; margin-top: 60px; }
         .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; margin-bottom: 50px; }
-        .footer-brand img { width: 160px; background: var(--bg-white); padding: 5px; border-radius: var(--radius-sm); margin-bottom: 20px; }
-        .footer-brand p { color: var(--text-light); font-size: 0.95rem; max-width: 400px; }
+        .footer-brand img { width: 160px; background: #ffffff; padding: 5px; border-radius: var(--radius-sm); margin-bottom: 20px; }
+        .footer-brand p { color: #a0aab5; font-size: 0.95rem; max-width: 400px; }
         .footer-heading { font-size: 1.2rem; color: var(--primary-yellow); margin-bottom: 25px; font-family: var(--font-headings); }
         .footer-links li { margin-bottom: 12px; }
-        .footer-links a { color: var(--text-light); display: inline-flex; align-items: center; gap: 8px; }
+        .footer-links a { color: #a0aab5; display: inline-flex; align-items: center; gap: 8px; }
         .footer-links a:hover { color: var(--primary-yellow); transform: translateX(5px); }
-        .footer-bottom { text-align: center; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); font-size: 0.9rem; }
+        .footer-bottom { text-align: center; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); color: #6c757d; font-size: 0.9rem; }
+
+        /* Modal */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 2000; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; backdrop-filter: blur(5px); }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-content { background: var(--bg-white); width: 90%; max-width: 800px; max-height: 90vh; border-radius: var(--radius-md); position: relative; overflow-y: auto; transform: translateY(30px); transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: var(--shadow-lg); border: 1px solid var(--border-color); }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .modal-close { position: absolute; top: 15px; right: 15px; background: var(--primary-yellow); color: #1E2227; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; z-index: 10; transition: var(--transition); border: none; cursor: pointer; box-shadow: var(--shadow-sm); }
+        .modal-close:hover { background: var(--primary-yellow-hover); transform: scale(1.1) rotate(90deg); }
+        .modal-body-img { width: 100%; height: 400px; object-fit: cover; }
+        .modal-body-content { padding: 40px; }
+        .modal-body-content .modal-title { font-size: 2.2rem; line-height: 1.2; margin-bottom: 20px; color: var(--secondary-dark); }
+        .modal-body-content .modal-text { font-size: 1.1rem; line-height: 1.8; color: var(--text-main); }
 
         @media (max-width: 1024px) {
             .portal-layout { grid-template-columns: 1fr; } 
@@ -213,15 +323,15 @@
             .article-card { height: auto; flex-direction: column; }
             .article-img-wrap { width: 100%; height: 200px; }
             .article-body { width: 100%; }
-            .modal-body-content { padding: 25px; }
+            .banner-wow-title { font-size: 3.2rem; }
         }
         @media (max-width: 768px) {
             .top-bar { display: none; }
             .header-content { flex-direction: column; height: auto; padding: 20px 0; gap: 20px; }
             .nav-list { flex-wrap: wrap; justify-content: center; gap: 15px; }
-            .hero-content h2 { font-size: 2.2rem; }
-            .search-wrapper { flex-direction: column; background: transparent; box-shadow: none; padding: 0; gap: 10px; }
-            .search-wrapper input { background: var(--bg-white); padding-left: 20px; }
+            .banner-wow-title { font-size: 2.3rem; }
+            .search-wrapper { flex-direction: column; background: transparent; box-shadow: none; padding: 0; gap: 10px; border: none; }
+            .search-wrapper input { background: var(--bg-white); padding-left: 20px; border: 1px solid var(--border-color); }
             .search-icon { display: none; }
             .search-wrapper button { padding: 15px; justify-content: center; border-radius: var(--radius-md); }
             .footer-grid { grid-template-columns: 1fr; gap: 30px; }
@@ -233,10 +343,11 @@
     <div class="top-bar">
         <div class="container">
             <div class="top-bar-left">
-                <span><i class="fas fa-school"></i> Gazetka szkolna Szkoły Podstawowej nr 3 w Sulejówku</span>
-                <span><i class="far fa-clock"></i> Wersja strony 3.0.2</span>
+                <span><i class="fas fa-school"></i> Gazetka szkolna SP3 w Sulejówku</span>
+                <span><i class="far fa-clock"></i> Wersja 3.1.1a</span>
             </div>
             <div class="top-bar-right">
+                <button class="theme-toggle" id="themeToggle" title="Przełącz motyw"><i class="fas fa-moon"></i></button>
                 <a href="#"><i class="fab fa-facebook"></i></a>
                 <a href="#"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-tiktok"></i></a>
@@ -253,7 +364,6 @@
                     <small>Nasza szkoła na bieżąco!</small>
                 </div>
             </a>
-
             <nav class="main-nav">
                 <ul class="nav-list">
                     <li><a href="/" class="active">Strona Główna</a></li>
@@ -268,15 +378,19 @@
         </div>
     </header>
 
-    <section class="hero-section">
-        <div class="hero-bg-shapes">
-            <div class="shape-1"></div>
-            <div class="shape-2"></div>
+    <!-- BANER HERO -->
+    <section class="hero-banner-section">
+        <div class="hero-banner-bg"></div>
+        <div class="container">
+            <span class="banner-badge"><i class="fas fa-sparkles"></i> OFICJALNY PORTAL GAZETKI <i class="fas fa-sparkles"></i></span>
+            <h1 class="banner-wow-title">ROK SZKOLNY <span>2026/27</span></h1>
+            <p class="banner-subtitle">Bądź zawsze na bieżąco z wydarzeniami, artykułami i życiem Szkoły Podstawowej nr 3!</p>
         </div>
-        <div class="container hero-content">
-            <h2>Odkrywaj życie <span>naszej szkoły</span></h2>
-            <p>Głos Trójki</p>
-            
+    </section>
+
+    <!-- SEKCJA WYSZUKIWANIA I FILTRÓW -->
+    <section class="search-bar-section">
+        <div class="container">
             <div class="search-wrapper">
                 <i class="fas fa-search search-icon"></i>
                 <input type="text" id="searchInput" placeholder="Szukaj artykułów, kącików, ogłoszeń...">
@@ -284,11 +398,14 @@
                     Szukaj <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
+
+            <div class="category-filters" id="categoryFilters">
+                <button class="filter-btn active" onclick="filterByCategory('Wszystkie', this)">Wszystkie</button>
+            </div>
         </div>
     </section>
 
     <main class="container portal-layout">
-        
         <div class="content-area">
             <div class="section-header">
                 <h2 class="section-title"><i class="fas fa-bolt"></i> Najnowsze wpisy</h2>
@@ -297,7 +414,7 @@
             <div id="noResultsMsg" class="no-results">
                 <i class="far fa-frown-open"></i>
                 <h3>Ups, nic nie znaleźliśmy!</h3>
-                <p>Spróbuj wpisać inne słowo kluczowe.</p>
+                <p>Spróbuj wpisać inne słowo kluczowe lub wybierz inną kategorię.</p>
             </div>
 
             <!-- Kontener na wyróżniony artykuł -->
@@ -305,7 +422,7 @@
 
             <!-- Strumień artykułów -->
             <div class="articles-feed" id="articlesFeed">
-                <div class="article-card" id="loaderItem">
+                <div class="article-card fallback-item" id="loaderItem">
                     <div class="article-img-wrap skeleton" style="width: 35%;"></div>
                     <div class="article-body">
                         <div>
@@ -320,6 +437,7 @@
         </div>
 
         <aside class="sidebar">
+            <!-- KALENDARZ -->
             <div class="widget">
                 <h3 class="widget-title"><i class="far fa-calendar-check"></i> Szkolny Kalendarz</h3>
                 <div class="calendar-list" id="calendarFeed">
@@ -329,18 +447,24 @@
                 </div>
             </div>
 
+            <!-- SPRZEDAŻ GAZETEK -->
             <div class="widget">
-                <h3 class="widget-title"><i class="fas fa-hashtag"></i> Popularne tematy</h3>
-                <div class="tags-cloud">
-                    <span class="tag">#Pupilove</span>
-                    <span class="tag">#zrobtosam</span>
-                    <span class="tag">#Operacjewojskowe</span>
-                    <span class="tag">#Konkursy</span>
-                    <span class="tag">#redakcja</span>
+                <h3 class="widget-title"><i class="fas fa-newspaper"></i> Sprzedaż gazetki</h3>
+                <div id="distributionFeed">
+                    <div class="empty-calendar" id="distributionLoader">
+                        <i class="fas fa-spinner fa-spin"></i> Sprawdzanie terminów...
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAGI -->
+            <div class="widget">
+                <h3 class="widget-title"><i class="fas fa-hashtag"></i> Popularne tagi</h3>
+                <div class="tags-cloud" id="tagsCloud">
+                    <i class="fas fa-spinner fa-spin" style="color: var(--text-muted);"></i>
                 </div>
             </div>
         </aside>
-
     </main>
 
     <footer class="site-footer">
@@ -350,7 +474,7 @@
                     <a href="/" class="footer-brand">
                         <img src="https://imgur.com/nwkFXR1.png" alt="Głos Trójki Logo">
                     </a>
-                    <p>Głos Trójki 2023-2026</p>
+                    <p>Głos Trójki 2023-2027. Najlepsze źródło informacji ze Szkoły Podstawowej nr 3 w Sulejówku.</p>
                 </div>
                 <div>
                     <h4 class="footer-heading">Redakcja</h4>
@@ -363,25 +487,22 @@
                 <div>
                     <h4 class="footer-heading">Kontakt</h4>
                     <ul class="footer-links">
-                        <li><i class="fas fa-map-marker-alt" style="color: var(--primary-yellow); width: 20px;"></i> Szkoła Podstawowa nr 3 w Sulejówku</li>
+                        <li><i class="fas fa-map-marker-alt" style="color: var(--primary-yellow); width: 20px;"></i> SP nr 3 w Sulejówku</li>
                         <li><i class="fas fa-envelope" style="color: var(--primary-yellow); width: 20px;"></i> gtrojki@gmail.com</li>
-                
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Głos Trójki - Szkoła Podstawowa nr 3. Projekt dopracowany do perfekcji.</p>
+                <p>&copy; 2026 Głos Trójki - Szkoła Podstawowa nr 3. Wszelkie prawa zastrzeżone.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Struktura Modala (Popupu z artykułem) -->
+    <!-- Modal (Popup z artykułem) -->
     <div id="articleModal" class="modal-overlay" onclick="closeModalOnOverlay(event)">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
-            <div id="modalBody">
-                <!-- Zawartość będzie wstrzykiwana przez JS -->
-            </div>
+            <div id="modalBody"></div>
         </div>
     </div>
 
@@ -404,9 +525,38 @@
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
 
-        // Globalny obiekt do przechowywania pobranych artykułów
         window.articlesData = {};
+        let currentFilter = 'Wszystkie';
+        const uniqueCategories = new Set();
 
+        // Dark Mode
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+        
+        if(localStorage.getItem('theme') === 'dark') {
+            htmlElement.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            if(currentTheme === 'dark') {
+                htmlElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                htmlElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        });
+
+        // Safe HTML Attribute Helper
+        function escapeAttr(str) {
+            return String(str || '').replace(/"/g, '&quot;');
+        }
+
+        // Pobieranie Artykułów
         async function fetchArticles() {
             const feed = document.getElementById('articlesFeed');
             const featuredFeed = document.getElementById('featuredFeed');
@@ -417,14 +567,13 @@
 
                 const loader = document.getElementById('loaderItem');
                 if(loader) loader.style.display = 'none';
-
+                
                 if (querySnapshot.empty) {
-                    console.log("Baza artykułów pusta.");
+                    feed.innerHTML = '<div class="empty-calendar">Baza artykułów jest pusta.</div>';
                     return;
                 }
 
                 document.querySelectorAll('.fallback-item').forEach(el => el.remove());
-
                 let isFirst = true;
 
                 querySnapshot.forEach((docSnap) => {
@@ -433,13 +582,15 @@
                     
                     const title = data.title || "Bez tytułu";
                     const excerpt = data.excerpt || "Kliknij, aby poznać szczegóły...";
-                    // Pobieramy pełną treść (jeśli istnieje w bazie), w przeciwnym razie wyświetlimy excerpt w popupie
                     const fullContent = data.content || excerpt; 
                     const imgUrl = data.imageUrl || "https://images.unsplash.com/photo-1546422904-90eab23c3d7e?auto=format&fit=crop&w=800&q=80";
                     const category = data.category || "News";
                     const author = data.author || "Redakcja";
                     const authorInitials = author.substring(0, 2).toUpperCase();
                     const likesCount = data.likes || 0;
+                    const viewsCount = data.views || 0;
+
+                    uniqueCategories.add(category);
 
                     let dateStr = "Niedawno";
                     if(data.createdAt && data.createdAt.toDate) {
@@ -447,29 +598,23 @@
                         dateStr = d.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' });
                     }
 
-                    // Zapisujemy dane artykułu w pamięci do wyświetlenia w popupie
-                    window.articlesData[articleId] = {
-                        title: title,
-                        excerpt: excerpt,
-                        content: fullContent,
-                        imgUrl: imgUrl,
-                        category: category,
-                        author: author,
-                        authorInitials: authorInitials,
-                        dateStr: dateStr,
-                        likes: likesCount
-                    };
+                    window.articlesData[articleId] = { title, excerpt, content: fullContent, imgUrl, category, author, authorInitials, dateStr, likes: likesCount, views: viewsCount };
+
+                    const attrTitle = escapeAttr(title);
+                    const attrExcerpt = escapeAttr(excerpt);
+                    const attrCategory = escapeAttr(category);
 
                     if (isFirst) {
                         const featuredHTML = `
-                            <article class="featured-article dynamic-article" data-title="${title.toLowerCase()}" data-excerpt="${excerpt.toLowerCase()}">
+                            <article class="featured-article dynamic-article" data-title="${attrTitle}" data-excerpt="${attrExcerpt}" data-category="${attrCategory}">
                                 <div class="featured-img-wrap" onclick="openArticleModal('${articleId}')">
                                     <span class="article-category">${category}</span>
-                                    <img src="${imgUrl}" alt="${title}">
+                                    <img src="${imgUrl}" alt="${attrTitle}">
                                 </div>
                                 <div class="featured-body">
                                     <div class="article-meta">
                                         <span><i class="far fa-calendar-alt"></i> ${dateStr}</span>
+                                        <span><i class="fas fa-eye"></i> ${viewsCount} wyświetleń</span>
                                     </div>
                                     <h3 class="featured-title" onclick="openArticleModal('${articleId}')">${title}</h3>
                                     <p class="featured-excerpt" onclick="openArticleModal('${articleId}')">${excerpt}</p>
@@ -478,9 +623,11 @@
                                             <div class="author-avatar">${authorInitials}</div>
                                             <span class="author-name">${author}</span>
                                         </div>
-                                        <button class="like-btn" onclick="likeArticle('${articleId}', this)">
-                                            <i class="far fa-heart"></i> <span class="like-count">${likesCount}</span>
-                                        </button>
+                                        <div class="article-stats">
+                                            <button class="stat-btn like-btn" onclick="likeArticle('${articleId}', this)">
+                                                <i class="far fa-heart"></i> <span class="like-count">${likesCount}</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </article>
@@ -489,10 +636,10 @@
                         isFirst = false;
                     } else {
                         const articleHTML = `
-                            <article class="article-card dynamic-article" data-title="${title.toLowerCase()}" data-excerpt="${excerpt.toLowerCase()}">
+                            <article class="article-card dynamic-article" data-title="${attrTitle}" data-excerpt="${attrExcerpt}" data-category="${attrCategory}">
                                 <div class="article-img-wrap" onclick="openArticleModal('${articleId}')">
                                     <span class="article-category">${category}</span>
-                                    <img src="${imgUrl}" alt="${title}">
+                                    <img src="${imgUrl}" alt="${attrTitle}">
                                 </div>
                                 <div class="article-body">
                                     <div>
@@ -507,9 +654,12 @@
                                             <div class="author-avatar">${authorInitials}</div>
                                             <span class="author-name">${author}</span>
                                         </div>
-                                        <button class="like-btn" onclick="likeArticle('${articleId}', this)">
-                                            <i class="far fa-heart"></i> <span class="like-count">${likesCount}</span>
-                                        </button>
+                                        <div class="article-stats">
+                                            <span class="stat-btn views" title="Wyświetlenia"><i class="fas fa-eye"></i> ${viewsCount}</span>
+                                            <button class="stat-btn like-btn" onclick="likeArticle('${articleId}', this)">
+                                                <i class="far fa-heart"></i> <span class="like-count">${likesCount}</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </article>
@@ -517,95 +667,127 @@
                         feed.insertAdjacentHTML('beforeend', articleHTML);
                     }
                 });
+                renderDynamicCategoriesAndTags();
             } catch (error) {
                 console.error("Błąd pobierania artykułów:", error);
             }
         }
 
-        // Obsługa modala (popupa)
-        window.openArticleModal = function(id) {
-            const article = window.articlesData[id];
-            if(!article) return;
-
-            const modal = document.getElementById('articleModal');
-            const modalBody = document.getElementById('modalBody');
-
-            // Renderowanie treści artykułu w popupie
-            modalBody.innerHTML = `
-                <img src="${article.imgUrl}" alt="${article.title}" class="modal-body-img">
-                <div class="modal-body-content">
-                    <div class="article-meta" style="margin-bottom: 20px;">
-                        <span class="article-category" style="position:relative; top:0; left:0; display:inline-block; margin-right: 15px;">${article.category}</span>
-                        <span><i class="far fa-calendar-alt"></i> ${article.dateStr}</span>
-                    </div>
-                    
-                    <h2 class="modal-title">${article.title}</h2>
-                    
-                    <div style="display:flex; align-items:center; gap: 15px; margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;">
-                         <div class="author-avatar" style="width: 45px; height: 45px; font-size: 1.1rem;">${article.authorInitials}</div>
-                         <div style="display: flex; flex-direction: column;">
-                             <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Autor</span>
-                             <span class="author-name" style="font-size: 1.1rem;">${article.author}</span>
-                         </div>
-                    </div>
-                    
-                    <div class="modal-text">
-                        ${article.content.replace(/\n/g, '<br>')}
-                    </div>
-                </div>
-            `;
+        function renderDynamicCategoriesAndTags() {
+            const filtersContainer = document.getElementById('categoryFilters');
+            const tagsCloud = document.getElementById('tagsCloud');
+            let tagsHTML = '';
             
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Blokuje przewijanie strony pod popupem
+            uniqueCategories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn';
+                btn.innerText = cat;
+                btn.onclick = function() { window.filterByCategory(cat, this); };
+                filtersContainer.appendChild(btn);
+
+                tagsHTML += `<span class="tag" onclick="filterByCategory('${cat}', null)">#${cat.replace(/\s+/g, '')}</span>`;
+            });
+
+            if(tagsHTML !== '') tagsCloud.innerHTML = tagsHTML;
+            else tagsCloud.innerHTML = '<span style="color: var(--text-muted); font-size: 0.9rem;">Brak tagów</span>';
+        }
+
+        window.filterByCategory = function(category, btnElement) {
+            currentFilter = category;
+            if(btnElement) {
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                btnElement.classList.add('active');
+            }
+            window.executeSearch();
         };
 
-        window.closeModal = function() {
-            const modal = document.getElementById('articleModal');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto'; // Zwraca przewijanie strony
-        };
+        // NAPRAWIONA FUNKCJA WYSZUKIWANIA
+        window.executeSearch = function() {
+            const inputField = document.getElementById('searchInput');
+            const input = inputField ? inputField.value.toLowerCase().trim() : "";
+            const articles = document.querySelectorAll('.dynamic-article');
+            const noResultsMsg = document.getElementById('noResultsMsg');
+            let foundCount = 0;
 
-        window.closeModalOnOverlay = function(event) {
-            const modalContent = document.querySelector('.modal-content');
-            // Zamykaj tylko jeśli kliknięto w tło (overlay), a nie w sam artykuł
-            if (!modalContent.contains(event.target)) {
-                window.closeModal();
+            articles.forEach(article => {
+                const title = (article.getAttribute('data-title') || "").toLowerCase();
+                const excerpt = (article.getAttribute('data-excerpt') || "").toLowerCase();
+                const category = article.getAttribute('data-category') || "";
+
+                const matchesSearch = !input || title.includes(input) || excerpt.includes(input);
+                const matchesCategory = currentFilter === 'Wszystkie' || category === currentFilter;
+
+                if (matchesSearch && matchesCategory) {
+                    article.style.display = ''; // Reset uwalnia domyślny układowy CSS (.article-card i .featured-article)
+                    foundCount++;
+                } else {
+                    article.style.display = 'none';
+                }
+            });
+
+            if (noResultsMsg) {
+                noResultsMsg.style.display = (foundCount === 0) ? 'flex' : 'none';
             }
         };
 
-        window.likeArticle = async function(articleId, btnElement) {
-            if (btnElement.classList.contains('liked')) return;
-            const countSpan = btnElement.querySelector('.like-count');
-            const icon = btnElement.querySelector('i');
-            let currentLikes = parseInt(countSpan.innerText) || 0;
-            countSpan.innerText = currentLikes + 1;
-            btnElement.classList.add('liked');
-            icon.classList.remove('far'); 
-            icon.classList.add('fas'); 
-            
+        // Podpięcie natychmiastowego filtrowania podczas pisania (Live Search)
+        const searchInputEl = document.getElementById('searchInput');
+        if (searchInputEl) {
+            searchInputEl.addEventListener('input', () => window.executeSearch());
+            searchInputEl.addEventListener('keypress', function(e) {
+                if(e.key === 'Enter') { e.preventDefault(); window.executeSearch(); }
+            });
+        }
+
+        // Pobieranie terminów sprzedaży z Firebase
+        async function fetchDistributionDates() {
+            const container = document.getElementById('distributionFeed');
             try {
-                const articleRef = doc(db, "articles", articleId);
-                await updateDoc(articleRef, { likes: increment(1) });
-                // Aktualizacja stanu także w lokalnej pamięci (żeby nie zniknęło po otwarciu modala, jeśli kiedyś byśmy tam dodali lajki)
-                if(window.articlesData[articleId]) {
-                    window.articlesData[articleId].likes += 1;
+                const q = query(collection(db, "distribution_dates"), orderBy("date", "asc"), limit(3));
+                const snapshot = await getDocs(q);
+
+                if (snapshot.empty) {
+                    container.innerHTML = '<div class="empty-calendar"><i class="fas fa-info-circle"></i> Brak informacji o najbliższym terminie sprzedawania gazetek</div>';
+                    return;
                 }
-            } catch (error) {
-                countSpan.innerText = currentLikes;
-                btnElement.classList.remove('liked');
-                icon.classList.remove('fas');
-                icon.classList.add('far');
-                alert("Nie udało się zapisać polubienia. Sprawdź połączenie internetowe.");
+
+                container.innerHTML = '';
+
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const issueNumber = data.numer || data.issueNumber || "Wydanie Specjalne";
+                    const date = data.data || data.date || "Brak daty";
+                    const hours = data.godziny || data.lessonHours || "Brak informacji";
+                    const notes = data.uwagi || data.notes || "";
+
+                    const html = `
+                        <div class="distribution-card">
+                            <div class="dist-header">
+                                <span class="dist-issue">Numer: ${issueNumber}</span>
+                                <span class="dist-date"><i class="far fa-calendar-alt"></i> ${date}</span>
+                            </div>
+                            <div class="dist-details">
+                                <span><i class="fas fa-clock"></i> <strong>Godziny lekcyjne:</strong> ${hours}</span>
+                                ${notes ? `<span><i class="fas fa-info-circle"></i> <strong>Uwagi:</strong> ${notes}</span>` : ''}
+                            </div>
+                        </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', html);
+                });
+            } catch(e) {
+                console.warn("Nie znaleziono kolekcji distribution_dates:", e);
+                container.innerHTML = '<div class="empty-calendar"><i class="fas fa-info-circle"></i> Brak informacji o najbliższym terminie sprzedawania gazetek</div>';
             }
         }
 
+        // Pobieranie wydarzeń z kalendarza
         async function fetchCalendarEvents() {
             const calendarFeed = document.getElementById('calendarFeed');
             const loader = document.getElementById('calendarLoader');
             try {
                 const q = query(collection(db, "calendar_events"), orderBy("eventDate", "asc"), limit(5));
                 const snapshot = await getDocs(q);
-                loader.style.display = 'none';
+                if (loader) loader.style.display = 'none';
 
                 if (snapshot.empty) {
                     calendarFeed.innerHTML = '<div class="empty-calendar">Brak nadchodzących wydarzeń.</div>';
@@ -613,13 +795,9 @@
                 }
 
                 const monthsPl = ["Sty", "Lut", "Mar", "Kwi", "Maj", "Cze", "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru"];
-
                 snapshot.forEach((docSnap) => {
                     const data = docSnap.data();
-                    const title = data.title || "Wydarzenie";
-                    const locationOrTime = data.details || "";
-                    let day = "--";
-                    let month = "---";
+                    let day = "--", month = "---";
 
                     if(data.eventDate && data.eventDate.toDate) {
                         const dateObj = data.eventDate.toDate();
@@ -634,60 +812,102 @@
                                 <span class="event-month">${month}</span>
                             </div>
                             <div class="event-details">
-                                <h4>${title}</h4>
-                                <p>${locationOrTime}</p>
+                                <h4>${data.title || "Wydarzenie"}</h4>
+                                <p>${data.details || ""}</p>
                             </div>
                         </div>
                     `;
                     calendarFeed.insertAdjacentHTML('beforeend', eventHTML);
                 });
             } catch(e) {
-                loader.innerHTML = "Błąd pobierania wydarzeń.";
+                if (loader) loader.innerHTML = "Błąd pobierania wydarzeń.";
             }
         }
 
-        window.executeSearch = function() {
-            const input = document.getElementById('searchInput').value.toLowerCase().trim();
-            const articles = document.querySelectorAll('.dynamic-article, .fallback-item');
-            const noResultsMsg = document.getElementById('noResultsMsg');
-            let foundCount = 0;
+        window.openArticleModal = async function(id) {
+            const article = window.articlesData[id];
+            if(!article) return;
 
-            articles.forEach(article => {
-                let title = article.getAttribute('data-title') || "";
-                let excerpt = article.getAttribute('data-excerpt') || "";
+            try {
+                const articleRef = doc(db, "articles", id);
+                await updateDoc(articleRef, { views: increment(1) });
+                article.views += 1;
+            } catch(e) { console.error("Błąd przy zliczaniu wyświetleń:", e); }
 
-                if (title.includes(input) || excerpt.includes(input)) {
-                    article.style.display = 'flex';
-                    foundCount++;
-                } else {
-                    article.style.display = 'none';
-                }
-            });
+            const modal = document.getElementById('articleModal');
+            const modalBody = document.getElementById('modalBody');
+            
+            modalBody.innerHTML = `
+                <img src="${article.imgUrl}" alt="${article.title}" class="modal-body-img">
+                <div class="modal-body-content">
+                    <div class="article-meta" style="margin-bottom: 20px; font-size: 1rem;">
+                        <span class="article-category" style="position:relative; top:0; left:0; display:inline-block; margin-right: 15px;">${article.category}</span>
+                        <span><i class="far fa-calendar-alt"></i> ${article.dateStr}</span>
+                        <span><i class="fas fa-eye"></i> ${article.views} wyświetleń</span>
+                    </div>
+                    
+                    <h2 class="modal-title">${article.title}</h2>
+                    
+                    <div style="display:flex; align-items:center; gap: 15px; margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;">
+                         <div class="author-avatar" style="width: 50px; height: 50px; font-size: 1.2rem;">${article.authorInitials}</div>
+                         <div style="display: flex; flex-direction: column;">
+                             <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Autor</span>
+                             <span class="author-name" style="font-size: 1.15rem; color: var(--secondary-dark);">${article.author}</span>
+                         </div>
+                    </div>
+                    
+                    <div class="modal-text">
+                        ${article.content.replace(/\n/g, '<br><br>')}
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        };
 
-            if(foundCount === 0 && input !== "") {
-                noResultsMsg.style.display = 'flex';
-            } else {
-                noResultsMsg.style.display = 'none';
+        window.closeModal = function() {
+            document.getElementById('articleModal').classList.remove('active');
+            document.body.style.overflow = 'auto'; 
+        };
+
+        window.closeModalOnOverlay = function(event) {
+            if (!document.querySelector('.modal-content').contains(event.target)) {
+                window.closeModal();
             }
         };
 
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if(e.key === 'Enter') {
-                e.preventDefault();
-                executeSearch();
+        window.likeArticle = async function(articleId, btnElement) {
+            event.stopPropagation();
+            if (btnElement.classList.contains('liked')) return;
+            
+            const countSpan = btnElement.querySelector('.like-count');
+            const icon = btnElement.querySelector('i');
+            let currentLikes = parseInt(countSpan.innerText) || 0;
+            
+            countSpan.innerText = currentLikes + 1;
+            btnElement.classList.add('liked');
+            icon.classList.remove('far'); 
+            icon.classList.add('fas'); 
+            
+            try {
+                const articleRef = doc(db, "articles", articleId);
+                await updateDoc(articleRef, { likes: increment(1) });
+                if(window.articlesData[articleId]) window.articlesData[articleId].likes += 1;
+            } catch (error) {
+                countSpan.innerText = currentLikes;
+                btnElement.classList.remove('liked');
+                icon.className = 'far fa-heart';
             }
-        });
+        };
 
-        // Dodanie nasłuchiwania klawisza Esc, aby zamykał okienko modala
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                window.closeModal();
-            }
+            if (e.key === 'Escape') window.closeModal();
         });
 
         fetchArticles();
         fetchCalendarEvents();
-        
+        fetchDistributionDates();
     </script>
 </body>
 </html>
