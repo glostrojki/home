@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /*[cite: 1] Zmienne i reszta stylów */
         :root {
             --primary-yellow: #FFC107; 
             --primary-yellow-hover: #FFB300;
@@ -30,7 +31,7 @@
             --radius-md: 12px;
             --font-headings: 'Montserrat', sans-serif;
             --font-body: 'Open Sans', sans-serif;
-            --container-width: 1400px; /* Poszerzony kontener dla wygody */
+            --container-width: 1400px;
             --transition: all 0.25s ease-in-out;
         }
 
@@ -43,9 +44,6 @@
 
         .container { max-width: var(--container-width); margin: 0 auto; padding: 0 20px; }
 
-        /* =========================================
-           EKRAN LOGOWANIA
-           ========================================= */
         #loginOverlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: linear-gradient(135deg, rgba(30, 34, 39, 0.92) 0%, rgba(30, 34, 39, 0.7) 100%), url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
@@ -78,13 +76,11 @@
             box-shadow: 0 0 0 4px rgba(255, 193, 7, 0.15); outline: none; 
         }
 
-        /* MODAL PODGLĄDU ARTYKUŁU */
         #previewModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); backdrop-filter: blur(4px); z-index: 10000; justify-content: center; align-items: center; padding: 20px;}
         .modal-content-box { background: var(--bg-white); padding: 35px; border-radius: var(--radius-md); max-width: 750px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; box-shadow: var(--shadow-lg); }
         .modal-close { position: absolute; top: 20px; right: 20px; font-size: 1.2rem; background: var(--bg-gray); border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-muted); transition: var(--transition); }
         .modal-close:hover { color: #ffffff; background: #f44336; }
 
-        /* NAWIGACJA */
         .top-bar { background-color: var(--secondary-dark); color: var(--bg-white); font-size: 0.85rem; padding: 8px 0; font-weight: 600; }
         .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
         
@@ -102,12 +98,10 @@
         .nav-list li a::after { content: ''; position: absolute; width: 0%; height: 3px; bottom: 0; left: 0; background-color: var(--primary-yellow); transition: var(--transition); border-radius: 2px; }
         .nav-list li a:hover::after, .nav-list li a.active::after { width: 100%; }
 
-        /* PANEL ADMINA UKŁAD */
         .admin-section { padding: 40px 0; flex: 1; }
         .admin-title { font-size: 2rem; margin-bottom: 25px; display: flex; align-items: center; gap: 12px; }
         .admin-title i { color: var(--primary-yellow); }
 
-        /* STATYSTYKI (4 KOLUMNY) */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .stat-card { background: var(--bg-white); padding: 20px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); display: flex; align-items: center; gap: 15px; }
         .stat-icon { width: 50px; height: 50px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
@@ -120,7 +114,6 @@
         .admin-card { background: var(--bg-white); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); margin-bottom: 30px; }
         .admin-card-title { font-size: 1.2rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--bg-gray); display: flex; align-items: center; gap: 10px; }
 
-        /* LISTY ELEMETNÓW */
         .list-item { background: var(--bg-body); padding: 16px; border-radius: var(--radius-sm); margin-bottom: 12px; border-left: 4px solid var(--primary-yellow); display: flex; justify-content: space-between; align-items: center; gap: 15px; transition: var(--transition); }
         .list-item:hover { background: var(--bg-gray); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
         
@@ -140,15 +133,14 @@
         .btn-info { background: #e3f2fd; color: #1565c0; border-color: #bbdefb; }
         .btn-info:hover { background: #1565c0; color: #fff; }
 
-        /* FORMULARZE W PANELU */
         .form-group { margin-bottom: 16px; text-align: left; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.88rem; }
-        .form-group input { width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-family: inherit; font-size: 0.95rem; outline: none; transition: var(--transition); }
-        .form-group input:focus { border-color: var(--primary-yellow); box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2); }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-family: inherit; font-size: 0.95rem; outline: none; transition: var(--transition); }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--primary-yellow); box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2); }
+        .form-group textarea { resize: vertical; min-height: 80px; }
 
         .empty-box { text-align: center; color: var(--text-muted); padding: 30px; font-size: 0.95rem; background: var(--bg-body); border-radius: var(--radius-sm); border: 1px dashed var(--border-color); }
         
-        /* STOPKA */
         .site-footer { background-color: var(--secondary-dark); color: var(--bg-white); padding: 40px 0 20px; margin-top: auto; }
         .footer-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 50px; margin-bottom: 20px; }
         .footer-heading { font-size: 1.1rem; color: var(--primary-yellow); margin-bottom: 15px; font-family: var(--font-headings); }
@@ -159,7 +151,6 @@
 </head>
 <body>
 
-    <!-- EKRAN LOGOWANIA -->
     <div id="loginOverlay">
         <div class="login-box">
             <img src="https://imgur.com/nwkFXR1.png" alt="Logo Głos Trójki">
@@ -180,7 +171,6 @@
         </div>
     </div>
 
-    <!-- MODAL PODGLĄDU ARTYKUŁU -->
     <div id="previewModal">
         <div class="modal-content-box">
             <button class="modal-close" onclick="closePreview()"><i class="fas fa-times"></i></button>
@@ -190,7 +180,6 @@
         </div>
     </div>
 
-    <!-- NAWIGACJA GÓRNA -->
     <div class="top-bar">
         <div class="container">
             <div><i class="fas fa-shield-alt" style="color: var(--primary-yellow); margin-right: 8px;"></i> System Zarządzania Treścią - Głos Trójki</div>
@@ -220,11 +209,9 @@
         </div>
     </header>
 
-    <!-- ZAWARTOŚĆ PANELU -->
     <main class="container admin-section">
         <h2 class="admin-title"><i class="fas fa-tools"></i> Centrum Dowodzenia Redakcji</h2>
 
-        <!-- KARTY STATYSTYK -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon" style="background: #fff8e1; color: #ffa000;"><i class="fas fa-inbox"></i></div>
@@ -258,11 +245,8 @@
 
         <div class="admin-grid">
             
-            <!-- =======================================
-                 LEWA KOLUMNA: ARTYKUŁY 
-                 ======================================= -->
             <div>
-                <!-- Nadesłane artykuły -->
+                <!-- Nadesłane artykuły[cite: 1] -->
                 <div class="admin-card">
                     <h3 class="admin-card-title"><i class="fas fa-inbox" style="color: var(--primary-yellow);"></i> Nadesłane prace (od uczniów)</h3>
                     <div id="submissionsList">
@@ -270,7 +254,7 @@
                     </div>
                 </div>
 
-                <!-- Opublikowane artykuły -->
+                <!-- Opublikowane artykuły[cite: 1] -->
                 <div class="admin-card">
                     <h3 class="admin-card-title"><i class="fas fa-newspaper" style="color: #4caf50;"></i> Opublikowane na stronie głównej</h3>
                     <div id="publishedArticlesList">
@@ -279,11 +263,8 @@
                 </div>
             </div>
 
-            <!-- =======================================
-                 PRAWA KOLUMNA: KALENDARZ & HARMONOGRAM 
-                 ======================================= -->
             <div>
-                <!-- 1. KALENDARZ SZKOLNY -->
+                <!-- 1. KALENDARZ SZKOLNY[cite: 1] -->
                 <div class="admin-card" style="border-top: 4px solid #00897b;">
                     <h3 class="admin-card-title"><i class="fas fa-calendar-plus" style="color: #00897b;"></i> Kalendarz Szkolny / Wydarzenia</h3>
                     <form id="calendarForm">
@@ -310,7 +291,7 @@
                     </div>
                 </div>
 
-                <!-- 2. HARMONOGRAM ROZDAWANIA -->
+                <!-- 2. HARMONOGRAM ROZDAWANIA[cite: 1] -->
                 <div class="admin-card" style="border-top: 4px solid #2196f3;">
                     <h3 class="admin-card-title"><i class="fas fa-truck" style="color: #2196f3;"></i> Harmonogram Rozdawania Gazetki</h3>
                     <form id="scheduleForm">
@@ -336,12 +317,31 @@
                         <div class="empty-box"><i class="fas fa-spinner fa-spin" style="color: #2196f3;"></i> Ładowanie...</div>
                     </div>
                 </div>
+
+                <!-- 3. NOWE: POWIADOMIENIA DLA UCZNIÓW -->
+                <div class="admin-card" style="border-top: 4px solid var(--primary-yellow);">
+                    <h3 class="admin-card-title"><i class="fas fa-bell" style="color: var(--primary-yellow);"></i> Powiadomienia (Panel Ucznia)</h3>
+                    <form id="notificationForm">
+                        <div class="form-group">
+                            <label>Treść powiadomienia</label>
+                            <textarea id="notificationMessage" required placeholder="Wpisz treść powiadomienia, która wyświetli się uczniom..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                            <i class="fas fa-paper-plane"></i> Wyślij powiadomienie
+                        </button>
+                    </form>
+
+                    <h4 style="margin-top: 25px; margin-bottom: 15px; font-size: 1rem;">Ostatnie powiadomienia:</h4>
+                    <div id="notificationsManageList">
+                        <div class="empty-box"><i class="fas fa-spinner fa-spin" style="color: var(--primary-yellow);"></i> Ładowanie...</div>
+                    </div>
+                </div>
+
             </div>
 
         </div>
     </main>
 
-    <!-- STOPKA -->
     <footer class="site-footer">
         <div class="container">
             <div class="footer-grid">
@@ -360,14 +360,12 @@
         </div>
     </footer>
 
-    <!-- SKRYPTY OBSŁUGI LOGOWANIA I FIREBASE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-        // UWAGA: Dodano Timestamp do listy importowanych modułów
         import { getFirestore, collection, getDocs, addDoc, doc, deleteDoc, updateDoc, serverTimestamp, query, orderBy, Timestamp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         // --- OBSŁUGA LOGOWANIA ---
-        const CORRECT_LOGIN = "redaktor1"; // Tutaj znajduje się login
+        const CORRECT_LOGIN = "redaktor1"; // Tutaj znajduje się login[cite: 1]
 
         function checkAuth() {
             const isAuth = sessionStorage.getItem('glosTrojkiAdminAuth');
@@ -403,7 +401,7 @@
             location.reload();
         }
 
-        // --- FIREBASE I FUNKCJE PANELU ---
+        // --- FIREBASE I FUNKCJE PANELU ---[cite: 1]
         const firebaseConfig = {
             apiKey: "AIzaSyCwWO7gJQjfhxusvDBhSFZGmX5UqzeHWsM",
             authDomain: "glos-trojki-sp3.firebaseapp.com",
@@ -421,9 +419,9 @@
             fetchPublishedArticles();
             fetchCalendar();
             fetchSchedule();
+            fetchNotifications(); // Zaktualizowano[cite: 1]
         }
 
-        // OTWIERANIE PODGLĄDU ARTYKUŁU
         window.viewArticle = function(encodedData) {
             const data = JSON.parse(decodeURIComponent(encodedData));
             document.getElementById('modalTitle').innerText = data.title || "Bez tytułu";
@@ -440,7 +438,6 @@
             document.getElementById('previewModal').style.display = 'none';
         }
 
-        // POBIERANIE ZGŁOSZEŃ OD UCZNIÓW
         async function fetchSubmissions() {
             const container = document.getElementById('submissionsList');
             try {
@@ -479,7 +476,6 @@
             }
         }
 
-        // AKCEPTACJA I PUBLIKACJA ARTYKUŁU
         window.acceptSubmission = async function(id, encodedData) {
             const data = JSON.parse(decodeURIComponent(encodedData));
 
@@ -522,7 +518,6 @@
             }
         }
 
-        // POBIERANIE OPUBLIKOWANYCH ARTYKUŁÓW
         async function fetchPublishedArticles() {
             const container = document.getElementById('publishedArticlesList');
             try {
@@ -562,7 +557,6 @@
             }
         }
 
-        // WYRÓŻNIANIE ARTYKUŁÓW
         window.toggleFeatured = async function(id, currentStatus) {
             try {
                 const articleRef = doc(db, "articles", id);
@@ -573,7 +567,6 @@
             }
         }
 
-        // --- ZARZĄDZANIE KALENDARZEM SZKOLNYM ---
         document.getElementById('calendarForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const title = document.getElementById('calendarTitle').value;
@@ -583,7 +576,6 @@
             try {
                 await addDoc(collection(db, "calendar_events"), {
                     title: title,
-                    // Poprawka: prawidłowe formatowanie daty na obiekt Timestamp dla bazy
                     eventDate: Timestamp.fromDate(new Date(dateVal)),
                     details: details
                 });
@@ -628,7 +620,6 @@
             }
         }
 
-        // --- ZARZĄDZANIE HARMONOGRAMEM ROZDAWANIA ---
         document.getElementById('scheduleForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const title = document.getElementById('scheduleTitle').value;
@@ -638,7 +629,6 @@
             try {
                 await addDoc(collection(db, "harmonogram"), {
                     title: title,
-                    // Poprawka: prawidłowe formatowanie daty na obiekt Timestamp dla bazy
                     eventDate: Timestamp.fromDate(new Date(dateVal)),
                     details: details
                 });
@@ -683,11 +673,64 @@
             }
         }
 
-        // UNIWERSALNA FUNKCJA USUWANIA
+        // --- OBSŁUGA POWIADOMIEŃ ---
+        document.getElementById('notificationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const message = document.getElementById('notificationMessage').value;
+
+            try {
+                await addDoc(collection(db, "notifications"), {
+                    message: message,
+                    // Używamy toISOString() dla pełnej zgodności z pobieraniem w panelu ucznia
+                    createdAt: new Date().toISOString()
+                });
+                alert("Powiadomienie zostało wysłane do uczniów!");
+                document.getElementById('notificationForm').reset();
+                fetchNotifications();
+            } catch (e) {
+                alert("Błąd podczas wysyłania powiadomienia.");
+            }
+        });
+
+        async function fetchNotifications() {
+            const container = document.getElementById('notificationsManageList');
+            try {
+                const q = query(collection(db, "notifications"), orderBy("createdAt", "desc"));
+                const snapshot = await getDocs(q);
+
+                if (snapshot.empty) {
+                    container.innerHTML = '<div class="empty-box" style="padding:15px;">Brak wysłanych powiadomień.</div>';
+                    return;
+                }
+                
+                container.innerHTML = '';
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const id = docSnap.id;
+                    const dateStr = data.createdAt ? new Date(data.createdAt).toLocaleString('pl-PL') : "Brak daty";
+
+                    const itemHTML = `
+                        <div class="list-item" style="border-left-color: var(--primary-yellow); padding: 10px 15px;">
+                            <div class="item-info">
+                                <p style="font-size: 0.9rem;">${data.message}</p>
+                                <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;"><i class="far fa-clock"></i> ${dateStr}</p>
+                            </div>
+                            <button class="btn btn-danger" style="padding: 6px 10px;" onclick="deleteDocument('notifications', '${id}')"><i class="fas fa-trash"></i></button>
+                        </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', itemHTML);
+                });
+            } catch (e) {
+                container.innerHTML = '<div class="empty-box" style="color: #c62828;">Błąd ładowania powiadomień.</div>';
+            }
+        }
+
+        // UNIWERSALNA FUNKCJA USUWANIA ZAKTUALIZOWANA O POWIADOMIENIA[cite: 1]
         window.deleteDocument = async function(collectionName, id) {
             let itemType = collectionName === 'submitted_articles' ? 'to zgłoszenie' : 
                           (collectionName === 'articles' ? 'ten artykuł ze strony głównej' : 
-                          (collectionName === 'calendar_events' ? 'to wydarzenie ze szkolnego kalendarza' : 'ten wpis z harmonogramu wydawania'));
+                          (collectionName === 'calendar_events' ? 'to wydarzenie ze szkolnego kalendarza' : 
+                          (collectionName === 'notifications' ? 'to powiadomienie' : 'ten wpis z harmonogramu wydawania')));
             
             if(!confirm(`Czy na pewno chcesz bezpowrotnie usunąć ${itemType}?`)) return;
             try {
@@ -697,6 +740,7 @@
                 if(collectionName === 'articles') fetchPublishedArticles();
                 if(collectionName === 'calendar_events') fetchCalendar();
                 if(collectionName === 'harmonogram') fetchSchedule();
+                if(collectionName === 'notifications') fetchNotifications();
             } catch (e) {
                 alert("Błąd podczas usuwania z bazy danych.");
             }
