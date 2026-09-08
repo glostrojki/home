@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Głos Trójki - Wydarzenia</title>
+    
+    <link rel="icon" type="image/png" href="https://imgur.com/nwkFXR1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Główne zmienne CSS */
+        :root {
+            --primary-yellow: #FFC107; 
+            --primary-yellow-hover: #FFB300;
+            --primary-yellow-light: #FFF8E1;
+            --secondary-dark: #1E2227; 
+            --text-main: #333333;
+            --text-muted: #6c757d;
+            --text-light: #a0aab5;
+            --bg-body: #f4f6f9;
+            --bg-white: #ffffff;
+            --bg-gray: #eef1f5;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 4px 6px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 15px rgba(0,0,0,0.1);
+            --shadow-lg: 0 20px 25px rgba(0,0,0,0.1);
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-full: 9999px;
+            --font-headings: 'Montserrat', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
+            --container-width: 1280px;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: var(--font-body); 
+            background-color: var(--bg-body); 
+            color: var(--text-main); 
+            line-height: 1.6; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh;
+        }
+        h1, h2, h3, h4 { font-family: var(--font-headings); font-weight: 700; color: var(--secondary-dark); }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+        
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 20px; }
+
+        /* Nawigacja i nagłówki */
+        .top-bar { background-color: var(--secondary-dark); color: var(--bg-white); font-size: 0.85rem; padding: 8px 0; font-weight: 600; }
+        .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
+        .top-bar-left span { margin-right: 20px; display: inline-flex; align-items: center; gap: 6px; }
+        .top-bar-left i { color: var(--primary-yellow); }
+        
+        .main-header { background-color: var(--bg-white); box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; height: 90px; }
+        .logo-area { display: flex; align-items: center; gap: 15px; }
+        .logo-img { height: 65px; border-radius: var(--radius-sm); }
+        .logo-text h1 { font-size: 2rem; font-weight: 900; line-height: 1; }
+        .logo-text h1 span { color: var(--primary-yellow); }
+        .logo-text small { font-family: var(--font-headings); font-size: 0.8rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+
+        .main-nav { display: flex; align-items: center; gap: 35px; }
+        .nav-list { display: flex; gap: 30px; }
+        .nav-list li a { font-family: var(--font-headings); font-weight: 700; font-size: 0.95rem; position: relative; padding: 8px 0; color: var(--secondary-dark); }
+        .nav-list li a:hover, .nav-list li a.active { color: var(--primary-yellow); }
+        
+        .btn-primary { 
+            background-color: var(--primary-yellow); 
+            color: var(--secondary-dark); 
+            padding: 12px 28px; 
+            border-radius: var(--radius-full); 
+            font-family: var(--font-headings); 
+            font-weight: 800; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 10px; 
+            box-shadow: var(--shadow-sm); 
+            transition: var(--transition); 
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-yellow-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ----------------------------------
+           SEKCJA WYDARZENIA (EMPTY STATE)
+           ---------------------------------- */
+        .events-wrapper {
+            flex-grow: 1;
+            padding: 80px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-state-card {
+            background: var(--bg-white);
+            border-radius: var(--radius-md);
+            padding: 60px 40px;
+            box-shadow: var(--shadow-sm);
+            border: 2px dashed var(--border-color);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .empty-state-card:hover {
+            border-color: var(--primary-yellow);
+            box-shadow: var(--shadow-md);
+        }
+
+        .empty-icon {
+            font-size: 4.5rem;
+            color: var(--text-light);
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+
+        .empty-state-card h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--secondary-dark);
+        }
+
+        .empty-state-card p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 35px;
+            line-height: 1.7;
+        }
+
+        /* Responsywność */
+        @media (max-width: 768px) {
+            .nav-list { display: none; }
+            .empty-state-card { padding: 40px 20px; }
+            .empty-state-card h2 { font-size: 1.6rem; }
+        }
+
+        /* Stopka */
+        .site-footer { background-color: var(--secondary-dark); color: var(--bg-white); padding: 70px 0 20px; margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; margin-bottom: 50px; }
+        .footer-heading { font-size: 1.2rem; color: var(--primary-yellow); margin-bottom: 25px; font-family: var(--font-headings); }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links li a { color: var(--text-light); transition: var(--transition); }
+        .footer-links li a:hover { color: var(--primary-yellow); padding-left: 5px; }
+        
+        @media (max-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                <span><i class="fas fa-school"></i> Gazetka szkolna Szkoły Podstawowej nr 3 w Sulejówku</span>
+                <span><i class="far fa-clock"></i> Wersja strony 3.0.3</span>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <div class="container header-content">
+            <a href="/" class="logo-area">
+                <img src="https://imgur.com/nwkFXR1.png" alt="Logo Głos Trójki" class="logo-img">
+                <div class="logo-text">
+                    <h1>Głos <span>Trójki</span></h1>
+                    <small>Nasza szkoła na bieżąco!</small>
+                </div>
+            </a>
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li><a href="/">Strona Główna</a></li>
+                    <!-- Zakładka Wydarzenia jest teraz aktywna -->
+                    <li><a href="/wydarzenia.html" class="active">Wydarzenia</a></li>
+                    <li><a href="/redakcja.html">Redakcja</a></li>
+                    <li><a href="/informacje.html">Informacje</a></li>
+                </ul>
+                <a href="/home/mojeartykuly.html" class="btn-primary" style="background: transparent; border: 2px solid var(--primary-yellow);">
+                    <i class="fas fa-pen-nib"></i> Moje artykuły
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- GŁÓWNA ZAWARTOŚĆ WYDARZENIA -->
+    <main class="events-wrapper">
+        <div class="container" style="display: flex; justify-content: center;">
+            
+            <div class="empty-state-card">
+                <i class="far fa-calendar-xmark empty-icon"></i>
+                <h2>Brak nadchodzących wydarzeń</h2>
+                <p>Obecnie nie mamy zaplanowanych żadnych nowych wydarzeń czy konkursów związanych z naszą gazetką. Zaglądaj tu regularnie, aby być zawsze na bieżąco!</p>
+                <a href="/" class="btn-primary">
+                    <i class="fas fa-arrow-left"></i> Wróć na stronę główną
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3 style="color: white; margin-bottom: 15px;">Głos Trójki</h3>
+                    <p style="color: var(--text-light);">Gazetka szkolna tworzona z pasją przez uczniów SP 3 w Sulejówku.</p>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Nawigacja</h4>
+                    <ul class="footer-links">
+                        <li><a href="/"><i class="fas fa-chevron-right" style="font-size: 0.8rem; margin-right: 5px;"></i> Strona Główna</a></li>
+                        <li><a href="/mojeartykuly.html"><i class="fas fa-chevron-right" style="font-size: 0.8rem; margin-right: 5px;"></i> Panel ucznia (Prześlij)</a></li>
+                        <li><a href="/redakcja.html"><i class="fas fa-chevron-right" style="font-size: 0.8rem; margin-right: 5px;"></i> Redakcja</a></li>
+                        <li><a href="/informacje.html"><i class="fas fa-chevron-right" style="font-size: 0.8rem; margin-right: 5px;"></i> Informacje</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 30px; padding-top: 20px; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+                &copy; 2026 Głos Trójki. Wszelkie prawa zastrzeżone.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
