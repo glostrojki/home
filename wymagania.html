@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Głos Trójki - Wymagania dotyczące artykułów</title>
+    
+    <link rel="icon" type="image/png" href="https://imgur.com/nwkFXR1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Główne zmienne CSS */
+        :root {
+            --primary-yellow: #FFC107; 
+            --primary-yellow-hover: #FFB300;
+            --primary-yellow-light: #FFF8E1;
+            --secondary-dark: #1E2227; 
+            --text-main: #333333;
+            --text-muted: #6c757d;
+            --text-light: #a0aab5;
+            --bg-body: #f4f6f9;
+            --bg-white: #ffffff;
+            --bg-gray: #eef1f5;
+            --border-color: #e2e8f0;
+            --danger-red: #e53e3e;
+            --danger-bg: #fff5f5;
+            --shadow-sm: 0 4px 6px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 15px rgba(0,0,0,0.1);
+            --shadow-lg: 0 20px 25px rgba(0,0,0,0.1);
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-full: 9999px;
+            --font-headings: 'Montserrat', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
+            --container-width: 1280px;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: var(--font-body); 
+            background-color: var(--bg-body); 
+            color: var(--text-main); 
+            line-height: 1.6; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh;
+        }
+        h1, h2, h3, h4 { font-family: var(--font-headings); font-weight: 700; color: var(--secondary-dark); }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+        
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 20px; }
+
+        /* Nawigacja i nagłówki */
+        .top-bar { background-color: var(--secondary-dark); color: var(--bg-white); font-size: 0.85rem; padding: 8px 0; font-weight: 600; }
+        .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
+        .top-bar-left span { margin-right: 20px; display: inline-flex; align-items: center; gap: 6px; }
+        .top-bar-left i { color: var(--primary-yellow); }
+        
+        .main-header { background-color: var(--bg-white); box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; height: 90px; }
+        .logo-area { display: flex; align-items: center; gap: 15px; }
+        .logo-img { height: 65px; border-radius: var(--radius-sm); }
+        .logo-text h1 { font-size: 2rem; font-weight: 900; line-height: 1; }
+        .logo-text h1 span { color: var(--primary-yellow); }
+        .logo-text small { font-family: var(--font-headings); font-size: 0.8rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+
+        .main-nav { display: flex; align-items: center; gap: 35px; }
+        .nav-list { display: flex; gap: 30px; }
+        .nav-list li a { font-family: var(--font-headings); font-weight: 700; font-size: 0.95rem; position: relative; padding: 8px 0; color: var(--secondary-dark); }
+        .nav-list li a:hover { color: var(--primary-yellow); }
+        
+        .btn-primary { 
+            background-color: var(--primary-yellow); 
+            color: var(--secondary-dark); 
+            padding: 12px 28px; 
+            border-radius: var(--radius-full); 
+            font-family: var(--font-headings); 
+            font-weight: 800; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 10px; 
+            box-shadow: var(--shadow-sm); 
+            transition: var(--transition); 
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-yellow-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ----------------------------------
+           SEKCJA WYMAGANIA
+           ---------------------------------- */
+        .req-wrapper {
+            flex-grow: 1;
+            padding: 50px 20px;
+        }
+
+        .req-hero {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .req-hero h2 {
+            font-size: 2.4rem;
+            margin-bottom: 12px;
+        }
+
+        .req-hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .req-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .req-card {
+            background: var(--bg-white);
+            border-radius: var(--radius-md);
+            padding: 30px 25px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .req-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-yellow);
+        }
+
+        .req-icon-box {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-md);
+            background-color: var(--primary-yellow-light);
+            color: var(--secondary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+        }
+
+        .req-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+
+        .req-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Sekcja odrzucenia artykułu */
+        .rejection-section {
+            background-color: var(--danger-bg);
+            border: 2px dashed var(--danger-red);
+            border-radius: var(--radius-md);
+            padding: 35px;
+            margin-bottom: 50px;
+        }
+
+        .rejection-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--danger-red);
+            margin-bottom: 20px;
+        }
+
+        .rejection-header h3 {
+            color: var(--danger-red);
+            font-size: 1.5rem;
+        }
+
+        .rejection-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .rejection-item {
+            background: var(--bg-white);
+            padding: 15px 20px;
+            border-radius: var(--radius-sm);
+            border-left: 4px solid var(--danger-red);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .rejection-item i {
+            color: var(--danger-red);
+            font-size: 1.2rem;
+        }
+
+        /* Baner do wysyłki (CTA) */
+        .submit-cta {
+            background: var(--secondary-dark);
+            color: var(--bg-white);
+            border-radius: var(--radius-md);
+            padding: 45px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .submit-cta h3 {
+            color: var(--primary-yellow);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .submit-cta p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .submit-methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .method-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .method-card h4 {
+            color: var(--bg-white);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .method-card h4 i {
+            color: var(--primary-yellow);
+        }
+
+        .method-card a {
+            color: var(--primary-yellow);
+            font-weight: 700;
+            word-break: break-all;
+        }
+
+        .method-card a:hover {
+            text-decoration: underline;
+        }
+
+        .file-warning {
+            display: inline-block;
+            background: rgba(229, 62, 62, 0.2);
+            color: #feb2b2;
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-top: 4px;
+        }
+
+        /* Responsywność */
+        @media (max-width: 768px) {
+            .nav-list { display: none; }
+            .submit-cta { padding: 25px; }
+            .req-hero h2 { font-size: 1.8rem; }
+        }
+
+        /* Stopka */
+        .site-footer { background-color: var(--secondary-dark); color: var(--bg-white); padding: 70px 0 20px; margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; margin-bottom: 50px; }
+        .footer-heading { font-size: 1.2rem; color: var(--primary-yellow); margin-bottom: 25px; font-family: var(--font-headings); }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links li a { color: var(--text-light); transition: var(--transition); }
+        .footer-links li a:hover { color: var(--primary-yellow); padding-left: 5px; }
+        
+        @media (max-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                <span><i class="fas fa-school"></i> Gazetka szkolna Szkoły Podstawowej nr 3 w Sulejówku</span>
+                <span><i class="far fa-clock"></i> Wersja strony 3.0.3</span>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <div class="container header-content">
+            <a href="/" class="logo-area">
+                <img src="https://imgur.com/nwkFXR1.png" alt="Logo Głos Trójki" class="logo-img">
+                <div class="logo-text">
+                    <h1>Głos <span>Trójki</span></h1>
+                    <small>Nasza szkoła na bieżąco!</small>
+                </div>
+            </a>
+            <nav class="main-nav">
+                <!-- 'Wymagania' ukryte w głównym nav zgodnie z wytycznymi -->
+                <ul class="nav-list">
+                    <li><a href="/">Strona Główna</a></li>
+                    <li><a href="/wydarzenia.html">Wydarzenia</a></li>
+                    <li><a href="/redakcja.html">Redakcja</a></li>
+                    <li><a href="/informacje.html">Informacje</a></li>
+                </ul>
+                <a href="/home/mojeartykuly.html" class="btn-primary" style="background: transparent; border: 2px solid var(--primary-yellow);">
+                    <i class="fas fa-pen-nib"></i> Moje artykuły
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- GŁÓWNA ZAWARTOŚĆ WYMAGANIA -->
+    <main class="req-wrapper">
+        <div class="container">
+            
+            <div class="req-hero">
+                <h2>Wymagania dotyczące artykułów</h2>
+                <p>Przeczytaj zasady, zanim prześlesz nam swój tekst do nowego wydania gazetki szkolnej.</p>
+            </div>
+
+            <!-- KRATKA WYMAGAŃ -->
+            <div class="req-grid">
+                
+                <div class="req-card">
+                    <div class="req-icon-box">
+                        <i class="fas fa-file-word"></i>
+                    </div>
+                    <h3>Długość tekstu</h3>
+                    <p>Artykuł powinien zawierać <strong>minimum 200 wyrazów</strong>. Wyjątkiem są wiersze, krótkie utwory poetyckie oraz wybrane formy specjalne.</p>
+                </div>
+
+                <div class="req-card">
+                    <div class="req-icon-box">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Zakaz używania AI</h3>
+                    <p>Całkowity zakaz generowania tekstów przez sztuczną inteligencję (np. ChatGPT). Czekamy wyłącznie na Twoją własną twórczość!</p>
+                </div>
+
+                <div class="req-card">
+                    <div class="req-icon-box">
+                        <i class="fas fa-copyright"></i>
+                    </div>
+                    <h3>Prawa autorskie</h3>
+                    <p>Obowiązuje bezwzględny zakaz kopiowania i wklejania treści z zewnętrznych źródeł objętych prawami autorskimi.</p>
+                </div>
+
+                <div class="req-card">
+                    <div class="req-icon-box">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Wiek autora</h3>
+                    <p>Aby przesłać swój artykuł, musisz uczęszczać <strong>co najmniej do 4. klasy</strong> szkoły podstawowej.</p>
+                </div>
+
+            </div>
+
+            <!-- SEKCJA ODRZUCENIA -->
+            <div class="rejection-section">
+                <div class="rejection-header">
+                    <i class="fas fa-circle-exclamation fa-2x"></i>
+                    <h3>Kiedy artykuł może zostać odrzucony?</h3>
+                </div>
+                <div class="rejection-list">
+                    <div class="rejection-item">
+                        <i class="fas fa-xmark"></i>
+                        <span>Gdy tekst zawiera bardzo dużo błędów ortograficznych i językowych.</span>
+                    </div>
+                    <div class="rejection-item">
+                        <i class="fas fa-xmark"></i>
+                        <span>Gdy zostanie wykryte, że tekst napisała sztuczna inteligencja (AI).</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BANER DO WYSYŁKI -->
+            <div class="submit-cta">
+                <h3>Spełniasz wymagania?</h3>
+                <p>Napisz tekst i przekaż go redakcji do 10. dnia miesiąca!</p>
+
+                <div class="submit-methods-grid">
+                    
+                    <div class="method-card">
+                        <h4><i class="fas fa-globe"></i> Przez stronę internetową</h4>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">Przejdź do formularza online:</p>
+                        <a href="https://glostrojki.pl/mojeartykuly" target="_blank">glostrojki.pl/mojeartykuly</a>
+                        <span class="file-warning"><i class="fas fa-triangle-exclamation"></i> Na stronie nie można załączać plików</span>
+                    </div>
+
+                    <div class="method-card">
+                        <h4><i class="fas fa-envelope"></i> Przez pocztę e-mail</h4>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">Wyślij wiadomość bezpośrednio na adres:</p>
+                        <a href="mailto:gtrojki@gmail.com">gtrojki@gmail.com</a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3 style="color: white; margin-bottom: 15px;">Głos Trójki</h3>
+                    <p style="color: var(--text-light);">Gazetka szkolna tworzona z pasją przez uczniów SP 3 w Sulejówku.</p>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Nawigacja</h4>
+                    <ul class="footer-links">
+                        <li><a href="/"><i class="fas fa-chevron-right" style="font-size: 0.8rem; margin-right: 5px;"></i> Strona Główna</a></li>
+                        <li><a href="/mojeartykuly.html"><i class="fas fa-chevron-right" style="font-size: 0.8rem; margin-right: 5px;"></i> Panel ucznia (Prześlij)</a></li>
+                        <li><a href="/redakcja.html"><i class="fas fa-chevron-right" style="font-size: 0.8rem; margin-right: 5px;"></i> Redakcja</a></li>
+                        <li><a href="/informacje.html"><i class="fas fa-chevron-right" style="font-size: 0.8rem; margin-right: 5px;"></i> Informacje</a></li>
+                        <li><a href="/wymagania.html"><i class="fas fa-chevron-right" style="font-size: 0.8rem; margin-right: 5px;"></i> Wymagania</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 30px; padding-top: 20px; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+                &copy; 2026 Głos Trójki. Wszelkie prawa zastrzeżone.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
