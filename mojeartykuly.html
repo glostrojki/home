@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* Główne zmienne CSS */
         :root {
             --primary-yellow: #FFC107; 
             --primary-yellow-hover: #FFB300;
@@ -38,7 +37,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-body); background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+        body { font-family: var(--font-body); background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; }
         h1, h2, h3, h4 { font-family: var(--font-headings); font-weight: 700; color: var(--secondary-dark); }
         a { text-decoration: none; color: inherit; transition: var(--transition); }
         ul { list-style: none; }
@@ -46,7 +45,6 @@
 
         .container { max-width: var(--container-width); margin: 0 auto; padding: 0 20px; }
 
-        /* Nawigacja i nagłówki */
         .top-bar { background-color: var(--secondary-dark); color: var(--bg-white); font-size: 0.85rem; padding: 8px 0; font-weight: 600; }
         .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
         .top-bar-left span { margin-right: 20px; display: inline-flex; align-items: center; gap: 6px; }
@@ -63,24 +61,23 @@
         .main-nav { display: flex; align-items: center; gap: 35px; }
         .nav-list { display: flex; gap: 30px; }
         .nav-list li a { font-family: var(--font-headings); font-weight: 700; font-size: 0.95rem; position: relative; padding: 8px 0; color: var(--secondary-dark); }
-        .btn-primary { background-color: var(--primary-yellow); color: var(--secondary-dark); padding: 12px 28px; border-radius: var(--radius-full); font-family: var(--font-headings); font-weight: 800; display: inline-flex; align-items: center; justify-content: center; gap: 10px; box-shadow: var(--shadow-sm); transition: var(--transition); }
-        .btn-primary:hover { background-color: var(--primary-yellow-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
-
-        /* Centralna Sekcja Akcji */
-        .cta-wrapper { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 80px 20px; }
-        .cta-box { text-align: center; max-width: 600px; position: relative; }
+        .btn-primary { background-color: var(--primary-yellow); color: var(--secondary-dark); padding: 12px 28px; border-radius: var(--radius-full); font-family: var(--font-headings); font-weight: 800; display: inline-flex; align-items: center; gap: 10px; box-shadow: var(--shadow-sm); transition: var(--transition); }
         
-        /* Animowana zakręcona strzałka */
-        .cool-arrow { position: absolute; top: -75px; left: -90px; color: var(--secondary-dark); animation: floatArrow 2.5s ease-in-out infinite; pointer-events: none; }
-        @keyframes floatArrow {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(-5deg); }
-        }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; padding: 40px 0 20px; border-bottom: 2px solid var(--border-color); margin-bottom: 30px; }
+        
+        .section-title { margin: 30px 0 15px 0; font-size: 1.3rem; border-left: 4px solid var(--primary-yellow); padding-left: 10px; }
+        .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin-bottom: 30px; }
+        .article-card { background: var(--bg-white); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 12px; position: relative; overflow: hidden; }
+        .article-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--primary-yellow); }
+        .badge { display: inline-block; padding: 4px 10px; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; background: var(--bg-gray); color: var(--text-muted); width: max-content; }
+        
+        .badge.status-oczekujacy { background: #e3f2fd; color: #1976d2; margin-top: auto; }
+        .badge.status-zaakceptowany { background: #e8f5e9; color: #2e7d32; margin-top: auto; }
+        .badge.status-odrzucony { background: #ffebee; color: #c62828; margin-top: auto; }
 
-        .btn-outline { background: transparent; border: 2px solid var(--text-muted); color: var(--text-muted); padding: 12px 28px; border-radius: var(--radius-full); font-family: var(--font-headings); font-weight: 700; display: inline-flex; align-items: center; gap: 10px; transition: var(--transition); margin-top: 25px; }
-        .btn-outline:hover { border-color: var(--secondary-dark); color: var(--secondary-dark); background: var(--border-color); }
+        .empty-state { text-align: center; padding: 40px 20px; background: var(--bg-white); border-radius: var(--radius-md); border: 1px dashed var(--border-color); grid-column: 1 / -1; }
+        .empty-state i { font-size: 2.5rem; color: var(--text-muted); margin-bottom: 10px; }
 
-        /* Modal */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background: var(--bg-white); width: 100%; max-width: 650px; border-radius: var(--radius-md); padding: 35px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); }
         .close-modal { position: absolute; top: 20px; right: 25px; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; }
@@ -94,7 +91,6 @@
         .loader-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 10; border-radius: var(--radius-md); font-weight: 700; color: var(--secondary-dark); }
         .email-fallback-info { background: var(--primary-yellow-light); border-left: 4px solid var(--primary-yellow); padding: 12px 15px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: 0.88rem; color: var(--secondary-dark); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
 
-        /* Powiadomienia */
         .notification-btn { position: fixed; bottom: 30px; right: 30px; background: var(--secondary-dark); width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: var(--shadow-lg); cursor: pointer; z-index: 1001; font-size: 1.5rem; color: var(--primary-yellow); transition: var(--transition); border: 2px solid var(--primary-yellow); }
         .notification-btn:hover { transform: scale(1.05); }
         .notification-badge { position: absolute; top: -5px; right: -5px; background: #f44336; color: white; font-size: 0.85rem; font-weight: bold; width: 24px; height: 24px; border-radius: 50%; display: none; justify-content: center; align-items: center; border: 2px solid var(--bg-body); }
@@ -106,12 +102,6 @@
         .notification-item.unread { background: var(--primary-yellow-light); font-weight: 600; border-left: 3px solid var(--primary-yellow); }
         .notification-date { font-size: 0.75rem; color: var(--text-muted); margin-top: 5px; font-weight: 400; }
 
-        @media (max-width: 768px) {
-            .nav-list { display: none; }
-            .cool-arrow { display: none; } /* Ukrywamy strzałkę na bardzo małych ekranach */
-        }
-
-        /* Stopka */
         .site-footer { background-color: var(--secondary-dark); color: var(--bg-white); padding: 70px 0 20px; margin-top: auto; }
         .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; margin-bottom: 50px; }
         .footer-heading { font-size: 1.2rem; color: var(--primary-yellow); margin-bottom: 25px; font-family: var(--font-headings); }
@@ -140,53 +130,45 @@
             <nav class="main-nav">
                 <ul class="nav-list">
                     <li><a href="/">Strona Główna</a></li>
-                    <li><a href="/wydarzenia.html">Wydarzenia</a></li>
-                    <li><a href="/redakcja.html">Redakcja</a></li>
+                    <li><a href="/wydarzenia">Wydarzenia</a></li>
+                    <li><a href="/redakcja">Redakcja</a></li>
                 </ul>
-                <a href="/mojeartykuly.html" class="btn-primary" style="background: transparent; border: 2px solid var(--primary-yellow);">
+                <a href="/mojeartykuly" class="btn-primary" style="background: transparent; border: 2px solid var(--primary-yellow);">
                     <i class="fas fa-pen-nib"></i> Moje artykuły
                 </a>
             </nav>
         </div>
     </header>
 
-    <main class="cta-wrapper">
-        <div class="cta-box">
-            <h2 style="font-size: 2.5rem; margin-bottom: 15px;"><i class="fas fa-folder-open" style="color: var(--primary-yellow);"></i> Akrtykuły</h2>
-            <p style="color: var(--text-muted); font-size: 1.15rem; margin-bottom: 50px;">
-                Prześlij nam swój artykuł, a nasza redakcja zajmie się resztą! Czekamy na Twoją twórczość!
-            </p>
-
-            <div style="position: relative; display: inline-block;">
-                <!-- Zakręcona SVG strzałka -->
-                <svg class="cool-arrow" width="120" height="100" viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Przerywana linia -->
-                    <path d="M10 90 C 10 30, 50 10, 100 45" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 8" fill="none" />
-                    <!-- Grot strzałki -->
-                    <path d="M85 30 L 108 48 L 82 60" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                </svg>
-
-                <button class="btn-primary" onclick="openModal()" style="font-size: 1.3rem; padding: 18px 40px;">
-                    <i class="fas fa-paper-plane"></i> Prześlij swój artykuł
-                </button>
+    <main class="container">
+        <div class="dashboard-header">
+            <div>
+                <h2><i class="fas fa-folder-open" style="color: var(--primary-yellow);"></i> Nadesłane artykuły</h2>
+                <p style="color: var(--text-muted); margin-top: 5px;">Teksty przesłane przez uczniów do redakcji gazetki.</p>
             </div>
-            
-            <br>
+            <button class="btn-primary" onclick="openModal()">
+                <i class="fas fa-plus"></i> Napisz i prześlij artykuł
+            </button>
+        </div>
 
-            <!-- Przycisk do Wymagań -->
-            <a href="https://glostrojki.pl/wymagania" class="btn-outline">
-                <i class="fas fa-list-check"></i> Wymagania artykułu
-            </a>
+        <h3 class="section-title">Oczekujące na weryfikację</h3>
+        <div class="articles-grid" id="pendingArticlesList">
+            <div class="empty-state" id="loadingState">
+                <i class="fas fa-circle-notch fa-spin" style="color: var(--primary-yellow);"></i>
+                <h3>Ładowanie artykułów z bazy...</h3>
+            </div>
+        </div>
+
+        <h3 class="section-title">Przetworzone (Opublikowane / Odrzucone)</h3>
+        <div class="articles-grid" id="processedArticlesList">
         </div>
     </main>
 
-    <!-- Przycisk Powiadomień -->
     <div class="notification-btn" onclick="toggleNotifications()">
         <i class="fas fa-bell"></i>
         <div class="notification-badge" id="notifBadge">0</div>
     </div>
 
-    <!-- Panel Powiadomień -->
     <div class="notification-panel" id="notifPanel">
         <div class="notification-header">
             Powiadomienia z redakcji
@@ -197,7 +179,6 @@
         </div>
     </div>
 
-    <!-- Modal Formularza -->
     <div class="modal-overlay" id="uploadModal">
         <div class="modal-content">
             <div class="loader-overlay" id="formLoader">
@@ -249,7 +230,7 @@
                     <label for="consentCopyright">Oświadczam, że powyższy tekst jest mojego autorstwa i nie zawiera materiałów chronionych prawem autorskim osób trzecich.</label>
                 </div>
                 <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 15px;">
-                    <i class="fas fa-paper-plane"></i> Prześlij do redakcji
+                    <i class="fas fa-paper-plane"></i> Prześlij do weryfikacji
                 </button>
             </form>
         </div>
@@ -266,21 +247,17 @@
                     <h4 class="footer-heading">Nawigacja</h4>
                     <ul class="footer-links">
                         <li><a href="/">Strona Główna</a></li>
-                        <li><a href="https://glostrojki.pl/wymagania">Wymagania artykułu</a></li>
+                        <li><a href="/mojeartykuly.html">Panel ucznia (Prześlij)</a></li>
                     </ul>
                 </div>
-            </div>
-            <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 30px; padding-top: 20px; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
-                &copy; 2026 Głos Trójki. Wszelkie prawa zastrzeżone.
             </div>
         </div>
     </footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
-        // Konfiguracja Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyCwWO7gJQjfhxusvDBhSFZGmX5UqzeHWsM",
             authDomain: "glos-trojki-sp3.firebaseapp.com",
@@ -293,7 +270,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Funkcje Modala
         window.openModal = () => document.getElementById('uploadModal').style.display = 'flex';
         window.closeModal = () => {
             document.getElementById('uploadModal').style.display = 'none';
@@ -314,7 +290,6 @@
             }
         };
 
-        // Obsługa wysyłania formularza z usuniętym odświeżaniem widoku listy
         document.getElementById('articleForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const author = document.getElementById('authorName').value;
@@ -341,6 +316,7 @@
                 await addDoc(collection(db, "submitted_articles"), submissionData);
                 document.getElementById('formLoader').style.display = 'none';
                 closeModal();
+                loadArticlesFromFirebase();
                 alert("Twój artykuł został pomyślnie przesłany do redakcji! Dziękujemy.");
             } catch (error) {
                 console.error("Błąd podczas wysyłania:", error);
@@ -349,13 +325,77 @@
             }
         });
 
-        // Obsługa powiadomień w czasie rzeczywistym
+        async function loadArticlesFromFirebase() {
+            const pendingContainer = document.getElementById('pendingArticlesList');
+            const processedContainer = document.getElementById('processedArticlesList');
+            
+            try {
+                const querySnapshot = await getDocs(collection(db, "submitted_articles"));
+                
+                pendingContainer.innerHTML = '';
+                processedContainer.innerHTML = '';
+                let pendingCount = 0;
+                let processedCount = 0;
+
+                querySnapshot.forEach((docSnap) => {
+                    const article = docSnap.data();
+                    const isKacik = article.type === 'kacik';
+                    const tagColor = isKacik ? '#e8f5e9' : '#fff3e0';
+                    const tagTextColor = isKacik ? '#2e7d32' : '#e65100';
+                    
+                    const previewText = article.textContent ? (article.textContent.length > 120 ? article.textContent.substring(0, 120) + '...' : article.textContent) : '';
+
+                    const statusLower = (article.status || '').toLowerCase();
+                    let statusClass = "status-oczekujacy";
+                    let isProcessed = false;
+
+                    if (statusLower.includes('zaakceptowan') || statusLower.includes('opublikowan')) {
+                        statusClass = "status-zaakceptowany";
+                        isProcessed = true;
+                    } else if (statusLower.includes('odrzucon')) {
+                        statusClass = "status-odrzucony";
+                        isProcessed = true;
+                    }
+
+                    const cardHTML = `
+                        <div class="article-card">
+                            <span class="badge" style="background: ${tagColor}; color: ${tagTextColor};">
+                                ${isKacik ? `Kącik: ${article.cornerName}` : 'Jednorazowy'}
+                            </span>
+                            <h3 style="font-size: 1.2rem; margin: 5px 0 2px;">${article.title}</h3>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 5px;">
+                                <i class="fas fa-user-edit"></i> ${article.author} (${article.authorClass})
+                            </p>
+                            <p style="font-size: 0.9rem; color: var(--text-main); background: var(--bg-gray); padding: 10px; border-radius: 6px; margin-bottom: 5px;">
+                                ${previewText}
+                            </p>
+                            <span class="badge ${statusClass}"><i class="fas fa-info-circle"></i> ${article.status || 'Oczekujący na redakcję'}</span>
+                        </div>
+                    `;
+
+                    if (isProcessed) {
+                        processedContainer.insertAdjacentHTML('beforeend', cardHTML);
+                        processedCount++;
+                    } else {
+                        pendingContainer.insertAdjacentHTML('beforeend', cardHTML);
+                        pendingCount++;
+                    }
+                });
+
+                if(pendingCount === 0) pendingContainer.innerHTML = '<div class="empty-state"><h3>Brak oczekujących artykułów</h3></div>';
+                if(processedCount === 0) processedContainer.innerHTML = '<div class="empty-state"><h3>Brak przetworzonych artykułów</h3></div>';
+
+            } catch (error) {
+                console.error("Błąd pobierania:", error);
+                pendingContainer.innerHTML = `<div class="empty-state"><h3 style="color: #c62828;">Brak dostępu do bazy. Sprawdź reguły Firebase.</h3></div>`;
+            }
+        }
+
         let currentNotificationIds = [];
         const initNotifications = () => {
             const notifBody = document.getElementById('notifBody');
             const badge = document.getElementById('notifBadge');
             
-            // Nasłuchiwanie kolekcji "notifications"
             const q = query(collection(db, "notifications"), orderBy("createdAt", "desc"));
             onSnapshot(q, (snapshot) => {
                 let readNotifs = JSON.parse(localStorage.getItem('readNotifs') || '[]');
@@ -401,7 +441,6 @@
             const isVisible = panel.style.display === 'flex';
             panel.style.display = isVisible ? 'none' : 'flex';
             
-            // Kiedy użytkownik otwiera panel, automatycznie oznaczamy powiadomienia jako przeczytane
             if (!isVisible) {
                 markAllAsRead();
             }
@@ -415,7 +454,7 @@
             }
         };
 
-        // Inicjalizacja powiadomień
+        loadArticlesFromFirebase();
         initNotifications();
     </script>
 </body>
