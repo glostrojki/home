@@ -535,7 +535,7 @@
         window.articlesData = {};
         let currentFilter = 'Wszystkie';
         let showAllArticles = false;
-        const categoryMap = new Map(); // Mapa znormalizowanych kategorii (lowerCase -> wyświetlana nazwa)
+        const categoryMap = new Map();
 
         // Dark Mode
         const themeToggle = document.getElementById('themeToggle');
@@ -559,12 +559,10 @@
             }
         });
 
-        // Safe HTML Attribute Helper
         function escapeAttr(str) {
             return String(str || '').replace(/"/g, '&quot;');
         }
 
-        // Pomocnicza funkcja do inicjałów autora (1 litera imienia i 1 nazwiska)
         function getAuthorInitials(name) {
             if (!name) return "GT";
             const parts = name.trim().split(/\s+/);
@@ -574,7 +572,6 @@
             return name.substring(0, 2).toUpperCase();
         }
 
-        // Pobieranie Artykułów
         async function fetchArticles() {
             const feed = document.getElementById('articlesFeed');
             const featuredFeed = document.getElementById('featuredFeed');
@@ -604,7 +601,6 @@
                     const fullContent = data.content || excerpt; 
                     const imgUrl = data.imageUrl || "https://images.unsplash.com/photo-1546422904-90eab23c3d7e?auto=format&fit=crop&w=800&q=80";
                     
-                    // Normalizacja kategorii i uwzględnienie wielkości liter (case-insensitive deduplication)
                     const rawCategory = data.category || "News";
                     const lowerCat = rawCategory.trim().toLowerCase();
                     if (!categoryMap.has(lowerCat)) {
@@ -834,42 +830,60 @@
             });
         }
 
-        // POBIERANIE TERMINÓW SPRZEDAWANIA GAZETEK
+        // NAPRAWIONE POBIERANIE TERMINÓW (Bezpieczne pobieranie z kolekcji "harmonogram" bez awaryjnych błędów sortowania)
         async function fetchDistributionDates() {
             const container = document.getElementById('distributionFeed');
+            const loader = document.getElementById('distributionLoader');
             try {
-                const querySnapshot = await getDocs(collection(db, "distribution_dates"));
+                const querySnapshot = await getDocs(collection(db, "harmonogram"));
+                if (loader) loader.style.display = 'none';
 
                 if (querySnapshot.empty) {
                     container.innerHTML = '<div class="empty-calendar"><i class="fas fa-info-circle"></i> Brak informacji o najbliższym terminie sprzedawania gazetek</div>';
                     return;
                 }
 
+                let items = [];
+                querySnapshot.forEach((docSnap) => {
+                    items.push(docSnap.data());
+                });
+
+                // Bezpieczne sortowanie w JS po dacie
+                items.sort((a, b) => {
+                    const dateA = a.eventDate && a.eventDate.toDate ? a.eventDate.toDate() : new Date(0);
+                    const dateB = b.eventDate && b.eventDate.toDate ? b.eventDate.toDate() : new Date(0);
+                    return dateA - dateB;
+                });
+
                 container.innerHTML = '';
 
-                querySnapshot.forEach((docSnap) => {
-                    const data = docSnap.data();
-                    const issueNumber = data.numer || data.issueNumber || "Wydanie Specjalne";
-                    const date = data.data || data.date || "Brak daty";
-                    const hours = data.godziny || data.lessonHours || "Brak informacji";
-                    const notes = data.uwagi || data.notes || "";
+                items.slice(0, 3).forEach((data) => {
+                    const issueNumber = data.title || data.numer || data.issueNumber || "Wydanie Specjalne";
+                    
+                    let dateStr = "Brak daty";
+                    if(data.eventDate && data.eventDate.toDate) {
+                        dateStr = data.eventDate.toDate().toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' });
+                    } else if(data.data || data.date) {
+                        dateStr = data.data || data.date;
+                    }
+
+                    const hours = data.details || data.godziny || data.lessonHours || "Brak informacji";
 
                     const html = `
                         <div class="distribution-card">
                             <div class="dist-header">
-                                <span class="dist-issue">Numer: ${issueNumber}</span>
-                                <span class="dist-date"><i class="far fa-calendar-alt"></i> ${date}</span>
+                                <span class="dist-issue">${issueNumber}</span>
+                                <span class="dist-date"><i class="far fa-calendar-alt"></i> ${dateStr}</span>
                             </div>
                             <div class="dist-details">
-                                <span><i class="fas fa-clock"></i> <strong>Godziny lekcyjne:</strong> ${hours}</span>
-                                ${notes ? `<span><i class="fas fa-info-circle"></i> <strong>Uwagi:</strong> ${notes}</span>` : ''}
+                                <span><i class="fas fa-info-circle"></i> <strong>Szczegóły:</strong> ${hours}</span>
                             </div>
                         </div>
                     `;
                     container.insertAdjacentHTML('beforeend', html);
                 });
             } catch(e) {
-                console.warn("Nie znaleziono kolekcji distribution_dates:", e);
+                console.warn("Błąd pobierania harmonogramu:", e);
                 container.innerHTML = '<div class="empty-calendar"><i class="fas fa-info-circle"></i> Brak informacji o najbliższym terminie sprzedawania gazetek</div>';
             }
         }
