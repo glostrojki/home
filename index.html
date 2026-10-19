@@ -107,7 +107,7 @@
 
         /* HERO BANNER */
         .hero-banner-section {
-            background: linear-gradient(135deg, #0f141c 0%, #1e2530 50%, #0d1117 100%);
+            background: linear-gradient(rgba(15, 20, 28, 0.75), rgba(30, 37, 48, 0.75)), url('https://imgur.com/VUPhv20.png') center/cover no-repeat;
             padding: 90px 20px;
             position: relative;
             overflow: hidden;
@@ -383,7 +383,7 @@
         <div class="hero-banner-bg"></div>
         <div class="container">
             <span class="banner-badge"><i class="fas fa-sparkles"></i> OFICJALNY PORTAL GAZETKI <i class="fas fa-sparkles"></i></span>
-            <h1 class="banner-wow-title">ROK SZKOLNY <span>2026/27</span></h1>
+            <h1 class="banner-wow-title">Halloween z <span>głosem trójki</span></h1>
             <p class="banner-subtitle">Bądź zawsze na bieżąco z wydarzeniami, artykułami i życiem Szkoły Podstawowej nr 3!</p>
         </div>
     </section>
@@ -434,10 +434,17 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Przycisk Zobacz więcej / Pokaż mniej -->
+            <div class="load-more-container" id="loadMoreContainer" style="text-align: center; margin-top: 30px; display: none;">
+                <button id="loadMoreBtn" class="btn-my-articles" style="margin: 0 auto; background-color: var(--bg-white); color: var(--secondary-dark); border: 2px solid var(--primary-yellow);" onclick="toggleMoreArticles()">
+                    Zobacz więcej <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
         </div>
 
         <aside class="sidebar">
-            <!-- KALENDARZ -->
+            <!-- SZKOLNY KALENDARZ -->
             <div class="widget">
                 <h3 class="widget-title"><i class="far fa-calendar-check"></i> Szkolny Kalendarz</h3>
                 <div class="calendar-list" id="calendarFeed">
@@ -447,7 +454,7 @@
                 </div>
             </div>
 
-            <!-- SPRZEDAŻ GAZETEK -->
+            <!-- SPRZEDAŻ GAZETKI -->
             <div class="widget">
                 <h3 class="widget-title"><i class="fas fa-newspaper"></i> Sprzedaż gazetki</h3>
                 <div id="distributionFeed">
@@ -527,7 +534,8 @@
 
         window.articlesData = {};
         let currentFilter = 'Wszystkie';
-        const uniqueCategories = new Set();
+        let showAllArticles = false;
+        const categoryMap = new Map(); // Mapa znormalizowanych kategorii (lowerCase -> wyświetlana nazwa)
 
         // Dark Mode
         const themeToggle = document.getElementById('themeToggle');
@@ -556,6 +564,16 @@
             return String(str || '').replace(/"/g, '&quot;');
         }
 
+        // Pomocnicza funkcja do inicjałów autora (1 litera imienia i 1 nazwiska)
+        function getAuthorInitials(name) {
+            if (!name) return "GT";
+            const parts = name.trim().split(/\s+/);
+            if (parts.length >= 2) {
+                return (parts[0][0] + parts[1][0]).toUpperCase();
+            }
+            return name.substring(0, 2).toUpperCase();
+        }
+
         // Pobieranie Artykułów
         async function fetchArticles() {
             const feed = document.getElementById('articlesFeed');
@@ -575,6 +593,7 @@
 
                 document.querySelectorAll('.fallback-item').forEach(el => el.remove());
                 let isFirst = true;
+                let regularCount = 0;
 
                 querySnapshot.forEach((docSnap) => {
                     const data = docSnap.data();
@@ -584,13 +603,19 @@
                     const excerpt = data.excerpt || "Kliknij, aby poznać szczegóły...";
                     const fullContent = data.content || excerpt; 
                     const imgUrl = data.imageUrl || "https://images.unsplash.com/photo-1546422904-90eab23c3d7e?auto=format&fit=crop&w=800&q=80";
-                    const category = data.category || "News";
+                    
+                    // Normalizacja kategorii i uwzględnienie wielkości liter (case-insensitive deduplication)
+                    const rawCategory = data.category || "News";
+                    const lowerCat = rawCategory.trim().toLowerCase();
+                    if (!categoryMap.has(lowerCat)) {
+                        categoryMap.set(lowerCat, rawCategory.trim());
+                    }
+                    const category = categoryMap.get(lowerCat);
+
                     const author = data.author || "Redakcja";
-                    const authorInitials = author.substring(0, 2).toUpperCase();
+                    const authorInitials = getAuthorInitials(author);
                     const likesCount = data.likes || 0;
                     const viewsCount = data.views || 0;
-
-                    uniqueCategories.add(category);
 
                     let dateStr = "Niedawno";
                     if(data.createdAt && data.createdAt.toDate) {
@@ -635,8 +660,10 @@
                         featuredFeed.innerHTML = featuredHTML;
                         isFirst = false;
                     } else {
+                        const isHidden = !showAllArticles && regularCount >= 4;
+                        const displayAttr = isHidden ? 'style="display: none;"' : '';
                         const articleHTML = `
-                            <article class="article-card dynamic-article" data-title="${attrTitle}" data-excerpt="${attrExcerpt}" data-category="${attrCategory}">
+                            <article class="article-card dynamic-article" data-title="${attrTitle}" data-excerpt="${attrExcerpt}" data-category="${attrCategory}" ${displayAttr}>
                                 <div class="article-img-wrap" onclick="openArticleModal('${articleId}')">
                                     <span class="article-category">${category}</span>
                                     <img src="${imgUrl}" alt="${attrTitle}">
@@ -665,8 +692,15 @@
                             </article>
                         `;
                         feed.insertAdjacentHTML('beforeend', articleHTML);
+                        regularCount++;
                     }
                 });
+
+                const loadMoreContainer = document.getElementById('loadMoreContainer');
+                if (loadMoreContainer) {
+                    loadMoreContainer.style.display = regularCount > 4 ? 'block' : 'none';
+                }
+
                 renderDynamicCategoriesAndTags();
             } catch (error) {
                 console.error("Błąd pobierania artykułów:", error);
@@ -678,14 +712,16 @@
             const tagsCloud = document.getElementById('tagsCloud');
             let tagsHTML = '';
             
-            uniqueCategories.forEach(cat => {
+            filtersContainer.innerHTML = '<button class="filter-btn active" onclick="filterByCategory(\'Wszystkie\', this)">Wszystkie</button>';
+
+            categoryMap.forEach((displayCat, lowerCat) => {
                 const btn = document.createElement('button');
-                btn.className = 'filter-btn';
-                btn.innerText = cat;
-                btn.onclick = function() { window.filterByCategory(cat, this); };
+                btn.className = 'filter-btn' + (currentFilter.toLowerCase() === lowerCat ? ' active' : '');
+                btn.innerText = displayCat;
+                btn.onclick = function() { window.filterByCategory(displayCat, this); };
                 filtersContainer.appendChild(btn);
 
-                tagsHTML += `<span class="tag" onclick="filterByCategory('${cat}', null)">#${cat.replace(/\s+/g, '')}</span>`;
+                tagsHTML += `<span class="tag" onclick="filterByCategory('${displayCat}', null)">#${displayCat.replace(/\s+/g, '')}</span>`;
             });
 
             if(tagsHTML !== '') tagsCloud.innerHTML = tagsHTML;
@@ -697,29 +733,80 @@
             if(btnElement) {
                 document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
                 btnElement.classList.add('active');
+            } else {
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    if (btn.innerText.toLowerCase() === category.toLowerCase()) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
             }
             window.executeSearch();
         };
 
-        // NAPRAWIONA FUNKCJA WYSZUKIWANIA
+        window.toggleMoreArticles = function() {
+            showAllArticles = !showAllArticles;
+            const articles = document.querySelectorAll('#articlesFeed .article-card.dynamic-article');
+            const btn = document.getElementById('loadMoreBtn');
+            const inputField = document.getElementById('searchInput');
+            const hasSearch = inputField && inputField.value.trim().length > 0;
+            const hasCategory = currentFilter !== 'Wszystkie';
+
+            if (!hasSearch && !hasCategory) {
+                articles.forEach((article, index) => {
+                    if (showAllArticles) {
+                        article.style.display = '';
+                    } else {
+                        if (index >= 4) {
+                            article.style.display = 'none';
+                        }
+                    }
+                });
+            }
+
+            if (btn) {
+                if (showAllArticles) {
+                    btn.innerHTML = 'Pokaż mniej <i class="fas fa-chevron-up"></i>';
+                } else {
+                    btn.innerHTML = 'Zobacz więcej <i class="fas fa-chevron-down"></i>';
+                }
+            }
+        };
+
         window.executeSearch = function() {
             const inputField = document.getElementById('searchInput');
             const input = inputField ? inputField.value.toLowerCase().trim() : "";
             const articles = document.querySelectorAll('.dynamic-article');
             const noResultsMsg = document.getElementById('noResultsMsg');
+            const loadMoreContainer = document.getElementById('loadMoreContainer');
             let foundCount = 0;
+            let regularIndex = 0;
+
+            const filterCat = currentFilter.toLowerCase();
 
             articles.forEach(article => {
+                const isFeatured = article.classList.contains('featured-article');
                 const title = (article.getAttribute('data-title') || "").toLowerCase();
                 const excerpt = (article.getAttribute('data-excerpt') || "").toLowerCase();
-                const category = article.getAttribute('data-category') || "";
+                const category = (article.getAttribute('data-category') || "").toLowerCase();
 
                 const matchesSearch = !input || title.includes(input) || excerpt.includes(input);
-                const matchesCategory = currentFilter === 'Wszystkie' || category === currentFilter;
+                const matchesCategory = filterCat === 'wszystkie' || category === filterCat;
 
                 if (matchesSearch && matchesCategory) {
-                    article.style.display = ''; // Reset uwalnia domyślny układowy CSS (.article-card i .featured-article)
-                    foundCount++;
+                    if (isFeatured) {
+                        article.style.display = '';
+                        foundCount++;
+                    } else {
+                        if (input || filterCat !== 'wszystkie' || showAllArticles || regularIndex < 4) {
+                            article.style.display = '';
+                        } else {
+                            article.style.display = 'none';
+                        }
+                        regularIndex++;
+                        foundCount++;
+                    }
                 } else {
                     article.style.display = 'none';
                 }
@@ -728,9 +815,17 @@
             if (noResultsMsg) {
                 noResultsMsg.style.display = (foundCount === 0) ? 'flex' : 'none';
             }
+
+            if (loadMoreContainer) {
+                const totalRegular = document.querySelectorAll('#articlesFeed .article-card.dynamic-article').length;
+                if ((input || filterCat !== 'wszystkie') || totalRegular <= 4) {
+                    loadMoreContainer.style.display = 'none';
+                } else {
+                    loadMoreContainer.style.display = 'block';
+                }
+            }
         };
 
-        // Podpięcie natychmiastowego filtrowania podczas pisania (Live Search)
         const searchInputEl = document.getElementById('searchInput');
         if (searchInputEl) {
             searchInputEl.addEventListener('input', () => window.executeSearch());
@@ -739,21 +834,20 @@
             });
         }
 
-        // Pobieranie terminów sprzedaży z Firebase
+        // POBIERANIE TERMINÓW SPRZEDAWANIA GAZETEK
         async function fetchDistributionDates() {
             const container = document.getElementById('distributionFeed');
             try {
-                const q = query(collection(db, "distribution_dates"), orderBy("date", "asc"), limit(3));
-                const snapshot = await getDocs(q);
+                const querySnapshot = await getDocs(collection(db, "distribution_dates"));
 
-                if (snapshot.empty) {
+                if (querySnapshot.empty) {
                     container.innerHTML = '<div class="empty-calendar"><i class="fas fa-info-circle"></i> Brak informacji o najbliższym terminie sprzedawania gazetek</div>';
                     return;
                 }
 
                 container.innerHTML = '';
 
-                snapshot.forEach((docSnap) => {
+                querySnapshot.forEach((docSnap) => {
                     const data = docSnap.data();
                     const issueNumber = data.numer || data.issueNumber || "Wydanie Specjalne";
                     const date = data.data || data.date || "Brak daty";
@@ -780,7 +874,7 @@
             }
         }
 
-        // Pobieranie wydarzeń z kalendarza
+        // POBIERANIE WYDARZEŃ Z KALENDARZA
         async function fetchCalendarEvents() {
             const calendarFeed = document.getElementById('calendarFeed');
             const loader = document.getElementById('calendarLoader');
