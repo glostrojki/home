@@ -166,6 +166,30 @@
             font-weight: 500;
         }
 
+        .btn-halloween-game {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 25px;
+            background: #ff7700;
+            color: #ffffff;
+            font-family: var(--font-headings);
+            font-weight: 800;
+            font-size: 1.1rem;
+            padding: 14px 32px;
+            border-radius: var(--radius-full);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(255, 119, 0, 0.5);
+            transition: var(--transition);
+        }
+        .btn-halloween-game:hover {
+            background: #e66b00;
+            color: #ffffff;
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 0 25px rgba(255, 119, 0, 0.8);
+        }
+
         /* SEKCJA WYSZUKIWANIA */
         .search-bar-section {
             margin-top: -35px;
@@ -385,6 +409,11 @@
             <span class="banner-badge"><i class="fas fa-sparkles"></i> OFICJALNY PORTAL GAZETKI <i class="fas fa-sparkles"></i></span>
             <h1 class="banner-wow-title">Halloween z <span>głosem trójki</span></h1>
             <p class="banner-subtitle">Bądź zawsze na bieżąco z wydarzeniami, artykułami i życiem Szkoły Podstawowej nr 3!</p>
+            <div>
+                <a href="/halloween2026" target="_blank" class="btn-halloween-game">
+                    <i class="fas fa-ghost"></i> Gra halloweenowa
+                </a>
+            </div>
         </div>
     </section>
 
