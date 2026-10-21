@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Głos Trójki - Gra Halloween 2026</title>
+    
+    <link rel="icon" type="image/png" href="https://imgur.com/EBnhXHi.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Montserrat:wght@400;600;700;800;900&family=Nosifer&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --gt-yellow: #FFC107;
+            --gt-yellow-glow: #ffd54f;
+            --halloween-orange: #ff6600;
+            --pure-black: #000000;
+            --pure-white: #ffffff;
+            --font-headings: 'Montserrat', sans-serif;
+            --font-spooky: 'Creepster', cursive;
+            --font-bloody: 'Nosifer', cursive;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--pure-black);
+            font-family: var(--font-headings);
+            color: var(--pure-white);
+        }
+
+        /* Container Stack */
+        #game-wrapper {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--pure-black);
+        }
+
+        canvas {
+            display: block;
+            box-shadow: 0 0 80px rgba(255, 102, 0, 0.35), 0 0 120px rgba(0, 0, 0, 1);
+            border-radius: 12px;
+            background-color: var(--pure-black);
+            touch-action: none;
+        }
+
+        /* Permanently Fixed Glassmorphism Navigation Button (Top Left) */
+        .glass-back-btn {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 1000;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 22px;
+            background: rgba(0, 0, 0, 0.65);
+            border: 2px solid rgba(255, 193, 7, 0.5);
+            border-radius: 40px;
+            color: var(--gt-yellow);
+            font-family: var(--font-headings);
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-decoration: none;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.75), 0 0 20px rgba(255, 193, 7, 0.2);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .glass-back-btn:hover {
+            background: var(--gt-yellow);
+            border-color: var(--pure-white);
+            color: var(--pure-black);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 0 35px rgba(255, 193, 7, 0.9);
+        }
+
+        /* Audio Control Top Right */
+        .audio-control {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 1000;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: rgba(0, 0, 0, 0.65);
+            border: 2px solid rgba(255, 102, 0, 0.6);
+            color: var(--halloween-orange);
+            border-radius: 50%;
+            cursor: pointer;
+            backdrop-filter: blur(16px);
+            transition: var(--transition);
+            font-size: 1.2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .audio-control:hover {
+            transform: scale(1.15) rotate(15deg);
+            background: var(--halloween-orange);
+            color: var(--pure-black);
+            box-shadow: 0 0 30px rgba(255, 102, 0, 0.9);
+        }
+
+        /* HALLOWEEN 2026 CLEAN INTRO OVERLAY */
+        #cinematicIntro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000000;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .cinematic-logo-box {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 1.5s ease, transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .cinematic-logo-box.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .cinema-logo-img {
+            max-width: 280px;
+            height: auto;
+            filter: drop-shadow(0 0 45px rgba(255, 193, 7, 0.95));
+        }
+
+        .cinema-bloody-presents {
+            position: absolute;
+            bottom: -45px;
+            font-family: var(--font-bloody);
+            color: #ff0033;
+            font-size: 2.6rem;
+            letter-spacing: 6px;
+            text-shadow: 0 0 15px #ff0000, 0 0 30px #880000, 4px 4px 0 #000;
+            opacity: 0;
+            transform: scale(2.5);
+            transition: opacity 0.3s ease-out, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.4);
+        }
+
+        .cinema-bloody-presents.active {
+            opacity: 1;
+            transform: scale(1);
+            animation: cinemaPulse 1.8s infinite alternate;
+        }
+
+        @keyframes cinemaPulse {
+            0% { text-shadow: 0 0 15px #ff0000, 0 0 30px #880000; }
+            50% { text-shadow: 0 0 25px #ff0000, 0 0 50px #ff0000, 0 8px 15px #880000; }
+            100% { text-shadow: 0 0 15px #ff0000, 0 0 30px #880000; }
+        }
+
+        .cinema-credits-box {
+            position: absolute;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1.2s ease, transform 1.2s ease;
+            max-width: 900px;
+            padding: 30px;
+        }
+
+        .cinema-credits-box.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cinema-title {
+            font-family: var(--font-headings);
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: var(--gt-yellow);
+            letter-spacing: 6px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 40px rgba(255, 193, 7, 0.8);
+        }
+
+        .cinema-sub {
+            font-size: 1.4rem;
+            color: #ffffff;
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .cinema-domain {
+            font-size: 1.6rem;
+            color: var(--halloween-orange);
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(255, 102, 0, 0.8);
+            margin-top: 5px;
+        }
+
+        .cinema-author {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #d1d1d1;
+            margin-top: 25px;
+            letter-spacing: 2px;
+        }
+
+        /* JUMPSCARE GHOST OVERLAY */
+        #jumpscareOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1500;
+            background: rgba(255, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.04s ease-in-out;
+        }
+
+        #jumpscareOverlay.active {
+            opacity: 1;
+            animation: extremeShake 0.4s infinite;
+        }
+
+        @keyframes extremeShake {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); filter: invert(0); }
+            20% { transform: translate(-25px, 25px) scale(1.2) rotate(-4deg); filter: invert(1); }
+            40% { transform: translate(25px, -25px) scale(1.15) rotate(4deg); }
+            60% { transform: translate(-20px, -20px) scale(1.25) rotate(-3deg); filter: invert(1); }
+            80% { transform: translate(20px, 20px) scale(1.1) rotate(3deg); }
+            100% { transform: translate(0, 0) scale(1) rotate(0deg); filter: invert(0); }
+        }
+
+        .ghost-jumpscare-icon {
+            font-size: 22rem;
+            color: var(--pure-white);
+            text-shadow: 0 0 70px #ff0000, 0 0 140px var(--halloween-orange);
+        }
+
+        /* OVERLAYS (MENU, GAMEOVER, WIN) */
+        .overlay-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(16px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            text-align: center;
+            padding: 30px;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .overlay-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .yellow-gt-logo {
+            max-width: 140px;
+            height: auto;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 0 25px rgba(255, 193, 7, 0.9));
+        }
+
+        .spooky-title {
+            font-family: var(--font-spooky);
+            font-size: 4.2rem;
+            color: var(--gt-yellow);
+            text-shadow: 0 0 35px rgba(255, 193, 7, 0.9), 4px 4px 0px #000;
+            margin-bottom: 8px;
+            letter-spacing: 4px;
+        }
+
+        .spooky-subtitle {
+            font-size: 1.2rem;
+            color: #d1d1d1;
+            max-width: 720px;
+            margin-bottom: 22px;
+            line-height: 1.6;
+        }
+
+        .spooky-subtitle span {
+            color: var(--gt-yellow);
+            font-weight: 800;
+        }
+
+        .controls-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px solid rgba(255, 102, 0, 0.5);
+            border-radius: 20px;
+            padding: 18px 35px;
+            margin-bottom: 25px;
+            display: flex;
+            gap: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+        }
+
+        .control-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .key-cap {
+            background: #121212;
+            border: 2px solid var(--gt-yellow);
+            color: var(--gt-yellow);
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 900;
+            font-size: 0.95rem;
+            box-shadow: 0 5px 0 rgba(255, 193, 7, 0.4);
+        }
+
+        .btn-action {
+            background: linear-gradient(45deg, var(--halloween-orange), #ff8800);
+            color: var(--pure-black);
+            border: none;
+            font-family: var(--font-headings);
+            font-size: 1.4rem;
+            font-weight: 900;
+            padding: 16px 50px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 0 35px rgba(255, 102, 0, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-action:hover {
+            transform: scale(1.08) translateY(-3px);
+            box-shadow: 0 0 55px rgba(255, 102, 0, 1);
+            background: linear-gradient(45deg, #ff8800, #ffaa00);
+            color: var(--pure-white);
+        }
+
+        /* Results Box */
+        .results-box {
+            background: rgba(15, 15, 15, 0.95);
+            border: 2px solid var(--gt-yellow);
+            border-radius: 20px;
+            padding: 24px 38px;
+            max-width: 520px;
+            width: 100%;
+            margin-bottom: 25px;
+            box-shadow: 0 0 40px rgba(255, 193, 7, 0.35);
+        }
+
+        .results-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2rem;
+            margin: 12px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.25);
+            padding-bottom: 8px;
+        }
+
+        .results-stat span:first-child {
+            color: #b0b0b0;
+        }
+
+        .results-stat span:last-child {
+            color: var(--gt-yellow);
+            font-weight: 900;
+        }
+
+        /* Mobile Controls */
+        .touch-controls {
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+            right: 25px;
+            display: none;
+            justify-content: space-between;
+            z-index: 40;
+            pointer-events: none;
+        }
+
+        .touch-group {
+            display: flex;
+            gap: 18px;
+            pointer-events: auto;
+        }
+
+        .touch-btn {
+            width: 70px;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--gt-yellow);
+            color: var(--gt-yellow);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.6rem;
+            backdrop-filter: blur(10px);
+            touch-action: manipulation;
+        }
+
+        .touch-btn:active {
+            background: var(--halloween-orange);
+            color: var(--pure-black);
+        }
+
+        @media (max-width: 900px) {
+            .touch-controls { display: flex; }
+            .spooky-title { font-size: 2.8rem; }
+            .controls-card { flex-direction: column; gap: 14px; padding: 15px; }
+            .cinema-bloody-presents { font-size: 1.6rem; bottom: -30px; }
+            .cinema-title { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-wrapper">
+        <!-- Permanently Fixed Glassmorphism Home Button (Top Left) -->
+        <a class="glass-back-btn" href="13.html.txt">
+            <i class="fas fa-arrow-left"></i> Wróć do strony głównej
+        </a>
+
+        <!-- Audio Toggle Button (Top Right) -->
+        <button class="audio-control" id="audioToggleBtn" title="Włącz / Wycisz muzykę">
+            <i class="fas fa-volume-mute" id="audioIcon"></i>
+        </button>
+
+        <!-- HALLOWEEN 2026 INTRO SEQUENCE -->
+        <div id="cinematicIntro">
+            <div class="cinematic-logo-box" id="cinematicLogoBox">
+                <img src="https://imgur.com/EBnhXHi.png" alt="Głos Trójki Logo" class="cinema-logo-img">
+                <div class="cinema-bloody-presents" id="cinemaBloodyText">PREZENTUJE</div>
+            </div>
+
+            <div class="cinema-credits-box" id="cinematicCredits">
+                <div class="cinema-title">GŁÓS TRÓJKI</div>
+                <div class="cinema-sub">halloween 2026</div>
+                <div class="cinema-domain">glostrojki.pl</div>
+                <div class="cinema-author">Zaprojektował i stworzył: Jakub Łebkowski</div>
+            </div>
+        </div>
+
+        <!-- JUMPSCARE EFFECT OVERLAY -->
+        <div id="jumpscareOverlay">
+            <i class="fas fa-ghost ghost-jumpscare-icon"></i>
+        </div>
+
+        <!-- Canvas Game Engine -->
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Touch Controls -->
+        <div class="touch-controls">
+            <div class="touch-group">
+                <div class="touch-btn" id="btnLeft"><i class="fas fa-arrow-left"></i></div>
+                <div class="touch-btn" id="btnRight"><i class="fas fa-arrow-right"></i></div>
+            </div>
+            <div class="touch-group">
+                <div class="touch-btn" id="btnJump"><i class="fas fa-arrow-up"></i></div>
+            </div>
+        </div>
+
+        <!-- START SCREEN OVERLAY -->
+        <div class="overlay-screen hidden" id="startScreen">
+            <img src="https://imgur.com/EBnhXHi.png" alt="Głos Trójki Yellow Logo" class="yellow-gt-logo">
+            <h1 class="spooky-title">Poszukiwacze Zaginionych Artykułów</h1>
+            <p class="spooky-subtitle">
+                Pokonaj <span>4 poziomy o rosnącej trudności</span> (w tym <span>Ekstremalny Gabinet Dyrektora</span>), zbierz 5 wydań 
+                <span>„Głos Trójki” (Halloween 2026)</span> i przejdź do historii na <span>glostrojki.pl</span>!
+            </p>
+
+            <div class="controls-card">
+                <div class="control-item">
+                    <div class="key-cap">A / D lub <i class="fas fa-arrows-alt-h"></i></div>
+                    <span style="font-size: 0.85rem; color: #b0b0b0;">Poruszanie się</span>
+                </div>
+                <div class="control-item">
+                    <div class="key-cap">SPACJA / W / <i class="fas fa-arrow-up"></i></div>
+                    <span style="font-size: 0.85rem; color: #b0b0b0;">Skok / Naskok na wroga</span>
+                </div>
+            </div>
+
+            <button class="btn-action" id="startGameBtn">
+                START GRY / PLAY <i class="fas fa-play"></i>
+            </button>
+        </div>
+
+        <!-- END GAME OVERLAY (WIN / LOSS) -->
+        <div class="overlay-screen hidden" id="endScreen">
+            <img src="https://imgur.com/EBnhXHi.png" alt="Głos Trójki Logo" class="yellow-gt-logo">
+            <h1 class="spooky-title" id="endTitle">Misja Ukończona!</h1>
+            <p class="spooky-subtitle" id="endSubtitle">Raport Redakcji glostrojki.pl — Halloween 2026:</p>
+
+            <div class="results-box">
+                <div class="results-stat">
+                    <span><i class="fas fa-layer-group"></i> Ukończony Poziom:</span>
+                    <span id="resLevel">4 / 4</span>
+                </div>
+                <div class="results-stat">
+                    <span><i class="fas fa-newspaper"></i> Zebrane Artykuły:</span>
+                    <span id="resArticles">5 / 5</span>
+                </div>
+                <div class="results-stat">
+                    <span><i class="fas fa-star"></i> Wynik Końcowy:</span>
+                    <span id="resScore">0 pkt</span>
+                </div>
+            </div>
+
+            <button class="btn-action" id="restartGameBtn">
+                ZAGRAJ PONOWNIE <i class="fas fa-redo"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Background Audio -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="muzyka.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        /* ==========================================================================
+           1. ASSETS & AUDIO SETUP (40% VOLUME)
+           ========================================================================== */
+        const bgImage = new Image();
+        bgImage.src = 'https://imgur.com/hl66Im4.png';
+
+        const platformImage = new Image();
+        platformImage.src = 'https://imgur.com/CNUeqSf.png';
+
+        const gtYellowLogo = new Image();
+        gtYellowLogo.src = 'https://imgur.com/EBnhXHi.png';
+
+        const bgMusic = document.getElementById('bgMusic');
+        const audioToggleBtn = document.getElementById('audioToggleBtn');
+        const audioIcon = document.getElementById('audioIcon');
+        let isAudioPlaying = false;
+
+        bgMusic.volume = 0.4; // 40% Volume
+
+        function toggleAudio() {
+            if (isAudioPlaying) {
+                bgMusic.pause();
+                audioIcon.className = "fas fa-volume-mute";
+                isAudioPlaying = false;
+            } else {
+                bgMusic.play().then(() => {
+                    audioIcon.className = "fas fa-volume-up";
+                    isAudioPlaying = true;
+                }).catch(err => console.log("Audio blocked:", err));
+            }
+        }
+
+        audioToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleAudio();
+        });
+
+        function autoPlayAudio() {
+            if (!isAudioPlaying) {
+                bgMusic.play().then(() => {
+                    audioIcon.className = "fas fa-volume-up";
+                    isAudioPlaying = true;
+                }).catch(() => {});
+            }
+            window.removeEventListener('click', autoPlayAudio);
+            window.removeEventListener('keydown', autoPlayAudio);
+        }
+        window.addEventListener('click', autoPlayAudio);
+        window.addEventListener('keydown', autoPlayAudio);
+
+        /* ==========================================================================
+           2. CLEAN HALLOWEEN 2026 INTRO SEQUENCE
+           ========================================================================== */
+        const cinematicIntro = document.getElementById('cinematicIntro');
+        const cinematicLogoBox = document.getElementById('cinematicLogoBox');
+        const cinemaBloodyText = document.getElementById('cinemaBloodyText');
+        const cinematicCredits = document.getElementById('cinematicCredits');
+        const startScreen = document.getElementById('startScreen');
+
+        function runCinematicIntro() {
+            // Step 1: Fade in Yellow Głos Trójki Logo
+            setTimeout(() => {
+                cinematicLogoBox.classList.add('active');
+            }, 300);
+
+            // Step 2: Bloody PREZENTUJE slam with shake
+            setTimeout(() => {
+                cinemaBloodyText.classList.add('active');
+                triggerScreenShake(20, 25);
+            }, 1500);
+
+            // Step 3: Fade out Logo
+            setTimeout(() => {
+                cinematicLogoBox.style.opacity = '0';
+                cinematicLogoBox.style.transform = 'scale(0.85)';
+            }, 3200);
+
+            // Step 4: Show Clean Credits (GŁÓS TRÓJKI | halloween 2026 | glostrojki.pl)
+            setTimeout(() => {
+                cinematicLogoBox.style.display = 'none';
+                cinematicCredits.classList.add('active');
+            }, 4200);
+
+            // Step 5: Fade out credits
+            setTimeout(() => {
+                cinematicCredits.style.opacity = '0';
+            }, 7200);
+
+            // Step 6: Reveal Start Screen
+            setTimeout(() => {
+                cinematicIntro.style.opacity = '0';
+                setTimeout(() => {
+                    cinematicIntro.style.display = 'none';
+                    startScreen.classList.remove('hidden');
+                }, 800);
+            }, 8200);
+        }
+
+        window.onload = () => {
+            runCinematicIntro();
+        };
+
+        /* ==========================================================================
+           3. CANVAS SETUP & 300% MORE GRAPHICS ENGINE
+           ========================================================================== */
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const GAME_WIDTH = 1280;
+        const GAME_HEIGHT = 720;
+        canvas.width = GAME_WIDTH;
+        canvas.height = GAME_HEIGHT;
+
+        function resizeCanvas() {
+            const ww = window.innerWidth;
+            const wh = window.innerHeight;
+            const scale = Math.min(ww / GAME_WIDTH, wh / GAME_HEIGHT);
+            canvas.style.width = `${GAME_WIDTH * scale}px`;
+            canvas.style.height = `${GAME_HEIGHT * scale}px`;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        let screenShakeTime = 0;
+        let screenShakeIntensity = 0;
+
+        function triggerScreenShake(intensity = 20, duration = 25) {
+            screenShakeIntensity = intensity;
+            screenShakeTime = duration;
+        }
+
+        /* Jumpscare Ghost Mechanic */
+        const jumpscareOverlay = document.getElementById('jumpscareOverlay');
+
+        function triggerGhostJumpscare() {
+            jumpscareOverlay.classList.add('active');
+            triggerScreenShake(35, 40);
+            
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (AudioCtx) {
+                    const ctxA = new AudioCtx();
+                    const osc = ctxA.createOscillator();
+                    const gain = ctxA.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(950, ctxA.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(100, ctxA.currentTime + 0.6);
+                    gain.gain.setValueAtTime(0.7, ctxA.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctxA.currentTime + 0.6);
+                    osc.connect(gain);
+                    gain.connect(ctxA.destination);
+                    osc.start();
+                    osc.stop(ctxA.currentTime + 0.6);
+                }
+            } catch(e) {}
+
+            setTimeout(() => {
+                jumpscareOverlay.classList.remove('active');
+            }, 450);
+        }
+
+        /* ==========================================================================
+           4. GAME STATE & INPUTS
+           ========================================================================== */
+        let gameState = 'START';
+        let currentLevel = 1;
+        let cameraX = 0;
+        let score = 0;
+        let lives = 3;
+        let articlesCollected = 0;
+        const TOTAL_ARTICLES = 5;
+
+        const articleHeadlines = [
+            "Głos Trójki: Nocne Śledztwo w SP3 (glostrojki.pl)!",
+            "Wielki Sukces Redakcji — Halloween 2026!",
+            "Tajemnica Mrocznych Korytarzy Rozwikłana",
+            "Wywiad z Duchami Biblioteki SP3",
+            "Wydanie Halloween 2026 Kompletne i Zapisane!"
+        ];
+        let currentHeadlineDisplay = "";
+        let headlineDisplayTimer = 0;
+
+        const keys = { left: false, right: false, jump: false };
+        let jumpBufferTimer = 0;
+        const JUMP_BUFFER_TIME = 9;
+
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'KeyA' || e.code === 'ArrowLeft') keys.left = true;
+            if (e.code === 'KeyD' || e.code === 'ArrowRight') keys.right = true;
+            if (e.code === 'Space' || e.code === 'KeyW' || e.code === 'ArrowUp') {
+                keys.jump = true;
+                jumpBufferTimer = JUMP_BUFFER_TIME;
+            }
+        });
+
+        window.addEventListener('keyup', (e) => {
+            if (e.code === 'KeyA' || e.code === 'ArrowLeft') keys.left = false;
+            if (e.code === 'KeyD' || e.code === 'ArrowRight') keys.right = false;
+            if (e.code === 'Space' || e.code === 'KeyW' || e.code === 'ArrowUp') keys.jump = false;
+        });
+
+        const setupTouchBtn = (id, keyName) => {
+            const btn = document.getElementById(id);
+            btn.addEventListener('touchstart', (e) => { 
+                e.preventDefault(); 
+                if(keyName === 'jump') jumpBufferTimer = JUMP_BUFFER_TIME;
+                keys[keyName] = true; 
+            });
+            btn.addEventListener('touchend', (e) => { e.preventDefault(); keys[keyName] = false; });
+        };
+        setupTouchBtn('btnLeft', 'left');
+        setupTouchBtn('btnRight', 'right');
+        setupTouchBtn('btnJump', 'jump');
+
+        /* ==========================================================================
+           5. RICH PARTICLES, BATS & ATMOSPHERIC ENGINE (300% MORE DETAILS)
+           ========================================================================== */
+        let particles = [];
+        let fogParticles = [];
+        let bats = [];
+        let wisps = [];
+        let ghostTrails = [];
+
+        class Particle {
+            constructor(x, y, color, speedX, speedY, size, life, glow = false) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.speedX = speedX;
+                this.speedY = speedY;
+                this.size = size;
+                this.life = life;
+                this.maxLife = life;
+                this.glow = glow;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life--;
+            }
+            draw(ctx) {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, this.life / this.maxLife);
+                ctx.fillStyle = this.color;
+                if (this.glow) {
+                    ctx.shadowColor = this.color;
+                    ctx.shadowBlur = 15;
+                }
+                ctx.beginPath();
+                ctx.arc(this.x - cameraX, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // Atmosphere Elements Init
+        for (let i = 0; i < 50; i++) {
+            fogParticles.push({
+                x: Math.random() * GAME_WIDTH * 3.5,
+                y: GAME_HEIGHT - Math.random() * 280,
+                radius: Math.random() * 75 + 45,
+                speedX: Math.random() * 0.8 + 0.2,
+                opacity: Math.random() * 0.2 + 0.05
+            });
+        }
+
+        for (let i = 0; i < 12; i++) {
+            bats.push({
+                x: Math.random() * GAME_WIDTH * 3,
+                y: Math.random() * 320 + 40,
+                speedX: Math.random() * 3 + 2,
+                wingFrame: Math.random() * 10,
+                size: Math.random() * 12 + 10
+            });
+        }
+
+        for (let i = 0; i < 18; i++) {
+            wisps.push({
+                x: Math.random() * GAME_WIDTH * 3,
+                y: Math.random() * 500 + 100,
+                radius: Math.random() * 4 + 2,
+                pulse: Math.random() * 10,
+                speedY: (Math.random() - 0.5) * 0.5
+            });
+        }
+
+        function createBurst(x, y, color, count = 35, glow = true) {
+            for (let i = 0; i < count; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 8 + 2;
+                particles.push(new Particle(
+                    x, y, color,
+                    Math.cos(angle) * speed,
+                    Math.sin(angle) * speed,
+                    Math.random() * 5 + 2,
+                    Math.random() * 32 + 18,
+                    glow
+                ));
+            }
+        }
+
+        /* ==========================================================================
+           6. PLAYER & ENTITIES
+           ========================================================================== */
+        const player = {
+            x: 100,
+            y: 400,
+            width: 44,
+            height: 58,
+            vx: 0,
+            vy: 0,
+            speed: 6.8,
+            jumpPower: -14.5,
+            gravity: 0.65,
+            grounded: false,
+            coyoteTimer: 0,
+            COYOTE_TIME_MAX: 9,
+            facing: 'right',
+            animFrame: 0,
+            invulnerableTimer: 0,
+
+            reset() {
+                this.x = 100;
+                this.y = 400;
+                this.vx = 0;
+                this.vy = 0;
+                this.grounded = false;
+                this.coyoteTimer = 0;
+                this.invulnerableTimer = 0;
+            },
+
+            update() {
+                if (keys.left) {
+                    this.vx = -this.speed;
+                    this.facing = 'left';
+                } else if (keys.right) {
+                    this.vx = this.speed;
+                    this.facing = 'right';
+                } else {
+                    this.vx *= 0.72;
+                }
+
+                this.vy += this.gravity;
+                if (this.vy > 16) this.vy = 16;
+
+                if (this.grounded) {
+                    this.coyoteTimer = this.COYOTE_TIME_MAX;
+                } else {
+                    if (this.coyoteTimer > 0) this.coyoteTimer--;
+                }
+
+                if (jumpBufferTimer > 0 && this.coyoteTimer > 0) {
+                    this.vy = this.jumpPower;
+                    this.grounded = false;
+                    this.coyoteTimer = 0;
+                    jumpBufferTimer = 0;
+                    createBurst(this.x + this.width / 2, this.y + this.height, '#FFC107', 18, true);
+                }
+
+                if (!keys.jump && this.vy < -4) {
+                    this.vy *= 0.52;
+                }
+
+                // Add Dash/Ghost Trail Effects
+                if (Math.abs(this.vx) > 3 || Math.abs(this.vy) > 4) {
+                    ghostTrails.push({
+                        x: this.x,
+                        y: this.y,
+                        facing: this.facing,
+                        alpha: 0.6
+                    });
+                }
+
+                this.x += this.vx;
+                this.handleCollisionX();
+
+                this.y += this.vy;
+                this.grounded = false;
+                this.handleCollisionY();
+
+                if (Math.abs(this.vx) > 0.5 && this.grounded) this.animFrame += 0.3;
+                else this.animFrame = 0;
+
+                if (this.invulnerableTimer > 0) this.invulnerableTimer--;
+
+                if (this.y > GAME_HEIGHT + 100) takeDamage();
+            },
+
+            handleCollisionX() {
+                for (let p of platforms) {
+                    if (checkAABB(this, p)) {
+                        if (this.vx > 0) { this.x = p.x - this.width; this.vx = 0; }
+                        else if (this.vx < 0) { this.x = p.x + p.width; this.vx = 0; }
+                    }
+                }
+            },
+
+            handleCollisionY() {
+                for (let p of platforms) {
+                    if (checkAABB(this, p)) {
+                        if (this.vy > 0) {
+                            this.y = p.y - this.height;
+                            this.vy = 0;
+                            this.grounded = true;
+                        } else if (this.vy < 0) {
+                            this.y = p.y + p.height;
+                            this.vy = 0;
+                        }
+                    }
+                }
+            },
+
+            draw(ctx) {
+                ctx.save();
+                if (this.invulnerableTimer % 6 > 3) { ctx.restore(); return; }
+
+                const px = this.x - cameraX;
+                const py = this.y;
+
+                ctx.translate(px + this.width / 2, py + this.height / 2);
+                if (this.facing === 'left') ctx.scale(-1, 1);
+
+                // Animated Cape Flow
+                ctx.fillStyle = '#ff6600';
+                ctx.beginPath();
+                const capeWave = Math.sin(Date.now() * 0.01) * 6;
+                ctx.moveTo(-10, -5);
+                ctx.lineTo(-24 + capeWave, 28);
+                ctx.lineTo(-6, 22);
+                ctx.closePath();
+                ctx.fill();
+
+                // Detailed Reporter Body (Yellow Coat)
+                ctx.fillStyle = '#FFC107';
+                ctx.shadowColor = '#FFC107';
+                ctx.shadowBlur = 15;
+                ctx.beginPath();
+                ctx.roundRect(-16, -10, 32, 36, [8]);
+                ctx.fill();
+                ctx.strokeStyle = '#000000';
+                ctx.lineWidth = 2.5;
+                ctx.stroke();
+
+                // Animated Legs
+                const legOffset = Math.sin(this.animFrame) * 9;
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(-12, 24, 10, 12 + (this.grounded ? legOffset : 0));
+                ctx.fillRect(2, 24, 10, 12 - (this.grounded ? legOffset : 0));
+
+                // Head
+                ctx.fillStyle = '#ffdfc4';
+                ctx.beginPath();
+                ctx.arc(0, -22, 16, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                // Halloween Reporter Hat (Black & Yellow Band)
+                ctx.fillStyle = '#111111';
+                ctx.beginPath();
+                ctx.moveTo(-22, -30);
+                ctx.lineTo(22, -30);
+                ctx.lineTo(0, -55);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.fillStyle = '#FFC107';
+                ctx.fillRect(-14, -34, 28, 5);
+
+                // Eyes & Smile
+                ctx.fillStyle = '#000';
+                ctx.beginPath();
+                ctx.arc(6, -24, 2.5, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Press Bag
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(-9, 2, 14, 16);
+                ctx.fillStyle = '#ff6600';
+                ctx.fillRect(-7, 4, 10, 3);
+
+                ctx.restore();
+            }
+        };
+
+        // Level Definitions with Escalating Difficulty (Level 4 EXTREME)
+        let platforms = [];
+        let collectibles = [];
+        let enemies = [];
+        let exitPortal = null;
+        let jumpscareTriggeredLevel = false;
+
+        function loadLevel(lvl) {
+            platforms = [];
+            collectibles = [];
+            enemies = [];
+            jumpscareTriggeredLevel = false;
+
+            const addPlat = (x, y, w, h, isMoving = false, moveRange = 0, speed = 0) => {
+                platforms.push({ x, y, origX: x, width: w, height: h, isMoving, moveRange, speed, dir: 1 });
+            };
+
+            if (lvl === 1) {
+                // LEVEL 1: Cmentarz Zaginionych Artykułów (EASY)
+                addPlat(0, 630, 900, 90);
+                addPlat(1000, 630, 900, 90);
+                addPlat(2000, 630, 1000, 90);
+
+                addPlat(300, 500, 180, 36);
+                addPlat(560, 390, 200, 36);
+                addPlat(840, 480, 160, 36);
+                addPlat(1200, 480, 180, 36);
+                addPlat(1480, 360, 220, 36);
+                addPlat(1780, 470, 180, 36);
+                addPlat(2150, 500, 180, 36);
+
+                collectibles.push({ x: 350, y: 440, type: 'article', id: 0, collected: false });
+                collectibles.push({ x: 620, y: 330, type: 'article', id: 1, collected: false });
+                collectibles.push({ x: 1540, y: 300, type: 'article', id: 2, collected: false });
+                collectibles.push({ x: 2200, y: 440, type: 'article', id: 3, collected: false });
+                collectibles.push({ x: 2650, y: 560, type: 'article', id: 4, collected: false });
+
+                const pSpawns = [{x: 180, y: 580}, {x: 500, y: 580}, {x: 900, y: 430}, {x: 1260, y: 430}, {x: 1820, y: 420}];
+                pSpawns.forEach(p => collectibles.push({ x: p.x, y: p.y, type: 'pumpkin', collected: false }));
+
+                enemies.push(new Enemy(600, 582, 'skeleton', 500, 750, 2.0));
+                enemies.push(new Enemy(1250, 582, 'skeleton', 1100, 1400, 2.0));
+                enemies.push(new Enemy(450, 290, 'ghost', 250, 450, 2.2, true));
+
+                exitPortal = { x: 2840, y: 510, width: 75, height: 120, unlocked: false };
+
+            } else if (lvl === 2) {
+                // LEVEL 2: Nawiedzony Korytarz SP3 (MEDIUM)
+                addPlat(0, 630, 750, 90);
+                addPlat(900, 630, 750, 90);
+                addPlat(1800, 630, 1100, 90);
+
+                addPlat(250, 510, 150, 36);
+                addPlat(480, 400, 160, 36);
+                addPlat(730, 290, 150, 36);
+                addPlat(1050, 420, 170, 36);
+                addPlat(1350, 310, 160, 36);
+                addPlat(1620, 430, 150, 36, true, 120, 2.2);
+                addPlat(1980, 360, 170, 36);
+                addPlat(2280, 260, 180, 36);
+
+                collectibles.push({ x: 290, y: 450, type: 'article', id: 0, collected: false });
+                collectibles.push({ x: 770, y: 230, type: 'article', id: 1, collected: false });
+                collectibles.push({ x: 1400, y: 250, type: 'article', id: 2, collected: false });
+                collectibles.push({ x: 2340, y: 200, type: 'article', id: 3, collected: false });
+                collectibles.push({ x: 2650, y: 560, type: 'article', id: 4, collected: false });
+
+                const pSpawns = [{x: 140, y: 580}, {x: 520, y: 340}, {x: 1100, y: 360}, {x: 1680, y: 370}, {x: 2040, y: 300}];
+                pSpawns.forEach(p => collectibles.push({ x: p.x, y: p.y, type: 'pumpkin', collected: false }));
+
+                enemies.push(new Enemy(500, 582, 'skeleton', 350, 650, 2.8));
+                enemies.push(new Enemy(1150, 582, 'skeleton', 950, 1300, 3.0));
+                enemies.push(new Enemy(500, 300, 'ghost', 320, 580, 3.2, true));
+                enemies.push(new Enemy(1400, 180, 'ghost', 1250, 1550, 3.5, true));
+
+                exitPortal = { x: 2800, y: 510, width: 75, height: 120, unlocked: false };
+
+            } else if (lvl === 3) {
+                // LEVEL 3: Mroczna Sala Gimnastyczna (HARD)
+                addPlat(0, 630, 550, 90);
+                addPlat(850, 630, 600, 90);
+                addPlat(1800, 630, 1100, 90);
+
+                addPlat(200, 510, 120, 36);
+                addPlat(400, 390, 120, 36, true, 140, 2.8);
+                addPlat(660, 280, 130, 36);
+                addPlat(960, 420, 130, 36);
+                addPlat(1220, 310, 130, 36, true, 160, 3.2);
+                addPlat(1500, 210, 120, 36);
+                addPlat(1780, 340, 130, 36);
+                addPlat(2080, 460, 120, 36);
+                addPlat(2360, 330, 140, 36);
+
+                collectibles.push({ x: 230, y: 450, type: 'article', id: 0, collected: false });
+                collectibles.push({ x: 700, y: 220, type: 'article', id: 1, collected: false });
+                collectibles.push({ x: 1540, y: 150, type: 'article', id: 2, collected: false });
+                collectibles.push({ x: 2400, y: 270, type: 'article', id: 3, collected: false });
+                collectibles.push({ x: 2700, y: 560, type: 'article', id: 4, collected: false });
+
+                const pSpawns = [{x: 100, y: 580}, {x: 430, y: 330}, {x: 1000, y: 360}, {x: 1820, y: 280}, {x: 2120, y: 400}];
+                pSpawns.forEach(p => collectibles.push({ x: p.x, y: p.y, type: 'pumpkin', collected: false }));
+
+                enemies.push(new Enemy(350, 582, 'skeleton', 200, 500, 3.6));
+                enemies.push(new Enemy(1000, 582, 'skeleton', 880, 1200, 3.8));
+                enemies.push(new Enemy(700, 180, 'ghost', 580, 820, 4.0, true));
+                enemies.push(new Enemy(1550, 110, 'ghost', 1400, 1700, 4.2, true));
+                enemies.push(new Enemy(2120, 380, 'ghost', 1980, 2250, 4.2, true));
+
+                exitPortal = { x: 2820, y: 510, width: 75, height: 120, unlocked: false };
+
+            } else if (lvl === 4) {
+                // LEVEL 4: KOSZMAR REDAKCJI / GABINET DYREKTORA (EXTREME!)
+                addPlat(0, 630, 350, 90);
+                addPlat(700, 630, 400, 90);
+                addPlat(1500, 630, 400, 90);
+                addPlat(2400, 630, 500, 90);
+
+                // Small & Fast Moving Platforms
+                addPlat(180, 500, 90, 32);
+                addPlat(360, 380, 90, 32, true, 160, 4.0);
+                addPlat(580, 260, 90, 32);
+                addPlat(820, 390, 90, 32, true, 180, 4.5);
+                addPlat(1060, 270, 90, 32);
+                addPlat(1300, 180, 90, 32, true, 200, 5.0);
+                addPlat(1580, 300, 90, 32);
+                addPlat(1820, 420, 90, 32, true, 220, 5.5);
+                addPlat(2080, 290, 90, 32);
+                addPlat(2320, 180, 90, 32);
+
+                collectibles.push({ x: 200, y: 440, type: 'article', id: 0, collected: false });
+                collectibles.push({ x: 600, y: 200, type: 'article', id: 1, collected: false });
+                collectibles.push({ x: 1080, y: 210, type: 'article', id: 2, collected: false });
+                collectibles.push({ x: 1600, y: 240, type: 'article', id: 3, collected: false });
+                collectibles.push({ x: 2340, y: 120, type: 'article', id: 4, collected: false });
+
+                const pSpawns = [{x: 80, y: 580}, {x: 380, y: 320}, {x: 840, y: 330}, {x: 1320, y: 120}, {x: 2100, y: 230}];
+                pSpawns.forEach(p => collectibles.push({ x: p.x, y: p.y, type: 'pumpkin', collected: false }));
+
+                // Ultra Fast Skeletons & Ghosts
+                enemies.push(new Enemy(200, 582, 'skeleton', 100, 300, 4.5));
+                enemies.push(new Enemy(850, 582, 'skeleton', 720, 1000, 5.0));
+                enemies.push(new Enemy(1650, 582, 'skeleton', 1520, 1800, 5.2));
+                enemies.push(new Enemy(600, 150, 'ghost', 450, 750, 5.0, true));
+                enemies.push(new Enemy(1080, 130, 'ghost', 950, 1250, 5.5, true));
+                enemies.push(new Enemy(1840, 220, 'ghost', 1700, 2000, 6.0, true));
+                enemies.push(new Enemy(2340, 100, 'ghost', 2200, 2500, 6.5, true));
+
+                exitPortal = { x: 2750, y: 510, width: 75, height: 120, unlocked: false };
+            }
+
+            player.reset();
+        }
+
+        class Enemy {
+            constructor(x, y, type, minX, maxX, speed = 2.5, isVertical = false) {
+                this.x = x;
+                this.y = y;
+                this.width = 42;
+                this.height = 50;
+                this.type = type;
+                this.minX = minX;
+                this.maxX = maxX;
+                this.minY = y - 90;
+                this.maxY = y + 90;
+                this.speed = speed;
+                this.dir = 1;
+                this.isVertical = isVertical;
+                this.alive = true;
+                this.animTick = Math.random() * 10;
+            }
+
+            update() {
+                if (!this.alive) return;
+                this.animTick += 0.15;
+
+                if (this.isVertical) {
+                    this.y += this.speed * this.dir;
+                    if (this.y < this.minY || this.y > this.maxY) this.dir *= -1;
+                } else {
+                    this.x += this.speed * this.dir;
+                    if (this.x < this.minX || this.x > this.maxX) this.dir *= -1;
+                }
+            }
+
+            draw(ctx) {
+                if (!this.alive) return;
+
+                ctx.save();
+                const ex = this.x - cameraX;
+                const ey = this.y;
+
+                if (this.type === 'ghost') {
+                    const floatY = ey + Math.sin(this.animTick) * 9;
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
+                    ctx.shadowColor = '#ffffff';
+                    ctx.shadowBlur = 22;
+                    ctx.beginPath();
+                    ctx.arc(ex + 21, floatY + 18, 20, Math.PI, 0, false);
+                    ctx.lineTo(ex + 42, floatY + 50);
+                    ctx.lineTo(ex + 31, floatY + 41);
+                    ctx.lineTo(ex + 21, floatY + 50);
+                    ctx.lineTo(ex + 11, floatY + 41);
+                    ctx.lineTo(ex, floatY + 50);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    ctx.fillStyle = '#ff0033';
+                    ctx.beginPath();
+                    ctx.arc(ex + 13, floatY + 16, 4.5, 0, Math.PI * 2);
+                    ctx.arc(ex + 29, floatY + 16, 4.5, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    ctx.fillStyle = '#e8e8e8';
+                    ctx.beginPath();
+                    ctx.arc(ex + 21, ey + 14, 13, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillRect(ex + 16, ey + 27, 10, 15);
+
+                    ctx.fillStyle = '#ff6600';
+                    ctx.fillRect(ex + 15, ey + 12, 4.5, 4.5);
+                    ctx.fillRect(ex + 23, ey + 12, 4.5, 4.5);
+
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 3;
+                    const legAnim = Math.sin(this.animTick * 2.5) * 10;
+                    ctx.beginPath();
+                    ctx.moveTo(ex + 17, ey + 42);
+                    ctx.lineTo(ex + 10 - legAnim, ey + 50);
+                    ctx.moveTo(ex + 25, ey + 42);
+                    ctx.lineTo(ex + 32 + legAnim, ey + 50);
+                    ctx.stroke();
+                }
+
+                ctx.restore();
+            }
+        }
+
+        /* ==========================================================================
+           7. GAME ENGINE LOOP
+           ========================================================================== */
+        function checkAABB(r1, r2) {
+            return (
+                r1.x < r2.x + r2.width &&
+                r1.x + r1.width > r2.x &&
+                r1.y < r2.y + r2.height &&
+                r1.y + r1.height > r2.y
+            );
+        }
+
+        function takeDamage() {
+            if (player.invulnerableTimer > 0) return;
+
+            lives--;
+            player.invulnerableTimer = 65;
+            triggerScreenShake(22, 28);
+            createBurst(player.x + player.width / 2, player.y + player.height / 2, '#ff0033', 45, true);
+
+            if (lives <= 0) {
+                gameOver(false);
+            } else {
+                player.reset();
+            }
+        }
+
+        function update() {
+            if (gameState !== 'PLAYING') return;
+
+            if (jumpBufferTimer > 0) jumpBufferTimer--;
+
+            // Update Moving Platforms
+            platforms.forEach(p => {
+                if (p.isMoving) {
+                    p.x += p.speed * p.dir;
+                    if (p.x < p.origX || p.x > p.origX + p.moveRange) {
+                        p.dir *= -1;
+                    }
+                }
+            });
+
+            player.update();
+
+            // Level 3 & Level 4 Jumpscare Trigger
+            if (!jumpscareTriggeredLevel && player.x > 1150 && (currentLevel === 3 || currentLevel === 4)) {
+                jumpscareTriggeredLevel = true;
+                triggerGhostJumpscare();
+            }
+
+            cameraX += (player.x - cameraX - GAME_WIDTH / 3 - player.width / 2) * 0.12;
+            cameraX = Math.max(0, Math.min(cameraX, 3000 - GAME_WIDTH));
+
+            // Update Ghost Trails
+            for (let i = ghostTrails.length - 1; i >= 0; i--) {
+                ghostTrails[i].alpha -= 0.05;
+                if (ghostTrails[i].alpha <= 0) ghostTrails.splice(i, 1);
+            }
+
+            // Update Particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update();
+                if (particles[i].life <= 0) particles.splice(i, 1);
+            }
+
+            enemies.forEach(e => {
+                e.update();
+                if (e.alive && checkAABB(player, e)) {
+                    if (player.vy > 0 && player.y + player.height - player.vy <= e.y + 18) {
+                        e.alive = false;
+                        player.vy = player.jumpPower * 0.75;
+                        score += 250;
+                        triggerScreenShake(12, 14);
+                        createBurst(e.x + e.width / 2, e.y + e.height / 2, '#FFC107', 40, true);
+                    } else {
+                        takeDamage();
+                    }
+                }
+            });
+
+            collectibles.forEach(c => {
+                if (!c.collected) {
+                    const cBounds = { x: c.x, y: c.y, width: 32, height: 32 };
+                    if (checkAABB(player, cBounds)) {
+                        c.collected = true;
+                        if (c.type === 'article') {
+                            articlesCollected++;
+                            score += 500;
+                            currentHeadlineDisplay = `${articleHeadlines[c.id]}`;
+                            headlineDisplayTimer = 220;
+                            triggerScreenShake(14, 18);
+                            createBurst(c.x + 16, c.y + 16, '#FFC107', 50, true);
+                        } else if (c.type === 'pumpkin') {
+                            score += 150;
+                            createBurst(c.x + 16, c.y + 16, '#ff6600', 30, true);
+                        }
+                    }
+                }
+            });
+
+            if (articlesCollected >= TOTAL_ARTICLES) {
+                exitPortal.unlocked = true;
+            }
+
+            if (exitPortal.unlocked && checkAABB(player, exitPortal)) {
+                if (currentLevel < 4) {
+                    currentLevel++;
+                    articlesCollected = 0;
+                    loadLevel(currentLevel);
+                    triggerScreenShake(25, 30);
+                    createBurst(player.x, player.y, '#FFC107', 70, true);
+                } else {
+                    gameOver(true);
+                }
+            }
+
+            if (headlineDisplayTimer > 0) headlineDisplayTimer--;
+        }
+
+        function draw() {
+            ctx.save();
+
+            if (screenShakeTime > 0) {
+                screenShakeTime--;
+                const rx = (Math.random() - 0.5) * screenShakeIntensity;
+                const ry = (Math.random() - 0.5) * screenShakeIntensity;
+                ctx.translate(rx, ry);
+            }
+
+            ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+
+            // 1. BACKGROUND PARALLAX
+            if (bgImage.complete && bgImage.naturalWidth !== 0) {
+                const bgWidth = GAME_WIDTH;
+                const parallaxX = -(cameraX * 0.38) % bgWidth;
+                ctx.drawImage(bgImage, parallaxX, 0, bgWidth, GAME_HEIGHT);
+                ctx.drawImage(bgImage, parallaxX + bgWidth, 0, bgWidth, GAME_HEIGHT);
+            } else {
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+            }
+
+            // 2. ATMOSPHERIC BATS & WISPS (300% DETAILS)
+            bats.forEach(b => {
+                b.x -= b.speedX;
+                if (b.x - cameraX * 0.2 < -50) b.x = GAME_WIDTH + cameraX * 0.2 + 100;
+                const bx = b.x - cameraX * 0.2;
+                b.wingFrame += 0.25;
+
+                ctx.save();
+                ctx.fillStyle = '#111111';
+                ctx.beginPath();
+                const wingY = Math.sin(b.wingFrame) * 8;
+                ctx.moveTo(bx, b.y);
+                ctx.lineTo(bx - b.size, b.y - wingY);
+                ctx.lineTo(bx - b.size / 2, b.y + 4);
+                ctx.lineTo(bx, b.y + 2);
+                ctx.lineTo(bx + b.size / 2, b.y + 4);
+                ctx.lineTo(bx + b.size, b.y - wingY);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            });
+
+            wisps.forEach(w => {
+                w.y += w.speedY;
+                w.pulse += 0.05;
+                const wx = w.x - cameraX * 0.5;
+                const glowR = w.radius + Math.sin(w.pulse) * 2;
+
+                ctx.save();
+                ctx.fillStyle = 'rgba(255, 193, 7, 0.7)';
+                ctx.shadowColor = '#FFC107';
+                ctx.shadowBlur = 15;
+                ctx.beginPath();
+                ctx.arc(wx, w.y, glowR, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            });
+
+            // 3. FOG LAYER
+            fogParticles.forEach(f => {
+                f.x -= f.speedX;
+                if (f.x - cameraX * 0.15 < -100) f.x = GAME_WIDTH + cameraX * 0.15 + 200;
+                const fx = f.x - cameraX * 0.15;
+                
+                ctx.save();
+                ctx.fillStyle = `rgba(255, 255, 255, ${f.opacity})`;
+                ctx.beginPath();
+                ctx.arc(fx, f.y, f.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            });
+
+            // 4. PLATFORMS
+            platforms.forEach(p => {
+                const px = p.x - cameraX;
+                if (px + p.width < -50 || px > GAME_WIDTH + 50) return;
+
+                if (platformImage.complete && platformImage.naturalWidth !== 0) {
+                    const tileWidth = 60;
+                    for (let x = 0; x < p.width; x += tileWidth) {
+                        const currentTileW = Math.min(tileWidth, p.width - x);
+                        ctx.drawImage(
+                            platformImage, 
+                            0, 0, currentTileW, platformImage.naturalHeight, 
+                            px + x, p.y, currentTileW, p.height
+                        );
+                    }
+                } else {
+                    ctx.fillStyle = '#1a1a1a';
+                    ctx.fillRect(px, p.y, p.width, p.height);
+                    ctx.fillStyle = '#FFC107';
+                    ctx.fillRect(px, p.y, p.width, 4);
+                }
+            });
+
+            // 5. COLLECTIBLES
+            collectibles.forEach(c => {
+                if (c.collected) return;
+                const cx = c.x - cameraX;
+                if (cx < -50 || cx > GAME_WIDTH + 50) return;
+
+                const floatY = c.y + Math.sin(Date.now() * 0.007 + c.x) * 7;
+
+                if (c.type === 'article') {
+                    ctx.save();
+                    ctx.fillStyle = '#ffffff';
+                    ctx.shadowColor = '#FFC107';
+                    ctx.shadowBlur = 22;
+                    ctx.fillRect(cx, floatY, 28, 34);
+                    ctx.fillStyle = '#FFC107';
+                    ctx.fillRect(cx + 3, floatY + 3, 22, 6);
+                    ctx.fillStyle = '#000000';
+                    ctx.fillRect(cx + 3, floatY + 12, 18, 2);
+                    ctx.fillRect(cx + 3, floatY + 18, 22, 2);
+                    ctx.fillRect(cx + 3, floatY + 24, 15, 2);
+                    ctx.restore();
+                } else {
+                    ctx.save();
+                    ctx.fillStyle = '#ff6600';
+                    ctx.shadowColor = '#ff6600';
+                    ctx.shadowBlur = 20;
+                    ctx.beginPath();
+                    ctx.arc(cx + 16, floatY + 16, 15, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(cx + 14, floatY, 4, 7);
+                    ctx.restore();
+                }
+            });
+
+            // 6. EXIT PORTAL
+            if (exitPortal) {
+                const ex = exitPortal.x - cameraX;
+                ctx.save();
+                ctx.fillStyle = exitPortal.unlocked ? '#FFC107' : '#222222';
+                ctx.shadowColor = exitPortal.unlocked ? '#FFC107' : '#000000';
+                ctx.shadowBlur = exitPortal.unlocked ? 35 : 0;
+                ctx.fillRect(ex, exitPortal.y, exitPortal.width, exitPortal.height);
+
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(ex + 8, exitPortal.y + 12, exitPortal.width - 16, exitPortal.height - 12);
+
+                ctx.fillStyle = exitPortal.unlocked ? '#FFC107' : '#ffffff';
+                ctx.font = '900 12px Montserrat';
+                ctx.textAlign = 'center';
+                ctx.fillText(exitPortal.unlocked ? 'PORTAL' : 'ZABLOK.', ex + exitPortal.width / 2, exitPortal.y + 45);
+                ctx.fillText(`LVL ${currentLevel}`, ex + exitPortal.width / 2, exitPortal.y + 65);
+                ctx.restore();
+            }
+
+            // 7. GHOST TRAILS, ENTITIES & PARTICLES
+            ghostTrails.forEach(gt => {
+                ctx.save();
+                ctx.globalAlpha = gt.alpha * 0.4;
+                ctx.fillStyle = '#FFC107';
+                ctx.fillRect(gt.x - cameraX, gt.y, player.width, player.height);
+                ctx.restore();
+            });
+
+            enemies.forEach(e => e.draw(ctx));
+            player.draw(ctx);
+            particles.forEach(p => p.draw(ctx));
+
+            // 8. HUD
+            for (let i = 0; i < 3; i++) {
+                ctx.fillStyle = i < lives ? '#ff6600' : '#2a2a2a';
+                ctx.shadowColor = i < lives ? '#ff6600' : 'transparent';
+                ctx.shadowBlur = 12;
+                ctx.beginPath();
+                ctx.arc(50 + i * 38, 45, 14, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // STRICTLY YELLOW GŁÓS TRÓJKI LOGO HUD (TOP CENTER)
+            if (gtYellowLogo.complete && gtYellowLogo.naturalWidth !== 0) {
+                ctx.save();
+                ctx.shadowColor = '#FFC107';
+                ctx.shadowBlur = 20;
+                ctx.drawImage(gtYellowLogo, GAME_WIDTH / 2 - 38, 12, 76, 52);
+                ctx.restore();
+            }
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '900 17px Montserrat';
+            ctx.textAlign = 'left';
+            ctx.fillText(`POZIOM: ${currentLevel}/4`, 170, 52);
+            ctx.fillText(`PUNKTY: ${score}`, 340, 52);
+
+            ctx.fillStyle = '#FFC107';
+            ctx.fillText(`ARTYKUŁY: ${articlesCollected} / ${TOTAL_ARTICLES}`, GAME_WIDTH - 270, 52);
+
+            // Headline Banner
+            if (headlineDisplayTimer > 0) {
+                ctx.save();
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.92)';
+                ctx.strokeStyle = '#FFC107';
+                ctx.lineWidth = 2.5;
+                ctx.shadowColor = '#FFC107';
+                ctx.shadowBlur = 20;
+                ctx.roundRect(GAME_WIDTH / 2 - 320, 80, 640, 48, [14]);
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.fillStyle = '#FFC107';
+                ctx.font = 'bold 15px Montserrat';
+                ctx.textAlign = 'center';
+                ctx.fillText(`Odnaleziono: „${currentHeadlineDisplay}”`, GAME_WIDTH / 2, 111);
+                ctx.restore();
+            }
+
+            ctx.restore();
+        }
+
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        /* ==========================================================================
+           8. OVERLAYS & CONTROLS
+           ========================================================================== */
+        const endScreen = document.getElementById('endScreen');
+
+        document.getElementById('startGameBtn').addEventListener('click', () => {
+            startScreen.classList.add('hidden');
+            resetFullGame();
+            gameState = 'PLAYING';
+        });
+
+        document.getElementById('restartGameBtn').addEventListener('click', () => {
+            endScreen.classList.add('hidden');
+            resetFullGame();
+            gameState = 'PLAYING';
+        });
+
+        function resetFullGame() {
+            score = 0;
+            lives = 3;
+            currentLevel = 1;
+            articlesCollected = 0;
+            cameraX = 0;
+            loadLevel(currentLevel);
+        }
+
+        function gameOver(isWin) {
+            gameState = isWin ? 'WIN' : 'GAMEOVER';
+
+            const endTitle = document.getElementById('endTitle');
+            const resLevel = document.getElementById('resLevel');
+            const resArticles = document.getElementById('resArticles');
+            const resScore = document.getElementById('resScore');
+
+            if (isWin) {
+                endTitle.innerText = "Sukces! Wydanie Uratowane!";
+                endTitle.style.color = "#FFC107";
+            } else {
+                endTitle.innerText = "Koniec Gry — Duchy Przejęły SP3";
+                endTitle.style.color = "#ff0033";
+            }
+
+            resLevel.innerText = `${currentLevel} / 4`;
+            resArticles.innerText = `${articlesCollected} / ${TOTAL_ARTICLES}`;
+            resScore.innerText = `${score} pkt`;
+
+            endScreen.classList.remove('hidden');
+        }
+
+        loadLevel(1);
+        requestAnimationFrame(gameLoop);
+    </script>
+</body>
+</html>
