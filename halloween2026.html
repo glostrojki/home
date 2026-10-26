@@ -224,14 +224,14 @@
             text-shadow: 0 0 90px #ff0000, 0 0 160px #ff6600;
         }
 
-        /* NOWOCZESNE MENU DZIELONE */
+        /* NOWOCZESNE MENU Z PIONOWYM PANELEM PO LEWEJ (PÓŁPRZEZROCZYSTY 80%, BEZ ŻÓŁTEJ OBWÓDKI + GRADIENT W PRAWO) */
         .overlay-screen {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.2);
             display: flex;
             z-index: 50;
             transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -244,35 +244,60 @@
         }
 
         .sidebar-menu {
-            width: 380px;
+            width: 400px;
             height: 100%;
-            background: rgba(12, 12, 12, 0.94);
-            backdrop-filter: blur(20px);
-            border-right: 3px solid rgba(255, 193, 7, 0.5);
+            /* 80% opacity background + Smooth gradient fade out to the right (0%) */
+            background: linear-gradient(90deg, rgba(10, 10, 10, 0.82) 0%, rgba(10, 10, 10, 0.65) 60%, rgba(10, 10, 10, 0.0) 100%);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border: none; /* Brak obwódki */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 30px 20px;
-            box-shadow: 15px 0 50px rgba(0, 0, 0, 0.85);
+            padding: 35px 25px;
+            box-shadow: 20px 0 60px rgba(0, 0, 0, 0.9);
             z-index: 60;
+            position: relative;
+        }
+
+        .sidebar-content-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 300px;
         }
 
         .yellow-gt-logo {
-            max-width: 110px;
+            max-width: 120px;
             height: auto;
-            margin-bottom: 8px;
-            filter: drop-shadow(0 0 20px rgba(255, 193, 7, 0.8));
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 25px rgba(255, 193, 7, 0.9));
         }
 
         .spooky-title {
             font-family: var(--font-spooky);
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             color: var(--gt-yellow);
-            text-shadow: 0 0 25px rgba(255, 193, 7, 0.8);
-            margin-bottom: 25px;
+            text-shadow: 0 0 30px rgba(255, 193, 7, 0.9);
+            margin-bottom: 5px;
             text-align: center;
             line-height: 1.1;
+        }
+
+        /* INFORMACJA O WERSJI NA PASKU */
+        .version-badge {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 193, 7, 0.25);
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 1.2px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
         .menu-btn-list {
@@ -280,21 +305,20 @@
             flex-direction: column;
             gap: 16px;
             width: 100%;
-            max-width: 280px;
         }
 
         .btn-side {
-            background: linear-gradient(45deg, var(--halloween-orange), #ff8800);
+            background: linear-gradient(135deg, var(--halloween-orange), #ff8800);
             color: var(--pure-black);
             border: none;
             font-family: var(--font-headings);
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 900;
-            padding: 14px 24px;
-            border-radius: 40px;
+            padding: 15px 24px;
+            border-radius: 16px;
             cursor: pointer;
             transition: var(--transition);
-            box-shadow: 0 8px 25px rgba(255, 102, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(255, 102, 0, 0.45);
             text-transform: uppercase;
             letter-spacing: 1.5px;
             display: flex;
@@ -305,46 +329,47 @@
         }
 
         .btn-side:hover {
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 0 35px rgba(255, 102, 0, 0.9);
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 15px 40px rgba(255, 102, 0, 0.8);
             color: var(--pure-white);
         }
 
         .btn-side-secondary {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.06);
             color: var(--gt-yellow);
-            border: 2px solid rgba(255, 193, 7, 0.5);
-            box-shadow: none;
+            border: 1.5px solid rgba(255, 193, 7, 0.4);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
         }
 
         .btn-side-secondary:hover {
             background: var(--gt-yellow);
             color: var(--pure-black);
             border-color: #fff;
-            box-shadow: 0 0 25px rgba(255, 193, 7, 0.7);
+            box-shadow: 0 0 30px rgba(255, 193, 7, 0.7);
         }
 
         .settings-gear-btn {
-            width: 54px;
-            height: 54px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid var(--gt-yellow);
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1.5px solid rgba(255, 193, 7, 0.4);
             color: var(--gt-yellow);
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: var(--transition);
-            margin-top: 10px;
+            margin-top: 6px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
         }
 
         .settings-gear-btn:hover {
             transform: rotate(90deg) scale(1.1);
             background: var(--gt-yellow);
             color: var(--pure-black);
-            box-shadow: 0 0 25px rgba(255, 193, 7, 0.8);
+            box-shadow: 0 0 30px rgba(255, 193, 7, 0.8);
         }
 
         /* MODALS */
@@ -505,8 +530,8 @@
 
         @media (max-width: 950px), (pointer: coarse) {
             .touch-controls { display: flex; }
-            .sidebar-menu { width: 300px; padding: 20px 15px; }
-            .spooky-title { font-size: 2.1rem; }
+            .sidebar-menu { width: 320px; padding: 20px 15px; }
+            .spooky-title { font-size: 2.2rem; }
             .glass-back-btn { top: 12px; left: 12px; font-size: 0.75rem; padding: 8px 14px; }
             .audio-control { top: 12px; right: 12px; width: 40px; height: 40px; }
         }
@@ -553,20 +578,23 @@
         <!-- NOWOCZESNE MENU Z PIONOWYM PANELEM PO LEWEJ -->
         <div class="overlay-screen" id="startScreen">
             <div class="sidebar-menu">
-                <img src="https://imgur.com/EBnhXHi.png" alt="Głos Trójki Yellow Logo" class="yellow-gt-logo">
-                <h1 class="spooky-title">Głos Trójki</h1>
+                <div class="sidebar-content-inner">
+                    <img src="https://imgur.com/EBnhXHi.png" alt="Głos Trójki Yellow Logo" class="yellow-gt-logo">
+                    <h1 class="spooky-title">Głos Trójki</h1>
+                    <div class="version-badge">wersja v.1.2.1a</div>
 
-                <div class="menu-btn-list">
-                    <button class="btn-side" id="startGameBtn">
-                        GRAJ / PLAY <i class="fas fa-play"></i>
-                    </button>
-                    <button class="btn-side btn-side-secondary" id="openHelpBtn">
-                        POMOC / PORADNIK <i class="fas fa-question-circle"></i>
-                    </button>
-                    <div style="display: flex; justify-content: center;">
-                        <button class="settings-gear-btn" id="openSettingsBtn" title="Ustawienia">
-                            <i class="fas fa-cog"></i>
+                    <div class="menu-btn-list">
+                        <button class="btn-side menu-action-btn" id="startGameBtn">
+                            GRAJ / PLAY <i class="fas fa-play"></i>
                         </button>
+                        <button class="btn-side btn-side-secondary menu-action-btn" id="openHelpBtn">
+                            POMOC / PORADNIK <i class="fas fa-question-circle"></i>
+                        </button>
+                        <div style="display: flex; justify-content: center; width: 100%;">
+                            <button class="settings-gear-btn menu-action-btn" id="openSettingsBtn" title="Ustawienia">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -593,7 +621,7 @@
                     </div>
                 </div>
 
-                <button class="btn-side" id="restartGameBtn" style="max-width: 300px;">
+                <button class="btn-side menu-action-btn" id="restartGameBtn" style="max-width: 300px;">
                     ZAGRAJ PONOWNIE <i class="fas fa-redo"></i>
                 </button>
             </div>
@@ -603,13 +631,13 @@
     <!-- POPUP USTAWIEŃ -->
     <div class="modal-overlay" id="settingsModal">
         <div class="modal-card">
-            <button class="modal-close-btn" id="closeSettingsBtn">&times;</button>
+            <button class="modal-close-btn menu-action-btn" id="closeSettingsBtn">&times;</button>
             <h2 class="modal-title">Ustawienia Grafiki</h2>
             <p style="color: #bbb; font-size: 0.95rem;">Dostosuj poziom detali i efekty specjalne:</p>
 
             <div class="settings-options">
-                <button class="graphic-btn" id="gfxLowBtn">LOW (Podstawowe)</button>
-                <button class="graphic-btn active" id="gfxHighBtn">HIGH (Na maxa)</button>
+                <button class="graphic-btn menu-action-btn" id="gfxLowBtn">LOW (Podstawowe)</button>
+                <button class="graphic-btn active menu-action-btn" id="gfxHighBtn">HIGH (Na maxa)</button>
             </div>
         </div>
     </div>
@@ -617,19 +645,28 @@
     <!-- POPUP POMOCY / PORADNIKA -->
     <div class="modal-overlay" id="helpModal">
         <div class="modal-card">
-            <button class="modal-close-btn" id="closeHelpBtn">&times;</button>
+            <button class="modal-close-btn menu-action-btn" id="closeHelpBtn">&times;</button>
             <h2 class="modal-title">Poradnik Gry</h2>
             <div class="help-text">
                 <p>📰 <span>Zasada Główna:</span> Zbierz 4 zaginione artykuły na każdym poziomie!</p><br>
                 <p>🎃 <span>Dynie & Życie:</span> 5 dyń na poziom. Co 10 dyń = <span>+1 Życie</span>!</p><br>
-                <p>🚀 <span>Jump Pady:</span> Automatyczne niebieske trampoliny wybijają w górę!</p><br>
+                <p>🚀 <span>Jump Pady:</span> Automatyczne niebieskie trampoliny wybijają w górę!</p><br>
                 <p>⚠️ <span>Od poziomu 7:</span> Ziemia jest tylko na starcie, a dalej czeka przepaść i wyłącznie ruchome platformy. Wszystko jest trudniejsze o 20%!</p>
             </div>
         </div>
     </div>
 
+    <!-- AUDIO FILES -->
     <audio id="bgMusic" loop preload="auto">
         <source src="muzyka.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="clickSound" preload="auto">
+        <source src="click.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="dyniaSound" preload="auto">
+        <source src="dynia.mp3" type="audio/mpeg">
     </audio>
 
     <script>
@@ -649,11 +686,37 @@
         newPumpkinImage.src = 'https://imgur.com/0bTju4W.png';
 
         const bgMusic = document.getElementById('bgMusic');
+        const clickSound = document.getElementById('clickSound');
+        const dyniaSound = document.getElementById('dyniaSound');
+
         const audioToggleBtn = document.getElementById('audioToggleBtn');
         const audioIcon = document.getElementById('audioIcon');
         let isAudioPlaying = false;
 
         bgMusic.volume = 0.4;
+        if (clickSound) clickSound.volume = 0.6;
+        if (dyniaSound) dyniaSound.volume = 0.7;
+
+        function playClickSound() {
+            if (clickSound) {
+                clickSound.currentTime = 0;
+                clickSound.play().catch(() => {});
+            }
+        }
+
+        function playDyniaSound() {
+            if (dyniaSound) {
+                dyniaSound.currentTime = 0;
+                dyniaSound.play().catch(() => {});
+            }
+        }
+
+        // Dodanie dźwięku kliknięcia do wszystkich przycisków w menu
+        document.querySelectorAll('.menu-action-btn, .btn-side, .settings-gear-btn, .graphic-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                playClickSound();
+            });
+        });
 
         function toggleAudio() {
             if (isAudioPlaying) {
@@ -670,6 +733,7 @@
 
         audioToggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
+            playClickSound();
             toggleAudio();
         });
 
@@ -1165,7 +1229,6 @@
                 maxJumpscaresAllowed = 0;
             }
 
-            // Wszystko trudniejsze o 20% (+20% prędkości platform i trudności)
             const difficultyMultiplier = 1.2;
             const platformSpeedMultiplier = (0.8 + (lvl * 0.25)) * difficultyMultiplier;
 
@@ -1182,7 +1245,6 @@
                 jumpPads.push({ x, y, width: 52, height: 18 });
             };
 
-            // OD POZIOMU 7: ZIEMIA TYLKO NA POCZĄTKU, PÓŹNIEJ TYLKO PLATFORMY W PRZEPAŚCI!
             if (lvl === 1) {
                 addPlat(0, 630, 1200, 90); addPlat(1350, 630, 1100, 90); addPlat(2600, 630, 800, 90);
                 addPlat(350, 500, 220, 34); addPlat(700, 420, 220, 34); addPlat(1500, 500, 220, 34);
@@ -1199,26 +1261,26 @@
                 addPlat(750, 290, 170, 34); addPlat(1150, 430, 170, 34, true, 150, 1.6);
                 addPlat(1550, 330, 170, 34); addPlat(2200, 450, 190, 34);
                 addJumpPad(300, 482); addJumpPad(1250, 412);
-            } else if (lvl === 4) { // Trudniejszy
+            } else if (lvl === 4) {
                 addPlat(0, 630, 750, 90); addPlat(900, 630, 800, 90); addPlat(1850, 630, 1550, 90);
                 addPlat(180, 490, 150, 32); addPlat(410, 370, 150, 32, true, 140, 1.8);
                 addPlat(680, 260, 150, 32); addPlat(1050, 410, 150, 32, true, 160, 2.0);
                 addPlat(1400, 300, 150, 32); addPlat(2050, 420, 170, 32);
                 addJumpPad(250, 472); addJumpPad(1150, 392);
-            } else if (lvl === 5) { // Jeszcze trudniejszy
+            } else if (lvl === 5) {
                 addPlat(0, 630, 700, 90); addPlat(850, 630, 750, 90); addPlat(1750, 630, 1650, 90);
                 addPlat(160, 480, 140, 32, true, 150, 2.2); addPlat(440, 360, 140, 32);
                 addPlat(700, 240, 140, 32, true, 170, 2.4); addPlat(1000, 390, 140, 32);
                 addPlat(1350, 280, 140, 32, true, 180, 2.6); addPlat(1950, 400, 160, 32);
                 addJumpPad(320, 462); addJumpPad(1100, 372);
-            } else if (lvl === 6) { // Bardzo trudny
+            } else if (lvl === 6) {
                 addPlat(0, 630, 650, 90); addPlat(800, 630, 700, 90); addPlat(1650, 630, 1750, 90);
                 addPlat(150, 470, 130, 30); addPlat(360, 350, 130, 30, true, 160, 2.8);
                 addPlat(600, 230, 130, 30); addPlat(920, 380, 130, 30, true, 190, 3.0);
                 addPlat(1220, 260, 130, 30); addPlat(1650, 370, 130, 30, true, 200, 3.2);
                 addJumpPad(220, 452); addJumpPad(1050, 362);
-            } else if (lvl === 7) { // Bardzo trudny - ziemia tylko na początku!
-                addPlat(0, 630, 350, 90); // Ziemia tylko na starcie
+            } else if (lvl === 7) {
+                addPlat(0, 630, 350, 90);
                 addPlat(450, 470, 110, 28, true, 160, 3.5);
                 addPlat(670, 350, 110, 28);
                 addPlat(890, 230, 110, 28, true, 190, 3.7);
@@ -1228,7 +1290,7 @@
                 addPlat(1980, 260, 110, 28, true, 230, 4.3);
                 addPlat(2300, 420, 150, 30);
                 addJumpPad(500, 452); addJumpPad(1430, 232);
-            } else if (lvl === 8) { // Ciężki (tylko platformy)
+            } else if (lvl === 8) {
                 addPlat(0, 630, 320, 90);
                 addPlat(420, 450, 100, 26, true, 170, 4.2);
                 addPlat(630, 330, 100, 26);
@@ -1239,7 +1301,7 @@
                 addPlat(1920, 240, 100, 26, true, 240, 5.1);
                 addPlat(2250, 400, 140, 30);
                 addJumpPad(470, 432); addJumpPad(1380, 212);
-            } else if (lvl === 9) { // Bardzo ciężki (tylko platformy)
+            } else if (lvl === 9) {
                 addPlat(0, 630, 280, 90);
                 addPlat(380, 430, 90, 24, true, 180, 5.0);
                 addPlat(580, 310, 90, 24);
@@ -1250,7 +1312,7 @@
                 addPlat(1850, 220, 90, 24, true, 250, 6.0);
                 addPlat(2200, 380, 130, 28);
                 addJumpPad(430, 412); addJumpPad(1310, 192);
-            } else { // 10 - Niemożliwy (Ekstremalny, tylko platformy nad przepaścią)
+            } else {
                 addPlat(0, 630, 240, 90);
                 addPlat(340, 410, 80, 22, true, 190, 6.0);
                 addPlat(530, 290, 80, 22);
@@ -1263,11 +1325,11 @@
                 addJumpPad(390, 392); addJumpPad(1240, 172);
             }
 
-            // ARTICLES
-            collectibles.push({ x: 450, y: 410, type: 'article', id: 0, collected: false });
-            collectibles.push({ x: 1000, y: 280, type: 'article', id: 1, collected: false });
-            collectibles.push({ x: 1600, y: 300, type: 'article', id: 2, collected: false });
-            collectibles.push({ x: 2250, y: 330, type: 'article', id: 3, collected: false });
+            // BEZPIECZNIE ROZMIESZCZONE ARTYKUŁY (W PEŁNI DOSTĘPNE NAD PLATFORMAMI, NIGDY W ŚRODKU LUB ZA WYSOKO)
+            collectibles.push({ x: 390, y: 450, type: 'article', id: 0, collected: false });
+            collectibles.push({ x: 740, y: 370, type: 'article', id: 1, collected: false });
+            collectibles.push({ x: 1540, y: 450, type: 'article', id: 2, collected: false });
+            collectibles.push({ x: 2280, y: 390, type: 'article', id: 3, collected: false });
 
             // 5 PUMPKINS
             const pLocs = [
@@ -1275,7 +1337,7 @@
             ];
             pLocs.forEach(p => collectibles.push({ x: p.x, y: p.y, type: 'pumpkin', collected: false }));
 
-            // ENEMIES & BIG BAT (Zwiększona prędkość o 20%)
+            // ENEMIES & BIG BAT
             const speedMult = (0.8 + (lvl * 0.2)) * difficultyMultiplier;
             enemies.push(new Enemy(450, 582, 'skeleton', 200, 600, 1.4 * speedMult));
             enemies.push(new Enemy(1350, 582, 'skeleton', 1000, 1550, 1.6 * speedMult));
@@ -1502,6 +1564,10 @@
                     const cBounds = { x: c.x, y: c.y, width: 34, height: 34 };
                     if (checkAABB(player, cBounds)) {
                         c.collected = true;
+                        
+                        // Odtwarzanie dźwięku dynia.mp3 przy zebraniu artykułu lub dyni
+                        playDyniaSound();
+
                         if (c.type === 'article') {
                             articlesCollected++;
                             score += 500;
