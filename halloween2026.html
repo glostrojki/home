@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Głos Trójki - Gra Halloween 2026</title>
     
     <link rel="icon" type="image/png" href="https://imgur.com/EBnhXHi.png">
@@ -34,6 +34,7 @@
             box-sizing: border-box;
             user-select: none;
             -webkit-user-select: none;
+            touch-action: manipulation;
         }
 
         body, html {
@@ -45,7 +46,6 @@
             color: var(--pure-white);
         }
 
-        /* Container Stack */
         #game-wrapper {
             position: relative;
             width: 100vw;
@@ -58,33 +58,31 @@
 
         canvas {
             display: block;
-            box-shadow: 0 0 80px rgba(255, 102, 0, 0.35), 0 0 120px rgba(0, 0, 0, 1);
+            box-shadow: 0 0 100px rgba(255, 102, 0, 0.4), 0 0 150px rgba(0, 0, 0, 1);
             border-radius: 12px;
             background-color: var(--pure-black);
             touch-action: none;
         }
 
-        /* Permanently Fixed Glassmorphism Navigation Button (Top Left) */
         .glass-back-btn {
             position: fixed;
-            top: 25px;
-            left: 25px;
+            top: 20px;
+            left: 20px;
             z-index: 1000;
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 22px;
-            background: rgba(0, 0, 0, 0.65);
-            border: 2px solid rgba(255, 193, 7, 0.5);
+            gap: 10px;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.75);
+            border: 2px solid rgba(255, 193, 7, 0.6);
             border-radius: 40px;
             color: var(--gt-yellow);
             font-family: var(--font-headings);
             font-weight: 800;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-decoration: none;
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.75), 0 0 20px rgba(255, 193, 7, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 193, 7, 0.2);
             transition: var(--transition);
             cursor: pointer;
         }
@@ -93,29 +91,28 @@
             background: var(--gt-yellow);
             border-color: var(--pure-white);
             color: var(--pure-black);
-            transform: translateY(-3px) scale(1.05);
+            transform: translateY(-2px) scale(1.05);
             box-shadow: 0 0 35px rgba(255, 193, 7, 0.9);
         }
 
-        /* Audio Control Top Right */
         .audio-control {
             position: fixed;
-            top: 25px;
-            right: 25px;
+            top: 20px;
+            right: 20px;
             z-index: 1000;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 48px;
-            height: 48px;
-            background: rgba(0, 0, 0, 0.65);
+            width: 44px;
+            height: 44px;
+            background: rgba(0, 0, 0, 0.75);
             border: 2px solid rgba(255, 102, 0, 0.6);
             color: var(--halloween-orange);
             border-radius: 50%;
             cursor: pointer;
             backdrop-filter: blur(16px);
             transition: var(--transition);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
@@ -126,21 +123,21 @@
             box-shadow: 0 0 30px rgba(255, 102, 0, 0.9);
         }
 
-        /* HALLOWEEN 2026 CLEAN INTRO OVERLAY */
+        /* INTRO ŁADOWANIA */
         #cinematicIntro {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: #000000;
+            background-color: #050505;
             z-index: 2000;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             opacity: 1;
-            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 0.4s ease;
         }
 
         .cinematic-logo-box {
@@ -149,98 +146,48 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            opacity: 0;
-            transform: scale(0.85);
-            transition: opacity 1.5s ease, transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: logoFloat 2s ease-in-out infinite alternate;
         }
 
-        .cinematic-logo-box.active {
-            opacity: 1;
-            transform: scale(1);
+        @keyframes logoFloat {
+            0% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 40px rgba(255, 193, 7, 0.8)); }
+            100% { transform: translateY(-10px) scale(1.03); filter: drop-shadow(0 0 70px rgba(255, 102, 0, 1)); }
         }
 
         .cinema-logo-img {
-            max-width: 280px;
+            max-width: 240px;
             height: auto;
-            filter: drop-shadow(0 0 45px rgba(255, 193, 7, 0.95));
         }
 
-        .cinema-bloody-presents {
-            position: absolute;
-            bottom: -45px;
-            font-family: var(--font-bloody);
-            color: #ff0033;
-            font-size: 2.6rem;
-            letter-spacing: 6px;
-            text-shadow: 0 0 15px #ff0000, 0 0 30px #880000, 4px 4px 0 #000;
-            opacity: 0;
-            transform: scale(2.5);
-            transition: opacity 0.3s ease-out, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.4);
-        }
-
-        .cinema-bloody-presents.active {
-            opacity: 1;
-            transform: scale(1);
-            animation: cinemaPulse 1.8s infinite alternate;
-        }
-
-        @keyframes cinemaPulse {
-            0% { text-shadow: 0 0 15px #ff0000, 0 0 30px #880000; }
-            50% { text-shadow: 0 0 25px #ff0000, 0 0 50px #ff0000, 0 8px 15px #880000; }
-            100% { text-shadow: 0 0 15px #ff0000, 0 0 30px #880000; }
-        }
-
-        .cinema-credits-box {
-            position: absolute;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1.2s ease, transform 1.2s ease;
-            max-width: 900px;
-            padding: 30px;
-        }
-
-        .cinema-credits-box.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .cinema-title {
-            font-family: var(--font-headings);
-            font-size: 3.2rem;
-            font-weight: 900;
+        .loading-title {
+            font-family: var(--font-spooky);
+            font-size: 2.8rem;
             color: var(--gt-yellow);
-            letter-spacing: 6px;
-            margin-bottom: 15px;
-            text-shadow: 0 0 40px rgba(255, 193, 7, 0.8);
-        }
-
-        .cinema-sub {
-            font-size: 1.4rem;
-            color: #ffffff;
-            margin-bottom: 12px;
-            letter-spacing: 2px;
-            font-weight: 700;
-        }
-
-        .cinema-domain {
-            font-size: 1.6rem;
-            color: var(--halloween-orange);
-            font-weight: 800;
-            letter-spacing: 3px;
-            text-shadow: 0 0 20px rgba(255, 102, 0, 0.8);
-            margin-top: 5px;
-        }
-
-        .cinema-author {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: #d1d1d1;
             margin-top: 25px;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px var(--halloween-orange);
         }
 
-        /* JUMPSCARE GHOST OVERLAY */
+        .loading-bar-container {
+            width: 320px;
+            height: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--gt-yellow);
+            border-radius: 20px;
+            margin-top: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.4);
+        }
+
+        .loading-bar-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--halloween-orange), var(--gt-yellow));
+            border-radius: 20px;
+            transition: width 0.1s linear;
+        }
+
+        /* JUMPSCARE OVERLAY */
         #jumpscareOverlay {
             position: fixed;
             top: 0;
@@ -248,52 +195,46 @@
             width: 100vw;
             height: 100vh;
             z-index: 1500;
-            background: rgba(255, 0, 0, 0.4);
+            background: rgba(180, 0, 0, 0.5);
             display: flex;
             justify-content: center;
             align-items: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.04s ease-in-out;
+            transition: opacity 0.03s ease-in-out;
         }
 
         #jumpscareOverlay.active {
             opacity: 1;
-            animation: extremeShake 0.4s infinite;
+            animation: nightmareShake 0.4s infinite;
         }
 
-        @keyframes extremeShake {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); filter: invert(0); }
-            20% { transform: translate(-25px, 25px) scale(1.2) rotate(-4deg); filter: invert(1); }
+        @keyframes nightmareShake {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            20% { transform: translate(-25px, 25px) scale(1.2) rotate(-4deg); }
             40% { transform: translate(25px, -25px) scale(1.15) rotate(4deg); }
-            60% { transform: translate(-20px, -20px) scale(1.25) rotate(-3deg); filter: invert(1); }
-            80% { transform: translate(20px, 20px) scale(1.1) rotate(3deg); }
-            100% { transform: translate(0, 0) scale(1) rotate(0deg); filter: invert(0); }
+            60% { transform: translate(-20px, -20px) scale(1.25) rotate(-3deg); }
+            80% { transform: translate(20px, 20px) scale(1.15) rotate(3deg); }
+            100% { transform: translate(0, 0) scale(1) rotate(0deg); }
         }
 
         .ghost-jumpscare-icon {
-            font-size: 22rem;
-            color: var(--pure-white);
-            text-shadow: 0 0 70px #ff0000, 0 0 140px var(--halloween-orange);
+            font-size: 24rem;
+            color: #ffffff;
+            text-shadow: 0 0 90px #ff0000, 0 0 160px #ff6600;
         }
 
-        /* OVERLAYS (MENU, GAMEOVER, WIN) */
+        /* NOWOCZESNE MENU DZIELONE */
         .overlay-screen {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(16px);
+            background: rgba(0, 0, 0, 0.3);
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             z-index: 50;
-            text-align: center;
-            padding: 30px;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
         .overlay-screen.hidden {
@@ -302,99 +243,209 @@
             pointer-events: none;
         }
 
+        .sidebar-menu {
+            width: 380px;
+            height: 100%;
+            background: rgba(12, 12, 12, 0.94);
+            backdrop-filter: blur(20px);
+            border-right: 3px solid rgba(255, 193, 7, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            box-shadow: 15px 0 50px rgba(0, 0, 0, 0.85);
+            z-index: 60;
+        }
+
         .yellow-gt-logo {
-            max-width: 140px;
+            max-width: 110px;
             height: auto;
-            margin-bottom: 12px;
-            filter: drop-shadow(0 0 25px rgba(255, 193, 7, 0.9));
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 20px rgba(255, 193, 7, 0.8));
         }
 
         .spooky-title {
             font-family: var(--font-spooky);
-            font-size: 4.2rem;
+            font-size: 2.5rem;
             color: var(--gt-yellow);
-            text-shadow: 0 0 35px rgba(255, 193, 7, 0.9), 4px 4px 0px #000;
-            margin-bottom: 8px;
-            letter-spacing: 4px;
-        }
-
-        .spooky-subtitle {
-            font-size: 1.2rem;
-            color: #d1d1d1;
-            max-width: 720px;
-            margin-bottom: 22px;
-            line-height: 1.6;
-        }
-
-        .spooky-subtitle span {
-            color: var(--gt-yellow);
-            font-weight: 800;
-        }
-
-        .controls-card {
-            background: rgba(255, 255, 255, 0.04);
-            border: 2px solid rgba(255, 102, 0, 0.5);
-            border-radius: 20px;
-            padding: 18px 35px;
+            text-shadow: 0 0 25px rgba(255, 193, 7, 0.8);
             margin-bottom: 25px;
-            display: flex;
-            gap: 30px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+            text-align: center;
+            line-height: 1.1;
         }
 
-        .control-item {
+        .menu-btn-list {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 8px;
+            gap: 16px;
+            width: 100%;
+            max-width: 280px;
         }
 
-        .key-cap {
-            background: #121212;
-            border: 2px solid var(--gt-yellow);
-            color: var(--gt-yellow);
-            padding: 10px 18px;
-            border-radius: 10px;
-            font-weight: 900;
-            font-size: 0.95rem;
-            box-shadow: 0 5px 0 rgba(255, 193, 7, 0.4);
-        }
-
-        .btn-action {
+        .btn-side {
             background: linear-gradient(45deg, var(--halloween-orange), #ff8800);
             color: var(--pure-black);
             border: none;
             font-family: var(--font-headings);
-            font-size: 1.4rem;
+            font-size: 1.15rem;
             font-weight: 900;
-            padding: 16px 50px;
-            border-radius: 50px;
+            padding: 14px 24px;
+            border-radius: 40px;
             cursor: pointer;
             transition: var(--transition);
-            box-shadow: 0 0 35px rgba(255, 102, 0, 0.8);
+            box-shadow: 0 8px 25px rgba(255, 102, 0, 0.5);
             text-transform: uppercase;
-            letter-spacing: 2.5px;
-            display: inline-flex;
+            letter-spacing: 1.5px;
+            display: flex;
             align-items: center;
-            gap: 15px;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
         }
 
-        .btn-action:hover {
-            transform: scale(1.08) translateY(-3px);
-            box-shadow: 0 0 55px rgba(255, 102, 0, 1);
-            background: linear-gradient(45deg, #ff8800, #ffaa00);
+        .btn-side:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 0 35px rgba(255, 102, 0, 0.9);
             color: var(--pure-white);
         }
 
-        /* Results Box */
+        .btn-side-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--gt-yellow);
+            border: 2px solid rgba(255, 193, 7, 0.5);
+            box-shadow: none;
+        }
+
+        .btn-side-secondary:hover {
+            background: var(--gt-yellow);
+            color: var(--pure-black);
+            border-color: #fff;
+            box-shadow: 0 0 25px rgba(255, 193, 7, 0.7);
+        }
+
+        .settings-gear-btn {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid var(--gt-yellow);
+            color: var(--gt-yellow);
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+
+        .settings-gear-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+            background: var(--gt-yellow);
+            color: var(--pure-black);
+            box-shadow: 0 0 25px rgba(255, 193, 7, 0.8);
+        }
+
+        /* MODALS */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(14px);
+            z-index: 1200;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background: rgba(18, 18, 18, 0.96);
+            border: 2px solid var(--gt-yellow);
+            border-radius: 24px;
+            padding: 30px 35px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 0 50px rgba(255, 193, 7, 0.4);
+            position: relative;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-family: var(--font-spooky);
+            font-size: 2.6rem;
+            color: var(--gt-yellow);
+            margin-bottom: 15px;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 18px;
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-close-btn:hover { color: #fff; transform: scale(1.2); }
+
+        .settings-options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .graphic-btn {
+            background: #1a1a1a;
+            border: 2px solid #555;
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .graphic-btn.active {
+            background: var(--gt-yellow);
+            color: var(--pure-black);
+            border-color: var(--pure-white);
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.8);
+        }
+
+        .help-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #d1d1d1;
+            text-align: left;
+        }
+
+        .help-text span { color: var(--gt-yellow); font-weight: 800; }
+
         .results-box {
             background: rgba(15, 15, 15, 0.95);
             border: 2px solid var(--gt-yellow);
             border-radius: 20px;
-            padding: 24px 38px;
+            padding: 20px 32px;
             max-width: 520px;
             width: 100%;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             box-shadow: 0 0 40px rgba(255, 193, 7, 0.35);
         }
 
@@ -402,105 +453,93 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 1.2rem;
-            margin: 12px 0;
+            font-size: 1.1rem;
+            margin: 10px 0;
             border-bottom: 1px dashed rgba(255, 255, 255, 0.25);
-            padding-bottom: 8px;
+            padding-bottom: 6px;
         }
 
-        .results-stat span:first-child {
-            color: #b0b0b0;
-        }
+        .results-stat span:first-child { color: #b0b0b0; }
+        .results-stat span:last-child { color: var(--gt-yellow); font-weight: 900; }
 
-        .results-stat span:last-child {
-            color: var(--gt-yellow);
-            font-weight: 900;
-        }
-
-        /* Mobile Controls */
+        /* TOUCH CONTROLS */
         .touch-controls {
             position: absolute;
-            bottom: 25px;
-            left: 25px;
-            right: 25px;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
             display: none;
             justify-content: space-between;
-            z-index: 40;
+            z-index: 80;
             pointer-events: none;
         }
 
         .touch-group {
             display: flex;
-            gap: 18px;
+            gap: 16px;
             pointer-events: auto;
         }
 
         .touch-btn {
-            width: 70px;
-            height: 70px;
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid var(--gt-yellow);
+            width: 76px;
+            height: 76px;
+            background: rgba(0, 0, 0, 0.82);
+            border: 2.5px solid var(--gt-yellow);
             color: var(--gt-yellow);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.6rem;
-            backdrop-filter: blur(10px);
-            touch-action: manipulation;
+            font-size: 1.8rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+            touch-action: none;
+            cursor: pointer;
         }
 
         .touch-btn:active {
             background: var(--halloween-orange);
             color: var(--pure-black);
+            transform: scale(1.1);
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 950px), (pointer: coarse) {
             .touch-controls { display: flex; }
-            .spooky-title { font-size: 2.8rem; }
-            .controls-card { flex-direction: column; gap: 14px; padding: 15px; }
-            .cinema-bloody-presents { font-size: 1.6rem; bottom: -30px; }
-            .cinema-title { font-size: 2.2rem; }
+            .sidebar-menu { width: 300px; padding: 20px 15px; }
+            .spooky-title { font-size: 2.1rem; }
+            .glass-back-btn { top: 12px; left: 12px; font-size: 0.75rem; padding: 8px 14px; }
+            .audio-control { top: 12px; right: 12px; width: 40px; height: 40px; }
         }
     </style>
 </head>
 <body>
 
     <div id="game-wrapper">
-        <!-- Permanently Fixed Glassmorphism Home Button (Top Left) -->
         <a class="glass-back-btn" href="13.html.txt">
-            <i class="fas fa-arrow-left"></i> Wróć do strony głównej
+            <i class="fas fa-arrow-left"></i> Powrót
         </a>
 
-        <!-- Audio Toggle Button (Top Right) -->
         <button class="audio-control" id="audioToggleBtn" title="Włącz / Wycisz muzykę">
             <i class="fas fa-volume-mute" id="audioIcon"></i>
         </button>
 
-        <!-- HALLOWEEN 2026 INTRO SEQUENCE -->
+        <!-- INTRO ŁADOWANIE -->
         <div id="cinematicIntro">
-            <div class="cinematic-logo-box" id="cinematicLogoBox">
+            <div class="cinematic-logo-box">
                 <img src="https://imgur.com/EBnhXHi.png" alt="Głos Trójki Logo" class="cinema-logo-img">
-                <div class="cinema-bloody-presents" id="cinemaBloodyText">PREZENTUJE</div>
             </div>
-
-            <div class="cinema-credits-box" id="cinematicCredits">
-                <div class="cinema-title">GŁÓS TRÓJKI</div>
-                <div class="cinema-sub">halloween 2026</div>
-                <div class="cinema-domain">glostrojki.pl</div>
-                <div class="cinema-author">Zaprojektował i stworzył: Jakub Łebkowski</div>
+            <div class="loading-title">GŁÓS TRÓJKI HALLOWEEN</div>
+            <div class="loading-bar-container">
+                <div class="loading-bar-fill" id="loadingFill"></div>
             </div>
         </div>
 
-        <!-- JUMPSCARE EFFECT OVERLAY -->
         <div id="jumpscareOverlay">
             <i class="fas fa-ghost ghost-jumpscare-icon"></i>
         </div>
 
-        <!-- Canvas Game Engine -->
         <canvas id="gameCanvas"></canvas>
 
-        <!-- Touch Controls -->
         <div class="touch-controls">
             <div class="touch-group">
                 <div class="touch-btn" id="btnLeft"><i class="fas fa-arrow-left"></i></div>
@@ -511,66 +550,91 @@
             </div>
         </div>
 
-        <!-- START SCREEN OVERLAY -->
-        <div class="overlay-screen hidden" id="startScreen">
-            <img src="https://imgur.com/EBnhXHi.png" alt="Głos Trójki Yellow Logo" class="yellow-gt-logo">
-            <h1 class="spooky-title">Poszukiwacze Zaginionych Artykułów</h1>
-            <p class="spooky-subtitle">
-                Pokonaj <span>4 poziomy o rosnącej trudności</span> (w tym <span>Ekstremalny Gabinet Dyrektora</span>), zbierz 5 wydań 
-                <span>„Głos Trójki” (Halloween 2026)</span> i przejdź do historii na <span>glostrojki.pl</span>!
-            </p>
+        <!-- NOWOCZESNE MENU Z PIONOWYM PANELEM PO LEWEJ -->
+        <div class="overlay-screen" id="startScreen">
+            <div class="sidebar-menu">
+                <img src="https://imgur.com/EBnhXHi.png" alt="Głos Trójki Yellow Logo" class="yellow-gt-logo">
+                <h1 class="spooky-title">Głos Trójki</h1>
 
-            <div class="controls-card">
-                <div class="control-item">
-                    <div class="key-cap">A / D lub <i class="fas fa-arrows-alt-h"></i></div>
-                    <span style="font-size: 0.85rem; color: #b0b0b0;">Poruszanie się</span>
-                </div>
-                <div class="control-item">
-                    <div class="key-cap">SPACJA / W / <i class="fas fa-arrow-up"></i></div>
-                    <span style="font-size: 0.85rem; color: #b0b0b0;">Skok / Naskok na wroga</span>
+                <div class="menu-btn-list">
+                    <button class="btn-side" id="startGameBtn">
+                        GRAJ / PLAY <i class="fas fa-play"></i>
+                    </button>
+                    <button class="btn-side btn-side-secondary" id="openHelpBtn">
+                        POMOC / PORADNIK <i class="fas fa-question-circle"></i>
+                    </button>
+                    <div style="display: flex; justify-content: center;">
+                        <button class="settings-gear-btn" id="openSettingsBtn" title="Ustawienia">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-
-            <button class="btn-action" id="startGameBtn">
-                START GRY / PLAY <i class="fas fa-play"></i>
-            </button>
         </div>
 
-        <!-- END GAME OVERLAY (WIN / LOSS) -->
-        <div class="overlay-screen hidden" id="endScreen">
-            <img src="https://imgur.com/EBnhXHi.png" alt="Głos Trójki Logo" class="yellow-gt-logo">
-            <h1 class="spooky-title" id="endTitle">Misja Ukończona!</h1>
-            <p class="spooky-subtitle" id="endSubtitle">Raport Redakcji glostrojki.pl — Halloween 2026:</p>
+        <!-- END GAME OVERLAY -->
+        <div class="overlay-screen hidden" id="endScreen" style="justify-content: center; align-items: center; background: rgba(0,0,0,0.92);">
+            <div style="display:flex; flex-direction:column; align-items:center;">
+                <img src="https://imgur.com/EBnhXHi.png" alt="Głos Trójki Logo" class="yellow-gt-logo">
+                <h1 class="spooky-title" id="endTitle" style="font-size: 3.5rem;">Misja Ukończona!</h1>
+                
+                <div class="results-box">
+                    <div class="results-stat">
+                        <span><i class="fas fa-layer-group"></i> Ukończony Poziom:</span>
+                        <span id="resLevel">10 / 10</span>
+                    </div>
+                    <div class="results-stat">
+                        <span><i class="fas fa-newspaper"></i> Zebrane Artykuły:</span>
+                        <span id="resArticles">4 / 4</span>
+                    </div>
+                    <div class="results-stat">
+                        <span><i class="fas fa-star"></i> Wynik Końcowy:</span>
+                        <span id="resScore">0 pkt</span>
+                    </div>
+                </div>
 
-            <div class="results-box">
-                <div class="results-stat">
-                    <span><i class="fas fa-layer-group"></i> Ukończony Poziom:</span>
-                    <span id="resLevel">4 / 4</span>
-                </div>
-                <div class="results-stat">
-                    <span><i class="fas fa-newspaper"></i> Zebrane Artykuły:</span>
-                    <span id="resArticles">5 / 5</span>
-                </div>
-                <div class="results-stat">
-                    <span><i class="fas fa-star"></i> Wynik Końcowy:</span>
-                    <span id="resScore">0 pkt</span>
-                </div>
+                <button class="btn-side" id="restartGameBtn" style="max-width: 300px;">
+                    ZAGRAJ PONOWNIE <i class="fas fa-redo"></i>
+                </button>
             </div>
-
-            <button class="btn-action" id="restartGameBtn">
-                ZAGRAJ PONOWNIE <i class="fas fa-redo"></i>
-            </button>
         </div>
     </div>
 
-    <!-- Background Audio -->
+    <!-- POPUP USTAWIEŃ -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal-card">
+            <button class="modal-close-btn" id="closeSettingsBtn">&times;</button>
+            <h2 class="modal-title">Ustawienia Grafiki</h2>
+            <p style="color: #bbb; font-size: 0.95rem;">Dostosuj poziom detali i efekty specjalne:</p>
+
+            <div class="settings-options">
+                <button class="graphic-btn" id="gfxLowBtn">LOW (Podstawowe)</button>
+                <button class="graphic-btn active" id="gfxHighBtn">HIGH (Na maxa)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP POMOCY / PORADNIKA -->
+    <div class="modal-overlay" id="helpModal">
+        <div class="modal-card">
+            <button class="modal-close-btn" id="closeHelpBtn">&times;</button>
+            <h2 class="modal-title">Poradnik Gry</h2>
+            <div class="help-text">
+                <p>📰 <span>Zasada Główna:</span> Zbierz 4 zaginione artykuły na każdym poziomie!</p><br>
+                <p>🎃 <span>Dynie & Życie:</span> 5 dyń na poziom. Co 10 dyń = <span>+1 Życie</span>!</p><br>
+                <p>🚀 <span>Jump Pady:</span> Automatyczne niebieske trampoliny wybijają w górę!</p><br>
+                <p>⚠️ <span>Od poziomu 7:</span> Ziemia jest tylko na starcie, a dalej czeka przepaść i wyłącznie ruchome platformy. Wszystko jest trudniejsze o 20%!</p>
+            </div>
+        </div>
+    </div>
+
     <audio id="bgMusic" loop preload="auto">
         <source src="muzyka.mp3" type="audio/mpeg">
     </audio>
 
     <script>
         /* ==========================================================================
-           1. ASSETS & AUDIO SETUP (40% VOLUME)
+           1. ASSETS & AUDIO SETUP
            ========================================================================== */
         const bgImage = new Image();
         bgImage.src = 'https://imgur.com/hl66Im4.png';
@@ -581,12 +645,15 @@
         const gtYellowLogo = new Image();
         gtYellowLogo.src = 'https://imgur.com/EBnhXHi.png';
 
+        const newPumpkinImage = new Image();
+        newPumpkinImage.src = 'https://imgur.com/0bTju4W.png';
+
         const bgMusic = document.getElementById('bgMusic');
         const audioToggleBtn = document.getElementById('audioToggleBtn');
         const audioIcon = document.getElementById('audioIcon');
         let isAudioPlaying = false;
 
-        bgMusic.volume = 0.4; // 40% Volume
+        bgMusic.volume = 0.4;
 
         function toggleAudio() {
             if (isAudioPlaying) {
@@ -615,70 +682,72 @@
             }
             window.removeEventListener('click', autoPlayAudio);
             window.removeEventListener('keydown', autoPlayAudio);
+            window.removeEventListener('touchstart', autoPlayAudio);
         }
         window.addEventListener('click', autoPlayAudio);
         window.addEventListener('keydown', autoPlayAudio);
+        window.addEventListener('touchstart', autoPlayAudio);
 
         /* ==========================================================================
-           2. CLEAN HALLOWEEN 2026 INTRO SEQUENCE
+           2. LOADING & POPUPS CONTROL
            ========================================================================== */
         const cinematicIntro = document.getElementById('cinematicIntro');
-        const cinematicLogoBox = document.getElementById('cinematicLogoBox');
-        const cinemaBloodyText = document.getElementById('cinemaBloodyText');
-        const cinematicCredits = document.getElementById('cinematicCredits');
+        const loadingFill = document.getElementById('loadingFill');
         const startScreen = document.getElementById('startScreen');
+        let graphicsQuality = 'HIGH';
 
-        function runCinematicIntro() {
-            // Step 1: Fade in Yellow Głos Trójki Logo
-            setTimeout(() => {
-                cinematicLogoBox.classList.add('active');
-            }, 300);
+        const settingsModal = document.getElementById('settingsModal');
+        const helpModal = document.getElementById('helpModal');
+        const openSettingsBtn = document.getElementById('openSettingsBtn');
+        const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+        const openHelpBtn = document.getElementById('openHelpBtn');
+        const closeHelpBtn = document.getElementById('closeHelpBtn');
 
-            // Step 2: Bloody PREZENTUJE slam with shake
-            setTimeout(() => {
-                cinemaBloodyText.classList.add('active');
-                triggerScreenShake(20, 25);
-            }, 1500);
+        openSettingsBtn.addEventListener('click', () => settingsModal.classList.add('active'));
+        closeSettingsBtn.addEventListener('click', () => settingsModal.classList.remove('active'));
 
-            // Step 3: Fade out Logo
-            setTimeout(() => {
-                cinematicLogoBox.style.opacity = '0';
-                cinematicLogoBox.style.transform = 'scale(0.85)';
-            }, 3200);
+        openHelpBtn.addEventListener('click', () => helpModal.classList.add('active'));
+        closeHelpBtn.addEventListener('click', () => helpModal.classList.remove('active'));
 
-            // Step 4: Show Clean Credits (GŁÓS TRÓJKI | halloween 2026 | glostrojki.pl)
-            setTimeout(() => {
-                cinematicLogoBox.style.display = 'none';
-                cinematicCredits.classList.add('active');
-            }, 4200);
+        const gfxLowBtn = document.getElementById('gfxLowBtn');
+        const gfxHighBtn = document.getElementById('gfxHighBtn');
 
-            // Step 5: Fade out credits
-            setTimeout(() => {
-                cinematicCredits.style.opacity = '0';
-            }, 7200);
+        gfxLowBtn.addEventListener('click', () => {
+            graphicsQuality = 'LOW';
+            gfxLowBtn.classList.add('active');
+            gfxHighBtn.classList.remove('active');
+        });
 
-            // Step 6: Reveal Start Screen
-            setTimeout(() => {
-                cinematicIntro.style.opacity = '0';
+        gfxHighBtn.addEventListener('click', () => {
+            graphicsQuality = 'HIGH';
+            gfxHighBtn.classList.add('active');
+            gfxLowBtn.classList.remove('active');
+        });
+
+        let progress = 0;
+        const loadInterval = setInterval(() => {
+            progress += 5;
+            loadingFill.style.width = `${progress}%`;
+            if (progress >= 100) {
+                clearInterval(loadInterval);
                 setTimeout(() => {
-                    cinematicIntro.style.display = 'none';
-                    startScreen.classList.remove('hidden');
-                }, 800);
-            }, 8200);
-        }
-
-        window.onload = () => {
-            runCinematicIntro();
-        };
+                    cinematicIntro.style.opacity = '0';
+                    setTimeout(() => {
+                        cinematicIntro.style.display = 'none';
+                    }, 400);
+                }, 200);
+            }
+        }, 20);
 
         /* ==========================================================================
-           3. CANVAS SETUP & 300% MORE GRAPHICS ENGINE
+           3. CANVAS ENGINE & JUMPSCARE SYSTEM
            ========================================================================== */
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
         const GAME_WIDTH = 1280;
         const GAME_HEIGHT = 720;
+        const LEVEL_WIDTH = 3400;
         canvas.width = GAME_WIDTH;
         canvas.height = GAME_HEIGHT;
 
@@ -696,16 +765,16 @@
         let screenShakeIntensity = 0;
 
         function triggerScreenShake(intensity = 20, duration = 25) {
+            if (graphicsQuality === 'LOW') return;
             screenShakeIntensity = intensity;
             screenShakeTime = duration;
         }
 
-        /* Jumpscare Ghost Mechanic */
         const jumpscareOverlay = document.getElementById('jumpscareOverlay');
 
         function triggerGhostJumpscare() {
             jumpscareOverlay.classList.add('active');
-            triggerScreenShake(35, 40);
+            triggerScreenShake(28, 30);
             
             try {
                 const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -714,20 +783,20 @@
                     const osc = ctxA.createOscillator();
                     const gain = ctxA.createGain();
                     osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(950, ctxA.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(100, ctxA.currentTime + 0.6);
+                    osc.frequency.setValueAtTime(1100, ctxA.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(90, ctxA.currentTime + 0.4);
                     gain.gain.setValueAtTime(0.7, ctxA.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.01, ctxA.currentTime + 0.6);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctxA.currentTime + 0.4);
                     osc.connect(gain);
                     gain.connect(ctxA.destination);
                     osc.start();
-                    osc.stop(ctxA.currentTime + 0.6);
+                    osc.stop(ctxA.currentTime + 0.4);
                 }
             } catch(e) {}
 
             setTimeout(() => {
                 jumpscareOverlay.classList.remove('active');
-            }, 450);
+            }, 350);
         }
 
         /* ==========================================================================
@@ -735,18 +804,19 @@
            ========================================================================== */
         let gameState = 'START';
         let currentLevel = 1;
+        const TOTAL_LEVELS = 10;
         let cameraX = 0;
         let score = 0;
         let lives = 3;
+        let pumpkinCount = 0;
         let articlesCollected = 0;
-        const TOTAL_ARTICLES = 5;
+        const TOTAL_ARTICLES = 4;
 
-        const articleHeadlines = [
-            "Głos Trójki: Nocne Śledztwo w SP3 (glostrojki.pl)!",
-            "Wielki Sukces Redakcji — Halloween 2026!",
-            "Tajemnica Mrocznych Korytarzy Rozwikłana",
-            "Wywiad z Duchami Biblioteki SP3",
-            "Wydanie Halloween 2026 Kompletne i Zapisane!"
+        const articleCategories = [
+            "pupilove",
+            "kącik zrób to sam",
+            "kącik kulinarny",
+            "operacje wojskowe"
         ];
         let currentHeadlineDisplay = "";
         let headlineDisplayTimer = 0;
@@ -756,6 +826,7 @@
         const JUMP_BUFFER_TIME = 9;
 
         window.addEventListener('keydown', (e) => {
+            if (gameState !== 'PLAYING') return;
             if (e.code === 'KeyA' || e.code === 'ArrowLeft') keys.left = true;
             if (e.code === 'KeyD' || e.code === 'ArrowRight') keys.right = true;
             if (e.code === 'Space' || e.code === 'KeyW' || e.code === 'ArrowUp') {
@@ -770,21 +841,33 @@
             if (e.code === 'Space' || e.code === 'KeyW' || e.code === 'ArrowUp') keys.jump = false;
         });
 
-        const setupTouchBtn = (id, keyName) => {
+        const bindTouch = (id, keyName) => {
             const btn = document.getElementById(id);
-            btn.addEventListener('touchstart', (e) => { 
-                e.preventDefault(); 
-                if(keyName === 'jump') jumpBufferTimer = JUMP_BUFFER_TIME;
-                keys[keyName] = true; 
-            });
-            btn.addEventListener('touchend', (e) => { e.preventDefault(); keys[keyName] = false; });
+
+            const handleStart = (e) => {
+                if (gameState !== 'PLAYING') return;
+                e.preventDefault();
+                if (keyName === 'jump') jumpBufferTimer = JUMP_BUFFER_TIME;
+                keys[keyName] = true;
+            };
+
+            const handleEnd = (e) => {
+                e.preventDefault();
+                keys[keyName] = false;
+            };
+
+            btn.addEventListener('touchstart', handleStart, { passive: false });
+            btn.addEventListener('touchend', handleEnd, { passive: false });
+            btn.addEventListener('pointerdown', handleStart, { passive: false });
+            btn.addEventListener('pointerup', handleEnd, { passive: false });
         };
-        setupTouchBtn('btnLeft', 'left');
-        setupTouchBtn('btnRight', 'right');
-        setupTouchBtn('btnJump', 'jump');
+
+        bindTouch('btnLeft', 'left');
+        bindTouch('btnRight', 'right');
+        bindTouch('btnJump', 'jump');
 
         /* ==========================================================================
-           5. RICH PARTICLES, BATS & ATMOSPHERIC ENGINE (300% MORE DETAILS)
+           5. ATMOSPHERE & PARTICLES
            ========================================================================== */
         let particles = [];
         let fogParticles = [];
@@ -813,9 +896,9 @@
                 ctx.save();
                 ctx.globalAlpha = Math.max(0, this.life / this.maxLife);
                 ctx.fillStyle = this.color;
-                if (this.glow) {
+                if (this.glow && graphicsQuality === 'HIGH') {
                     ctx.shadowColor = this.color;
-                    ctx.shadowBlur = 15;
+                    ctx.shadowBlur = 12;
                 }
                 ctx.beginPath();
                 ctx.arc(this.x - cameraX, this.y, this.size, 0, Math.PI * 2);
@@ -824,47 +907,47 @@
             }
         }
 
-        // Atmosphere Elements Init
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 40; i++) {
             fogParticles.push({
-                x: Math.random() * GAME_WIDTH * 3.5,
-                y: GAME_HEIGHT - Math.random() * 280,
-                radius: Math.random() * 75 + 45,
-                speedX: Math.random() * 0.8 + 0.2,
-                opacity: Math.random() * 0.2 + 0.05
+                x: Math.random() * LEVEL_WIDTH,
+                y: GAME_HEIGHT - Math.random() * 260,
+                radius: Math.random() * 70 + 40,
+                speedX: Math.random() * 0.5 + 0.2,
+                opacity: Math.random() * 0.15 + 0.04
             });
         }
 
         for (let i = 0; i < 12; i++) {
             bats.push({
-                x: Math.random() * GAME_WIDTH * 3,
-                y: Math.random() * 320 + 40,
-                speedX: Math.random() * 3 + 2,
+                x: Math.random() * LEVEL_WIDTH,
+                y: Math.random() * 300 + 30,
+                speedX: Math.random() * 2 + 1,
                 wingFrame: Math.random() * 10,
-                size: Math.random() * 12 + 10
+                size: Math.random() * 10 + 10
             });
         }
 
-        for (let i = 0; i < 18; i++) {
+        for (let i = 0; i < 15; i++) {
             wisps.push({
-                x: Math.random() * GAME_WIDTH * 3,
-                y: Math.random() * 500 + 100,
+                x: Math.random() * LEVEL_WIDTH,
+                y: Math.random() * 450 + 80,
                 radius: Math.random() * 4 + 2,
                 pulse: Math.random() * 10,
-                speedY: (Math.random() - 0.5) * 0.5
+                speedY: (Math.random() - 0.5) * 0.3
             });
         }
 
-        function createBurst(x, y, color, count = 35, glow = true) {
+        function createBurst(x, y, color, count = 25, glow = true) {
+            if (graphicsQuality === 'LOW') count = Math.floor(count / 3);
             for (let i = 0; i < count; i++) {
                 const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 8 + 2;
+                const speed = Math.random() * 6 + 2;
                 particles.push(new Particle(
                     x, y, color,
                     Math.cos(angle) * speed,
                     Math.sin(angle) * speed,
-                    Math.random() * 5 + 2,
-                    Math.random() * 32 + 18,
+                    Math.random() * 4 + 2,
+                    Math.random() * 25 + 15,
                     glow
                 ));
             }
@@ -880,12 +963,12 @@
             height: 58,
             vx: 0,
             vy: 0,
-            speed: 6.8,
-            jumpPower: -14.5,
+            speed: 7.5,
+            jumpPower: -15.8,
             gravity: 0.65,
             grounded: false,
             coyoteTimer: 0,
-            COYOTE_TIME_MAX: 9,
+            COYOTE_TIME_MAX: 10,
             facing: 'right',
             animFrame: 0,
             invulnerableTimer: 0,
@@ -901,6 +984,8 @@
             },
 
             update() {
+                if (gameState !== 'PLAYING') return;
+
                 if (keys.left) {
                     this.vx = -this.speed;
                     this.facing = 'left';
@@ -932,17 +1017,20 @@
                     this.vy *= 0.52;
                 }
 
-                // Add Dash/Ghost Trail Effects
-                if (Math.abs(this.vx) > 3 || Math.abs(this.vy) > 4) {
+                if (graphicsQuality === 'HIGH' && (Math.abs(this.vx) > 3 || Math.abs(this.vy) > 4)) {
                     ghostTrails.push({
                         x: this.x,
                         y: this.y,
                         facing: this.facing,
-                        alpha: 0.6
+                        alpha: 0.5
                     });
                 }
 
                 this.x += this.vx;
+                
+                if (this.x < 0) this.x = 0;
+                if (this.x + this.width > LEVEL_WIDTH) this.x = LEVEL_WIDTH - this.width;
+
                 this.handleCollisionX();
 
                 this.y += this.vy;
@@ -991,20 +1079,22 @@
                 ctx.translate(px + this.width / 2, py + this.height / 2);
                 if (this.facing === 'left') ctx.scale(-1, 1);
 
-                // Animated Cape Flow
+                // Cape
                 ctx.fillStyle = '#ff6600';
                 ctx.beginPath();
-                const capeWave = Math.sin(Date.now() * 0.01) * 6;
+                const capeWave = Math.sin(Date.now() * 0.01) * 7;
                 ctx.moveTo(-10, -5);
                 ctx.lineTo(-24 + capeWave, 28);
                 ctx.lineTo(-6, 22);
                 ctx.closePath();
                 ctx.fill();
 
-                // Detailed Reporter Body (Yellow Coat)
+                // Coat Body
                 ctx.fillStyle = '#FFC107';
-                ctx.shadowColor = '#FFC107';
-                ctx.shadowBlur = 15;
+                if (graphicsQuality === 'HIGH') {
+                    ctx.shadowColor = '#FFC107';
+                    ctx.shadowBlur = 14;
+                }
                 ctx.beginPath();
                 ctx.roundRect(-16, -10, 32, 36, [8]);
                 ctx.fill();
@@ -1012,7 +1102,7 @@
                 ctx.lineWidth = 2.5;
                 ctx.stroke();
 
-                // Animated Legs
+                // Legs
                 const legOffset = Math.sin(this.animFrame) * 9;
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(-12, 24, 10, 12 + (this.grounded ? legOffset : 0));
@@ -1025,7 +1115,7 @@
                 ctx.fill();
                 ctx.stroke();
 
-                // Halloween Reporter Hat (Black & Yellow Band)
+                // Press Cap
                 ctx.fillStyle = '#111111';
                 ctx.beginPath();
                 ctx.moveTo(-22, -30);
@@ -1038,186 +1128,187 @@
                 ctx.fillStyle = '#FFC107';
                 ctx.fillRect(-14, -34, 28, 5);
 
-                // Eyes & Smile
+                // Eyes
                 ctx.fillStyle = '#000';
                 ctx.beginPath();
                 ctx.arc(6, -24, 2.5, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Press Bag
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(-9, 2, 14, 16);
-                ctx.fillStyle = '#ff6600';
-                ctx.fillRect(-7, 4, 10, 3);
-
                 ctx.restore();
             }
         };
 
-        // Level Definitions with Escalating Difficulty (Level 4 EXTREME)
         let platforms = [];
+        let jumpPads = [];
         let collectibles = [];
         let enemies = [];
         let exitPortal = null;
-        let jumpscareTriggeredLevel = false;
+        let jumpscaresTriggeredInLevel = 0;
+        let maxJumpscaresAllowed = 0;
+        let jumpscareTriggersX = [];
 
         function loadLevel(lvl) {
             platforms = [];
+            jumpPads = [];
             collectibles = [];
             enemies = [];
-            jumpscareTriggeredLevel = false;
+            jumpscaresTriggeredInLevel = 0;
+            jumpscareTriggersX = [];
 
-            const addPlat = (x, y, w, h, isMoving = false, moveRange = 0, speed = 0) => {
-                platforms.push({ x, y, origX: x, width: w, height: h, isMoving, moveRange, speed, dir: 1 });
-            };
-
-            if (lvl === 1) {
-                // LEVEL 1: Cmentarz Zaginionych Artykułów (EASY)
-                addPlat(0, 630, 900, 90);
-                addPlat(1000, 630, 900, 90);
-                addPlat(2000, 630, 1000, 90);
-
-                addPlat(300, 500, 180, 36);
-                addPlat(560, 390, 200, 36);
-                addPlat(840, 480, 160, 36);
-                addPlat(1200, 480, 180, 36);
-                addPlat(1480, 360, 220, 36);
-                addPlat(1780, 470, 180, 36);
-                addPlat(2150, 500, 180, 36);
-
-                collectibles.push({ x: 350, y: 440, type: 'article', id: 0, collected: false });
-                collectibles.push({ x: 620, y: 330, type: 'article', id: 1, collected: false });
-                collectibles.push({ x: 1540, y: 300, type: 'article', id: 2, collected: false });
-                collectibles.push({ x: 2200, y: 440, type: 'article', id: 3, collected: false });
-                collectibles.push({ x: 2650, y: 560, type: 'article', id: 4, collected: false });
-
-                const pSpawns = [{x: 180, y: 580}, {x: 500, y: 580}, {x: 900, y: 430}, {x: 1260, y: 430}, {x: 1820, y: 420}];
-                pSpawns.forEach(p => collectibles.push({ x: p.x, y: p.y, type: 'pumpkin', collected: false }));
-
-                enemies.push(new Enemy(600, 582, 'skeleton', 500, 750, 2.0));
-                enemies.push(new Enemy(1250, 582, 'skeleton', 1100, 1400, 2.0));
-                enemies.push(new Enemy(450, 290, 'ghost', 250, 450, 2.2, true));
-
-                exitPortal = { x: 2840, y: 510, width: 75, height: 120, unlocked: false };
-
-            } else if (lvl === 2) {
-                // LEVEL 2: Nawiedzony Korytarz SP3 (MEDIUM)
-                addPlat(0, 630, 750, 90);
-                addPlat(900, 630, 750, 90);
-                addPlat(1800, 630, 1100, 90);
-
-                addPlat(250, 510, 150, 36);
-                addPlat(480, 400, 160, 36);
-                addPlat(730, 290, 150, 36);
-                addPlat(1050, 420, 170, 36);
-                addPlat(1350, 310, 160, 36);
-                addPlat(1620, 430, 150, 36, true, 120, 2.2);
-                addPlat(1980, 360, 170, 36);
-                addPlat(2280, 260, 180, 36);
-
-                collectibles.push({ x: 290, y: 450, type: 'article', id: 0, collected: false });
-                collectibles.push({ x: 770, y: 230, type: 'article', id: 1, collected: false });
-                collectibles.push({ x: 1400, y: 250, type: 'article', id: 2, collected: false });
-                collectibles.push({ x: 2340, y: 200, type: 'article', id: 3, collected: false });
-                collectibles.push({ x: 2650, y: 560, type: 'article', id: 4, collected: false });
-
-                const pSpawns = [{x: 140, y: 580}, {x: 520, y: 340}, {x: 1100, y: 360}, {x: 1680, y: 370}, {x: 2040, y: 300}];
-                pSpawns.forEach(p => collectibles.push({ x: p.x, y: p.y, type: 'pumpkin', collected: false }));
-
-                enemies.push(new Enemy(500, 582, 'skeleton', 350, 650, 2.8));
-                enemies.push(new Enemy(1150, 582, 'skeleton', 950, 1300, 3.0));
-                enemies.push(new Enemy(500, 300, 'ghost', 320, 580, 3.2, true));
-                enemies.push(new Enemy(1400, 180, 'ghost', 1250, 1550, 3.5, true));
-
-                exitPortal = { x: 2800, y: 510, width: 75, height: 120, unlocked: false };
-
-            } else if (lvl === 3) {
-                // LEVEL 3: Mroczna Sala Gimnastyczna (HARD)
-                addPlat(0, 630, 550, 90);
-                addPlat(850, 630, 600, 90);
-                addPlat(1800, 630, 1100, 90);
-
-                addPlat(200, 510, 120, 36);
-                addPlat(400, 390, 120, 36, true, 140, 2.8);
-                addPlat(660, 280, 130, 36);
-                addPlat(960, 420, 130, 36);
-                addPlat(1220, 310, 130, 36, true, 160, 3.2);
-                addPlat(1500, 210, 120, 36);
-                addPlat(1780, 340, 130, 36);
-                addPlat(2080, 460, 120, 36);
-                addPlat(2360, 330, 140, 36);
-
-                collectibles.push({ x: 230, y: 450, type: 'article', id: 0, collected: false });
-                collectibles.push({ x: 700, y: 220, type: 'article', id: 1, collected: false });
-                collectibles.push({ x: 1540, y: 150, type: 'article', id: 2, collected: false });
-                collectibles.push({ x: 2400, y: 270, type: 'article', id: 3, collected: false });
-                collectibles.push({ x: 2700, y: 560, type: 'article', id: 4, collected: false });
-
-                const pSpawns = [{x: 100, y: 580}, {x: 430, y: 330}, {x: 1000, y: 360}, {x: 1820, y: 280}, {x: 2120, y: 400}];
-                pSpawns.forEach(p => collectibles.push({ x: p.x, y: p.y, type: 'pumpkin', collected: false }));
-
-                enemies.push(new Enemy(350, 582, 'skeleton', 200, 500, 3.6));
-                enemies.push(new Enemy(1000, 582, 'skeleton', 880, 1200, 3.8));
-                enemies.push(new Enemy(700, 180, 'ghost', 580, 820, 4.0, true));
-                enemies.push(new Enemy(1550, 110, 'ghost', 1400, 1700, 4.2, true));
-                enemies.push(new Enemy(2120, 380, 'ghost', 1980, 2250, 4.2, true));
-
-                exitPortal = { x: 2820, y: 510, width: 75, height: 120, unlocked: false };
-
-            } else if (lvl === 4) {
-                // LEVEL 4: KOSZMAR REDAKCJI / GABINET DYREKTORA (EXTREME!)
-                addPlat(0, 630, 350, 90);
-                addPlat(700, 630, 400, 90);
-                addPlat(1500, 630, 400, 90);
-                addPlat(2400, 630, 500, 90);
-
-                // Small & Fast Moving Platforms
-                addPlat(180, 500, 90, 32);
-                addPlat(360, 380, 90, 32, true, 160, 4.0);
-                addPlat(580, 260, 90, 32);
-                addPlat(820, 390, 90, 32, true, 180, 4.5);
-                addPlat(1060, 270, 90, 32);
-                addPlat(1300, 180, 90, 32, true, 200, 5.0);
-                addPlat(1580, 300, 90, 32);
-                addPlat(1820, 420, 90, 32, true, 220, 5.5);
-                addPlat(2080, 290, 90, 32);
-                addPlat(2320, 180, 90, 32);
-
-                collectibles.push({ x: 200, y: 440, type: 'article', id: 0, collected: false });
-                collectibles.push({ x: 600, y: 200, type: 'article', id: 1, collected: false });
-                collectibles.push({ x: 1080, y: 210, type: 'article', id: 2, collected: false });
-                collectibles.push({ x: 1600, y: 240, type: 'article', id: 3, collected: false });
-                collectibles.push({ x: 2340, y: 120, type: 'article', id: 4, collected: false });
-
-                const pSpawns = [{x: 80, y: 580}, {x: 380, y: 320}, {x: 840, y: 330}, {x: 1320, y: 120}, {x: 2100, y: 230}];
-                pSpawns.forEach(p => collectibles.push({ x: p.x, y: p.y, type: 'pumpkin', collected: false }));
-
-                // Ultra Fast Skeletons & Ghosts
-                enemies.push(new Enemy(200, 582, 'skeleton', 100, 300, 4.5));
-                enemies.push(new Enemy(850, 582, 'skeleton', 720, 1000, 5.0));
-                enemies.push(new Enemy(1650, 582, 'skeleton', 1520, 1800, 5.2));
-                enemies.push(new Enemy(600, 150, 'ghost', 450, 750, 5.0, true));
-                enemies.push(new Enemy(1080, 130, 'ghost', 950, 1250, 5.5, true));
-                enemies.push(new Enemy(1840, 220, 'ghost', 1700, 2000, 6.0, true));
-                enemies.push(new Enemy(2340, 100, 'ghost', 2200, 2500, 6.5, true));
-
-                exitPortal = { x: 2750, y: 510, width: 75, height: 120, unlocked: false };
+            if (lvl === 4 || lvl === 5) {
+                maxJumpscaresAllowed = 1;
+                jumpscareTriggersX.push(1600);
+            } else if (lvl >= 6) {
+                maxJumpscaresAllowed = 2;
+                jumpscareTriggersX.push(1200, 2200);
+            } else {
+                maxJumpscaresAllowed = 0;
             }
 
+            // Wszystko trudniejsze o 20% (+20% prędkości platform i trudności)
+            const difficultyMultiplier = 1.2;
+            const platformSpeedMultiplier = (0.8 + (lvl * 0.25)) * difficultyMultiplier;
+
+            const addPlat = (x, y, w, h, isMoving = false, moveRange = 0, speed = 1.0) => {
+                platforms.push({ 
+                    x, y, origX: x, width: w, height: h, 
+                    isMoving, moveRange, 
+                    speed: speed * 0.35 * platformSpeedMultiplier, 
+                    dir: 1 
+                });
+            };
+
+            const addJumpPad = (x, y) => {
+                jumpPads.push({ x, y, width: 52, height: 18 });
+            };
+
+            // OD POZIOMU 7: ZIEMIA TYLKO NA POCZĄTKU, PÓŹNIEJ TYLKO PLATFORMY W PRZEPAŚCI!
+            if (lvl === 1) {
+                addPlat(0, 630, 1200, 90); addPlat(1350, 630, 1100, 90); addPlat(2600, 630, 800, 90);
+                addPlat(350, 500, 220, 34); addPlat(700, 420, 220, 34); addPlat(1500, 500, 220, 34);
+                addPlat(1850, 400, 240, 34); addPlat(2700, 500, 220, 34);
+                addJumpPad(500, 482);
+            } else if (lvl === 2) {
+                addPlat(0, 630, 950, 90); addPlat(1100, 630, 1000, 90); addPlat(2250, 630, 1150, 90);
+                addPlat(220, 510, 190, 34); addPlat(500, 410, 190, 34, true, 110, 1.2);
+                addPlat(850, 330, 190, 34); addPlat(1350, 460, 190, 34); addPlat(1700, 360, 210, 34, true, 130, 1.4);
+                addJumpPad(400, 492); addJumpPad(1450, 442);
+            } else if (lvl === 3) {
+                addPlat(0, 630, 850, 90); addPlat(1000, 630, 900, 90); addPlat(2050, 630, 1350, 90);
+                addPlat(200, 500, 170, 34); addPlat(450, 390, 170, 34, true, 130, 1.5);
+                addPlat(750, 290, 170, 34); addPlat(1150, 430, 170, 34, true, 150, 1.6);
+                addPlat(1550, 330, 170, 34); addPlat(2200, 450, 190, 34);
+                addJumpPad(300, 482); addJumpPad(1250, 412);
+            } else if (lvl === 4) { // Trudniejszy
+                addPlat(0, 630, 750, 90); addPlat(900, 630, 800, 90); addPlat(1850, 630, 1550, 90);
+                addPlat(180, 490, 150, 32); addPlat(410, 370, 150, 32, true, 140, 1.8);
+                addPlat(680, 260, 150, 32); addPlat(1050, 410, 150, 32, true, 160, 2.0);
+                addPlat(1400, 300, 150, 32); addPlat(2050, 420, 170, 32);
+                addJumpPad(250, 472); addJumpPad(1150, 392);
+            } else if (lvl === 5) { // Jeszcze trudniejszy
+                addPlat(0, 630, 700, 90); addPlat(850, 630, 750, 90); addPlat(1750, 630, 1650, 90);
+                addPlat(160, 480, 140, 32, true, 150, 2.2); addPlat(440, 360, 140, 32);
+                addPlat(700, 240, 140, 32, true, 170, 2.4); addPlat(1000, 390, 140, 32);
+                addPlat(1350, 280, 140, 32, true, 180, 2.6); addPlat(1950, 400, 160, 32);
+                addJumpPad(320, 462); addJumpPad(1100, 372);
+            } else if (lvl === 6) { // Bardzo trudny
+                addPlat(0, 630, 650, 90); addPlat(800, 630, 700, 90); addPlat(1650, 630, 1750, 90);
+                addPlat(150, 470, 130, 30); addPlat(360, 350, 130, 30, true, 160, 2.8);
+                addPlat(600, 230, 130, 30); addPlat(920, 380, 130, 30, true, 190, 3.0);
+                addPlat(1220, 260, 130, 30); addPlat(1650, 370, 130, 30, true, 200, 3.2);
+                addJumpPad(220, 452); addJumpPad(1050, 362);
+            } else if (lvl === 7) { // Bardzo trudny - ziemia tylko na początku!
+                addPlat(0, 630, 350, 90); // Ziemia tylko na starcie
+                addPlat(450, 470, 110, 28, true, 160, 3.5);
+                addPlat(670, 350, 110, 28);
+                addPlat(890, 230, 110, 28, true, 190, 3.7);
+                addPlat(1150, 370, 110, 28);
+                addPlat(1380, 250, 110, 28, true, 210, 4.0);
+                addPlat(1700, 380, 120, 28);
+                addPlat(1980, 260, 110, 28, true, 230, 4.3);
+                addPlat(2300, 420, 150, 30);
+                addJumpPad(500, 452); addJumpPad(1430, 232);
+            } else if (lvl === 8) { // Ciężki (tylko platformy)
+                addPlat(0, 630, 320, 90);
+                addPlat(420, 450, 100, 26, true, 170, 4.2);
+                addPlat(630, 330, 100, 26);
+                addPlat(850, 210, 100, 26, true, 200, 4.5);
+                addPlat(1100, 350, 100, 26);
+                addPlat(1330, 230, 100, 26, true, 220, 4.8);
+                addPlat(1650, 360, 110, 26);
+                addPlat(1920, 240, 100, 26, true, 240, 5.1);
+                addPlat(2250, 400, 140, 30);
+                addJumpPad(470, 432); addJumpPad(1380, 212);
+            } else if (lvl === 9) { // Bardzo ciężki (tylko platformy)
+                addPlat(0, 630, 280, 90);
+                addPlat(380, 430, 90, 24, true, 180, 5.0);
+                addPlat(580, 310, 90, 24);
+                addPlat(790, 190, 90, 24, true, 210, 5.3);
+                addPlat(1040, 330, 90, 24);
+                addPlat(1260, 210, 90, 24, true, 230, 5.6);
+                addPlat(1580, 340, 100, 24);
+                addPlat(1850, 220, 90, 24, true, 250, 6.0);
+                addPlat(2200, 380, 130, 28);
+                addJumpPad(430, 412); addJumpPad(1310, 192);
+            } else { // 10 - Niemożliwy (Ekstremalny, tylko platformy nad przepaścią)
+                addPlat(0, 630, 240, 90);
+                addPlat(340, 410, 80, 22, true, 190, 6.0);
+                addPlat(530, 290, 80, 22);
+                addPlat(730, 170, 80, 22, true, 220, 6.4);
+                addPlat(980, 310, 80, 22);
+                addPlat(1190, 190, 80, 22, true, 240, 6.8);
+                addPlat(1500, 320, 90, 22);
+                addPlat(1780, 200, 80, 22, true, 260, 7.2);
+                addPlat(2120, 360, 120, 26);
+                addJumpPad(390, 392); addJumpPad(1240, 172);
+            }
+
+            // ARTICLES
+            collectibles.push({ x: 450, y: 410, type: 'article', id: 0, collected: false });
+            collectibles.push({ x: 1000, y: 280, type: 'article', id: 1, collected: false });
+            collectibles.push({ x: 1600, y: 300, type: 'article', id: 2, collected: false });
+            collectibles.push({ x: 2250, y: 330, type: 'article', id: 3, collected: false });
+
+            // 5 PUMPKINS
+            const pLocs = [
+                {x: 150, y: 580}, {x: 750, y: 180}, {x: 1350, y: 180}, {x: 1900, y: 200}, {x: 2300, y: 350}
+            ];
+            pLocs.forEach(p => collectibles.push({ x: p.x, y: p.y, type: 'pumpkin', collected: false }));
+
+            // ENEMIES & BIG BAT (Zwiększona prędkość o 20%)
+            const speedMult = (0.8 + (lvl * 0.2)) * difficultyMultiplier;
+            enemies.push(new Enemy(450, 582, 'skeleton', 200, 600, 1.4 * speedMult));
+            enemies.push(new Enemy(1350, 582, 'skeleton', 1000, 1550, 1.6 * speedMult));
+
+            if (lvl >= 3) {
+                enemies.push(new Enemy(700, 140, 'bigbat', 200, 2800, 2.5 * speedMult));
+            }
+            if (lvl >= 5) {
+                enemies.push(new Enemy(1800, 260, 'ghost', 1600, 2000, 2.2 * speedMult, true));
+            }
+
+            exitPortal = { x: 3150, y: 510, width: 75, height: 120, unlocked: false };
             player.reset();
         }
 
         class Enemy {
-            constructor(x, y, type, minX, maxX, speed = 2.5, isVertical = false) {
+            constructor(x, y, type, minX, maxX, speed = 2.0, isVertical = false) {
                 this.x = x;
                 this.y = y;
-                this.width = 42;
-                this.height = 50;
                 this.type = type;
+                
+                if (type === 'bigbat') {
+                    this.width = 68;
+                    this.height = 42;
+                } else {
+                    this.width = 34;
+                    this.height = 42;
+                }
+
                 this.minX = minX;
                 this.maxX = maxX;
-                this.minY = y - 90;
-                this.maxY = y + 90;
+                this.minY = y - 75;
+                this.maxY = y + 75;
                 this.speed = speed;
                 this.dir = 1;
                 this.isVertical = isVertical;
@@ -1227,7 +1318,7 @@
 
             update() {
                 if (!this.alive) return;
-                this.animTick += 0.15;
+                this.animTick += 0.12;
 
                 if (this.isVertical) {
                     this.y += this.speed * this.dir;
@@ -1245,45 +1336,71 @@
                 const ex = this.x - cameraX;
                 const ey = this.y;
 
-                if (this.type === 'ghost') {
-                    const floatY = ey + Math.sin(this.animTick) * 9;
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
-                    ctx.shadowColor = '#ffffff';
-                    ctx.shadowBlur = 22;
+                if (this.type === 'bigbat') {
+                    const floatY = ey + Math.sin(this.animTick) * 8;
+                    const wingSwing = Math.sin(this.animTick * 2.5) * 16;
+
+                    ctx.fillStyle = '#111111';
+                    if (graphicsQuality === 'HIGH') {
+                        ctx.shadowColor = '#ff6600';
+                        ctx.shadowBlur = 18;
+                    }
                     ctx.beginPath();
-                    ctx.arc(ex + 21, floatY + 18, 20, Math.PI, 0, false);
-                    ctx.lineTo(ex + 42, floatY + 50);
-                    ctx.lineTo(ex + 31, floatY + 41);
-                    ctx.lineTo(ex + 21, floatY + 50);
-                    ctx.lineTo(ex + 11, floatY + 41);
-                    ctx.lineTo(ex, floatY + 50);
+                    ctx.moveTo(ex + 34, floatY + 16);
+                    ctx.lineTo(ex, floatY - wingSwing);
+                    ctx.lineTo(ex + 18, floatY + 28);
+                    ctx.lineTo(ex + 34, floatY + 22);
+                    ctx.lineTo(ex + 50, floatY + 28);
+                    ctx.lineTo(ex + 68, floatY - wingSwing);
                     ctx.closePath();
                     ctx.fill();
 
                     ctx.fillStyle = '#ff0033';
                     ctx.beginPath();
-                    ctx.arc(ex + 13, floatY + 16, 4.5, 0, Math.PI * 2);
-                    ctx.arc(ex + 29, floatY + 16, 4.5, 0, Math.PI * 2);
+                    ctx.arc(ex + 29, floatY + 18, 3.5, 0, Math.PI * 2);
+                    ctx.arc(ex + 39, floatY + 18, 3.5, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (this.type === 'ghost') {
+                    const floatY = ey + Math.sin(this.animTick) * 6;
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
+                    if (graphicsQuality === 'HIGH') {
+                        ctx.shadowColor = '#ffffff';
+                        ctx.shadowBlur = 14;
+                    }
+                    ctx.beginPath();
+                    ctx.arc(ex + 17, floatY + 15, 17, Math.PI, 0, false);
+                    ctx.lineTo(ex + 34, floatY + 42);
+                    ctx.lineTo(ex + 25, floatY + 34);
+                    ctx.lineTo(ex + 17, floatY + 42);
+                    ctx.lineTo(ex + 8, floatY + 34);
+                    ctx.lineTo(ex, floatY + 42);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    ctx.fillStyle = '#ff0033';
+                    ctx.beginPath();
+                    ctx.arc(ex + 10, floatY + 13, 3.5, 0, Math.PI * 2);
+                    ctx.arc(ex + 24, floatY + 13, 3.5, 0, Math.PI * 2);
                     ctx.fill();
                 } else {
                     ctx.fillStyle = '#e8e8e8';
                     ctx.beginPath();
-                    ctx.arc(ex + 21, ey + 14, 13, 0, Math.PI * 2);
+                    ctx.arc(ex + 17, ey + 11, 11, 0, Math.PI * 2);
                     ctx.fill();
-                    ctx.fillRect(ex + 16, ey + 27, 10, 15);
+                    ctx.fillRect(ex + 13, ey + 22, 8, 14);
 
                     ctx.fillStyle = '#ff6600';
-                    ctx.fillRect(ex + 15, ey + 12, 4.5, 4.5);
-                    ctx.fillRect(ex + 23, ey + 12, 4.5, 4.5);
+                    ctx.fillRect(ex + 12, ey + 9, 3.5, 3.5);
+                    ctx.fillRect(ex + 18, ey + 9, 3.5, 3.5);
 
                     ctx.strokeStyle = '#ffffff';
-                    ctx.lineWidth = 3;
-                    const legAnim = Math.sin(this.animTick * 2.5) * 10;
+                    ctx.lineWidth = 2.5;
+                    const legAnim = Math.sin(this.animTick * 2) * 7;
                     ctx.beginPath();
-                    ctx.moveTo(ex + 17, ey + 42);
-                    ctx.lineTo(ex + 10 - legAnim, ey + 50);
-                    ctx.moveTo(ex + 25, ey + 42);
-                    ctx.lineTo(ex + 32 + legAnim, ey + 50);
+                    ctx.moveTo(ex + 14, ey + 36);
+                    ctx.lineTo(ex + 7 - legAnim, ey + 44);
+                    ctx.moveTo(ex + 20, ey + 36);
+                    ctx.lineTo(ex + 27 + legAnim, ey + 44);
                     ctx.stroke();
                 }
 
@@ -1292,7 +1409,7 @@
         }
 
         /* ==========================================================================
-           7. GAME ENGINE LOOP
+           7. GAME LOOP & LOGIC
            ========================================================================== */
         function checkAABB(r1, r2) {
             return (
@@ -1304,12 +1421,12 @@
         }
 
         function takeDamage() {
-            if (player.invulnerableTimer > 0) return;
+            if (gameState !== 'PLAYING' || player.invulnerableTimer > 0) return;
 
             lives--;
             player.invulnerableTimer = 65;
-            triggerScreenShake(22, 28);
-            createBurst(player.x + player.width / 2, player.y + player.height / 2, '#ff0033', 45, true);
+            triggerScreenShake(24, 30);
+            createBurst(player.x + player.width / 2, player.y + player.height / 2, '#ff0033', 35, true);
 
             if (lives <= 0) {
                 gameOver(false);
@@ -1319,11 +1436,6 @@
         }
 
         function update() {
-            if (gameState !== 'PLAYING') return;
-
-            if (jumpBufferTimer > 0) jumpBufferTimer--;
-
-            // Update Moving Platforms
             platforms.forEach(p => {
                 if (p.isMoving) {
                     p.x += p.speed * p.dir;
@@ -1333,36 +1445,50 @@
                 }
             });
 
-            player.update();
+            enemies.forEach(e => e.update());
 
-            // Level 3 & Level 4 Jumpscare Trigger
-            if (!jumpscareTriggeredLevel && player.x > 1150 && (currentLevel === 3 || currentLevel === 4)) {
-                jumpscareTriggeredLevel = true;
-                triggerGhostJumpscare();
-            }
-
-            cameraX += (player.x - cameraX - GAME_WIDTH / 3 - player.width / 2) * 0.12;
-            cameraX = Math.max(0, Math.min(cameraX, 3000 - GAME_WIDTH));
-
-            // Update Ghost Trails
             for (let i = ghostTrails.length - 1; i >= 0; i--) {
                 ghostTrails[i].alpha -= 0.05;
                 if (ghostTrails[i].alpha <= 0) ghostTrails.splice(i, 1);
             }
 
-            // Update Particles
             for (let i = particles.length - 1; i >= 0; i--) {
                 particles[i].update();
                 if (particles[i].life <= 0) particles.splice(i, 1);
             }
 
+            if (gameState !== 'PLAYING') return;
+
+            if (jumpBufferTimer > 0) jumpBufferTimer--;
+
+            player.update();
+
+            jumpPads.forEach(jp => {
+                if (checkAABB(player, jp)) {
+                    player.vy = -21;
+                    player.grounded = false;
+                    triggerScreenShake(14, 16);
+                    createBurst(jp.x + jp.width / 2, jp.y, '#00e5ff', 40, true);
+                }
+            });
+
+            if (jumpscaresTriggeredInLevel < maxJumpscaresAllowed && jumpscareTriggersX.length > 0) {
+                if (player.x >= jumpscareTriggersX[0]) {
+                    jumpscareTriggersX.shift();
+                    jumpscaresTriggeredInLevel++;
+                    triggerGhostJumpscare();
+                }
+            }
+
+            cameraX += (player.x - cameraX - GAME_WIDTH / 3 - player.width / 2) * 0.12;
+            cameraX = Math.max(0, Math.min(cameraX, LEVEL_WIDTH - GAME_WIDTH));
+
             enemies.forEach(e => {
-                e.update();
                 if (e.alive && checkAABB(player, e)) {
                     if (player.vy > 0 && player.y + player.height - player.vy <= e.y + 18) {
                         e.alive = false;
-                        player.vy = player.jumpPower * 0.75;
-                        score += 250;
+                        player.vy = player.jumpPower * 0.8;
+                        score += (e.type === 'bigbat' ? 350 : 250);
                         triggerScreenShake(12, 14);
                         createBurst(e.x + e.width / 2, e.y + e.height / 2, '#FFC107', 40, true);
                     } else {
@@ -1373,19 +1499,27 @@
 
             collectibles.forEach(c => {
                 if (!c.collected) {
-                    const cBounds = { x: c.x, y: c.y, width: 32, height: 32 };
+                    const cBounds = { x: c.x, y: c.y, width: 34, height: 34 };
                     if (checkAABB(player, cBounds)) {
                         c.collected = true;
                         if (c.type === 'article') {
                             articlesCollected++;
                             score += 500;
-                            currentHeadlineDisplay = `${articleHeadlines[c.id]}`;
+                            currentHeadlineDisplay = `Znalazłeś artykuł do: ${articleCategories[c.id]}`;
                             headlineDisplayTimer = 220;
-                            triggerScreenShake(14, 18);
-                            createBurst(c.x + 16, c.y + 16, '#FFC107', 50, true);
+                            triggerScreenShake(12, 15);
+                            createBurst(c.x + 16, c.y + 16, '#FFC107', 45, true);
                         } else if (c.type === 'pumpkin') {
                             score += 150;
-                            createBurst(c.x + 16, c.y + 16, '#ff6600', 30, true);
+                            pumpkinCount++;
+                            
+                            if (pumpkinCount % 10 === 0) {
+                                lives++;
+                                triggerScreenShake(20, 22);
+                                createBurst(player.x + player.width / 2, player.y, '#00ff66', 50, true);
+                            } else {
+                                createBurst(c.x + 16, c.y + 16, '#ff6600', 25, true);
+                            }
                         }
                     }
                 }
@@ -1396,12 +1530,12 @@
             }
 
             if (exitPortal.unlocked && checkAABB(player, exitPortal)) {
-                if (currentLevel < 4) {
+                if (currentLevel < TOTAL_LEVELS) {
                     currentLevel++;
                     articlesCollected = 0;
                     loadLevel(currentLevel);
-                    triggerScreenShake(25, 30);
-                    createBurst(player.x, player.y, '#FFC107', 70, true);
+                    triggerScreenShake(20, 25);
+                    createBurst(player.x, player.y, '#FFC107', 60, true);
                 } else {
                     gameOver(true);
                 }
@@ -1422,10 +1556,10 @@
 
             ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
-            // 1. BACKGROUND PARALLAX
+            // 1. BACKGROUND
             if (bgImage.complete && bgImage.naturalWidth !== 0) {
                 const bgWidth = GAME_WIDTH;
-                const parallaxX = -(cameraX * 0.38) % bgWidth;
+                const parallaxX = -(cameraX * 0.35) % bgWidth;
                 ctx.drawImage(bgImage, parallaxX, 0, bgWidth, GAME_HEIGHT);
                 ctx.drawImage(bgImage, parallaxX + bgWidth, 0, bgWidth, GAME_HEIGHT);
             } else {
@@ -1433,59 +1567,44 @@
                 ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
             }
 
-            // 2. ATMOSPHERIC BATS & WISPS (300% DETAILS)
-            bats.forEach(b => {
-                b.x -= b.speedX;
-                if (b.x - cameraX * 0.2 < -50) b.x = GAME_WIDTH + cameraX * 0.2 + 100;
-                const bx = b.x - cameraX * 0.2;
-                b.wingFrame += 0.25;
+            // 2. ATMOSPHERIC PARTICLES
+            if (graphicsQuality === 'HIGH') {
+                bats.forEach(b => {
+                    b.x -= b.speedX;
+                    if (b.x - cameraX * 0.2 < -50) b.x = LEVEL_WIDTH + 100;
+                    const bx = b.x - cameraX * 0.2;
+                    b.wingFrame += 0.25;
 
-                ctx.save();
-                ctx.fillStyle = '#111111';
-                ctx.beginPath();
-                const wingY = Math.sin(b.wingFrame) * 8;
-                ctx.moveTo(bx, b.y);
-                ctx.lineTo(bx - b.size, b.y - wingY);
-                ctx.lineTo(bx - b.size / 2, b.y + 4);
-                ctx.lineTo(bx, b.y + 2);
-                ctx.lineTo(bx + b.size / 2, b.y + 4);
-                ctx.lineTo(bx + b.size, b.y - wingY);
-                ctx.closePath();
-                ctx.fill();
-                ctx.restore();
-            });
+                    ctx.save();
+                    ctx.fillStyle = '#111111';
+                    ctx.beginPath();
+                    const wingY = Math.sin(b.wingFrame) * 8;
+                    ctx.moveTo(bx, b.y);
+                    ctx.lineTo(bx - b.size, b.y - wingY);
+                    ctx.lineTo(bx - b.size / 2, b.y + 4);
+                    ctx.lineTo(bx, b.y + 2);
+                    ctx.lineTo(bx + b.size / 2, b.y + 4);
+                    ctx.lineTo(bx + b.size, b.y - wingY);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.restore();
+                });
 
-            wisps.forEach(w => {
-                w.y += w.speedY;
-                w.pulse += 0.05;
-                const wx = w.x - cameraX * 0.5;
-                const glowR = w.radius + Math.sin(w.pulse) * 2;
+                fogParticles.forEach(f => {
+                    f.x -= f.speedX;
+                    if (f.x - cameraX * 0.15 < -100) f.x = LEVEL_WIDTH + 200;
+                    const fx = f.x - cameraX * 0.15;
+                    
+                    ctx.save();
+                    ctx.fillStyle = `rgba(255, 255, 255, ${f.opacity})`;
+                    ctx.beginPath();
+                    ctx.arc(fx, f.y, f.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                });
+            }
 
-                ctx.save();
-                ctx.fillStyle = 'rgba(255, 193, 7, 0.7)';
-                ctx.shadowColor = '#FFC107';
-                ctx.shadowBlur = 15;
-                ctx.beginPath();
-                ctx.arc(wx, w.y, glowR, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
-            });
-
-            // 3. FOG LAYER
-            fogParticles.forEach(f => {
-                f.x -= f.speedX;
-                if (f.x - cameraX * 0.15 < -100) f.x = GAME_WIDTH + cameraX * 0.15 + 200;
-                const fx = f.x - cameraX * 0.15;
-                
-                ctx.save();
-                ctx.fillStyle = `rgba(255, 255, 255, ${f.opacity})`;
-                ctx.beginPath();
-                ctx.arc(fx, f.y, f.radius, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
-            });
-
-            // 4. PLATFORMS
+            // 3. PLATFORMS
             platforms.forEach(p => {
                 const px = p.x - cameraX;
                 if (px + p.width < -50 || px > GAME_WIDTH + 50) return;
@@ -1508,19 +1627,38 @@
                 }
             });
 
-            // 5. COLLECTIBLES
+            // 4. AUTOMATIC JUMP PADS
+            jumpPads.forEach(jp => {
+                const jpx = jp.x - cameraX;
+                ctx.save();
+                ctx.fillStyle = '#00e5ff';
+                if (graphicsQuality === 'HIGH') {
+                    ctx.shadowColor = '#00e5ff';
+                    ctx.shadowBlur = 18;
+                }
+                ctx.beginPath();
+                ctx.roundRect(jpx, jp.y, jp.width, jp.height, [6]);
+                ctx.fill();
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(jpx + 8, jp.y + 4, jp.width - 16, 4);
+                ctx.restore();
+            });
+
+            // 5. COLLECTIBLES & PUMPKINS
             collectibles.forEach(c => {
                 if (c.collected) return;
                 const cx = c.x - cameraX;
                 if (cx < -50 || cx > GAME_WIDTH + 50) return;
 
-                const floatY = c.y + Math.sin(Date.now() * 0.007 + c.x) * 7;
+                const floatY = c.y + Math.sin(Date.now() * 0.006 + c.x) * 6;
 
                 if (c.type === 'article') {
                     ctx.save();
                     ctx.fillStyle = '#ffffff';
-                    ctx.shadowColor = '#FFC107';
-                    ctx.shadowBlur = 22;
+                    if (graphicsQuality === 'HIGH') {
+                        ctx.shadowColor = '#FFC107';
+                        ctx.shadowBlur = 18;
+                    }
                     ctx.fillRect(cx, floatY, 28, 34);
                     ctx.fillStyle = '#FFC107';
                     ctx.fillRect(cx + 3, floatY + 3, 22, 6);
@@ -1531,14 +1669,18 @@
                     ctx.restore();
                 } else {
                     ctx.save();
-                    ctx.fillStyle = '#ff6600';
-                    ctx.shadowColor = '#ff6600';
-                    ctx.shadowBlur = 20;
-                    ctx.beginPath();
-                    ctx.arc(cx + 16, floatY + 16, 15, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(cx + 14, floatY, 4, 7);
+                    if (newPumpkinImage.complete && newPumpkinImage.naturalWidth !== 0) {
+                        if (graphicsQuality === 'HIGH') {
+                            ctx.shadowColor = '#ff6600';
+                            ctx.shadowBlur = 15;
+                        }
+                        ctx.drawImage(newPumpkinImage, cx, floatY, 34, 34);
+                    } else {
+                        ctx.fillStyle = '#ff6600';
+                        ctx.beginPath();
+                        ctx.arc(cx + 16, floatY + 16, 15, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
                     ctx.restore();
                 }
             });
@@ -1548,8 +1690,10 @@
                 const ex = exitPortal.x - cameraX;
                 ctx.save();
                 ctx.fillStyle = exitPortal.unlocked ? '#FFC107' : '#222222';
-                ctx.shadowColor = exitPortal.unlocked ? '#FFC107' : '#000000';
-                ctx.shadowBlur = exitPortal.unlocked ? 35 : 0;
+                if (graphicsQuality === 'HIGH' && exitPortal.unlocked) {
+                    ctx.shadowColor = '#FFC107';
+                    ctx.shadowBlur = 30;
+                }
                 ctx.fillRect(ex, exitPortal.y, exitPortal.width, exitPortal.height);
 
                 ctx.fillStyle = '#000000';
@@ -1563,10 +1707,10 @@
                 ctx.restore();
             }
 
-            // 7. GHOST TRAILS, ENTITIES & PARTICLES
+            // 7. ENTITIES & PARTICLES
             ghostTrails.forEach(gt => {
                 ctx.save();
-                ctx.globalAlpha = gt.alpha * 0.4;
+                ctx.globalAlpha = gt.alpha * 0.35;
                 ctx.fillStyle = '#FFC107';
                 ctx.fillRect(gt.x - cameraX, gt.y, player.width, player.height);
                 ctx.restore();
@@ -1576,51 +1720,86 @@
             player.draw(ctx);
             particles.forEach(p => p.draw(ctx));
 
-            // 8. HUD
-            for (let i = 0; i < 3; i++) {
-                ctx.fillStyle = i < lives ? '#ff6600' : '#2a2a2a';
-                ctx.shadowColor = i < lives ? '#ff6600' : 'transparent';
-                ctx.shadowBlur = 12;
-                ctx.beginPath();
-                ctx.arc(50 + i * 38, 45, 14, 0, Math.PI * 2);
-                ctx.fill();
-            }
-
-            // STRICTLY YELLOW GŁÓS TRÓJKI LOGO HUD (TOP CENTER)
-            if (gtYellowLogo.complete && gtYellowLogo.naturalWidth !== 0) {
+            // LIGHTING EFFECT (LEVEL 4+)
+            if (currentLevel >= 4 && gameState === 'PLAYING') {
                 ctx.save();
-                ctx.shadowColor = '#FFC107';
-                ctx.shadowBlur = 20;
-                ctx.drawImage(gtYellowLogo, GAME_WIDTH / 2 - 38, 12, 76, 52);
+                const pCenterX = player.x - cameraX + player.width / 2;
+                const pCenterY = player.y + player.height / 2;
+
+                const lightRadius = 380;
+                const grad = ctx.createRadialGradient(pCenterX, pCenterY, 80, pCenterX, pCenterY, lightRadius);
+                grad.addColorStop(0, 'rgba(0, 0, 0, 0)');
+                grad.addColorStop(0.7, 'rgba(0, 0, 0, 0.45)');
+                grad.addColorStop(1, 'rgba(0, 0, 0, 0.75)');
+
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
                 ctx.restore();
             }
 
-            ctx.fillStyle = '#ffffff';
-            ctx.font = '900 17px Montserrat';
-            ctx.textAlign = 'left';
-            ctx.fillText(`POZIOM: ${currentLevel}/4`, 170, 52);
-            ctx.fillText(`PUNKTY: ${score}`, 340, 52);
-
-            ctx.fillStyle = '#FFC107';
-            ctx.fillText(`ARTYKUŁY: ${articlesCollected} / ${TOTAL_ARTICLES}`, GAME_WIDTH - 270, 52);
-
-            // Headline Banner
-            if (headlineDisplayTimer > 0) {
+            // 8. HUD BAR
+            if (gameState === 'PLAYING') {
                 ctx.save();
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.92)';
-                ctx.strokeStyle = '#FFC107';
-                ctx.lineWidth = 2.5;
-                ctx.shadowColor = '#FFC107';
-                ctx.shadowBlur = 20;
-                ctx.roundRect(GAME_WIDTH / 2 - 320, 80, 640, 48, [14]);
+                const hudW = 860;
+                const hudH = 46;
+                const hudX = (GAME_WIDTH - hudW) / 2;
+                const hudY = 14;
+
+                ctx.fillStyle = 'rgba(10, 10, 10, 0.82)';
+                ctx.strokeStyle = 'rgba(255, 193, 7, 0.6)';
+                ctx.lineWidth = 2;
+                if (graphicsQuality === 'HIGH') {
+                    ctx.shadowColor = '#FFC107';
+                    ctx.shadowBlur = 12;
+                }
+                ctx.roundRect(hudX, hudY, hudW, hudH, [24]);
                 ctx.fill();
                 ctx.stroke();
 
+                ctx.shadowBlur = 0;
+                ctx.font = '900 14px Montserrat';
+                ctx.textAlign = 'left';
+
+                ctx.fillStyle = '#b0b0b0';
+                ctx.fillText('ŻYCIA:', hudX + 25, hudY + 28);
+                for (let i = 0; i < lives; i++) {
+                    ctx.fillStyle = '#ff3300';
+                    ctx.beginPath();
+                    ctx.arc(hudX + 85 + i * 22, hudY + 23, 8, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                const pProgress = pumpkinCount % 10;
+                ctx.fillStyle = '#ff9900';
+                ctx.fillText(`DYNIE: ${pumpkinCount} (${pProgress}/10)`, hudX + 210, hudY + 28);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.fillText(`LVL: ${currentLevel}/${TOTAL_LEVELS}`, hudX + 410, hudY + 28);
+                ctx.fillText(`PUNKTY: ${score}`, hudX + 530, hudY + 28);
+
                 ctx.fillStyle = '#FFC107';
-                ctx.font = 'bold 15px Montserrat';
-                ctx.textAlign = 'center';
-                ctx.fillText(`Odnaleziono: „${currentHeadlineDisplay}”`, GAME_WIDTH / 2, 111);
+                ctx.fillText(`ARTYKUŁY: ${articlesCollected}/${TOTAL_ARTICLES}`, hudX + 690, hudY + 28);
                 ctx.restore();
+
+                if (headlineDisplayTimer > 0) {
+                    ctx.save();
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.94)';
+                    ctx.strokeStyle = '#FFC107';
+                    ctx.lineWidth = 2;
+                    if (graphicsQuality === 'HIGH') {
+                        ctx.shadowColor = '#FFC107';
+                        ctx.shadowBlur = 18;
+                    }
+                    ctx.roundRect(GAME_WIDTH / 2 - 280, 72, 560, 42, [12]);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#FFC107';
+                    ctx.font = 'bold 15px Montserrat';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`${currentHeadlineDisplay}`, GAME_WIDTH / 2, 98);
+                    ctx.restore();
+                }
             }
 
             ctx.restore();
@@ -1633,7 +1812,7 @@
         }
 
         /* ==========================================================================
-           8. OVERLAYS & CONTROLS
+           8. OVERLAYS & INITIALIZATION
            ========================================================================== */
         const endScreen = document.getElementById('endScreen');
 
@@ -1652,6 +1831,7 @@
         function resetFullGame() {
             score = 0;
             lives = 3;
+            pumpkinCount = 0;
             currentLevel = 1;
             articlesCollected = 0;
             cameraX = 0;
@@ -1667,14 +1847,14 @@
             const resScore = document.getElementById('resScore');
 
             if (isWin) {
-                endTitle.innerText = "Sukces! Wydanie Uratowane!";
+                endTitle.innerText = "Wygrana! Pokonałeś Koszmar!";
                 endTitle.style.color = "#FFC107";
             } else {
-                endTitle.innerText = "Koniec Gry — Duchy Przejęły SP3";
+                endTitle.innerText = "Koniec Gry — Spróbuj Ponownie!";
                 endTitle.style.color = "#ff0033";
             }
 
-            resLevel.innerText = `${currentLevel} / 4`;
+            resLevel.innerText = `${currentLevel} / ${TOTAL_LEVELS}`;
             resArticles.innerText = `${articlesCollected} / ${TOTAL_ARTICLES}`;
             resScore.innerText = `${score} pkt`;
 
