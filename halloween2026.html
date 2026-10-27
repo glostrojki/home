@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Głos Trójki - Gra Halloween 2026</title>
+    <title>Gra Halloweenowa - Głos Trójki</title>
     
     <link rel="icon" type="image/png" href="https://imgur.com/EBnhXHi.png">
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Pikselowa czcionka 'Press Start 2P' -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Montserrat:wght@400;600;700;800;900&family=Nosifer&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,13 +19,13 @@
         :root {
             --gt-yellow: #FFC107;
             --gt-yellow-glow: #ffd54f;
-            --halloween-orange: #ff6600;
+            --purple-main: #9d4edd;
+            --purple-glow: #c77dff;
+            --purple-dark: #3c096c;
             --pure-black: #000000;
             --pure-white: #ffffff;
-            --font-headings: 'Montserrat', sans-serif;
-            --font-spooky: 'Creepster', cursive;
-            --font-bloody: 'Nosifer', cursive;
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --font-pixel: 'Press Start 2P', monospace;
+            --transition: all 0.25s ease;
         }
 
         * {
@@ -42,7 +42,7 @@
             height: 100%;
             overflow: hidden;
             background-color: var(--pure-black);
-            font-family: var(--font-headings);
+            font-family: var(--font-pixel);
             color: var(--pure-white);
         }
 
@@ -58,69 +58,67 @@
 
         canvas {
             display: block;
-            box-shadow: 0 0 100px rgba(255, 102, 0, 0.4), 0 0 150px rgba(0, 0, 0, 1);
-            border-radius: 12px;
+            box-shadow: 0 0 80px rgba(157, 78, 221, 0.4), 0 0 150px rgba(0, 0, 0, 1);
+            border-radius: 8px;
             background-color: var(--pure-black);
             touch-action: none;
         }
 
         .glass-back-btn {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 18px;
+            left: 18px;
             z-index: 1000;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px 20px;
-            background: rgba(0, 0, 0, 0.75);
-            border: 2px solid rgba(255, 193, 7, 0.6);
-            border-radius: 40px;
-            color: var(--gt-yellow);
-            font-family: var(--font-headings);
-            font-weight: 800;
-            font-size: 0.85rem;
+            gap: 8px;
+            padding: 8px 14px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 2px solid var(--purple-main);
+            border-radius: 8px;
+            color: var(--pure-white);
+            font-family: var(--font-pixel);
+            font-size: 0.65rem;
             text-decoration: none;
-            backdrop-filter: blur(16px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 193, 7, 0.2);
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.4);
             transition: var(--transition);
             cursor: pointer;
         }
 
         .glass-back-btn:hover {
-            background: var(--gt-yellow);
-            border-color: var(--pure-white);
-            color: var(--pure-black);
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 0 35px rgba(255, 193, 7, 0.9);
+            background: var(--purple-main);
+            color: var(--pure-white);
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(199, 125, 255, 0.8);
         }
 
-        .audio-control {
+        .audio-control, .pause-control {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 18px;
             z-index: 1000;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 44px;
-            height: 44px;
-            background: rgba(0, 0, 0, 0.75);
-            border: 2px solid rgba(255, 102, 0, 0.6);
-            color: var(--halloween-orange);
-            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 2px solid var(--purple-main);
+            color: var(--purple-glow);
+            border-radius: 8px;
             cursor: pointer;
-            backdrop-filter: blur(16px);
             transition: var(--transition);
-            font-size: 1.1rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            font-size: 0.9rem;
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.4);
         }
 
-        .audio-control:hover {
-            transform: scale(1.15) rotate(15deg);
-            background: var(--halloween-orange);
-            color: var(--pure-black);
-            box-shadow: 0 0 30px rgba(255, 102, 0, 0.9);
+        .audio-control { right: 18px; }
+        .pause-control { right: 68px; }
+
+        .audio-control:hover, .pause-control:hover {
+            transform: scale(1.1);
+            background: var(--purple-main);
+            color: var(--pure-white);
+            box-shadow: 0 0 25px rgba(199, 125, 255, 0.8);
         }
 
         /* INTRO ŁADOWANIA */
@@ -150,40 +148,40 @@
         }
 
         @keyframes logoFloat {
-            0% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 40px rgba(255, 193, 7, 0.8)); }
-            100% { transform: translateY(-10px) scale(1.03); filter: drop-shadow(0 0 70px rgba(255, 102, 0, 1)); }
+            0% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 30px rgba(157, 78, 221, 0.8)); }
+            100% { transform: translateY(-10px) scale(1.03); filter: drop-shadow(0 0 50px rgba(199, 125, 255, 1)); }
         }
 
         .cinema-logo-img {
-            max-width: 240px;
+            max-width: 220px;
             height: auto;
         }
 
         .loading-title {
-            font-family: var(--font-spooky);
-            font-size: 2.8rem;
-            color: var(--gt-yellow);
+            font-family: var(--font-pixel);
+            font-size: 1.4rem;
+            color: var(--pure-white);
             margin-top: 25px;
-            letter-spacing: 3px;
-            text-shadow: 0 0 20px var(--halloween-orange);
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px var(--purple-main);
+            text-align: center;
         }
 
         .loading-bar-container {
-            width: 320px;
-            height: 14px;
+            width: 300px;
+            height: 16px;
             background: rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--gt-yellow);
-            border-radius: 20px;
+            border: 2px solid var(--purple-main);
+            border-radius: 4px;
             margin-top: 20px;
             overflow: hidden;
-            box-shadow: 0 0 20px rgba(255, 193, 7, 0.4);
+            box-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
         }
 
         .loading-bar-fill {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, var(--halloween-orange), var(--gt-yellow));
-            border-radius: 20px;
+            background: linear-gradient(90deg, var(--purple-dark), var(--purple-glow));
             transition: width 0.1s linear;
         }
 
@@ -195,7 +193,7 @@
             width: 100vw;
             height: 100vh;
             z-index: 1500;
-            background: rgba(180, 0, 0, 0.5);
+            background: rgba(100, 0, 150, 0.5);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -219,19 +217,19 @@
         }
 
         .ghost-jumpscare-icon {
-            font-size: 24rem;
+            font-size: 20rem;
             color: #ffffff;
-            text-shadow: 0 0 90px #ff0000, 0 0 160px #ff6600;
+            text-shadow: 0 0 90px #9d4edd, 0 0 160px #c77dff;
         }
 
-        /* NOWOCZESNE MENU Z PIONOWYM PANELEM PO LEWEJ (PÓŁPRZEZROCZYSTY 80%, BEZ ŻÓŁTEJ OBWÓDKI + GRADIENT W PRAWO) */
+        /* MENU SCREEN - CZARNE TŁO + 70% PRZEZROCZYSTOŚCI */
         .overlay-screen {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.4);
             display: flex;
             z-index: 50;
             transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -244,19 +242,17 @@
         }
 
         .sidebar-menu {
-            width: 400px;
+            width: 420px;
             height: 100%;
-            /* 80% opacity background + Smooth gradient fade out to the right (0%) */
-            background: linear-gradient(90deg, rgba(10, 10, 10, 0.82) 0%, rgba(10, 10, 10, 0.65) 60%, rgba(10, 10, 10, 0.0) 100%);
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-            border: none; /* Brak obwódki */
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-right: 3px solid var(--purple-main);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 35px 25px;
-            box-shadow: 20px 0 60px rgba(0, 0, 0, 0.9);
+            padding: 25px;
+            box-shadow: 10px 0 50px rgba(0, 0, 0, 0.9);
             z-index: 60;
             position: relative;
         }
@@ -266,113 +262,133 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            max-width: 300px;
+            max-width: 320px;
         }
 
         .yellow-gt-logo {
-            max-width: 120px;
+            max-width: 100px;
             height: auto;
-            margin-bottom: 10px;
-            filter: drop-shadow(0 0 25px rgba(255, 193, 7, 0.9));
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 15px rgba(255, 193, 7, 0.9));
         }
 
         .spooky-title {
-            font-family: var(--font-spooky);
-            font-size: 2.8rem;
-            color: var(--gt-yellow);
-            text-shadow: 0 0 30px rgba(255, 193, 7, 0.9);
-            margin-bottom: 5px;
+            font-family: var(--font-pixel);
+            font-size: 1.2rem;
+            color: var(--pure-white);
+            text-shadow: 0 0 20px var(--purple-glow);
+            margin-bottom: 8px;
             text-align: center;
-            line-height: 1.1;
+            line-height: 1.3;
         }
 
-        /* INFORMACJA O WERSJI NA PASKU */
         .version-badge {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.6);
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 193, 7, 0.25);
-            padding: 4px 12px;
-            border-radius: 20px;
-            letter-spacing: 1.2px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            font-size: 0.55rem;
+            color: #dcdcdc;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--purple-main);
+            padding: 4px 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        /* CHANGELOG W MENU */
+        .changelog-box {
+            font-size: 0.52rem;
+            line-height: 1.6;
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1.5px solid var(--purple-main);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 18px;
+            width: 100%;
+            text-align: left;
+            position: relative;
+        }
+        
+        .changelog-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--purple-glow);
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        .new-badge-img {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
         }
 
         .menu-btn-list {
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            width: 100%;
-        }
-
-        .btn-side {
-            background: linear-gradient(135deg, var(--halloween-orange), #ff8800);
-            color: var(--pure-black);
-            border: none;
-            font-family: var(--font-headings);
-            font-size: 1.1rem;
-            font-weight: 900;
-            padding: 15px 24px;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 10px 30px rgba(255, 102, 0, 0.45);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             gap: 12px;
             width: 100%;
         }
 
-        .btn-side:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 15px 40px rgba(255, 102, 0, 0.8);
+        .btn-side {
+            background: var(--purple-main);
             color: var(--pure-white);
+            border: 2px solid var(--purple-glow);
+            font-family: var(--font-pixel);
+            font-size: 0.75rem;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(157, 78, 221, 0.5);
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .btn-side:hover {
+            background: var(--purple-glow);
+            color: var(--pure-black);
+            transform: scale(1.03);
+            box-shadow: 0 0 25px rgba(199, 125, 255, 0.9);
         }
 
         .btn-side-secondary {
-            background: rgba(255, 255, 255, 0.06);
-            color: var(--gt-yellow);
-            border: 1.5px solid rgba(255, 193, 7, 0.4);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--pure-white);
+            border: 1.5px solid var(--purple-main);
         }
 
         .btn-side-secondary:hover {
-            background: var(--gt-yellow);
-            color: var(--pure-black);
-            border-color: #fff;
-            box-shadow: 0 0 30px rgba(255, 193, 7, 0.7);
+            background: var(--purple-main);
+            color: var(--pure-white);
         }
 
         .settings-gear-btn {
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1.5px solid rgba(255, 193, 7, 0.4);
-            color: var(--gt-yellow);
-            font-size: 1.3rem;
+            width: 46px;
+            height: 46px;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1.5px solid var(--purple-main);
+            color: var(--purple-glow);
+            font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: var(--transition);
-            margin-top: 6px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            margin-top: 4px;
         }
 
         .settings-gear-btn:hover {
-            transform: rotate(90deg) scale(1.1);
-            background: var(--gt-yellow);
-            color: var(--pure-black);
-            box-shadow: 0 0 30px rgba(255, 193, 7, 0.8);
+            transform: rotate(90deg);
+            background: var(--purple-main);
+            color: var(--pure-white);
         }
 
-        /* MODALS */
+        /* MODALS - POPRAWIONY WYGLĄD */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -380,7 +396,7 @@
             width: 100vw;
             height: 100vh;
             background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(14px);
+            backdrop-filter: blur(8px);
             z-index: 1200;
             display: flex;
             justify-content: center;
@@ -396,96 +412,192 @@
         }
 
         .modal-card {
-            background: rgba(18, 18, 18, 0.96);
-            border: 2px solid var(--gt-yellow);
-            border-radius: 24px;
-            padding: 30px 35px;
-            max-width: 500px;
+            background: rgba(20, 10, 30, 0.95);
+            border: 3px solid var(--purple-glow);
+            border-radius: 12px;
+            padding: 25px 25px;
+            max-width: 520px;
             width: 90%;
-            box-shadow: 0 0 50px rgba(255, 193, 7, 0.4);
+            box-shadow: 0 0 50px rgba(157, 78, 221, 0.6);
             position: relative;
             text-align: center;
         }
 
         .modal-title {
-            font-family: var(--font-spooky);
-            font-size: 2.6rem;
-            color: var(--gt-yellow);
-            margin-bottom: 15px;
+            font-family: var(--font-pixel);
+            font-size: 1.1rem;
+            color: var(--purple-glow);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--purple-glow);
         }
 
-        .modal-close-btn {
+        .gui-close-img-btn {
             position: absolute;
-            top: 15px;
-            right: 18px;
+            top: 12px;
+            right: 12px;
             background: none;
             border: none;
-            color: #aaa;
-            font-size: 1.5rem;
             cursor: pointer;
+            width: 32px;
+            height: 32px;
             transition: var(--transition);
         }
 
-        .modal-close-btn:hover { color: #fff; transform: scale(1.2); }
+        .gui-close-img-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .gui-close-img-btn:hover {
+            transform: scale(1.15);
+        }
+
+        .gui-ok-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 140px;
+            height: 48px;
+            margin-top: 15px;
+            transition: var(--transition);
+        }
+
+        .gui-ok-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .gui-ok-btn:hover {
+            transform: scale(1.08);
+        }
+
+        /* USTAWIENIA */
+        .setting-row {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 10px 0;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(157, 78, 221, 0.4);
+            text-align: left;
+        }
+
+        .setting-label {
+            font-size: 0.55rem;
+            color: var(--purple-glow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .setting-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .setting-slider {
+            flex: 1;
+            accent-color: var(--purple-main);
+            cursor: pointer;
+            height: 6px;
+        }
+
+        .setting-mute-btn {
+            background: var(--purple-dark);
+            border: 1px solid var(--purple-glow);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 0.5rem;
+            cursor: pointer;
+            font-family: var(--font-pixel);
+            transition: var(--transition);
+        }
+
+        .setting-mute-btn:hover {
+            background: var(--purple-main);
+        }
+
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 0.55rem;
+            color: #ffffff;
+        }
+
+        .toggle-checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--purple-main);
+            cursor: pointer;
+        }
 
         .settings-options {
             display: flex;
+            gap: 10px;
             justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
+            margin-top: 5px;
         }
 
         .graphic-btn {
-            background: #1a1a1a;
-            border: 2px solid #555;
-            color: #fff;
-            padding: 10px 22px;
-            border-radius: 25px;
+            padding: 8px 16px;
+            font-size: 0.6rem;
+            font-family: var(--font-pixel);
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--purple-main);
+            color: white;
+            border-radius: 4px;
             cursor: pointer;
-            font-weight: 700;
-            font-size: 0.95rem;
             transition: var(--transition);
         }
 
         .graphic-btn.active {
-            background: var(--gt-yellow);
-            color: var(--pure-black);
-            border-color: var(--pure-white);
-            box-shadow: 0 0 20px rgba(255, 193, 7, 0.8);
+            background: var(--purple-main);
+            border-color: var(--purple-glow);
+            box-shadow: 0 0 10px var(--purple-glow);
         }
 
         .help-text {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #d1d1d1;
+            font-size: 0.58rem;
+            line-height: 1.8;
+            color: #ffffff;
             text-align: left;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 12px;
+            border-radius: 6px;
         }
 
-        .help-text span { color: var(--gt-yellow); font-weight: 800; }
+        .help-text span { color: var(--purple-glow); }
 
         .results-box {
-            background: rgba(15, 15, 15, 0.95);
-            border: 2px solid var(--gt-yellow);
-            border-radius: 20px;
-            padding: 20px 32px;
-            max-width: 520px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 2px solid var(--purple-main);
+            border-radius: 8px;
+            padding: 18px;
+            max-width: 480px;
             width: 100%;
             margin-bottom: 20px;
-            box-shadow: 0 0 40px rgba(255, 193, 7, 0.35);
         }
 
         .results-stat {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 1.1rem;
+            font-size: 0.65rem;
             margin: 10px 0;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.25);
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
             padding-bottom: 6px;
         }
 
         .results-stat span:first-child { color: #b0b0b0; }
-        .results-stat span:last-child { color: var(--gt-yellow); font-weight: 900; }
+        .results-stat span:last-child { color: var(--purple-glow); }
 
         /* TOUCH CONTROLS */
         .touch-controls {
@@ -506,34 +618,32 @@
         }
 
         .touch-btn {
-            width: 76px;
-            height: 76px;
-            background: rgba(0, 0, 0, 0.82);
-            border: 2.5px solid var(--gt-yellow);
-            color: var(--gt-yellow);
-            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 2px solid var(--purple-main);
+            color: var(--purple-glow);
+            border-radius: 8px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.8rem;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
-            touch-action: none;
+            font-size: 1.4rem;
             cursor: pointer;
         }
 
         .touch-btn:active {
-            background: var(--halloween-orange);
-            color: var(--pure-black);
-            transform: scale(1.1);
+            background: var(--purple-main);
+            color: var(--pure-white);
+            transform: scale(1.05);
         }
 
         @media (max-width: 950px), (pointer: coarse) {
             .touch-controls { display: flex; }
-            .sidebar-menu { width: 320px; padding: 20px 15px; }
-            .spooky-title { font-size: 2.2rem; }
-            .glass-back-btn { top: 12px; left: 12px; font-size: 0.75rem; padding: 8px 14px; }
-            .audio-control { top: 12px; right: 12px; width: 40px; height: 40px; }
+            .sidebar-menu { width: 320px; padding: 15px; }
+            .spooky-title { font-size: 0.95rem; }
+            .glass-back-btn { top: 12px; left: 12px; font-size: 0.55rem; padding: 6px 10px; }
+            .audio-control { top: 12px; right: 12px; width: 36px; height: 36px; }
+            .pause-control { top: 12px; right: 54px; width: 36px; height: 36px; }
         }
     </style>
 </head>
@@ -541,19 +651,23 @@
 
     <div id="game-wrapper">
         <a class="glass-back-btn" href="13.html.txt">
-            <i class="fas fa-arrow-left"></i> Powrót
+            <i class="fas fa-arrow-left"></i> POWRÓT
         </a>
+
+        <button class="pause-control" id="pauseToggleBtn" title="Menu Pauzy (ESC)">
+            <i class="fas fa-pause"></i>
+        </button>
 
         <button class="audio-control" id="audioToggleBtn" title="Włącz / Wycisz muzykę">
             <i class="fas fa-volume-mute" id="audioIcon"></i>
         </button>
 
-        <!-- INTRO ŁADOWANIE -->
+        <!-- INTRO ŁADOWANIA -->
         <div id="cinematicIntro">
             <div class="cinematic-logo-box">
                 <img src="https://imgur.com/EBnhXHi.png" alt="Głos Trójki Logo" class="cinema-logo-img">
             </div>
-            <div class="loading-title">GŁÓS TRÓJKI HALLOWEEN</div>
+            <div class="loading-title">GRA HALLOWEENOWA</div>
             <div class="loading-bar-container">
                 <div class="loading-bar-fill" id="loadingFill"></div>
             </div>
@@ -575,20 +689,31 @@
             </div>
         </div>
 
-        <!-- NOWOCZESNE MENU Z PIONOWYM PANELEM PO LEWEJ -->
+        <!-- MENU Z CZARNYM PANELEM 70% PRZEZROCZYSTOŚCI -->
         <div class="overlay-screen" id="startScreen">
             <div class="sidebar-menu">
                 <div class="sidebar-content-inner">
                     <img src="https://imgur.com/EBnhXHi.png" alt="Głos Trójki Yellow Logo" class="yellow-gt-logo">
-                    <h1 class="spooky-title">Głos Trójki</h1>
-                    <div class="version-badge">wersja v.1.2.1a</div>
+                    <h1 class="spooky-title">GRA HALLOWEENOWA</h1>
+                    <div class="version-badge">wersja v.1.2.3</div>
+
+                    <div class="changelog-box">
+                        <div class="changelog-header">
+                            <img src="https://imgur.com/CtyC5MP.png" class="new-badge-img" alt="Wykrzyknik">
+                            <span>NOWOŚCI W UPDACIE:</span>
+                        </div>
+                        • Naprawiono wiele błędów<br>
+                        • Dodano ograniczone pole widzenia od 4 poziomu<br>
+                        • Ulepszono wygląd UI<br>
+                        • Ulepszono grafiki i dźwięki
+                    </div>
 
                     <div class="menu-btn-list">
                         <button class="btn-side menu-action-btn" id="startGameBtn">
                             GRAJ / PLAY <i class="fas fa-play"></i>
                         </button>
                         <button class="btn-side btn-side-secondary menu-action-btn" id="openHelpBtn">
-                            POMOC / PORADNIK <i class="fas fa-question-circle"></i>
+                            PORADNIK <i class="fas fa-question-circle"></i>
                         </button>
                         <div style="display: flex; justify-content: center; width: 100%;">
                             <button class="settings-gear-btn menu-action-btn" id="openSettingsBtn" title="Ustawienia">
@@ -604,25 +729,25 @@
         <div class="overlay-screen hidden" id="endScreen" style="justify-content: center; align-items: center; background: rgba(0,0,0,0.92);">
             <div style="display:flex; flex-direction:column; align-items:center;">
                 <img src="https://imgur.com/EBnhXHi.png" alt="Głos Trójki Logo" class="yellow-gt-logo">
-                <h1 class="spooky-title" id="endTitle" style="font-size: 3.5rem;">Misja Ukończona!</h1>
+                <h1 class="spooky-title" id="endTitle" style="font-size: 1.6rem;">MISJA UKOŃCZONA!</h1>
                 
                 <div class="results-box">
                     <div class="results-stat">
-                        <span><i class="fas fa-layer-group"></i> Ukończony Poziom:</span>
+                        <span>UKOŃCZONY LVL:</span>
                         <span id="resLevel">10 / 10</span>
                     </div>
                     <div class="results-stat">
-                        <span><i class="fas fa-newspaper"></i> Zebrane Artykuły:</span>
+                        <span>ZEBRANE ARTYKUŁY:</span>
                         <span id="resArticles">4 / 4</span>
                     </div>
                     <div class="results-stat">
-                        <span><i class="fas fa-star"></i> Wynik Końcowy:</span>
-                        <span id="resScore">0 pkt</span>
+                        <span>WYNIK KOŃCOWY:</span>
+                        <span id="resScore">0 PKT</span>
                     </div>
                 </div>
 
-                <button class="btn-side menu-action-btn" id="restartGameBtn" style="max-width: 300px;">
-                    ZAGRAJ PONOWNIE <i class="fas fa-redo"></i>
+                <button class="gui-ok-btn menu-action-btn" id="restartGameBtn">
+                    <img src="https://imgur.com/hNWNalm.png" alt="Zagraj ponowne / OK">
                 </button>
             </div>
         </div>
@@ -631,47 +756,95 @@
     <!-- POPUP USTAWIEŃ -->
     <div class="modal-overlay" id="settingsModal">
         <div class="modal-card">
-            <button class="modal-close-btn menu-action-btn" id="closeSettingsBtn">&times;</button>
-            <h2 class="modal-title">Ustawienia Grafiki</h2>
-            <p style="color: #bbb; font-size: 0.95rem;">Dostosuj poziom detali i efekty specjalne:</p>
+            <button class="gui-close-img-btn menu-action-btn" id="closeSettingsBtn">
+                <img src="https://imgur.com/4HCwwGp.png" alt="Zamknij X">
+            </button>
+            <h2 class="modal-title">USTAWIENIA GRY</h2>
 
-            <div class="settings-options">
-                <button class="graphic-btn menu-action-btn" id="gfxLowBtn">LOW (Podstawowe)</button>
-                <button class="graphic-btn active menu-action-btn" id="gfxHighBtn">HIGH (Na maxa)</button>
+            <!-- SUWAK MUZYKI -->
+            <div class="setting-row">
+                <div class="setting-label">
+                    <span>GŁOŚNOŚĆ MUZYKI:</span>
+                    <span id="musicVolVal">40%</span>
+                </div>
+                <div class="setting-control">
+                    <input type="range" id="musicVolSlider" class="setting-slider" min="0" max="100" value="40">
+                    <button class="setting-mute-btn" id="musicMuteBtn">MUTE</button>
+                </div>
+            </div>
+
+            <!-- SUWAK EFEKTÓW SFX -->
+            <div class="setting-row">
+                <div class="setting-label">
+                    <span>EFEKTY DŹWIĘKOWE (SFX):</span>
+                    <span id="sfxVolVal">70%</span>
+                </div>
+                <div class="setting-control">
+                    <input type="range" id="sfxVolSlider" class="setting-slider" min="0" max="100" value="70">
+                    <button class="setting-mute-btn" id="sfxMuteBtn">MUTE</button>
+                </div>
+            </div>
+
+            <!-- OPCJA DLA OSOB WRAŻLIWYCH -->
+            <div class="setting-row">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="sensitiveModeCheck" class="toggle-checkbox">
+                    <span>TRYB ŁAGODNY (BEZ WYSKAKUJĄCYCH STRACHÓW)</span>
+                </label>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <p style="color: var(--purple-glow); font-size: 0.55rem; margin-bottom: 8px;">JAKOŚĆ GRAFIKI:</p>
+                <div class="settings-options">
+                    <button class="graphic-btn menu-action-btn" id="gfxLowBtn">NISKA</button>
+                    <button class="graphic-btn active menu-action-btn" id="gfxHighBtn">WYSOKA</button>
+                </div>
+            </div>
+
+            <button class="gui-ok-btn menu-action-btn" id="confirmSettingsBtn" style="margin-top:20px;">
+                <img src="https://imgur.com/hNWNalm.png" alt="OK">
+            </button>
+        </div>
+    </div>
+
+    <!-- POPUP MENU PAUZY -->
+    <div class="modal-overlay" id="pauseModal">
+        <div class="modal-card">
+            <h2 class="modal-title">PAUZA</h2>
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px; align-items:center;">
+                <button class="btn-side menu-action-btn" id="resumeGameBtn">WZNÓW GRĘ</button>
+                <button class="btn-side btn-side-secondary menu-action-btn" id="pauseSettingsBtn">USTAWIENIA</button>
+                <button class="btn-side btn-side-secondary menu-action-btn" id="backToMenuBtn" style="border-color: #ff3366; color: #ff99bb;">MENU GŁÓWNE</button>
             </div>
         </div>
     </div>
 
-    <!-- POPUP POMOCY / PORADNIKA -->
+    <!-- POPUP POMOCY -->
     <div class="modal-overlay" id="helpModal">
         <div class="modal-card">
-            <button class="modal-close-btn menu-action-btn" id="closeHelpBtn">&times;</button>
-            <h2 class="modal-title">Poradnik Gry</h2>
+            <button class="gui-close-img-btn menu-action-btn" id="closeHelpBtn">
+                <img src="https://imgur.com/4HCwwGp.png" alt="Zamknij X">
+            </button>
+            <h2 class="modal-title">PORADNIK</h2>
             <div class="help-text">
-                <p>📰 <span>Zasada Główna:</span> Zbierz 4 zaginione artykuły na każdym poziomie!</p><br>
-                <p>🎃 <span>Dynie & Życie:</span> 5 dyń na poziom. Co 10 dyń = <span>+1 Życie</span>!</p><br>
-                <p>🚀 <span>Jump Pady:</span> Automatyczne niebieskie trampoliny wybijają w górę!</p><br>
-                <p>⚠️ <span>Od poziomu 7:</span> Ziemia jest tylko na starcie, a dalej czeka przepaść i wyłącznie ruchome platformy. Wszystko jest trudniejsze o 20%!</p>
+                <p>📰 <span>ZASADA:</span> Zbierz 4 artykuły na poziomie, aby otworzyć portal!</p><br>
+                <p>❤️ <span>SERCE +1 LIFE:</span> Unikalne serce ukryte na 6 poziomie!</p><br>
+                <p>🔥 <span>OGIEŃ:</span> Od poziomu 4 uważaj na płomienie – zabijają natychmiast!</p><br>
+                <p>🚀 <span>TRAMPOLINY:</span> Wybijają od razu po wejściu.</p>
             </div>
+            <button class="gui-ok-btn menu-action-btn" id="confirmHelpBtn" style="margin-top:15px;">
+                <img src="https://imgur.com/hNWNalm.png" alt="OK">
+            </button>
         </div>
     </div>
 
     <!-- AUDIO FILES -->
-    <audio id="bgMusic" preload="auto">
-        <source src="muzyka.mp3" type="audio/mpeg">
-    </audio>
-
-    <audio id="bgMusic2" preload="auto">
-        <source src="muza2.mp3" type="audio/mpeg">
-    </audio>
-
-    <audio id="clickSound" preload="auto">
-        <source src="click.mp3" type="audio/mpeg">
-    </audio>
-
-    <audio id="dyniaSound" preload="auto">
-        <source src="dynia.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="bgMusic" preload="auto"><source src="muzyka.mp3" type="audio/mpeg"></audio>
+    <audio id="bgMusic2" preload="auto"><source src="muza2.mp3" type="audio/mpeg"></audio>
+    <audio id="clickSound" preload="auto"><source src="click.mp3" type="audio/mpeg"></audio>
+    <audio id="dyniaSound" preload="auto"><source src="dynia.mp3" type="audio/mpeg"></audio>
+    <audio id="piorunSound" preload="auto"><source src="piorun.mp3" type="audio/mpeg"></audio>
+    <audio id="lvlSound" preload="auto"><source src="lvl.mp3" type="audio/mpeg"></audio>
 
     <script>
         /* ==========================================================================
@@ -681,27 +854,50 @@
         bgImage.src = 'https://imgur.com/hl66Im4.png';
 
         const platformImage = new Image();
-        platformImage.src = 'https://imgur.com/CNUeqSf.png';
+        platformImage.src = 'https://imgur.com/4bNm6C2.png';
 
-        const gtYellowLogo = new Image();
-        gtYellowLogo.src = 'https://imgur.com/EBnhXHi.png';
+        const articleImage = new Image();
+        articleImage.src = 'https://imgur.com/NhaA54M.png';
+
+        const mobSkeletonImage = new Image();
+        mobSkeletonImage.src = 'https://imgur.com/iLplh7j.png';
 
         const newPumpkinImage = new Image();
         newPumpkinImage.src = 'https://imgur.com/0bTju4W.png';
+
+        const heartImage = new Image();
+        heartImage.src = 'https://imgur.com/6yGxmU2.png';
+
+        const fireImage = new Image();
+        fireImage.src = 'https://imgur.com/ilM1ruV.png';
+
+        const hudBgImage = new Image();
+        hudBgImage.src = 'https://imgur.com/UQqMBpM.png';
 
         const audio1 = document.getElementById('bgMusic');
         const audio2 = document.getElementById('bgMusic2');
         const clickSound = document.getElementById('clickSound');
         const dyniaSound = document.getElementById('dyniaSound');
+        const piorunSound = document.getElementById('piorunSound');
+        const lvlSound = document.getElementById('lvlSound');
 
         const audioToggleBtn = document.getElementById('audioToggleBtn');
         const audioIcon = document.getElementById('audioIcon');
         let isAudioPlaying = false;
+        let sensitiveMode = false;
 
-        audio1.volume = 0.4;
-        audio2.volume = 0.4;
-        if (clickSound) clickSound.volume = 0.6;
-        if (dyniaSound) dyniaSound.volume = 0.7;
+        let musicVolume = 0.4;
+        let sfxVolume = 0.7;
+
+        function updateVolumes() {
+            audio1.volume = musicVolume;
+            audio2.volume = musicVolume;
+            if (clickSound) clickSound.volume = sfxVolume;
+            if (dyniaSound) dyniaSound.volume = sfxVolume;
+            if (piorunSound) piorunSound.volume = sfxVolume;
+            if (lvlSound) lvlSound.volume = sfxVolume;
+        }
+        updateVolumes();
 
         let activePlayer = audio1;
         let nextPlayer = audio2;
@@ -725,24 +921,23 @@
         });
 
         function playClickSound() {
-            if (clickSound) {
-                clickSound.currentTime = 0;
-                clickSound.play().catch(() => {});
-            }
+            if (clickSound && sfxVolume > 0) { clickSound.currentTime = 0; clickSound.play().catch(() => {}); }
         }
 
         function playDyniaSound() {
-            if (dyniaSound) {
-                dyniaSound.currentTime = 0;
-                dyniaSound.play().catch(() => {});
-            }
+            if (dyniaSound && sfxVolume > 0) { dyniaSound.currentTime = 0; dyniaSound.play().catch(() => {}); }
         }
 
-        // Dodanie dźwięku kliknięcia do wszystkich przycisków w menu
-        document.querySelectorAll('.menu-action-btn, .btn-side, .settings-gear-btn, .graphic-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                playClickSound();
-            });
+        function playPiorunSound() {
+            if (piorunSound && sfxVolume > 0) { piorunSound.currentTime = 0; piorunSound.play().catch(() => {}); }
+        }
+
+        function playLvlSound() {
+            if (lvlSound && sfxVolume > 0) { lvlSound.currentTime = 0; lvlSound.play().catch(() => {}); }
+        }
+
+        document.querySelectorAll('.menu-action-btn, .btn-side, .settings-gear-btn, .graphic-btn, .gui-ok-btn').forEach(btn => {
+            btn.addEventListener('click', () => playClickSound());
         });
 
         function toggleAudio() {
@@ -781,7 +976,7 @@
         window.addEventListener('touchstart', autoPlayAudio);
 
         /* ==========================================================================
-           2. LOADING & POPUPS CONTROL
+           2. LOADING & POPUPS CONTROL & USTAWIENIA AUDIO
            ========================================================================== */
         const cinematicIntro = document.getElementById('cinematicIntro');
         const loadingFill = document.getElementById('loadingFill');
@@ -790,16 +985,108 @@
 
         const settingsModal = document.getElementById('settingsModal');
         const helpModal = document.getElementById('helpModal');
+        const pauseModal = document.getElementById('pauseModal');
+
         const openSettingsBtn = document.getElementById('openSettingsBtn');
         const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+        const confirmSettingsBtn = document.getElementById('confirmSettingsBtn');
+
         const openHelpBtn = document.getElementById('openHelpBtn');
         const closeHelpBtn = document.getElementById('closeHelpBtn');
+        const confirmHelpBtn = document.getElementById('confirmHelpBtn');
+
+        const pauseToggleBtn = document.getElementById('pauseToggleBtn');
+        const resumeGameBtn = document.getElementById('resumeGameBtn');
+        const pauseSettingsBtn = document.getElementById('pauseSettingsBtn');
+        const backToMenuBtn = document.getElementById('backToMenuBtn');
+
+        // ELEMENTY USTAWEŃ AUDIO
+        const musicVolSlider = document.getElementById('musicVolSlider');
+        const musicVolVal = document.getElementById('musicVolVal');
+        const musicMuteBtn = document.getElementById('musicMuteBtn');
+
+        const sfxVolSlider = document.getElementById('sfxVolSlider');
+        const sfxVolVal = document.getElementById('sfxVolVal');
+        const sfxMuteBtn = document.getElementById('sfxMuteBtn');
+        const sensitiveModeCheck = document.getElementById('sensitiveModeCheck');
+
+        musicVolSlider.addEventListener('input', (e) => {
+            musicVolume = e.target.value / 100;
+            musicVolVal.innerText = `${e.target.value}%`;
+            updateVolumes();
+        });
+
+        musicMuteBtn.addEventListener('click', () => {
+            if (musicVolume > 0) {
+                musicVolume = 0;
+                musicVolSlider.value = 0;
+                musicVolVal.innerText = '0%';
+            } else {
+                musicVolume = 0.4;
+                musicVolSlider.value = 40;
+                musicVolVal.innerText = '40%';
+            }
+            updateVolumes();
+        });
+
+        sfxVolSlider.addEventListener('input', (e) => {
+            sfxVolume = e.target.value / 100;
+            sfxVolVal.innerText = `${e.target.value}%`;
+            updateVolumes();
+        });
+
+        sfxMuteBtn.addEventListener('click', () => {
+            if (sfxVolume > 0) {
+                sfxVolume = 0;
+                sfxVolSlider.value = 0;
+                sfxVolVal.innerText = '0%';
+            } else {
+                sfxVolume = 0.7;
+                sfxVolSlider.value = 70;
+                sfxVolVal.innerText = '70%';
+            }
+            updateVolumes();
+        });
+
+        sensitiveModeCheck.addEventListener('change', (e) => {
+            sensitiveMode = e.target.checked;
+        });
 
         openSettingsBtn.addEventListener('click', () => settingsModal.classList.add('active'));
         closeSettingsBtn.addEventListener('click', () => settingsModal.classList.remove('active'));
+        confirmSettingsBtn.addEventListener('click', () => settingsModal.classList.remove('active'));
 
         openHelpBtn.addEventListener('click', () => helpModal.classList.add('active'));
         closeHelpBtn.addEventListener('click', () => helpModal.classList.remove('active'));
+        confirmHelpBtn.addEventListener('click', () => helpModal.classList.remove('active'));
+
+        pauseSettingsBtn.addEventListener('click', () => {
+            pauseModal.classList.remove('active');
+            settingsModal.classList.add('active');
+        });
+
+        resumeGameBtn.addEventListener('click', () => {
+            pauseModal.classList.remove('active');
+            gameState = 'PLAYING';
+        });
+
+        backToMenuBtn.addEventListener('click', () => {
+            pauseModal.classList.remove('active');
+            startScreen.classList.remove('hidden');
+            gameState = 'START';
+        });
+
+        pauseToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            playClickSound();
+            if (gameState === 'PLAYING') {
+                pauseModal.classList.add('active');
+                gameState = 'PAUSED';
+            } else if (gameState === 'PAUSED') {
+                pauseModal.classList.remove('active');
+                gameState = 'PLAYING';
+            }
+        });
 
         const gfxLowBtn = document.getElementById('gfxLowBtn');
         const gfxHighBtn = document.getElementById('gfxHighBtn');
@@ -839,7 +1126,7 @@
 
         const GAME_WIDTH = 1280;
         const GAME_HEIGHT = 720;
-        const LEVEL_WIDTH = 3400;
+        const LEVEL_WIDTH = 5100;
         canvas.width = GAME_WIDTH;
         canvas.height = GAME_HEIGHT;
 
@@ -857,7 +1144,7 @@
         let screenShakeIntensity = 0;
 
         function triggerScreenShake(intensity = 20, duration = 25) {
-            if (graphicsQuality === 'LOW') return;
+            if (graphicsQuality === 'LOW' || sensitiveMode) return;
             screenShakeIntensity = intensity;
             screenShakeTime = duration;
         }
@@ -865,6 +1152,7 @@
         const jumpscareOverlay = document.getElementById('jumpscareOverlay');
 
         function triggerGhostJumpscare() {
+            if (sensitiveMode) return;
             jumpscareOverlay.classList.add('active');
             triggerScreenShake(28, 30);
             
@@ -877,7 +1165,7 @@
                     osc.type = 'sawtooth';
                     osc.frequency.setValueAtTime(1100, ctxA.currentTime);
                     osc.frequency.exponentialRampToValueAtTime(90, ctxA.currentTime + 0.4);
-                    gain.gain.setValueAtTime(0.7, ctxA.currentTime);
+                    gain.gain.setValueAtTime(0.7 * sfxVolume, ctxA.currentTime);
                     gain.gain.exponentialRampToValueAtTime(0.01, ctxA.currentTime + 0.4);
                     osc.connect(gain);
                     gain.connect(ctxA.destination);
@@ -904,12 +1192,6 @@
         let articlesCollected = 0;
         const TOTAL_ARTICLES = 4;
 
-        const articleCategories = [
-            "pupilove",
-            "kącik zrób to sam",
-            "kącik kulinarny",
-            "operacje wojskowe"
-        ];
         let currentHeadlineDisplay = "";
         let headlineDisplayTimer = 0;
 
@@ -918,6 +1200,16 @@
         const JUMP_BUFFER_TIME = 9;
 
         window.addEventListener('keydown', (e) => {
+            if (e.code === 'Escape') {
+                if (gameState === 'PLAYING') {
+                    pauseModal.classList.add('active');
+                    gameState = 'PAUSED';
+                } else if (gameState === 'PAUSED') {
+                    pauseModal.classList.remove('active');
+                    gameState = 'PLAYING';
+                }
+                return;
+            }
             if (gameState !== 'PLAYING') return;
             if (e.code === 'KeyA' || e.code === 'ArrowLeft') keys.left = true;
             if (e.code === 'KeyD' || e.code === 'ArrowRight') keys.right = true;
@@ -935,6 +1227,7 @@
 
         const bindTouch = (id, keyName) => {
             const btn = document.getElementById(id);
+            if (!btn) return;
 
             const handleStart = (e) => {
                 if (gameState !== 'PLAYING') return;
@@ -959,13 +1252,14 @@
         bindTouch('btnJump', 'jump');
 
         /* ==========================================================================
-           5. ATMOSPHERE & PARTICLES
+           5. ATMOSPHERE, PARTICLES & LIGHTNING
            ========================================================================== */
         let particles = [];
         let fogParticles = [];
         let bats = [];
-        let wisps = [];
         let ghostTrails = [];
+        let lightningTriggers = [];
+        let lightningFlash = 0;
 
         class Particle {
             constructor(x, y, color, speedX, speedY, size, life, glow = false) {
@@ -999,33 +1293,24 @@
             }
         }
 
-        for (let i = 0; i < 40; i++) {
+        // BIAŁE CHMURY / MGŁA
+        for (let i = 0; i < 50; i++) {
             fogParticles.push({
                 x: Math.random() * LEVEL_WIDTH,
-                y: GAME_HEIGHT - Math.random() * 260,
-                radius: Math.random() * 70 + 40,
+                y: GAME_HEIGHT - Math.random() * 300,
+                radius: Math.random() * 80 + 40,
                 speedX: Math.random() * 0.5 + 0.2,
-                opacity: Math.random() * 0.15 + 0.04
+                opacity: Math.random() * 0.2 + 0.08
             });
         }
 
-        for (let i = 0; i < 12; i++) {
+        for (let i = 0; i < 16; i++) {
             bats.push({
                 x: Math.random() * LEVEL_WIDTH,
                 y: Math.random() * 300 + 30,
                 speedX: Math.random() * 2 + 1,
                 wingFrame: Math.random() * 10,
                 size: Math.random() * 10 + 10
-            });
-        }
-
-        for (let i = 0; i < 15; i++) {
-            wisps.push({
-                x: Math.random() * LEVEL_WIDTH,
-                y: Math.random() * 450 + 80,
-                radius: Math.random() * 4 + 2,
-                pulse: Math.random() * 10,
-                speedY: (Math.random() - 0.5) * 0.3
             });
         }
 
@@ -1043,6 +1328,27 @@
                     glow
                 ));
             }
+        }
+
+        function setupLightning(lvl) {
+            lightningTriggers = [];
+            if (lvl >= 2 && lvl <= 4) {
+                lightningTriggers.push({ x: LEVEL_WIDTH * 0.5, triggered: false });
+            } else if (lvl > 4 && lvl <= 6) {
+                lightningTriggers.push({ x: LEVEL_WIDTH * 0.35, triggered: false });
+                lightningTriggers.push({ x: LEVEL_WIDTH * 0.7, triggered: false });
+            } else if (lvl > 6) {
+                lightningTriggers.push({ x: LEVEL_WIDTH * 0.25, triggered: false });
+                lightningTriggers.push({ x: LEVEL_WIDTH * 0.5, triggered: false });
+                lightningTriggers.push({ x: LEVEL_WIDTH * 0.75, triggered: false });
+            }
+        }
+
+        function triggerLightning() {
+            playPiorunSound();
+            lightningFlash = 15;
+            triggerScreenShake(26, 28);
+            createBurst(player.x + 20, 100, '#ffffff', 45, true);
         }
 
         /* ==========================================================================
@@ -1102,7 +1408,7 @@
                     this.grounded = false;
                     this.coyoteTimer = 0;
                     jumpBufferTimer = 0;
-                    createBurst(this.x + this.width / 2, this.y + this.height, '#FFC107', 18, true);
+                    createBurst(this.x + this.width / 2, this.y + this.height, '#9d4edd', 18, true);
                 }
 
                 if (!keys.jump && this.vy < -4) {
@@ -1119,7 +1425,6 @@
                 }
 
                 this.x += this.vx;
-                
                 if (this.x < 0) this.x = 0;
                 if (this.x + this.width > LEVEL_WIDTH) this.x = LEVEL_WIDTH - this.width;
 
@@ -1171,8 +1476,7 @@
                 ctx.translate(px + this.width / 2, py + this.height / 2);
                 if (this.facing === 'left') ctx.scale(-1, 1);
 
-                // Cape
-                ctx.fillStyle = '#ff6600';
+                ctx.fillStyle = '#9d4edd';
                 ctx.beginPath();
                 const capeWave = Math.sin(Date.now() * 0.01) * 7;
                 ctx.moveTo(-10, -5);
@@ -1181,10 +1485,9 @@
                 ctx.closePath();
                 ctx.fill();
 
-                // Coat Body
-                ctx.fillStyle = '#FFC107';
+                ctx.fillStyle = '#c77dff';
                 if (graphicsQuality === 'HIGH') {
-                    ctx.shadowColor = '#FFC107';
+                    ctx.shadowColor = '#c77dff';
                     ctx.shadowBlur = 14;
                 }
                 ctx.beginPath();
@@ -1194,20 +1497,17 @@
                 ctx.lineWidth = 2.5;
                 ctx.stroke();
 
-                // Legs
                 const legOffset = Math.sin(this.animFrame) * 9;
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(-12, 24, 10, 12 + (this.grounded ? legOffset : 0));
                 ctx.fillRect(2, 24, 10, 12 - (this.grounded ? legOffset : 0));
 
-                // Head
                 ctx.fillStyle = '#ffdfc4';
                 ctx.beginPath();
                 ctx.arc(0, -22, 16, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.stroke();
 
-                // Press Cap
                 ctx.fillStyle = '#111111';
                 ctx.beginPath();
                 ctx.moveTo(-22, -30);
@@ -1217,10 +1517,9 @@
                 ctx.fill();
                 ctx.stroke();
 
-                ctx.fillStyle = '#FFC107';
+                ctx.fillStyle = '#9d4edd';
                 ctx.fillRect(-14, -34, 28, 5);
 
-                // Eyes
                 ctx.fillStyle = '#000';
                 ctx.beginPath();
                 ctx.arc(6, -24, 2.5, 0, Math.PI * 2);
@@ -1232,6 +1531,7 @@
 
         let platforms = [];
         let jumpPads = [];
+        let hazards = [];
         let collectibles = [];
         let enemies = [];
         let exitPortal = null;
@@ -1242,29 +1542,31 @@
         function loadLevel(lvl) {
             platforms = [];
             jumpPads = [];
+            hazards = [];
             collectibles = [];
             enemies = [];
             jumpscaresTriggeredInLevel = 0;
             jumpscareTriggersX = [];
 
+            setupLightning(lvl);
+
             if (lvl === 4 || lvl === 5) {
                 maxJumpscaresAllowed = 1;
-                jumpscareTriggersX.push(1600);
+                jumpscareTriggersX.push(2400);
             } else if (lvl >= 6) {
                 maxJumpscaresAllowed = 2;
-                jumpscareTriggersX.push(1200, 2200);
+                jumpscareTriggersX.push(1800, 3600);
             } else {
                 maxJumpscaresAllowed = 0;
             }
 
-            const difficultyMultiplier = 1.2;
-            const platformSpeedMultiplier = (0.8 + (lvl * 0.25)) * difficultyMultiplier;
+            const platformSpeedMultiplier = (0.8 + (lvl * 0.28));
 
             const addPlat = (x, y, w, h, isMoving = false, moveRange = 0, speed = 1.0) => {
                 platforms.push({ 
                     x, y, origX: x, width: w, height: h, 
                     isMoving, moveRange, 
-                    speed: speed * 0.35 * platformSpeedMultiplier, 
+                    speed: speed * 0.4 * platformSpeedMultiplier, 
                     dir: 1 
                 });
             };
@@ -1273,111 +1575,106 @@
                 jumpPads.push({ x, y, width: 52, height: 18 });
             };
 
+            const addFire = (x, y) => {
+                hazards.push({ x, y, width: 32, height: 32 });
+            };
+
+            // LEVEL DESIGN
             if (lvl === 1) {
-                addPlat(0, 630, 1200, 90); addPlat(1350, 630, 1100, 90); addPlat(2600, 630, 800, 90);
-                addPlat(350, 500, 220, 34); addPlat(700, 420, 220, 34); addPlat(1500, 500, 220, 34);
-                addPlat(1850, 400, 240, 34); addPlat(2700, 500, 220, 34);
-                addJumpPad(500, 482);
+                addPlat(0, 630, 800, 90); addPlat(950, 630, 900, 90); addPlat(2000, 630, 1000, 90); addPlat(3200, 630, 800, 90); addPlat(4100, 630, 1000, 90);
+                addPlat(250, 500, 180, 34); addPlat(500, 380, 180, 34); addPlat(800, 280, 200, 34);
+                addPlat(1200, 480, 180, 34, true, 120, 1.0); addPlat(1600, 360, 200, 34);
+                addPlat(2200, 480, 180, 34); addPlat(2500, 360, 180, 34, true, 150, 1.2);
+                addPlat(2900, 260, 200, 34); addPlat(3400, 480, 180, 34); addPlat(3800, 360, 200, 34);
+                addJumpPad(550, 362); addJumpPad(2250, 462); addJumpPad(3450, 462);
             } else if (lvl === 2) {
-                addPlat(0, 630, 950, 90); addPlat(1100, 630, 1000, 90); addPlat(2250, 630, 1150, 90);
-                addPlat(220, 510, 190, 34); addPlat(500, 410, 190, 34, true, 110, 1.2);
-                addPlat(850, 330, 190, 34); addPlat(1350, 460, 190, 34); addPlat(1700, 360, 210, 34, true, 130, 1.4);
-                addJumpPad(400, 492); addJumpPad(1450, 442);
+                addPlat(0, 630, 700, 90); addPlat(850, 630, 800, 90); addPlat(1800, 630, 900, 90); addPlat(2900, 630, 900, 90); addPlat(4000, 630, 1100, 90);
+                addPlat(200, 490, 160, 34); addPlat(450, 370, 160, 34, true, 130, 1.2);
+                addPlat(1000, 460, 180, 34); addPlat(1300, 340, 180, 34, true, 150, 1.4);
+                addPlat(2000, 480, 180, 34); addPlat(2350, 360, 180, 34); addPlat(2650, 240, 180, 34);
+                addPlat(3100, 460, 180, 34); addPlat(3500, 350, 180, 34, true, 160, 1.5);
+                addJumpPad(480, 352); addJumpPad(2050, 462); addJumpPad(3150, 442);
             } else if (lvl === 3) {
-                addPlat(0, 630, 850, 90); addPlat(1000, 630, 900, 90); addPlat(2050, 630, 1350, 90);
-                addPlat(200, 500, 170, 34); addPlat(450, 390, 170, 34, true, 130, 1.5);
-                addPlat(750, 290, 170, 34); addPlat(1150, 430, 170, 34, true, 150, 1.6);
-                addPlat(1550, 330, 170, 34); addPlat(2200, 450, 190, 34);
-                addJumpPad(300, 482); addJumpPad(1250, 412);
+                addPlat(0, 630, 600, 90); addPlat(750, 630, 750, 90); addPlat(1650, 630, 800, 90); addPlat(2600, 630, 800, 90); addPlat(3600, 630, 1500, 90);
+                addPlat(180, 480, 150, 34); addPlat(420, 360, 150, 34, true, 150, 1.5);
+                addPlat(900, 450, 160, 34); addPlat(1200, 320, 160, 34, true, 170, 1.6);
+                addPlat(1800, 470, 160, 34); addPlat(2100, 350, 160, 34); addPlat(2400, 230, 160, 34);
+                addPlat(2800, 450, 160, 34); addPlat(3150, 330, 160, 34, true, 180, 1.8);
+                addJumpPad(440, 342); addJumpPad(1850, 452); addJumpPad(2850, 432);
             } else if (lvl === 4) {
-                addPlat(0, 630, 750, 90); addPlat(900, 630, 800, 90); addPlat(1850, 630, 1550, 90);
-                addPlat(180, 490, 150, 32); addPlat(410, 370, 150, 32, true, 140, 1.8);
-                addPlat(680, 260, 150, 32); addPlat(1050, 410, 150, 32, true, 160, 2.0);
-                addPlat(1400, 300, 150, 32); addPlat(2050, 420, 170, 32);
-                addJumpPad(250, 472); addJumpPad(1150, 392);
-            } else if (lvl === 5) {
-                addPlat(0, 630, 700, 90); addPlat(850, 630, 750, 90); addPlat(1750, 630, 1650, 90);
-                addPlat(160, 480, 140, 32, true, 150, 2.2); addPlat(440, 360, 140, 32);
-                addPlat(700, 240, 140, 32, true, 170, 2.4); addPlat(1000, 390, 140, 32);
-                addPlat(1350, 280, 140, 32, true, 180, 2.6); addPlat(1950, 400, 160, 32);
-                addJumpPad(320, 462); addJumpPad(1100, 372);
-            } else if (lvl === 6) {
-                addPlat(0, 630, 650, 90); addPlat(800, 630, 700, 90); addPlat(1650, 630, 1750, 90);
-                addPlat(150, 470, 130, 30); addPlat(360, 350, 130, 30, true, 160, 2.8);
-                addPlat(600, 230, 130, 30); addPlat(920, 380, 130, 30, true, 190, 3.0);
-                addPlat(1220, 260, 130, 30); addPlat(1650, 370, 130, 30, true, 200, 3.2);
-                addJumpPad(220, 452); addJumpPad(1050, 362);
-            } else if (lvl === 7) {
-                addPlat(0, 630, 350, 90);
-                addPlat(450, 470, 110, 28, true, 160, 3.5);
-                addPlat(670, 350, 110, 28);
-                addPlat(890, 230, 110, 28, true, 190, 3.7);
-                addPlat(1150, 370, 110, 28);
-                addPlat(1380, 250, 110, 28, true, 210, 4.0);
-                addPlat(1700, 380, 120, 28);
-                addPlat(1980, 260, 110, 28, true, 230, 4.3);
-                addPlat(2300, 420, 150, 30);
-                addJumpPad(500, 452); addJumpPad(1430, 232);
-            } else if (lvl === 8) {
-                addPlat(0, 630, 320, 90);
-                addPlat(420, 450, 100, 26, true, 170, 4.2);
-                addPlat(630, 330, 100, 26);
-                addPlat(850, 210, 100, 26, true, 200, 4.5);
-                addPlat(1100, 350, 100, 26);
-                addPlat(1330, 230, 100, 26, true, 220, 4.8);
-                addPlat(1650, 360, 110, 26);
-                addPlat(1920, 240, 100, 26, true, 240, 5.1);
-                addPlat(2250, 400, 140, 30);
-                addJumpPad(470, 432); addJumpPad(1380, 212);
-            } else if (lvl === 9) {
-                addPlat(0, 630, 280, 90);
-                addPlat(380, 430, 90, 24, true, 180, 5.0);
-                addPlat(580, 310, 90, 24);
-                addPlat(790, 190, 90, 24, true, 210, 5.3);
-                addPlat(1040, 330, 90, 24);
-                addPlat(1260, 210, 90, 24, true, 230, 5.6);
-                addPlat(1580, 340, 100, 24);
-                addPlat(1850, 220, 90, 24, true, 250, 6.0);
-                addPlat(2200, 380, 130, 28);
-                addJumpPad(430, 412); addJumpPad(1310, 192);
+                // POPRAWIONY LEVEL 4 (SPÓJNY UKŁAD PLATFORM DO ZEBRANIA OSTATNIEGO ARTYKUŁU)
+                addPlat(0, 630, 500, 90); addPlat(650, 630, 650, 90); addPlat(1500, 630, 700, 90); addPlat(2400, 630, 700, 90); addPlat(3300, 630, 1800, 90);
+                addPlat(150, 470, 140, 32); addPlat(380, 350, 140, 32, true, 160, 1.8);
+                addPlat(800, 440, 150, 32); addPlat(1100, 310, 150, 32, true, 180, 2.0);
+                addPlat(1650, 460, 150, 32); addPlat(1950, 340, 150, 32); addPlat(2250, 220, 150, 32);
+                addPlat(2600, 440, 150, 32); addPlat(2900, 320, 150, 32, true, 200, 2.2);
+                addPlat(3500, 420, 200, 32); addPlat(4000, 320, 200, 32); // Platforma pod 4. artykuł
+                addJumpPad(400, 332); addJumpPad(1700, 442); addJumpPad(2650, 422);
+
+                addFire(200, 598); addFire(850, 598); addFire(1750, 598); addFire(2700, 598);
+            } else if (lvl >= 5) {
+                addPlat(0, 630, 300, 90);
+                addPlat(400, 480, 130, 28, true, 160, 2.4); addPlat(700, 360, 130, 28);
+                addPlat(1000, 240, 130, 28, true, 180, 2.6); addPlat(1350, 380, 130, 28);
+                addPlat(1650, 260, 130, 28, true, 200, 2.8); addPlat(2000, 400, 130, 28);
+                addPlat(2350, 280, 130, 28, true, 220, 3.0); addPlat(2700, 420, 130, 28);
+                addPlat(3050, 300, 130, 28, true, 240, 3.2); addPlat(3400, 440, 130, 28);
+                addPlat(3750, 320, 130, 28, true, 260, 3.5); addPlat(4150, 450, 130, 28);
+                addPlat(4550, 480, 250, 30);
+
+                addJumpPad(440, 462); addJumpPad(1700, 242); addJumpPad(3100, 282); addJumpPad(3800, 302);
+
+                addFire(720, 328); addFire(1370, 348); addFire(2020, 368); addFire(2720, 388); addFire(3420, 408);
+            }
+
+            // ARTYKUŁY & DYNIE
+            if (lvl === 4) {
+                collectibles.push({ x: 500, y: 300, type: 'article', id: 0, collected: false });
+                collectibles.push({ x: 1300, y: 260, type: 'article', id: 1, collected: false });
+                collectibles.push({ x: 2500, y: 280, type: 'article', id: 2, collected: false });
+                collectibles.push({ x: 4080, y: 270, type: 'article', id: 3, collected: false }); // W pełni łatwy do zebrania
+
+                const pLocs = [{x: 250, y: 430}, {x: 1000, y: 400}, {x: 2100, y: 290}, {x: 3100, y: 400}];
+                pLocs.forEach(p => collectibles.push({ x: p.x, y: p.y, type: 'pumpkin', collected: false }));
+            } else if (lvl >= 5) {
+                collectibles.push({ x: platforms[1].x + 40, y: platforms[1].y - 38, type: 'article', id: 0, collected: false });
+                collectibles.push({ x: platforms[3].x + 40, y: platforms[3].y - 38, type: 'article', id: 1, collected: false });
+                collectibles.push({ x: platforms[6].x + 40, y: platforms[6].y - 38, type: 'article', id: 2, collected: false });
+                collectibles.push({ x: platforms[9].x + 40, y: platforms[9].y - 38, type: 'article', id: 3, collected: false });
+
+                collectibles.push({ x: platforms[2].x + 30, y: platforms[2].y - 38, type: 'pumpkin', collected: false });
+                collectibles.push({ x: platforms[4].x + 30, y: platforms[4].y - 38, type: 'pumpkin', collected: false });
+                collectibles.push({ x: platforms[7].x + 30, y: platforms[7].y - 38, type: 'pumpkin', collected: false });
+                collectibles.push({ x: platforms[10].x + 30, y: platforms[10].y - 38, type: 'pumpkin', collected: false });
             } else {
-                addPlat(0, 630, 240, 90);
-                addPlat(340, 410, 80, 22, true, 190, 6.0);
-                addPlat(530, 290, 80, 22);
-                addPlat(730, 170, 80, 22, true, 220, 6.4);
-                addPlat(980, 310, 80, 22);
-                addPlat(1190, 190, 80, 22, true, 240, 6.8);
-                addPlat(1500, 320, 90, 22);
-                addPlat(1780, 200, 80, 22, true, 260, 7.2);
-                addPlat(2120, 360, 120, 26);
-                addJumpPad(390, 392); addJumpPad(1240, 172);
+                collectibles.push({ x: 500, y: 340, type: 'article', id: 0, collected: false });
+                collectibles.push({ x: 1300, y: 300, type: 'article', id: 1, collected: false });
+                collectibles.push({ x: 2500, y: 320, type: 'article', id: 2, collected: false });
+                collectibles.push({ x: 3800, y: 320, type: 'article', id: 3, collected: false });
+
+                const pLocs = [{x: 250, y: 450}, {x: 1000, y: 420}, {x: 2100, y: 310}, {x: 3100, y: 420}];
+                pLocs.forEach(p => collectibles.push({ x: p.x, y: p.y, type: 'pumpkin', collected: false }));
             }
 
-            // BEZPIECZNIE ROZMIESZCZONE ARTYKUŁY (W PEŁNI DOSTĘPNE NAD PLATFORMAMI, NIGDY W ŚRODKU LUB ZA WYSOKO)
-            collectibles.push({ x: 390, y: 450, type: 'article', id: 0, collected: false });
-            collectibles.push({ x: 740, y: 370, type: 'article', id: 1, collected: false });
-            collectibles.push({ x: 1540, y: 450, type: 'article', id: 2, collected: false });
-            collectibles.push({ x: 2280, y: 390, type: 'article', id: 3, collected: false });
-
-            // 5 PUMPKINS
-            const pLocs = [
-                {x: 150, y: 580}, {x: 750, y: 180}, {x: 1350, y: 180}, {x: 1900, y: 200}, {x: 2300, y: 350}
-            ];
-            pLocs.forEach(p => collectibles.push({ x: p.x, y: p.y, type: 'pumpkin', collected: false }));
-
-            // ENEMIES & BIG BAT
-            const speedMult = (0.8 + (lvl * 0.2)) * difficultyMultiplier;
-            enemies.push(new Enemy(450, 582, 'skeleton', 200, 600, 1.4 * speedMult));
-            enemies.push(new Enemy(1350, 582, 'skeleton', 1000, 1550, 1.6 * speedMult));
-
-            if (lvl >= 3) {
-                enemies.push(new Enemy(700, 140, 'bigbat', 200, 2800, 2.5 * speedMult));
-            }
-            if (lvl >= 5) {
-                enemies.push(new Enemy(1800, 260, 'ghost', 1600, 2000, 2.2 * speedMult, true));
+            // UNIKALNE SERCE DDAJĄCE 1 ŻYCIE TYLKO W LVL 6
+            if (lvl === 6) {
+                collectibles.push({ x: platforms[5].x + 40, y: platforms[5].y - 40, type: 'heart', collected: false });
             }
 
-            exitPortal = { x: 3150, y: 510, width: 75, height: 120, unlocked: false };
+            // MOBY
+            const speedMult = (0.8 + (lvl * 0.22));
+            if (lvl < 5) {
+                enemies.push(new Enemy(500, 582, 'skeleton', 200, 800, 1.4 * speedMult));
+                enemies.push(new Enemy(2000, 582, 'skeleton', 1800, 2500, 1.6 * speedMult));
+            } else {
+                enemies.push(new Enemy(platforms[2].x + 10, platforms[2].y - 42, 'skeleton', platforms[2].x, platforms[2].x + platforms[2].width, 1.4 * speedMult));
+                enemies.push(new Enemy(platforms[7].x + 10, platforms[7].y - 42, 'skeleton', platforms[7].x, platforms[7].x + platforms[7].width, 1.6 * speedMult));
+            }
+
+            if (lvl >= 3) enemies.push(new Enemy(1100, 140, 'bigbat', 300, 4200, 2.2 * speedMult));
+            if (lvl >= 5) enemies.push(new Enemy(2800, 260, 'ghost', 2200, 3400, 2.0 * speedMult, true));
+
+            exitPortal = { x: LEVEL_WIDTH - 250, y: 510, width: 75, height: 120, unlocked: false };
             player.reset();
         }
 
@@ -1386,15 +1683,8 @@
                 this.x = x;
                 this.y = y;
                 this.type = type;
-                
-                if (type === 'bigbat') {
-                    this.width = 68;
-                    this.height = 42;
-                } else {
-                    this.width = 34;
-                    this.height = 42;
-                }
-
+                this.width = type === 'bigbat' ? 68 : 40;
+                this.height = type === 'bigbat' ? 42 : 44;
                 this.minX = minX;
                 this.maxX = maxX;
                 this.minY = y - 75;
@@ -1414,27 +1704,50 @@
                     this.y += this.speed * this.dir;
                     if (this.y < this.minY || this.y > this.maxY) this.dir *= -1;
                 } else {
-                    this.x += this.speed * this.dir;
-                    if (this.x < this.minX || this.x > this.maxX) this.dir *= -1;
+                    const nextX = this.x + (this.speed * this.dir);
+                    if (this.type === 'skeleton') {
+                        let hasGroundAhead = false;
+                        const checkX = this.dir === 1 ? nextX + this.width : nextX;
+                        const checkY = this.y + this.height + 4;
+
+                        for (let p of platforms) {
+                            if (checkX >= p.x && checkX <= p.x + p.width && checkY >= p.y && checkY <= p.y + p.height + 10) {
+                                hasGroundAhead = true;
+                                break;
+                            }
+                        }
+
+                        if (!hasGroundAhead || nextX < this.minX || nextX + this.width > this.maxX) {
+                            this.dir *= -1;
+                        } else {
+                            this.x = nextX;
+                        }
+                    } else {
+                        this.x += this.speed * this.dir;
+                        if (this.x < this.minX || this.x > this.maxX) this.dir *= -1;
+                    }
                 }
             }
 
             draw(ctx) {
                 if (!this.alive) return;
-
                 ctx.save();
                 const ex = this.x - cameraX;
                 const ey = this.y;
 
-                if (this.type === 'bigbat') {
+                if (this.type === 'skeleton') {
+                    ctx.translate(ex + this.width / 2, ey + this.height / 2);
+                    if (this.dir === -1) ctx.scale(-1, 1);
+                    if (mobSkeletonImage.complete && mobSkeletonImage.naturalWidth !== 0) {
+                        ctx.drawImage(mobSkeletonImage, -this.width / 2, -this.height / 2, this.width, this.height);
+                    } else {
+                        ctx.fillStyle = '#ff0033';
+                        ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+                    }
+                } else if (this.type === 'bigbat') {
                     const floatY = ey + Math.sin(this.animTick) * 8;
                     const wingSwing = Math.sin(this.animTick * 2.5) * 16;
-
                     ctx.fillStyle = '#111111';
-                    if (graphicsQuality === 'HIGH') {
-                        ctx.shadowColor = '#ff6600';
-                        ctx.shadowBlur = 18;
-                    }
                     ctx.beginPath();
                     ctx.moveTo(ex + 34, floatY + 16);
                     ctx.lineTo(ex, floatY - wingSwing);
@@ -1444,19 +1757,9 @@
                     ctx.lineTo(ex + 68, floatY - wingSwing);
                     ctx.closePath();
                     ctx.fill();
-
-                    ctx.fillStyle = '#ff0033';
-                    ctx.beginPath();
-                    ctx.arc(ex + 29, floatY + 18, 3.5, 0, Math.PI * 2);
-                    ctx.arc(ex + 39, floatY + 18, 3.5, 0, Math.PI * 2);
-                    ctx.fill();
                 } else if (this.type === 'ghost') {
                     const floatY = ey + Math.sin(this.animTick) * 6;
                     ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
-                    if (graphicsQuality === 'HIGH') {
-                        ctx.shadowColor = '#ffffff';
-                        ctx.shadowBlur = 14;
-                    }
                     ctx.beginPath();
                     ctx.arc(ex + 17, floatY + 15, 17, Math.PI, 0, false);
                     ctx.lineTo(ex + 34, floatY + 42);
@@ -1466,34 +1769,7 @@
                     ctx.lineTo(ex, floatY + 42);
                     ctx.closePath();
                     ctx.fill();
-
-                    ctx.fillStyle = '#ff0033';
-                    ctx.beginPath();
-                    ctx.arc(ex + 10, floatY + 13, 3.5, 0, Math.PI * 2);
-                    ctx.arc(ex + 24, floatY + 13, 3.5, 0, Math.PI * 2);
-                    ctx.fill();
-                } else {
-                    ctx.fillStyle = '#e8e8e8';
-                    ctx.beginPath();
-                    ctx.arc(ex + 17, ey + 11, 11, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.fillRect(ex + 13, ey + 22, 8, 14);
-
-                    ctx.fillStyle = '#ff6600';
-                    ctx.fillRect(ex + 12, ey + 9, 3.5, 3.5);
-                    ctx.fillRect(ex + 18, ey + 9, 3.5, 3.5);
-
-                    ctx.strokeStyle = '#ffffff';
-                    ctx.lineWidth = 2.5;
-                    const legAnim = Math.sin(this.animTick * 2) * 7;
-                    ctx.beginPath();
-                    ctx.moveTo(ex + 14, ey + 36);
-                    ctx.lineTo(ex + 7 - legAnim, ey + 44);
-                    ctx.moveTo(ex + 20, ey + 36);
-                    ctx.lineTo(ex + 27 + legAnim, ey + 44);
-                    ctx.stroke();
                 }
-
                 ctx.restore();
             }
         }
@@ -1516,7 +1792,7 @@
             lives--;
             player.invulnerableTimer = 65;
             triggerScreenShake(24, 30);
-            createBurst(player.x + player.width / 2, player.y + player.height / 2, '#ff0033', 35, true);
+            createBurst(player.x + player.width / 2, player.y + player.height / 2, '#9d4edd', 35, true);
 
             if (lives <= 0) {
                 gameOver(false);
@@ -1529,13 +1805,20 @@
             platforms.forEach(p => {
                 if (p.isMoving) {
                     p.x += p.speed * p.dir;
-                    if (p.x < p.origX || p.x > p.origX + p.moveRange) {
-                        p.dir *= -1;
-                    }
+                    if (p.x < p.origX || p.x > p.origX + p.moveRange) p.dir *= -1;
                 }
             });
 
             enemies.forEach(e => e.update());
+
+            lightningTriggers.forEach(lt => {
+                if (!lt.triggered && player.x >= lt.x) {
+                    lt.triggered = true;
+                    triggerLightning();
+                }
+            });
+
+            if (lightningFlash > 0) lightningFlash--;
 
             for (let i = ghostTrails.length - 1; i >= 0; i--) {
                 ghostTrails[i].alpha -= 0.05;
@@ -1553,12 +1836,20 @@
 
             player.update();
 
+            // TRAMPOLINY
             jumpPads.forEach(jp => {
                 if (checkAABB(player, jp)) {
-                    player.vy = -21;
+                    player.vy = -22;
                     player.grounded = false;
-                    triggerScreenShake(14, 16);
-                    createBurst(jp.x + jp.width / 2, jp.y, '#00e5ff', 40, true);
+                    triggerScreenShake(16, 18);
+                    createBurst(jp.x + jp.width / 2, jp.y, '#c77dff', 40, true);
+                }
+            });
+
+            // PUŁAPKI OGNIOWE
+            hazards.forEach(hz => {
+                if (checkAABB(player, hz)) {
+                    takeDamage();
                 }
             });
 
@@ -1578,9 +1869,9 @@
                     if (player.vy > 0 && player.y + player.height - player.vy <= e.y + 18) {
                         e.alive = false;
                         player.vy = player.jumpPower * 0.8;
-                        score += (e.type === 'bigbat' ? 350 : 250);
+                        score += 300;
                         triggerScreenShake(12, 14);
-                        createBurst(e.x + e.width / 2, e.y + e.height / 2, '#FFC107', 40, true);
+                        createBurst(e.x + e.width / 2, e.y + e.height / 2, '#c77dff', 40, true);
                     } else {
                         takeDamage();
                     }
@@ -1592,28 +1883,19 @@
                     const cBounds = { x: c.x, y: c.y, width: 34, height: 34 };
                     if (checkAABB(player, cBounds)) {
                         c.collected = true;
-                        
-                        // Odtwarzanie dźwięku dynia.mp3 przy zebraniu artykułu lub dyni
                         playDyniaSound();
 
                         if (c.type === 'article') {
                             articlesCollected++;
                             score += 500;
-                            currentHeadlineDisplay = `Znalazłeś artykuł do: ${articleCategories[c.id]}`;
-                            headlineDisplayTimer = 220;
-                            triggerScreenShake(12, 15);
-                            createBurst(c.x + 16, c.y + 16, '#FFC107', 45, true);
+                            createBurst(c.x + 16, c.y + 16, '#c77dff', 45, true);
                         } else if (c.type === 'pumpkin') {
                             score += 150;
                             pumpkinCount++;
-                            
-                            if (pumpkinCount % 10 === 0) {
-                                lives++;
-                                triggerScreenShake(20, 22);
-                                createBurst(player.x + player.width / 2, player.y, '#00ff66', 50, true);
-                            } else {
-                                createBurst(c.x + 16, c.y + 16, '#ff6600', 25, true);
-                            }
+                            createBurst(c.x + 16, c.y + 16, '#9d4edd', 25, true);
+                        } else if (c.type === 'heart') {
+                            lives++;
+                            createBurst(c.x + 16, c.y + 16, '#ff3366', 50, true);
                         }
                     }
                 }
@@ -1626,10 +1908,10 @@
             if (exitPortal.unlocked && checkAABB(player, exitPortal)) {
                 if (currentLevel < TOTAL_LEVELS) {
                     currentLevel++;
+                    playLvlSound();
                     articlesCollected = 0;
                     loadLevel(currentLevel);
                     triggerScreenShake(20, 25);
-                    createBurst(player.x, player.y, '#FFC107', 60, true);
                 } else {
                     gameOver(true);
                 }
@@ -1650,7 +1932,6 @@
 
             ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
-            // 1. BACKGROUND
             if (bgImage.complete && bgImage.naturalWidth !== 0) {
                 const bgWidth = GAME_WIDTH;
                 const parallaxX = -(cameraX * 0.35) % bgWidth;
@@ -1661,7 +1942,19 @@
                 ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
             }
 
-            // 2. ATMOSPHERIC PARTICLES
+            // BIAŁE CHMURY / MGŁA W TLE
+            fogParticles.forEach(f => {
+                f.x -= f.speedX;
+                if (f.x - cameraX * 0.15 < -100) f.x = LEVEL_WIDTH + 200;
+                const fx = f.x - cameraX * 0.15;
+                ctx.save();
+                ctx.fillStyle = `rgba(255, 255, 255, ${f.opacity})`;
+                ctx.beginPath();
+                ctx.arc(fx, f.y, f.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            });
+
             if (graphicsQuality === 'HIGH') {
                 bats.forEach(b => {
                     b.x -= b.speedX;
@@ -1683,22 +1976,9 @@
                     ctx.fill();
                     ctx.restore();
                 });
-
-                fogParticles.forEach(f => {
-                    f.x -= f.speedX;
-                    if (f.x - cameraX * 0.15 < -100) f.x = LEVEL_WIDTH + 200;
-                    const fx = f.x - cameraX * 0.15;
-                    
-                    ctx.save();
-                    ctx.fillStyle = `rgba(255, 255, 255, ${f.opacity})`;
-                    ctx.beginPath();
-                    ctx.arc(fx, f.y, f.radius, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.restore();
-                });
             }
 
-            // 3. PLATFORMS
+            // PLATFORMY
             platforms.forEach(p => {
                 const px = p.x - cameraX;
                 if (px + p.width < -50 || px > GAME_WIDTH + 50) return;
@@ -1716,20 +1996,14 @@
                 } else {
                     ctx.fillStyle = '#1a1a1a';
                     ctx.fillRect(px, p.y, p.width, p.height);
-                    ctx.fillStyle = '#FFC107';
-                    ctx.fillRect(px, p.y, p.width, 4);
                 }
             });
 
-            // 4. AUTOMATIC JUMP PADS
+            // TRAMPOLINY
             jumpPads.forEach(jp => {
                 const jpx = jp.x - cameraX;
                 ctx.save();
-                ctx.fillStyle = '#00e5ff';
-                if (graphicsQuality === 'HIGH') {
-                    ctx.shadowColor = '#00e5ff';
-                    ctx.shadowBlur = 18;
-                }
+                ctx.fillStyle = '#9d4edd';
                 ctx.beginPath();
                 ctx.roundRect(jpx, jp.y, jp.width, jp.height, [6]);
                 ctx.fill();
@@ -1738,7 +2012,21 @@
                 ctx.restore();
             });
 
-            // 5. COLLECTIBLES & PUMPKINS
+            // PUŁAPKI OGNIOWE
+            hazards.forEach(hz => {
+                const hx = hz.x - cameraX;
+                if (hx < -50 || hx > GAME_WIDTH + 50) return;
+                ctx.save();
+                if (fireImage.complete && fireImage.naturalWidth !== 0) {
+                    ctx.drawImage(fireImage, hx, hz.y, hz.width, hz.height);
+                } else {
+                    ctx.fillStyle = '#ff0033';
+                    ctx.fillRect(hx, hz.y, hz.width, hz.height);
+                }
+                ctx.restore();
+            });
+
+            // ARTYKUŁY, DYNIE & SERCA
             collectibles.forEach(c => {
                 if (c.collected) return;
                 const cx = c.x - cameraX;
@@ -1746,66 +2034,46 @@
 
                 const floatY = c.y + Math.sin(Date.now() * 0.006 + c.x) * 6;
 
+                ctx.save();
                 if (c.type === 'article') {
-                    ctx.save();
-                    ctx.fillStyle = '#ffffff';
-                    if (graphicsQuality === 'HIGH') {
-                        ctx.shadowColor = '#FFC107';
-                        ctx.shadowBlur = 18;
+                    if (articleImage.complete && articleImage.naturalWidth !== 0) {
+                        ctx.drawImage(articleImage, cx, floatY, 34, 34);
                     }
-                    ctx.fillRect(cx, floatY, 28, 34);
-                    ctx.fillStyle = '#FFC107';
-                    ctx.fillRect(cx + 3, floatY + 3, 22, 6);
-                    ctx.fillStyle = '#000000';
-                    ctx.fillRect(cx + 3, floatY + 12, 18, 2);
-                    ctx.fillRect(cx + 3, floatY + 18, 22, 2);
-                    ctx.fillRect(cx + 3, floatY + 24, 15, 2);
-                    ctx.restore();
-                } else {
-                    ctx.save();
+                } else if (c.type === 'pumpkin') {
                     if (newPumpkinImage.complete && newPumpkinImage.naturalWidth !== 0) {
-                        if (graphicsQuality === 'HIGH') {
-                            ctx.shadowColor = '#ff6600';
-                            ctx.shadowBlur = 15;
-                        }
                         ctx.drawImage(newPumpkinImage, cx, floatY, 34, 34);
-                    } else {
-                        ctx.fillStyle = '#ff6600';
-                        ctx.beginPath();
-                        ctx.arc(cx + 16, floatY + 16, 15, 0, Math.PI * 2);
-                        ctx.fill();
                     }
-                    ctx.restore();
+                } else if (c.type === 'heart') {
+                    if (heartImage.complete && heartImage.naturalWidth !== 0) {
+                        ctx.drawImage(heartImage, cx, floatY, 34, 34);
+                    }
                 }
+                ctx.restore();
             });
 
-            // 6. EXIT PORTAL
+            // PORTAL
             if (exitPortal) {
                 const ex = exitPortal.x - cameraX;
                 ctx.save();
-                ctx.fillStyle = exitPortal.unlocked ? '#FFC107' : '#222222';
-                if (graphicsQuality === 'HIGH' && exitPortal.unlocked) {
-                    ctx.shadowColor = '#FFC107';
-                    ctx.shadowBlur = 30;
-                }
+                ctx.fillStyle = exitPortal.unlocked ? '#9d4edd' : '#222222';
                 ctx.fillRect(ex, exitPortal.y, exitPortal.width, exitPortal.height);
 
                 ctx.fillStyle = '#000000';
                 ctx.fillRect(ex + 8, exitPortal.y + 12, exitPortal.width - 16, exitPortal.height - 12);
 
-                ctx.fillStyle = exitPortal.unlocked ? '#FFC107' : '#ffffff';
-                ctx.font = '900 12px Montserrat';
+                ctx.fillStyle = exitPortal.unlocked ? '#c77dff' : '#ffffff';
+                ctx.font = '10px "Press Start 2P"';
                 ctx.textAlign = 'center';
                 ctx.fillText(exitPortal.unlocked ? 'PORTAL' : 'ZABLOK.', ex + exitPortal.width / 2, exitPortal.y + 45);
-                ctx.fillText(`LVL ${currentLevel}`, ex + exitPortal.width / 2, exitPortal.y + 65);
+                const nextLvlNum = currentLevel < TOTAL_LEVELS ? currentLevel + 1 : TOTAL_LEVELS;
+                ctx.fillText(`LVL ${nextLvlNum}`, ex + exitPortal.width / 2, exitPortal.y + 65);
                 ctx.restore();
             }
 
-            // 7. ENTITIES & PARTICLES
             ghostTrails.forEach(gt => {
                 ctx.save();
                 ctx.globalAlpha = gt.alpha * 0.35;
-                ctx.fillStyle = '#FFC107';
+                ctx.fillStyle = '#9d4edd';
                 ctx.fillRect(gt.x - cameraX, gt.y, player.width, player.height);
                 ctx.restore();
             });
@@ -1814,86 +2082,69 @@
             player.draw(ctx);
             particles.forEach(p => p.draw(ctx));
 
-            // LIGHTING EFFECT (LEVEL 4+)
+            // EFFECT CIEMNOŚCI OD POZIOMU 4
             if (currentLevel >= 4 && gameState === 'PLAYING') {
                 ctx.save();
-                const pCenterX = player.x - cameraX + player.width / 2;
-                const pCenterY = player.y + player.height / 2;
-
-                const lightRadius = 380;
-                const grad = ctx.createRadialGradient(pCenterX, pCenterY, 80, pCenterX, pCenterY, lightRadius);
+                const px = player.x - cameraX + player.width / 2;
+                const py = player.y + player.height / 2;
+                
+                const grad = ctx.createRadialGradient(px, py, 60, px, py, 380);
                 grad.addColorStop(0, 'rgba(0, 0, 0, 0)');
-                grad.addColorStop(0.7, 'rgba(0, 0, 0, 0.45)');
-                grad.addColorStop(1, 'rgba(0, 0, 0, 0.75)');
-
+                grad.addColorStop(0.7, 'rgba(0, 0, 0, 0.75)');
+                grad.addColorStop(1, 'rgba(0, 0, 0, 0.95)');
+                
                 ctx.fillStyle = grad;
                 ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
                 ctx.restore();
             }
 
-            // 8. HUD BAR
+            if (lightningFlash > 0 && !sensitiveMode) {
+                ctx.save();
+                ctx.fillStyle = `rgba(255, 255, 255, ${lightningFlash / 20})`;
+                ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+                ctx.restore();
+            }
+
+            // HUD BAR
             if (gameState === 'PLAYING') {
                 ctx.save();
-                const hudW = 860;
-                const hudH = 46;
+                const hudW = 900;
+                const hudH = 54;
                 const hudX = (GAME_WIDTH - hudW) / 2;
-                const hudY = 14;
+                const hudY = 12;
 
-                ctx.fillStyle = 'rgba(10, 10, 10, 0.82)';
-                ctx.strokeStyle = 'rgba(255, 193, 7, 0.6)';
-                ctx.lineWidth = 2;
-                if (graphicsQuality === 'HIGH') {
-                    ctx.shadowColor = '#FFC107';
-                    ctx.shadowBlur = 12;
+                if (hudBgImage.complete && hudBgImage.naturalWidth !== 0) {
+                    ctx.drawImage(hudBgImage, hudX, hudY, hudW, hudH);
+                } else {
+                    ctx.fillStyle = 'rgba(10, 10, 10, 0.9)';
+                    ctx.roundRect(hudX, hudY, hudW, hudH, [8]);
+                    ctx.fill();
                 }
-                ctx.roundRect(hudX, hudY, hudW, hudH, [24]);
-                ctx.fill();
-                ctx.stroke();
 
-                ctx.shadowBlur = 0;
-                ctx.font = '900 14px Montserrat';
+                ctx.font = '9px "Press Start 2P"';
                 ctx.textAlign = 'left';
 
-                ctx.fillStyle = '#b0b0b0';
-                ctx.fillText('ŻYCIA:', hudX + 25, hudY + 28);
+                ctx.fillStyle = '#ffffff';
+                ctx.fillText('HP:', hudX + 20, hudY + 32);
                 for (let i = 0; i < lives; i++) {
-                    ctx.fillStyle = '#ff3300';
-                    ctx.beginPath();
-                    ctx.arc(hudX + 85 + i * 22, hudY + 23, 8, 0, Math.PI * 2);
-                    ctx.fill();
+                    if (heartImage.complete && heartImage.naturalWidth !== 0) {
+                        ctx.drawImage(heartImage, hudX + 55 + (i * 22), hudY + 18, 18, 18);
+                    } else {
+                        ctx.fillStyle = '#ff0033';
+                        ctx.fillRect(hudX + 55 + (i * 22), hudY + 20, 14, 14);
+                    }
                 }
 
-                const pProgress = pumpkinCount % 10;
-                ctx.fillStyle = '#ff9900';
-                ctx.fillText(`DYNIE: ${pumpkinCount} (${pProgress}/10)`, hudX + 210, hudY + 28);
+                ctx.fillStyle = '#c77dff';
+                ctx.fillText(`DYNIE:${pumpkinCount}`, hudX + 200, hudY + 32);
 
                 ctx.fillStyle = '#ffffff';
-                ctx.fillText(`LVL: ${currentLevel}/${TOTAL_LEVELS}`, hudX + 410, hudY + 28);
-                ctx.fillText(`PUNKTY: ${score}`, hudX + 530, hudY + 28);
+                ctx.fillText(`LVL:${currentLevel}/${TOTAL_LEVELS}`, hudX + 380, hudY + 32);
+                ctx.fillText(`PTS:${score}`, hudX + 520, hudY + 32);
 
                 ctx.fillStyle = '#FFC107';
-                ctx.fillText(`ARTYKUŁY: ${articlesCollected}/${TOTAL_ARTICLES}`, hudX + 690, hudY + 28);
+                ctx.fillText(`ARTYKUŁY:${articlesCollected}/${TOTAL_ARTICLES}`, hudX + 680, hudY + 32);
                 ctx.restore();
-
-                if (headlineDisplayTimer > 0) {
-                    ctx.save();
-                    ctx.fillStyle = 'rgba(0, 0, 0, 0.94)';
-                    ctx.strokeStyle = '#FFC107';
-                    ctx.lineWidth = 2;
-                    if (graphicsQuality === 'HIGH') {
-                        ctx.shadowColor = '#FFC107';
-                        ctx.shadowBlur = 18;
-                    }
-                    ctx.roundRect(GAME_WIDTH / 2 - 280, 72, 560, 42, [12]);
-                    ctx.fill();
-                    ctx.stroke();
-
-                    ctx.fillStyle = '#FFC107';
-                    ctx.font = 'bold 15px Montserrat';
-                    ctx.textAlign = 'center';
-                    ctx.fillText(`${currentHeadlineDisplay}`, GAME_WIDTH / 2, 98);
-                    ctx.restore();
-                }
             }
 
             ctx.restore();
@@ -1941,16 +2192,16 @@
             const resScore = document.getElementById('resScore');
 
             if (isWin) {
-                endTitle.innerText = "Wygrana! Pokonałeś Koszmar!";
-                endTitle.style.color = "#FFC107";
+                endTitle.innerText = "WYGRANA! KOSZMAR POKONANY!";
+                endTitle.style.color = "#c77dff";
             } else {
-                endTitle.innerText = "Koniec Gry — Spróbuj Ponownie!";
+                endTitle.innerText = "GAME OVER! SPRÓBUJ PONOWNIE!";
                 endTitle.style.color = "#ff0033";
             }
 
             resLevel.innerText = `${currentLevel} / ${TOTAL_LEVELS}`;
             resArticles.innerText = `${articlesCollected} / ${TOTAL_ARTICLES}`;
-            resScore.innerText = `${score} pkt`;
+            resScore.innerText = `${score} PKT`;
 
             endScreen.classList.remove('hidden');
         }
