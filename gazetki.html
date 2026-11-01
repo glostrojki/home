@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Głos Trójki - Gazetki</title>
+    
+    <link rel="icon" type="image/png" href="https://imgur.com/nwkFXR1.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-yellow: #FFC107; 
+            --primary-yellow-hover: #FFB300;
+            --secondary-dark: #1E2227; 
+            --text-main: #333333;
+            --text-muted: #6c757d;
+            --text-light: #a0aab5;
+            --bg-body: #f4f6f9;
+            --bg-white: #ffffff;
+            --bg-gray: #eef1f5;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 4px 6px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 15px rgba(0,0,0,0.08);
+            --shadow-lg: 0 20px 25px rgba(0,0,0,0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --font-headings: 'Montserrat', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
+            --container-width: 1400px;
+            --transition: all 0.25s ease-in-out;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-body); background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+        h1, h2, h3, h4 { font-family: var(--font-headings); font-weight: 700; color: var(--secondary-dark); }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+        button { font-family: inherit; cursor: pointer; outline: none; border: none; }
+
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 20px; }
+
+        /* NAGŁÓWEK */
+        .top-bar { background-color: var(--secondary-dark); color: var(--bg-white); font-size: 0.85rem; padding: 8px 0; font-weight: 600; }
+        .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
+        
+        .main-header { background-color: var(--bg-white); box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; height: 90px; }
+        .logo-area { display: flex; align-items: center; gap: 15px; }
+        .logo-img { height: 60px; border-radius: var(--radius-sm); }
+        .logo-text h1 { font-size: 1.8rem; font-weight: 900; line-height: 1; }
+        .logo-text h1 span { color: var(--primary-yellow); }
+        .logo-text small { font-family: var(--font-headings); font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+
+        .main-nav { display: flex; align-items: center; gap: 35px; }
+        .nav-list { display: flex; gap: 30px; }
+        .nav-list li a { font-family: var(--font-headings); font-weight: 700; font-size: 0.95rem; position: relative; padding: 8px 0; color: var(--secondary-dark); }
+        .nav-list li a::after { content: ''; position: absolute; width: 0%; height: 3px; bottom: 0; left: 0; background-color: var(--primary-yellow); transition: var(--transition); border-radius: 2px; }
+        .nav-list li a:hover::after, .nav-list li a.active::after { width: 100%; }
+
+        /* SEKCJA GAZETEK */
+        .magazines-section { padding: 50px 0; flex: 1; }
+        .section-header { margin-bottom: 35px; text-align: center; }
+        .section-header h2 { font-size: 2.2rem; margin-bottom: 10px; display: inline-flex; align-items: center; gap: 12px; }
+        .section-header h2 i { color: var(--primary-yellow); }
+        .section-header p { color: var(--text-muted); font-size: 1rem; }
+
+        .magazines-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+        
+        .magazine-card { background: var(--bg-white); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); transition: var(--transition); display: flex; flex-direction: column; position: relative; }
+        .magazine-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+
+        .magazine-cover-wrapper { position: relative; width: 100%; height: 400px; background: #e2e8f0; overflow: hidden; cursor: pointer; }
+        .magazine-cover-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .magazine-card:hover .magazine-cover-wrapper img { transform: scale(1.03); }
+
+        .premium-badge { position: absolute; top: 15px; right: 15px; background: rgba(30, 34, 39, 0.85); backdrop-filter: blur(4px); color: var(--primary-yellow); padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; box-shadow: var(--shadow-sm); z-index: 2; }
+        .free-badge { position: absolute; top: 15px; right: 15px; background: rgba(16, 185, 129, 0.85); backdrop-filter: blur(4px); color: #fff; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.8rem; box-shadow: var(--shadow-sm); z-index: 2; }
+
+        .magazine-info { padding: 20px; display: flex; flex-direction: column; flex: 1; }
+        .magazine-info h3 { font-size: 1.25rem; margin-bottom: 8px; }
+        .magazine-date { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; display: flex; align-items: center; gap: 6px; }
+        
+        .btn { padding: 10px 16px; border-radius: var(--radius-sm); font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: var(--transition); border: 1px solid transparent; width: 100%; }
+        .btn-primary { background: var(--primary-yellow); color: var(--secondary-dark); border-color: var(--primary-yellow-hover); }
+        .btn-primary:hover { background: var(--primary-yellow-hover); }
+        .btn-dark { background: var(--secondary-dark); color: #fff; }
+        .btn-dark:hover { background: #2d323a; }
+
+        /* CZYTNIK (POPUP) */
+        #readerModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 10000; flex-direction: column; }
+        
+        .reader-topbar { background: var(--secondary-dark); color: #fff; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .reader-title h3 { color: #fff; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .reader-controls { display: flex; align-items: center; gap: 15px; }
+        
+        .reader-body { display: flex; flex: 1; overflow: hidden; position: relative; }
+        
+        /* SPIS TREŚCI (SIDEBAR W CZYTNIKU) */
+        .reader-sidebar { width: 300px; background: var(--bg-white); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; transition: var(--transition); z-index: 10; }
+        .reader-sidebar.collapsed { transform: translateX(-300px); position: absolute; }
+        .sidebar-header-box { padding: 15px 20px; font-weight: 700; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: var(--bg-gray); }
+        .toc-list { overflow-y: auto; flex: 1; padding: 10px; }
+        .toc-item { padding: 10px 12px; border-radius: var(--radius-sm); cursor: pointer; margin-bottom: 6px; font-size: 0.9rem; transition: var(--transition); display: flex; justify-content: space-between; align-items: center; border: 1px solid transparent; }
+        .toc-item:hover { background: var(--bg-gray); border-color: var(--border-color); color: var(--primary-yellow-hover); }
+        .toc-item span.page-num { font-size: 0.75rem; background: var(--border-color); padding: 2px 6px; border-radius: 4px; color: var(--text-muted); }
+
+        /* OBSZAR WYŚWIETLANIA STRON */
+        .reader-viewport { flex: 1; display: flex; justify-content: center; align-items: center; padding: 30px; overflow: auto; position: relative; background: #111; }
+        .pages-container { display: flex; gap: 20px; transition: transform 0.3s ease-in-out; transform-origin: center center; align-items: center; justify-content: center; max-width: 100%; max-height: 100%; }
+        
+        .magazine-page { background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; max-height: 80vh; transition: all 0.3s ease; }
+        .magazine-page img { width: 100%; height: 100%; object-fit: contain; max-height: 72vh; background: #000; }
+        .magazine-page .page-footer-info { padding: 8px 15px; font-size: 0.8rem; color: var(--text-muted); text-align: center; background: var(--bg-white); border-top: 1px solid var(--border-color); }
+
+        /* DOLNY PANEL NAWIGACYJNY CZYTNIKA */
+        .reader-footer { background: var(--secondary-dark); color: #fff; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); }
+        .page-navigation { display: flex; align-items: center; gap: 15px; }
+        .page-input { width: 50px; text-align: center; padding: 6px; border-radius: 4px; border: 1px solid var(--border-color); font-weight: bold; background: #fff; color: #333; }
+
+        .btn-icon { background: rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: var(--radius-sm); display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; transition: var(--transition); }
+        .btn-icon:hover { background: var(--primary-yellow); color: var(--secondary-dark); }
+
+        /* MODAL PREMIUM / KOD */
+        #premiumModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 11000; justify-content: center; align-items: center; padding: 20px; }
+        .premium-box { background: var(--bg-white); padding: 40px; border-radius: var(--radius-md); max-width: 400px; width: 100%; text-align: center; box-shadow: var(--shadow-lg); border-top: 6px solid #f59e0b; }
+
+        .empty-box { text-align: center; color: var(--text-muted); padding: 60px; font-size: 1.1rem; grid-column: 1 / -1; background: var(--bg-white); border-radius: var(--radius-md); border: 1px dashed var(--border-color); }
+
+        .site-footer { background-color: var(--secondary-dark); color: var(--bg-white); padding: 40px 0 20px; margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 50px; margin-bottom: 20px; }
+        .footer-heading { font-size: 1.1rem; color: var(--primary-yellow); margin-bottom: 15px; font-family: var(--font-headings); }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { color: var(--text-light); }
+        .footer-links a:hover { color: var(--primary-yellow); }
+    </style>
+</head>
+<body>
+
+    <!-- MODAL WERYFIKACJI PREMIUM -->
+    <div id="premiumModal">
+        <div class="premium-box">
+            <i class="fas fa-crown fa-3x" style="color: #f59e0b; margin-bottom: 15px;"></i>
+            <h3>Wydanie Wymaga Premium</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 15px 0 20px;">Ten numer gazetki jest dostępny wyłącznie dla subskrybentów konta Premium. Wprowadź kod dostępu:</p>
+            <input type="password" id="premiumCodeInput" placeholder="Kod dostępu..." style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 15px; font-size: 1rem; text-align: center;">
+            <div style="display: flex; gap: 10px;">
+                <button onclick="closePremiumModal()" class="btn btn-dark" style="flex: 1;">Anuluj</button>
+                <button onclick="verifyPremiumCode()" class="btn btn-primary" style="flex: 1;">Odblokuj</button>
+            </div>
+            <p id="premiumError" style="color: #d32f2f; font-size: 0.8rem; margin-top: 10px; display: none;">Niepoprawny kod dostępu.</p>
+        </div>
+    </div>
+
+    <!-- CZYTNIK GAZETEK (POPUP) -->
+    <div id="readerModal">
+        <div class="reader-topbar">
+            <div class="reader-title">
+                <button class="btn-icon" onclick="toggleToc()" title="Spis treści"><i class="fas fa-list"></i></button>
+                <h3 id="readerModalTitle"><i class="fas fa-book-open" style="color: var(--primary-yellow);"></i> Czytnik Gazetki</h3>
+            </div>
+            <div class="reader-controls">
+                <button class="btn-icon" onclick="toggleViewMode()" id="viewModeBtn" title="Zmień widok (1 lub 2 strony)"><i class="fas fa-columns"></i> <span id="viewModeText">Widok dwustronny</span></button>
+                <button class="btn-icon" onclick="zoomIn()" title="Przybliż"><i class="fas fa-search-plus"></i></button>
+                <button class="btn-icon" onclick="zoomOut()" title="Oddal"><i class="fas fa-search-minus"></i></button>
+                <button class="btn-icon" onclick="resetZoom()" title="Resetuj przybliżenie"><i class="fas fa-redo-alt"></i></button>
+                <button class="btn-icon" onclick="closeReader()" style="background: #ef4444;" title="Zamknij"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        
+        <div class="reader-body">
+            <!-- Spis treści -->
+            <div id="readerSidebar" class="reader-sidebar">
+                <div class="sidebar-header-box">
+                    <span><i class="fas fa-bookmark" style="color: var(--primary-yellow);"></i> Spis treści</span>
+                </div>
+                <div id="tocList" class="toc-list">
+                    <!-- Generowane dynamicznie -->
+                </div>
+            </div>
+
+            <!-- Widok stron -->
+            <div class="reader-viewport" id="readerViewport">
+                <div class="pages-container" id="pagesContainer">
+                    <!-- Strony gazetki -->
+                </div>
+            </div>
+        </div>
+
+        <div class="reader-footer">
+            <button class="btn-icon" onclick="prevPages()"><i class="fas fa-chevron-left"></i> Poprzednia</button>
+            <div class="page-navigation">
+                <span>Strona</span>
+                <input type="number" id="pageNumberInput" class="page-input" min="1" onchange="jumpToPageInput(this.value)">
+                <span id="totalPagesLabel">z 0</span>
+            </div>
+            <button class="btn-icon" onclick="nextPages()">Następna <i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <!-- GÓRNY PASEK -->
+    <div class="top-bar">
+        <div class="container">
+            <div><i class="fas fa-school" style="color: var(--primary-yellow); margin-right: 8px;"></i> Szkoła Podstawowa nr 3 &bull; Gazetka Uczniowska</div>
+            <div><i class="fas fa-shield-alt" style="color: var(--primary-yellow); margin-right: 8px;"></i> Oficjalny portal redakcji</div>
+        </div>
+    </div>
+
+    <!-- NAGŁÓWEK STRONY -->
+    <header class="main-header">
+        <div class="container header-content">
+            <a href="/" class="logo-area">
+                <img src="https://imgur.com/nwkFXR1.png" alt="Logo Głos Trójki" class="logo-img">
+                <div class="logo-text">
+                    <h1>Głos <span>Trójki</span></h1>
+                    <small>Wydania Gazetki</small>
+                </div>
+            </a>
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li><a href="/">Strona Główna</a></li>
+                    <li><a href="/gazetki.html" class="active">Gazetki</a></li>
+                    <li><a href="/formularz.html">Dodaj Artykuł</a></li>
+                    <li><a href="/13.html">Panel Admina</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- GŁÓWNA TREŚĆ -->
+    <main class="container magazines-section">
+        <div class="section-header">
+            <h2><i class="fas fa-book-reader"></i> Archiwum Gazetek Szkolnych</h2>
+            <p>Wybierz wydanie, które chcesz przeczytać online. Przeglądaj darmowe numery oraz edycje specjalne Premium!</p>
+        </div>
+
+        <div id="magazinesGrid" class="magazines-grid">
+            <div class="empty-box">
+                <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--primary-yellow); margin-bottom: 10px; display:block;"></i>
+                Ładowanie gazetek z bazy danych...
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3 style="color: white; margin-bottom: 15px;">Głos Trójki</h3>
+                    <p style="color: var(--text-light); font-size: 0.9rem;">Gazetka szkolna tworzona przez uczniów dla uczniów. Wszystkie prawa zastrzeżone.</p>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Nawigacja</h4>
+                    <ul class="footer-links">
+                        <li><a href="/"><i class="fas fa-home"></i> Strona główna</a></li>
+                        <li><a href="/gazetki.html"><i class="fas fa-book-open"></i> Gazetki szkolne</a></li>
+                        <li><a href="/formularz.html"><i class="fas fa-pen"></i> Formularz dla uczniów</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SKRYPTY FIREBASE I LOGIKA CZYTNIKA -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCwWO7gJQjfhxusvDBhSFZGmX5UqzeHWsM",
+            authDomain: "glos-trojki-sp3.firebaseapp.com",
+            projectId: "glos-trojki-sp3",
+            storageBucket: "glos-trojki-sp3.firebasestorage.app",
+            messagingSenderId: "1014711078934",
+            appId: "1:1014711078934:web:144c5acedae00ff31c2537"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let activeMagazine = null;
+        let currentStartIndex = 0; // 0-based index of starting page in view
+        let viewMode = 'double'; // 'double' lub 'single'
+        let currentZoom = 1;
+        let pendingMagazineData = null;
+        const CORRECT_PREMIUM_CODE = "szkola2026"; // Kod odblokowujący premium (możesz zmienić)
+
+        async function loadMagazines() {
+            const grid = document.getElementById('magazinesGrid');
+            try {
+                const q = query(collection(db, "magazines"), orderBy("createdAt", "desc"));
+                const snapshot = await getDocs(q);
+
+                if (snapshot.empty) {
+                    grid.innerHTML = '<div class="empty-box"><i class="fas fa-folder-open fa-2x" style="display:block; margin-bottom:10px;"></i>Brak opublikowanych gazetek w systemie.</div>';
+                    return;
+                }
+
+                grid.innerHTML = '';
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const coverImg = (data.pages && data.pages.length > 0) ? data.pages[0].imageUrl : 'https://via.placeholder.com/400x500?text=Brak+Okladki';
+                    const dateStr = data.createdAt ? data.createdAt.toDate().toLocaleDateString('pl-PL', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Ostatnio dodane';
+                    
+                    const isPremium = data.isPremium === true;
+                    const badgeHTML = isPremium 
+                        ? `<div class="premium-badge"><i class="fas fa-lock" style="color: var(--primary-yellow);"></i> Wymagane Premium</div>` 
+                        : `<div class="free-badge">Darmowy</div>`;
+
+                    const encoded = encodeURIComponent(JSON.stringify(data));
+
+                    const cardHTML = `
+                        <div class="magazine-card">
+                            <div class="magazine-cover-wrapper" onclick="handleMagazineClick('${encoded}', ${isPremium})">
+                                ${badgeHTML}
+                                <img src="${coverImg}" alt="Okładka gazetki nr ${data.number}" onerror="this.src='https://via.placeholder.com/400x500?text=Blad+Obrazu';">
+                            </div>
+                            <div class="magazine-info">
+                                <h3>Wydanie Nr ${data.number}</h3>
+                                <p class="magazine-date"><i class="far fa-calendar-alt"></i> ${dateStr} &bull; ${data.pages ? data.pages.length : 0} stron</p>
+                                <button class="btn btn-primary" onclick="handleMagazineClick('${encoded}', ${isPremium})">
+                                    <i class="fas fa-book-reader"></i> Czytaj gazetkę
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    grid.insertAdjacentHTML('beforeend', cardHTML);
+                });
+            } catch (e) {
+                console.error(e);
+                grid.innerHTML = '<div class="empty-box" style="color: #c62828;"><i class="fas fa-exclamation-triangle fa-2x"></i><br>Błąd podczas ładowania gazetek z bazy danych.</div>';
+            }
+        }
+
+        window.handleMagazineClick = function(encodedData, isPremium) {
+            const data = JSON.parse(decodeURIComponent(encodedData));
+            const hasAccess = sessionStorage.getItem('glosTrojkiUserPremium') === 'true';
+
+            if (isPremium && !hasAccess) {
+                pendingMagazineData = data;
+                document.getElementById('premiumError').style.display = 'none';
+                document.getElementById('premiumCodeInput').value = '';
+                document.getElementById('premiumModal').style.display = 'flex';
+            } else {
+                openReader(data);
+            }
+        }
+
+        window.verifyPremiumCode = function() {
+            const code = document.getElementById('premiumCodeInput').value.trim();
+            if (code === CORRECT_PREMIUM_CODE) {
+                sessionStorage.setItem('glosTrojkiUserPremium', 'true');
+                document.getElementById('premiumModal').style.display = 'none';
+                if (pendingMagazineData) {
+                    openReader(pendingMagazineData);
+                    pendingMagazineData = null;
+                }
+            } else {
+                document.getElementById('premiumError').style.display = 'block';
+            }
+        }
+
+        window.closePremiumModal = function() {
+            document.getElementById('premiumModal').style.display = 'none';
+            pendingMagazineData = null;
+        }
+
+        // --- LOGIKA CZYTNIKA ---
+        window.openReader = function(magazineData) {
+            activeMagazine = magazineData;
+            currentStartIndex = 0;
+            currentZoom = 1;
+            
+            document.getElementById('readerModalTitle').innerHTML = `<i class="fas fa-book-open" style="color: var(--primary-yellow);"></i> Gazetka Nr ${magazineData.number}`;
+            document.getElementById('totalPagesLabel').textContent = `z ${magazineData.pages.length}`;
+            
+            buildToc();
+            renderPages();
+            
+            document.getElementById('readerModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        window.closeReader = function() {
+            document.getElementById('readerModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            activeMagazine = null;
+        }
+
+        function buildToc() {
+            const tocList = document.getElementById('tocList');
+            tocList.innerHTML = '';
+            
+            if (!activeMagazine || !activeMagazine.pages) return;
+
+            activeMagazine.pages.forEach((page, idx) => {
+                const item = document.createElement('div');
+                item.className = 'toc-item';
+                item.innerHTML = `<span>${idx + 1}. ${page.description || 'Strona ' + (idx + 1)}</span> <span class="page-num">str. ${idx + 1}</span>`;
+                item.onclick = () => {
+                    currentStartIndex = viewMode === 'double' ? (idx % 2 === 0 ? idx : idx - 1) : idx;
+                    renderPages();
+                    // Na urządzeniach mobilnych zwiń spis treści po kliknięciu
+                    if(window.innerWidth <= 768) toggleToc();
+                };
+                tocList.appendChild(item);
+            });
+        }
+
+        window.renderPages = function() {
+            if (!activeMagazine || !activeMagazine.pages) return;
+            
+            const container = document.getElementById('pagesContainer');
+            container.innerHTML = '';
+            container.style.transform = `scale(${currentZoom})`;
+
+            const totalPages = activeMagazine.pages.length;
+            document.getElementById('pageNumberInput').value = currentStartIndex + 1;
+
+            if (viewMode === 'double') {
+                // Wyświetl dwie strony: lewą i prawą
+                const leftPageIdx = currentStartIndex;
+                const rightPageIdx = currentStartIndex + 1;
+
+                if (leftPageIdx < totalPages) {
+                    container.appendChild(createPageElement(activeMagazine.pages[leftPageIdx], leftPageIdx + 1));
+                }
+                if (rightPageIdx < totalPages) {
+                    container.appendChild(createPageElement(activeMagazine.pages[rightPageIdx], rightPageIdx + 1));
+                }
+            } else {
+                // Widok jednostronny
+                const pageIdx = currentStartIndex;
+                if (pageIdx < totalPages) {
+                    container.appendChild(createPageElement(activeMagazine.pages[pageIdx], pageIdx + 1));
+                }
+            }
+        }
+
+        function createPageElement(pageData, pageNum) {
+            const pageDiv = document.createElement('div');
+            pageDiv.className = 'magazine-page';
+            pageDiv.innerHTML = `
+                <img src="${pageData.imageUrl}" alt="Strona ${pageNum}" onerror="this.src='https://via.placeholder.com/600x800?text=Blad+ladowania+obrazu';">
+                <div class="page-footer-info"><strong>Strona ${pageNum}</strong> &bull; ${pageData.description || ''}</div>
+            `;
+            return pageDiv;
+        }
+
+        window.nextPages = function() {
+            if (!activeMagazine) return;
+            const step = viewMode === 'double' ? 2 : 1;
+            if (currentStartIndex + step < activeMagazine.pages.length) {
+                currentStartIndex += step;
+                renderPages();
+            }
+        }
+
+        window.prevPages = function() {
+            if (!activeMagazine) return;
+            const step = viewMode === 'double' ? 2 : 1;
+            if (currentStartIndex - step >= 0) {
+                currentStartIndex -= step;
+                renderPages();
+            }
+        }
+
+        window.jumpToPageInput = function(val) {
+            let pageNum = parseInt(val);
+            if (isNaN(pageNum)) return;
+            const total = activeMagazine.pages.length;
+            if (pageNum < 1) pageNum = 1;
+            if (pageNum > total) pageNum = total;
+
+            currentStartIndex = viewMode === 'double' ? ((pageNum - 1) % 2 === 0 ? pageNum - 1 : pageNum - 2) : pageNum - 1;
+            if (currentStartIndex < 0) currentStartIndex = 0;
+            renderPages();
+        }
+
+        window.toggleViewMode = function() {
+            if (viewMode === 'double') {
+                viewMode = 'single';
+                document.getElementById('viewModeText').textContent = 'Widok jednostronny';
+            } else {
+                viewMode = 'double';
+                currentStartIndex = currentStartIndex % 2 === 0 ? currentStartIndex : currentStartIndex - 1;
+                document.getElementById('viewModeText').textContent = 'Widok dwustronny';
+            }
+            renderPages();
+        }
+
+        window.toggleToc = function() {
+            const sidebar = document.getElementById('readerSidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+
+        window.zoomIn = function() {
+            if (currentZoom < 2.0) {
+                currentZoom += 0.2;
+                document.getElementById('pagesContainer').style.transform = `scale(${currentZoom})`;
+            }
+        }
+
+        window.zoomOut = function() {
+            if (currentZoom > 0.6) {
+                currentZoom -= 0.2;
+                document.getElementById('pagesContainer').style.transform = `scale(${currentZoom})`;
+            }
+        }
+
+        window.resetZoom = function() {
+            currentZoom = 1;
+            document.getElementById('pagesContainer').style.transform = `scale(${currentZoom})`;
+        }
+
+        loadMagazines();
+    </script>
+</body>
+</html>
