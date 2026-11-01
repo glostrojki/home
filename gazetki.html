@@ -130,7 +130,7 @@
 
         /* POPUP REKLAMOWY */
         #adPopup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(4px); z-index: 12000; justify-content: center; align-items: center; padding: 20px; }
-        .ad-box { background: var(--bg-white); padding: 25px; border-radius: var(--radius-md); max-width: 400px; width: 100%; text-align: center; box-shadow: var(--shadow-lg); }
+        .ad-box { background: var(--bg-white); padding: 25px; border-radius: var(--radius-md); max-width: 450px; width: 100%; text-align: center; box-shadow: var(--shadow-lg); }
 
         .empty-box { text-align: center; color: var(--text-muted); padding: 60px; font-size: 1.1rem; grid-column: 1 / -1; background: var(--bg-white); border-radius: var(--radius-md); border: 1px dashed var(--border-color); }
 
@@ -149,7 +149,7 @@
         <div class="premium-box">
             <i class="fas fa-crown fa-3x" style="color: #f59e0b; margin-bottom: 15px;"></i>
             <h3>Wydanie Wymaga Premium</h3>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 15px 0 20px;">Ten numer gazetki jest dostępny dla kont Premium. Wprowadź kod lub obejrzyj 2 reklamy za darmowe wejście:</p>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 15px 0 20px;">Ten numer gazetki jest dostępny dla kont Premium. Wprowadź kod lub obejrzyj 1 reklamę za darmowe wejście:</p>
             <input type="password" id="premiumCodeInput" placeholder="Kod dostępu..." style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 15px; font-size: 1rem; text-align: center;">
             <div style="display: flex; gap: 10px; margin-bottom: 15px;">
                 <button onclick="closePremiumModal()" class="btn btn-dark" style="flex: 1;">Anuluj</button>
@@ -159,7 +159,7 @@
                 <hr style="border: none; border-top: 1px solid var(--border-color);">
                 <span style="background: var(--bg-white); padding: 0 10px; color: var(--text-muted); font-size: 0.8rem; position: relative; top: -10px;">LUB</span>
             </div>
-            <button onclick="startWatchingAds()" class="btn btn-dark" style="width: 100%; background: #2563eb;"><i class="fas fa-play-circle" style="margin-right: 6px;"></i> Obejrzyj 2 reklamy (darmowe wejście)</button>
+            <button onclick="startWatchingAd()" class="btn btn-dark" style="width: 100%; background: #2563eb;"><i class="fas fa-play-circle" style="margin-right: 6px;"></i> Obejrzyj 1 reklamę (darmowe wejście)</button>
             <p id="premiumError" style="color: #d32f2f; font-size: 0.8rem; margin-top: 10px; display: none;">Niepoprawny kod dostępu.</p>
         </div>
     </div>
@@ -167,11 +167,14 @@
     <!-- POPUP REKLAMOWY -->
     <div id="adPopup">
         <div class="ad-box">
-            <h4 style="font-size: 1.1rem; margin-bottom: 8px; color: var(--secondary-dark);"><i class="fas fa-video" style="color: var(--primary-yellow);"></i> Reklama (<span id="adCounter">1</span>/2)</h4>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">Trwa odtwarzanie reklamy. Po zakończeniu uzyskasz jednorazowy dostęp.</p>
-            <div style="background: #000; border-radius: 8px; overflow: hidden; position: relative; width: 100%;">
-                <video id="adVideoElement" src="reklama1.mp4" style="width: 100%; max-height: 240px; display: block;" autoplay playsinline></video>
+            <h4 style="font-size: 1.1rem; margin-bottom: 8px; color: var(--secondary-dark);"><i class="fas fa-video" style="color: var(--primary-yellow);"></i> Oglądanie reklamy</h4>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">Po zakończeniu filmu gazetka otworzy się automatycznie.</p>
+            <div style="background: #000; border-radius: 8px; overflow: hidden; position: relative; width: 100%; min-height: 200px;">
+                <video id="adVideoElement" src="reklama1.mp4" controls playsinline muted style="width: 100%; max-height: 260px; display: block;"></video>
             </div>
+            <button id="manualPlayBtn" onclick="playAdVideo()" class="btn btn-primary" style="margin-top: 12px; display: none;">
+                <i class="fas fa-play"></i> Uruchom reklamę ręcznie
+            </button>
         </div>
     </div>
 
@@ -307,7 +310,6 @@
         let currentZoom = 1;
         let pendingMagazineData = null;
         const CORRECT_PREMIUM_CODE = "szkola2026";
-        let currentAdCount = 1;
 
         async function loadMagazines() {
             const grid = document.getElementById('magazinesGrid');
@@ -397,46 +399,47 @@
             pendingMagazineData = null;
         }
 
-        window.startWatchingAds = function() {
+        window.startWatchingAd = function() {
             document.getElementById('premiumModal').style.display = 'none';
-            currentAdCount = 1;
-            document.getElementById('adCounter').textContent = '1';
             
             const adPopup = document.getElementById('adPopup');
             const videoElem = document.getElementById('adVideoElement');
+            const manualBtn = document.getElementById('manualPlayBtn');
             
+            manualBtn.style.display = 'none';
             adPopup.style.display = 'flex';
+            
             videoElem.currentTime = 0;
             videoElem.play().catch(err => {
-                console.log("Autoplay error:", err);
+                console.log("Autoplay wyłączone przez przeglądarkę:", err);
+                manualBtn.style.display = 'inline-flex';
             });
+        }
+
+        window.playAdVideo = function() {
+            const videoElem = document.getElementById('adVideoElement');
+            document.getElementById('manualPlayBtn').style.display = 'none';
+            videoElem.play().catch(err => console.log(err));
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             const videoElem = document.getElementById('adVideoElement');
             if (videoElem) {
                 videoElem.onended = function() {
-                    if (currentAdCount === 1) {
-                        currentAdCount = 2;
-                        document.getElementById('adCounter').textContent = '2';
-                        videoElem.currentTime = 0;
-                        videoElem.play().catch(err => console.log(err));
-                    } else {
-                        document.getElementById('adPopup').style.display = 'none';
-                        videoElem.pause();
+                    document.getElementById('adPopup').style.display = 'none';
+                    videoElem.pause();
+                    
+                    if (pendingMagazineData) {
+                        try {
+                            let unlockedList = JSON.parse(sessionStorage.getItem('glosTrojkiUnlockedMags') || '[]');
+                            if (!unlockedList.includes(pendingMagazineData.number)) {
+                                unlockedList.push(pendingMagazineData.number);
+                                sessionStorage.setItem('glosTrojkiUnlockedMags', JSON.stringify(unlockedList));
+                            }
+                        } catch(e) {}
                         
-                        if (pendingMagazineData) {
-                            try {
-                                let unlockedList = JSON.parse(sessionStorage.getItem('glosTrojkiUnlockedMags') || '[]');
-                                if (!unlockedList.includes(pendingMagazineData.number)) {
-                                    unlockedList.push(pendingMagazineData.number);
-                                    sessionStorage.setItem('glosTrojkiUnlockedMags', JSON.stringify(unlockedList));
-                                }
-                            } catch(e) {}
-                            
-                            openReader(pendingMagazineData);
-                            pendingMagazineData = null;
-                        }
+                        openReader(pendingMagazineData);
+                        pendingMagazineData = null;
                     }
                 };
             }
