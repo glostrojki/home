@@ -105,10 +105,10 @@
         .btn-my-articles { background-color: var(--primary-yellow); color: #1E2227; padding: 12px 28px; border-radius: var(--radius-full); font-family: var(--font-headings); font-weight: 800; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-sm); border: 2px solid var(--primary-yellow); transition: var(--transition); }
         .btn-my-articles:hover { background-color: transparent; color: var(--primary-yellow); transform: translateY(-2px); box-shadow: var(--shadow-glow); }
 
-        /* HERO BANNER */
+        /* HERO BANNER - JESIEŃ */
         .hero-banner-section {
-            background: linear-gradient(rgba(15, 20, 28, 0.75), rgba(30, 37, 48, 0.75)), url('https://imgur.com/VUPhv20.png') center/cover no-repeat;
-            padding: 90px 20px;
+            background: linear-gradient(rgba(15, 20, 28, 0.75), rgba(30, 37, 48, 0.75)), url('https://imgur.com/snavNsE.png') center/cover no-repeat;
+            padding: 90px 20px 40px;
             position: relative;
             overflow: hidden;
             text-align: center;
@@ -162,32 +162,34 @@
             font-size: 1.3rem;
             color: #a0aab5;
             max-width: 650px;
-            margin: 0 auto;
+            margin: 0 auto 30px;
             font-weight: 500;
         }
 
-        .btn-halloween-game {
+        /* Subtelny odnośnik do gry na dole baneru */
+        .game-link-container {
+            margin-top: 20px;
+        }
+        .link-game-text {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            margin-top: 25px;
-            background: #ff7700;
+            gap: 8px;
             color: #ffffff;
+            text-decoration: underline;
+            text-decoration-color: #ffffff;
             font-family: var(--font-headings);
-            font-weight: 800;
-            font-size: 1.1rem;
-            padding: 14px 32px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 6px 18px;
             border-radius: var(--radius-full);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 0 15px rgba(255, 119, 0, 0.5);
+            backdrop-filter: blur(4px);
             transition: var(--transition);
         }
-        .btn-halloween-game:hover {
-            background: #e66b00;
-            color: #ffffff;
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 0 25px rgba(255, 119, 0, 0.8);
+        .link-game-text:hover {
+            color: var(--primary-yellow);
+            text-decoration-color: var(--primary-yellow);
+            background: rgba(0, 0, 0, 0.6);
         }
 
         /* SEKCJA WYSZUKIWANIA */
@@ -329,17 +331,81 @@
         .footer-links a:hover { color: var(--primary-yellow); transform: translateX(5px); }
         .footer-bottom { text-align: center; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); color: #6c757d; font-size: 0.9rem; }
 
-        /* Modal */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 2000; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; backdrop-filter: blur(5px); }
-        .modal-overlay.active { display: flex; opacity: 1; }
-        .modal-content { background: var(--bg-white); width: 90%; max-width: 800px; max-height: 90vh; border-radius: var(--radius-md); position: relative; overflow-y: auto; transform: translateY(30px); transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: var(--shadow-lg); border: 1px solid var(--border-color); }
-        .modal-overlay.active .modal-content { transform: translateY(0); }
-        .modal-close { position: absolute; top: 15px; right: 15px; background: var(--primary-yellow); color: #1E2227; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; z-index: 10; transition: var(--transition); border: none; cursor: pointer; box-shadow: var(--shadow-sm); }
+        /* Modal / Popup z artykułem na pełny ekran z piękną animacją */
+        .modal-overlay { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh; 
+            background: rgba(0, 0, 0, 0.85); 
+            z-index: 2000; 
+            align-items: center; 
+            justify-content: center; 
+            opacity: 0; 
+            visibility: hidden;
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+            backdrop-filter: blur(10px); 
+        }
+        .modal-overlay.active { 
+            display: flex; 
+            opacity: 1; 
+            visibility: visible;
+        }
+        
+        .modal-content { 
+            background: var(--bg-white); 
+            width: 100vw; 
+            height: 100vh; 
+            max-width: 100%; 
+            max-height: 100%; 
+            border-radius: 0; 
+            position: relative; 
+            overflow-y: auto; 
+            transform: scale(0.95) translateY(20px); 
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: none; 
+            border: none; 
+        }
+        
+        .modal-overlay.active .modal-content { 
+            transform: scale(1) translateY(0); 
+            opacity: 1;
+        }
+        
+        .modal-close { 
+            position: fixed; 
+            top: 25px; 
+            right: 25px; 
+            background: var(--primary-yellow); 
+            color: #1E2227; 
+            width: 50px; 
+            height: 50px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 1.5rem; 
+            z-index: 2100; 
+            transition: var(--transition); 
+            border: none; 
+            cursor: pointer; 
+            box-shadow: var(--shadow-md); 
+        }
         .modal-close:hover { background: var(--primary-yellow-hover); transform: scale(1.1) rotate(90deg); }
-        .modal-body-img { width: 100%; height: 400px; object-fit: cover; }
-        .modal-body-content { padding: 40px; }
-        .modal-body-content .modal-title { font-size: 2.2rem; line-height: 1.2; margin-bottom: 20px; color: var(--secondary-dark); }
-        .modal-body-content .modal-text { font-size: 1.1rem; line-height: 1.8; color: var(--text-main); }
+        
+        .modal-article-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding-bottom: 60px;
+        }
+
+        .modal-body-img { width: 100%; max-height: 550px; object-fit: cover; border-bottom-left-radius: var(--radius-md); border-bottom-right-radius: var(--radius-md); }
+        .modal-body-content { padding: 40px 20px; }
+        .modal-body-content .modal-title { font-size: 2.8rem; line-height: 1.25; margin-bottom: 25px; color: var(--secondary-dark); }
+        .modal-body-content .modal-text { font-size: 1.2rem; line-height: 1.85; color: var(--text-main); }
 
         @media (max-width: 1024px) {
             .portal-layout { grid-template-columns: 1fr; } 
@@ -359,6 +425,8 @@
             .search-icon { display: none; }
             .search-wrapper button { padding: 15px; justify-content: center; border-radius: var(--radius-md); }
             .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+            .modal-close { top: 15px; right: 15px; width: 40px; height: 40px; font-size: 1.2rem; }
+            .modal-body-content .modal-title { font-size: 2rem; }
         }
     </style>
 </head>
@@ -402,16 +470,17 @@
         </div>
     </header>
 
-    <!-- BANER HERO -->
+    <!-- BANER HERO JESIENNY -->
     <section class="hero-banner-section">
         <div class="hero-banner-bg"></div>
         <div class="container">
             <span class="banner-badge"><i class="fas fa-sparkles"></i> OFICJALNY PORTAL GAZETKI <i class="fas fa-sparkles"></i></span>
-            <h1 class="banner-wow-title">Halloween z <span>głosem trójki</span></h1>
+            <h1 class="banner-wow-title">Jesień z <span>głosem trójki</span></h1>
             <p class="banner-subtitle">Bądź zawsze na bieżąco z wydarzeniami, artykułami i życiem Szkoły Podstawowej nr 3!</p>
-            <div>
-                <a href="/halloween2026" target="_blank" class="btn-halloween-game">
-                    <i class="fas fa-ghost"></i> Gra halloweenowa
+            
+            <div class="game-link-container">
+                <a href="https://glostrojki.pl/halloween2026" target="_blank" class="link-game-text">
+                    <i class="fas fa-leaf"></i> Zagraj w naszą grę jesienną
                 </a>
             </div>
         </div>
@@ -534,7 +603,7 @@
         </div>
     </footer>
 
-    <!-- Modal (Popup z artykułem) -->
+    <!-- Modal (Popup z animacją) -->
     <div id="articleModal" class="modal-overlay" onclick="closeModalOnOverlay(event)">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
@@ -859,7 +928,6 @@
             });
         }
 
-        // NAPRAWIONE POBIERANIE TERMINÓW (Bezpieczne pobieranie z kolekcji "harmonogram" bez awaryjnych błędów sortowania)
         async function fetchDistributionDates() {
             const container = document.getElementById('distributionFeed');
             const loader = document.getElementById('distributionLoader');
@@ -877,7 +945,6 @@
                     items.push(docSnap.data());
                 });
 
-                // Bezpieczne sortowanie w JS po dacie
                 items.sort((a, b) => {
                     const dateA = a.eventDate && a.eventDate.toDate ? a.eventDate.toDate() : new Date(0);
                     const dateB = b.eventDate && b.eventDate.toDate ? b.eventDate.toDate() : new Date(0);
@@ -917,7 +984,6 @@
             }
         }
 
-        // POBIERANIE WYDARZEŃ Z KALENDARZA
         async function fetchCalendarEvents() {
             const calendarFeed = document.getElementById('calendarFeed');
             const loader = document.getElementById('calendarLoader');
@@ -975,26 +1041,28 @@
             const modalBody = document.getElementById('modalBody');
             
             modalBody.innerHTML = `
-                <img src="${article.imgUrl}" alt="${article.title}" class="modal-body-img">
-                <div class="modal-body-content">
-                    <div class="article-meta" style="margin-bottom: 20px; font-size: 1rem;">
-                        <span class="article-category" style="position:relative; top:0; left:0; display:inline-block; margin-right: 15px;">${article.category}</span>
-                        <span><i class="far fa-calendar-alt"></i> ${article.dateStr}</span>
-                        <span><i class="fas fa-eye"></i> ${article.views} wyświetleń</span>
-                    </div>
-                    
-                    <h2 class="modal-title">${article.title}</h2>
-                    
-                    <div style="display:flex; align-items:center; gap: 15px; margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;">
-                         <div class="author-avatar" style="width: 50px; height: 50px; font-size: 1.2rem;">${article.authorInitials}</div>
-                         <div style="display: flex; flex-direction: column;">
-                             <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Autor</span>
-                             <span class="author-name" style="font-size: 1.15rem; color: var(--secondary-dark);">${article.author}</span>
-                         </div>
-                    </div>
-                    
-                    <div class="modal-text">
-                        ${article.content.replace(/\n/g, '<br><br>')}
+                <div class="modal-article-container">
+                    <img src="${article.imgUrl}" alt="${article.title}" class="modal-body-img">
+                    <div class="modal-body-content">
+                        <div class="article-meta" style="margin-bottom: 20px; font-size: 1rem;">
+                            <span class="article-category" style="position:relative; top:0; left:0; display:inline-block; margin-right: 15px;">${article.category}</span>
+                            <span><i class="far fa-calendar-alt"></i> ${article.dateStr}</span>
+                            <span><i class="fas fa-eye"></i> ${article.views} wyświetleń</span>
+                        </div>
+                        
+                        <h2 class="modal-title">${article.title}</h2>
+                        
+                        <div style="display:flex; align-items:center; gap: 15px; margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;">
+                             <div class="author-avatar" style="width: 50px; height: 50px; font-size: 1.2rem;">${article.authorInitials}</div>
+                             <div style="display: flex; flex-direction: column;">
+                                 <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Autor</span>
+                                 <span class="author-name" style="font-size: 1.15rem; color: var(--secondary-dark);">${article.author}</span>
+                             </div>
+                        </div>
+                        
+                        <div class="modal-text">
+                            ${article.content.replace(/\n/g, '<br><br>')}
+                        </div>
                     </div>
                 </div>
             `;
@@ -1009,7 +1077,7 @@
         };
 
         window.closeModalOnOverlay = function(event) {
-            if (!document.querySelector('.modal-content').contains(event.target)) {
+            if (event.target.id === 'articleModal') {
                 window.closeModal();
             }
         };
