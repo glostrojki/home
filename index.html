@@ -166,7 +166,6 @@
             font-weight: 500;
         }
 
-        /* Subtelny odnośnik do gry na dole baneru */
         .game-link-container {
             margin-top: 20px;
         }
@@ -320,18 +319,70 @@
         .tag { background: var(--bg-gray); color: var(--text-main); font-size: 0.8rem; font-weight: 600; padding: 6px 12px; border-radius: var(--radius-full); transition: var(--transition); cursor: pointer; border: 1px solid var(--border-color); }
         .tag:hover, .tag.active { background: var(--primary-yellow); color: #1E2227; border-color: var(--primary-yellow); }
 
-        /* Footer */
-        .site-footer { background-color: #1E2227; color: #ffffff; padding: 70px 0 20px; margin-top: 60px; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; margin-bottom: 50px; }
-        .footer-brand img { width: 160px; background: #ffffff; padding: 5px; border-radius: var(--radius-sm); margin-bottom: 20px; }
-        .footer-brand p { color: #a0aab5; font-size: 0.95rem; max-width: 400px; }
-        .footer-heading { font-size: 1.2rem; color: var(--primary-yellow); margin-bottom: 25px; font-family: var(--font-headings); }
+        /* NOWA NOWOCZESNA STOPKA Z FALĄ */
+        .footer-wrapper {
+            position: relative;
+            margin-top: 80px;
+        }
+        .footer-wave {
+            position: absolute;
+            top: -70px;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            z-index: 1;
+        }
+        .footer-wave svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 70px;
+        }
+        .footer-wave .shape-fill {
+            fill: #1E2227;
+        }
+        .site-footer { 
+            background-color: #1E2227; 
+            color: #ffffff; 
+            padding: 40px 0 25px; 
+            position: relative;
+            z-index: 2;
+        }
+        .footer-grid { 
+            display: grid; 
+            grid-template-columns: 2fr 1fr 1fr 1fr; 
+            gap: 40px; 
+            margin-bottom: 40px; 
+        }
+        .footer-brand img { 
+            max-width: 200px; 
+            height: auto;
+            margin-bottom: 20px; 
+            transition: var(--transition);
+            filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.3));
+        }
+        .footer-brand img:hover {
+            transform: scale(1.03);
+        }
+        .footer-brand p { color: #a0aab5; font-size: 0.95rem; line-height: 1.7; max-width: 380px; margin-bottom: 20px; }
+        .footer-heading { font-size: 1.15rem; color: var(--primary-yellow); margin-bottom: 22px; font-family: var(--font-headings); font-weight: 800; letter-spacing: 0.5px; position: relative; display: inline-block; }
+        .footer-heading::after { content: ''; position: absolute; bottom: -6px; left: 0; width: 30px; height: 3px; background: var(--primary-yellow); border-radius: 2px; }
         .footer-links li { margin-bottom: 12px; }
-        .footer-links a { color: #a0aab5; display: inline-flex; align-items: center; gap: 8px; }
+        .footer-links a { color: #a0aab5; display: inline-flex; align-items: center; gap: 8px; font-size: 0.92rem; font-weight: 500; }
         .footer-links a:hover { color: var(--primary-yellow); transform: translateX(5px); }
-        .footer-bottom { text-align: center; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); color: #6c757d; font-size: 0.9rem; }
+        .footer-links i { font-size: 0.75rem; color: var(--primary-yellow); transition: var(--transition); }
+        
+        .footer-socials { display: flex; gap: 12px; margin-top: 15px; }
+        .social-btn { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.08); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: var(--transition); border: 1px solid rgba(255,255,255,0.1); }
+        .social-btn:hover { background: var(--primary-yellow); color: #1E2227; transform: translateY(-3px); }
 
-        /* Modal / Popup z artykułem na pełny ekran z piękną animacją */
+        .footer-bottom { text-align: center; padding-top: 25px; border-top: 1px solid rgba(255,255,255,0.08); color: #828d9a; font-size: 0.88rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; }
+        .footer-bottom-links { display: flex; gap: 20px; }
+        .footer-bottom-links a { color: #828d9a; transition: var(--transition); }
+        .footer-bottom-links a:hover { color: var(--primary-yellow); }
+
+        /* Modal / Popup z artykułem i rekomendacjami */
         .modal-overlay { 
             display: none; 
             position: fixed; 
@@ -374,7 +425,20 @@
             transform: scale(1) translateY(0); 
             opacity: 1;
         }
-        
+
+        /* Pasek postępu czytania */
+        .reading-progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background: var(--primary-yellow);
+            width: 0%;
+            z-index: 2200;
+            transition: width 0.1s ease-out;
+            box-shadow: 0 0 10px rgba(255, 193, 7, 0.8);
+        }
+
         .modal-close { 
             position: fixed; 
             top: 25px; 
@@ -396,16 +460,192 @@
         }
         .modal-close:hover { background: var(--primary-yellow-hover); transform: scale(1.1) rotate(90deg); }
         
+        /* Modal Grid Layout */
         .modal-article-container {
-            max-width: 900px;
+            max-width: 1240px;
             margin: 0 auto;
-            padding-bottom: 60px;
+            padding: 40px 20px 60px;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 40px;
+            align-items: start;
+            transition: var(--transition);
         }
 
-        .modal-body-img { width: 100%; max-height: 550px; object-fit: cover; border-bottom-left-radius: var(--radius-md); border-bottom-right-radius: var(--radius-md); }
-        .modal-body-content { padding: 40px 20px; }
-        .modal-body-content .modal-title { font-size: 2.8rem; line-height: 1.25; margin-bottom: 25px; color: var(--secondary-dark); }
-        .modal-body-content .modal-text { font-size: 1.2rem; line-height: 1.85; color: var(--text-main); }
+        /* Modele skupienia (Focus Mode) */
+        .modal-article-container.focus-mode {
+            grid-template-columns: 1fr;
+            max-width: 850px;
+        }
+        .modal-article-container.focus-mode .modal-recommendations {
+            display: none;
+        }
+
+        .modal-main-content {
+            background: var(--bg-white);
+        }
+
+        /* Pasek Narzędzi Czytelnika (Reader Toolbar) */
+        .reader-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-body);
+            padding: 12px 20px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .reader-tool-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .tool-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .tool-btn {
+            background: var(--bg-white);
+            color: var(--secondary-dark);
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .tool-btn:hover, .tool-btn.active {
+            background: var(--primary-yellow);
+            border-color: var(--primary-yellow);
+            color: #1E2227;
+        }
+
+        .read-time-badge {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-white);
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-body-img { width: 100%; max-height: 500px; object-fit: cover; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
+        .modal-body-content { padding: 30px 0; }
+        .modal-body-content .modal-title { font-size: 2.6rem; line-height: 1.25; margin-bottom: 20px; color: var(--secondary-dark); font-weight: 800; }
+        .modal-body-content .modal-text { font-size: 1.15rem; line-height: 1.85; color: var(--text-main); transition: font-size 0.2s ease; }
+
+        /* PASEK Z REKOMENDACJAMI W MODALU */
+        .modal-recommendations {
+            position: sticky;
+            top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .rec-box {
+            background: var(--bg-body);
+            padding: 22px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+        .rec-header {
+            font-size: 1.1rem;
+            font-family: var(--font-headings);
+            font-weight: 800;
+            color: var(--secondary-dark);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .rec-header i { color: var(--primary-yellow); }
+        
+        .rec-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .rec-card {
+            display: flex;
+            gap: 12px;
+            background: var(--bg-white);
+            padding: 10px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .rec-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-yellow);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .rec-thumb {
+            width: 75px;
+            height: 75px;
+            min-width: 75px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            position: relative;
+        }
+        .rec-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .rec-card:hover .rec-thumb img {
+            transform: scale(1.1);
+        }
+
+        .rec-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+        .rec-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--secondary-dark);
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .rec-card:hover .rec-title {
+            color: var(--primary-yellow-hover);
+        }
+        .rec-author {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+        .rec-author i {
+            color: var(--primary-yellow);
+        }
 
         @media (max-width: 1024px) {
             .portal-layout { grid-template-columns: 1fr; } 
@@ -414,6 +654,9 @@
             .article-img-wrap { width: 100%; height: 200px; }
             .article-body { width: 100%; }
             .banner-wow-title { font-size: 3.2rem; }
+            .modal-article-container { grid-template-columns: 1fr; }
+            .modal-recommendations { position: static; margin-top: 30px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
         }
         @media (max-width: 768px) {
             .top-bar { display: none; }
@@ -425,8 +668,10 @@
             .search-icon { display: none; }
             .search-wrapper button { padding: 15px; justify-content: center; border-radius: var(--radius-md); }
             .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+            .footer-bottom { flex-direction: column; gap: 10px; }
             .modal-close { top: 15px; right: 15px; width: 40px; height: 40px; font-size: 1.2rem; }
             .modal-body-content .modal-title { font-size: 2rem; }
+            .reader-toolbar { flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
@@ -436,7 +681,7 @@
         <div class="container">
             <div class="top-bar-left">
                 <span><i class="fas fa-school"></i> Gazetka szkolna SP3 w Sulejówku</span>
-                <span><i class="far fa-clock"></i> Wersja 3.1.1a</span>
+                <span><i class="far fa-clock"></i> Wersja 3.2.2b</span>
             </div>
             <div class="top-bar-right">
                 <button class="theme-toggle" id="themeToggle" title="Przełącz motyw"><i class="fas fa-moon"></i></button>
@@ -573,40 +818,74 @@
         </aside>
     </main>
 
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <a href="/" class="footer-brand">
-                        <img src="https://imgur.com/nwkFXR1.png" alt="Głos Trójki Logo">
-                    </a>
-                    <p>Głos Trójki 2023-2027. Najlepsze źródło informacji ze Szkoły Podstawowej nr 3 w Sulejówku.</p>
-                </div>
-                <div>
-                    <h4 class="footer-heading">Redakcja</h4>
-                    <ul class="footer-links">
-                        <li><a href="/mojeartykuly"><i class="fas fa-angle-right"></i> Zaloguj jako redaktor</a></li>
-                        <li><a href="#"><i class="fas fa-angle-right"></i> Dołącz do zespołu</a></li>
-                        <li><a href="#"><i class="fas fa-angle-right"></i> Regulamin publikacji</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="footer-heading">Kontakt</h4>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-map-marker-alt" style="color: var(--primary-yellow); width: 20px;"></i> SP nr 3 w Sulejówku</li>
-                        <li><i class="fas fa-envelope" style="color: var(--primary-yellow); width: 20px;"></i> gtrojki@gmail.com</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Głos Trójki - Szkoła Podstawowa nr 3. Wszelkie prawa zastrzeżone.</p>
-            </div>
+    <!-- NOWA STOPKA Z FALĄ I ZMIENIONYM LOGO -->
+    <div class="footer-wrapper">
+        <div class="footer-wave">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,121.26,192,107.82,236.08,98.17,279.79,79.52,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
         </div>
-    </footer>
+        
+        <footer class="site-footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div>
+                        <a href="/" class="footer-brand">
+                            <img src="https://imgur.com/sLKWfGG.png" alt="Głos Trójki Logo Nowe">
+                        </a>
+                        <p>Wydanie internetowe gazetki szkolnej Szkoły Podstawowej nr 3 im. Marszałka Józefa Piłsudskiego w Sulejówku. Skrajnie ciekawe tematy, wywiady, sprawozdania i twórczość uczniów.</p>
+                        <div class="footer-socials">
+                            <a href="#" class="social-btn" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-btn" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                            <a href="#" class="social-btn" title="YouTube"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="footer-heading">Nawigacja</h4>
+                        <ul class="footer-links">
+                            <li><a href="/"><i class="fas fa-chevron-right"></i> Strona Główna</a></li>
+                            <li><a href="/gazetki"><i class="fas fa-chevron-right"></i> Numery Gazetki</a></li>
+                            <li><a href="/wydarzenia"><i class="fas fa-chevron-right"></i> Wydarzenia Szkolne</a></li>
+                            <li><a href="/redakcja"><i class="fas fa-chevron-right"></i> Nasz Zespół Redakcyjny</a></li>
+                            <li><a href="/galeria"><i class="fas fa-chevron-right"></i> Galeria Zdjęć</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="footer-heading">Dla Uczniów</h4>
+                        <ul class="footer-links">
+                            <li><a href="/mojeartykuly"><i class="fas fa-chevron-right"></i> Panel Redaktora</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Wyślij własny artykuł</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Kącik twórczości uczeń-poeta</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Regulamin gazetki</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Archimum archiwalne PDF</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="footer-heading">Kontakt & Szkoła</h4>
+                        <ul class="footer-links">
+                            <li><a href="#"><i class="fas fa-map-marker-alt"></i> SP nr 3, ul. Głowackiego 2<br>05-070 Sulejówek</a></li>
+                            <li><a href="mailto:gtrojki@gmail.com"><i class="fas fa-envelope"></i> gtrojki@gmail.com</a></li>
+                            <li><a href="#"><i class="fas fa-phone-alt"></i> Sekretariat Szkoły</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 Głos Trójki - Szkoła Podstawowa nr 3 w Sulejówku. Wszelkie prawa zastrzeżone.</p>
+                    <div class="footer-bottom-links">
+                        <a href="#">Polityka prywatności</a> &bull; 
+                        <a href="#">Regulamin</a> &bull; 
+                        <a href="#">Pomoc</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
 
-    <!-- Modal (Popup z animacją) -->
+    <!-- Modal (Popup z artykułem i bogatym panelem czytnika) -->
     <div id="articleModal" class="modal-overlay" onclick="closeModalOnOverlay(event)">
-        <div class="modal-content">
+        <div class="reading-progress-bar" id="readingProgressBar"></div>
+        <div class="modal-content" id="modalContentScroll">
             <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
             <div id="modalBody"></div>
         </div>
@@ -634,6 +913,8 @@
         window.articlesData = {};
         let currentFilter = 'Wszystkie';
         let showAllArticles = false;
+        let fontScale = 1.0;
+        let isFocusMode = false;
         const categoryMap = new Map();
 
         // Dark Mode
@@ -669,6 +950,12 @@
                 return (parts[0][0] + parts[1][0]).toUpperCase();
             }
             return name.substring(0, 2).toUpperCase();
+        }
+
+        function calculateReadTime(text) {
+            const words = (text || "").trim().split(/\s+/).length;
+            const minutes = Math.ceil(words / 180);
+            return minutes < 1 ? 1 : minutes;
         }
 
         async function fetchArticles() {
@@ -718,7 +1005,7 @@
                         dateStr = d.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' });
                     }
 
-                    window.articlesData[articleId] = { title, excerpt, content: fullContent, imgUrl, category, author, authorInitials, dateStr, likes: likesCount, views: viewsCount };
+                    window.articlesData[articleId] = { id: articleId, title, excerpt, content: fullContent, imgUrl, category, author, authorInitials, dateStr, likes: likesCount, views: viewsCount };
 
                     const attrTitle = escapeAttr(title);
                     const attrExcerpt = escapeAttr(excerpt);
@@ -1028,6 +1315,70 @@
             }
         }
 
+        // Funkcje pobierające rekomendacje
+        function getRandomArticles(currentId, count = 2) {
+            const allKeys = Object.keys(window.articlesData).filter(id => id !== currentId);
+            if (allKeys.length === 0) return [];
+            const shuffled = allKeys.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count).map(id => window.articlesData[id]);
+        }
+
+        function getCategoryArticles(currentId, category, count = 3) {
+            const currentCatLower = (category || "").toLowerCase().trim();
+            const categoryKeys = Object.keys(window.articlesData).filter(id => {
+                if (id === currentId) return false;
+                const artCat = (window.articlesData[id].category || "").toLowerCase().trim();
+                return artCat === currentCatLower;
+            });
+            
+            const shuffled = categoryKeys.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count).map(id => window.articlesData[id]);
+        }
+
+        // Zmiana rozmiaru tekstu w artykule
+        window.changeFontSize = function(delta) {
+            if(delta === 0) fontScale = 1.0;
+            else fontScale = Math.min(Math.max(fontScale + delta, 0.8), 1.4);
+            
+            const modalText = document.querySelector('.modal-text');
+            if(modalText) {
+                modalText.style.fontSize = (1.15 * fontScale) + 'rem';
+            }
+        };
+
+        // Włącznik Trybu Skupienia
+        window.toggleFocusMode = function() {
+            isFocusMode = !isFocusMode;
+            const container = document.getElementById('modalArticleContainer');
+            const btn = document.getElementById('focusBtn');
+            if(container) {
+                if(isFocusMode) {
+                    container.classList.add('focus-mode');
+                    if(btn) btn.classList.add('active');
+                } else {
+                    container.classList.remove('focus-mode');
+                    if(btn) btn.classList.remove('active');
+                }
+            }
+        };
+
+        // Pasek postępu czytania
+        const modalContentScroll = document.getElementById('modalContentScroll');
+        const progressBar = document.getElementById('readingProgressBar');
+        
+        if (modalContentScroll && progressBar) {
+            modalContentScroll.addEventListener('scroll', () => {
+                const scrollTop = modalContentScroll.scrollTop;
+                const scrollHeight = modalContentScroll.scrollHeight - modalContentScroll.clientHeight;
+                if (scrollHeight > 0) {
+                    const progress = (scrollTop / scrollHeight) * 100;
+                    progressBar.style.width = progress + '%';
+                } else {
+                    progressBar.style.width = '0%';
+                }
+            });
+        }
+
         window.openArticleModal = async function(id) {
             const article = window.articlesData[id];
             if(!article) return;
@@ -1040,36 +1391,127 @@
 
             const modal = document.getElementById('articleModal');
             const modalBody = document.getElementById('modalBody');
-            
+            fontScale = 1.0; 
+            isFocusMode = false;
+
+            const readTime = calculateReadTime(article.content);
+
+            // 1. Losowe wpisy: Zobacz też (2 sztuki)
+            const recommendedArticles = getRandomArticles(id, 2);
+            let recHTML = '';
+            if(recommendedArticles.length > 0) {
+                recommendedArticles.forEach(rec => {
+                    const recTitle = escapeAttr(rec.title);
+                    recHTML += `
+                        <div class="rec-card" onclick="openArticleModal('${rec.id}')">
+                            <div class="rec-thumb">
+                                <img src="${rec.imgUrl}" alt="${recTitle}">
+                            </div>
+                            <div class="rec-info">
+                                <h5 class="rec-title">${rec.title}</h5>
+                                <span class="rec-author"><i class="fas fa-user-edit"></i> ${rec.author}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                recHTML = '<p style="font-size: 0.85rem; color: var(--text-muted);">Brak innych wpisów.</p>';
+            }
+
+            // 2. Wpisy z tej samej kategorii / kącika (max 3 sztuki)
+            const sameCatArticles = getCategoryArticles(id, article.category, 3);
+            let catHTML = '';
+            if(sameCatArticles.length > 0) {
+                sameCatArticles.forEach(catArt => {
+                    const catTitle = escapeAttr(catArt.title);
+                    catHTML += `
+                        <div class="rec-card" onclick="openArticleModal('${catArt.id}')">
+                            <div class="rec-thumb">
+                                <img src="${catArt.imgUrl}" alt="${catTitle}">
+                            </div>
+                            <div class="rec-info">
+                                <h5 class="rec-title">${catArt.title}</h5>
+                                <span class="rec-author"><i class="fas fa-user-edit"></i> ${catArt.author}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                catHTML = '<p style="font-size: 0.85rem; color: var(--text-muted);">Brak innych wpisów w tym kąciku.</p>';
+            }
+
             modalBody.innerHTML = `
-                <div class="modal-article-container">
-                    <img src="${article.imgUrl}" alt="${article.title}" class="modal-body-img">
-                    <div class="modal-body-content">
-                        <div class="article-meta" style="margin-bottom: 20px; font-size: 1rem;">
-                            <span class="article-category" style="position:relative; top:0; left:0; display:inline-block; margin-right: 15px;">${article.category}</span>
-                            <span><i class="far fa-calendar-alt"></i> ${article.dateStr}</span>
-                            <span><i class="fas fa-eye"></i> ${article.views} wyświetleń</span>
+                <div class="modal-article-container" id="modalArticleContainer">
+                    <div class="modal-main-content">
+                        
+                        <!-- PASEK NARZĘDZI CZYTELNIKA -->
+                        <div class="reader-toolbar">
+                            <div class="reader-tool-group">
+                                <span class="tool-label">Rozmiar tekstu:</span>
+                                <button class="tool-btn" onclick="changeFontSize(-0.1)" title="Zmniejsz czcionkę">A-</button>
+                                <button class="tool-btn" onclick="changeFontSize(0)" title="Resetuj czcionkę">A</button>
+                                <button class="tool-btn" onclick="changeFontSize(0.1)" title="Powiększ czcionkę">A+</button>
+                            </div>
+
+                            <div class="reader-tool-group">
+                                <button class="tool-btn" id="focusBtn" onclick="toggleFocusMode()" title="Tryb skupienia (bez bocznego paska)">
+                                    <i class="fas fa-glasses"></i> Tryb czytania
+                                </button>
+                                <span class="read-time-badge">
+                                    <i class="far fa-clock" style="color: var(--primary-yellow);"></i> ~${readTime} min czytania
+                                </span>
+                            </div>
                         </div>
+
+                        <img src="${article.imgUrl}" alt="${article.title}" class="modal-body-img">
                         
-                        <h2 class="modal-title">${article.title}</h2>
-                        
-                        <div style="display:flex; align-items:center; gap: 15px; margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;">
-                             <div class="author-avatar" style="width: 50px; height: 50px; font-size: 1.2rem;">${article.authorInitials}</div>
-                             <div style="display: flex; flex-direction: column;">
-                                 <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Autor</span>
-                                 <span class="author-name" style="font-size: 1.15rem; color: var(--secondary-dark);">${article.author}</span>
-                             </div>
-                        </div>
-                        
-                        <div class="modal-text">
-                            ${article.content.replace(/\n/g, '<br><br>')}
+                        <div class="modal-body-content">
+                            <div class="article-meta" style="margin-bottom: 20px; font-size: 1rem;">
+                                <span class="article-category" style="position:relative; top:0; left:0; display:inline-block; margin-right: 15px;">${article.category}</span>
+                                <span><i class="far fa-calendar-alt"></i> ${article.dateStr}</span>
+                                <span><i class="fas fa-eye"></i> ${article.views} wyświetleń</span>
+                            </div>
+                            
+                            <h2 class="modal-title">${article.title}</h2>
+                            
+                            <div style="display:flex; align-items:center; gap: 15px; margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;">
+                                 <div class="author-avatar" style="width: 50px; height: 50px; font-size: 1.2rem;">${article.authorInitials}</div>
+                                 <div style="display: flex; flex-direction: column;">
+                                     <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Autor</span>
+                                     <span class="author-name" style="font-size: 1.15rem; color: var(--secondary-dark);">${article.author}</span>
+                                 </div>
+                            </div>
+                            
+                            <div class="modal-text">
+                                ${article.content.replace(/\n/g, '<br><br>')}
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Boczny pasek rekomendacji w czytniku -->
+                    <aside class="modal-recommendations">
+                        <div class="rec-box">
+                            <h4 class="rec-header"><i class="fas fa-fire"></i> Zobacz też</h4>
+                            <div class="rec-list">
+                                ${recHTML}
+                            </div>
+                        </div>
+
+                        <div class="rec-box">
+                            <h4 class="rec-header"><i class="fas fa-bookmark"></i> Z kącika "${article.category}"</h4>
+                            <div class="rec-list">
+                                ${catHTML}
+                            </div>
+                        </div>
+                    </aside>
                 </div>
             `;
             
             modal.classList.add('active');
             document.body.style.overflow = 'hidden'; 
+            
+            if(modalContentScroll) modalContentScroll.scrollTop = 0;
+            if(progressBar) progressBar.style.width = '0%';
         };
 
         window.closeModal = function() {
