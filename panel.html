@@ -40,34 +40,70 @@
         ul { list-style: none; }
         button { font-family: inherit; cursor: pointer; outline: none; border: none; }
 
-        /* MODAL LOGOWANIA */
+        /* OVERLAY ZAMKNIĘCIA MOBILNEGO SIDEBARU */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(3px);
+            z-index: 99;
+        }
+        .sidebar-overlay.active { display: block; }
+
+        /* NAGŁÓWEK MOBILNY */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 60px;
+            background: var(--secondary-dark);
+            color: #fff;
+            padding: 0 15px;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 101;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+        .mobile-header-brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-headings); font-weight: 700; font-size: 1.1rem; }
+        .mobile-header-brand img { height: 32px; }
+        .mobile-toggle-btn { background: rgba(255,255,255,0.1); color: #fff; border: none; font-size: 1.3rem; padding: 8px 12px; border-radius: var(--radius-sm); }
+
+        /* MODAL LOGOWANIA Z NOWYM TŁEM I NOWOCZESNYM DYSKIEM STYLIZACYJNYM */
         #loginOverlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: linear-gradient(135deg, rgba(30, 34, 39, 0.92) 0%, rgba(30, 34, 39, 0.7) 100%), url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
-            backdrop-filter: blur(8px);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(30, 34, 39, 0.85) 100%), url('https://imgur.com/YEGb4mB.png') center/cover no-repeat;
+            backdrop-filter: blur(10px);
             z-index: 9999; display: flex; justify-content: center; align-items: center; padding: 20px;
         }
         .login-box { 
-            background: var(--bg-white); padding: 50px 40px; border-radius: var(--radius-md); 
-            width: 100%; max-width: 420px; box-shadow: var(--shadow-lg); text-align: center;
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 45px 35px; border-radius: 16px; 
+            width: 100%; max-width: 420px; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35); text-align: center;
             border-top: 6px solid var(--primary-yellow);
             position: relative; overflow: hidden;
+            animation: modalFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .login-box img { height: 75px; margin-bottom: 15px; }
-        .login-box h3 { font-size: 1.6rem; margin-bottom: 5px; }
-        .login-box p.subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 30px; }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .login-box img { height: 80px; margin-bottom: 15px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+        .login-box h3 { font-size: 1.7rem; margin-bottom: 6px; color: var(--secondary-dark); }
+        .login-box p.subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; }
         
         .login-input-group { position: relative; margin-bottom: 20px; text-align: left; }
-        .login-input-group i { position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: var(--text-muted); }
+        .login-input-group i { position: absolute; top: 50%; left: 16px; transform: translateY(-50%); color: var(--text-muted); font-size: 1.1rem; }
         .login-input-group input { 
-            width: 100%; padding: 14px 14px 14px 45px; border: 1px solid var(--border-color); 
+            width: 100%; padding: 14px 14px 14px 48px; border: 1.5px solid var(--border-color); 
             border-radius: var(--radius-sm); font-size: 1rem; transition: var(--transition); background: #f8fafc;
         }
-        .login-input-group input:focus { border-color: var(--primary-yellow); background: #fff; box-shadow: 0 0 0 4px rgba(255, 193, 7, 0.15); outline: none; }
+        .login-input-group input:focus { border-color: var(--primary-yellow); background: #fff; box-shadow: 0 0 0 4px rgba(255, 193, 7, 0.25); outline: none; }
 
-        /* MODALE */
-        .custom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); backdrop-filter: blur(4px); z-index: 10000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content-box { background: var(--bg-white); padding: 35px; border-radius: var(--radius-md); max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: var(--shadow-lg); }
+        /* MODALE GENERALNE */
+        .custom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); backdrop-filter: blur(5px); z-index: 10000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content-box { background: var(--bg-white); padding: 35px; border-radius: var(--radius-md); max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: var(--shadow-lg); animation: modalFadeIn 0.3s ease-out; }
         .modal-close { position: absolute; top: 20px; right: 20px; font-size: 1.2rem; background: var(--bg-gray); border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-muted); transition: var(--transition); }
         .modal-close:hover { color: #ffffff; background: #f44336; }
 
@@ -84,6 +120,7 @@
             top: 0;
             z-index: 100;
             box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease-in-out;
         }
         .sidebar-header {
             padding: 25px 20px;
@@ -131,6 +168,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            transition: var(--transition);
         }
 
         .admin-section-content { display: none; }
@@ -147,23 +185,19 @@
 
         .admin-grid { display: grid; grid-template-columns: 2fr 1.2fr; gap: 30px; }
         @media (max-width: 1200px) { .admin-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) { 
-            .admin-sidebar { width: 70px; } 
-            .sidebar-title, .sidebar-menu span, .sidebar-footer span, .sidebar-footer button span { display: none; }
-            .admin-main { margin-left: 70px; padding: 20px; }
-        }
-
+        
         .admin-card { background: var(--bg-white); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); margin-bottom: 30px; }
-        .admin-card-title { font-size: 1.2rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--bg-gray); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .admin-card-title { font-size: 1.2rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--bg-gray); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 
         .list-item { background: var(--bg-body); padding: 16px; border-radius: var(--radius-sm); margin-bottom: 12px; border-left: 4px solid var(--primary-yellow); display: flex; justify-content: space-between; align-items: center; gap: 15px; transition: var(--transition); }
         .list-item:hover { background: var(--bg-gray); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
         
-        .item-info h4 { font-size: 1.05rem; margin-bottom: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: var(--transition); }
+        .item-info { flex: 1; }
+        .item-info h4 { font-size: 1.05rem; margin-bottom: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: var(--transition); flex-wrap: wrap; }
         .item-info h4.no-hover { cursor: default; }
         .item-info p { font-size: 0.85rem; color: var(--text-muted); }
         
-        .action-buttons { display: flex; gap: 8px; flex-shrink: 0; }
+        .action-buttons { display: flex; gap: 8px; flex-shrink: 0; flex-wrap: wrap; }
         .btn { padding: 8px 14px; border-radius: var(--radius-sm); font-weight: 700; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; transition: var(--transition); border: 1px solid transparent; }
         .btn-success { background: #e8f5e9; color: #2e7d32; border-color: #c8e6c9; }
         .btn-success:hover { background: #2e7d32; color: #fff; }
@@ -188,11 +222,43 @@
         .page-entry-box h5 { font-size: 0.9rem; margin-bottom: 10px; color: var(--secondary-dark); display: flex; justify-content: space-between; align-items: center; }
 
         .site-footer { margin-top: auto; padding-top: 30px; font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border-color); text-align: center; }
+
+        /* RESPONSYWNOŚĆ MOBILNA */
+        @media (max-width: 768px) { 
+            .mobile-header { display: flex; }
+            .admin-sidebar { 
+                transform: translateX(-100%); 
+                top: 60px;
+                height: calc(100vh - 60px);
+                width: 260px;
+            } 
+            .admin-sidebar.open { transform: translateX(0); }
+            .admin-main { margin-left: 0; padding: 80px 15px 20px 15px; }
+            .admin-title { font-size: 1.5rem; margin-bottom: 20px; }
+            .admin-card { padding: 18px; }
+            .list-item { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .action-buttons { width: 100%; justify-content: flex-start; }
+            .action-buttons .btn { flex: 1; justify-content: center; }
+            .modal-content-box { padding: 22px; width: 95%; max-height: 85vh; }
+            .login-box { padding: 30px 20px; margin: 10px; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- OVERLAY LOGOWANIA -->
+    <!-- OVERLAY DLA ZAMKNIĘCIA MOBILNEGO SIDEBARU -->
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
+
+    <!-- MOBILNY PASKOWY NAGŁÓWEK -->
+    <header class="mobile-header">
+        <div class="mobile-header-brand">
+            <img src="https://imgur.com/nwkFXR1.png" alt="Logo">
+            <span>Głos <strong>Trójki</strong></span>
+        </div>
+        <button class="mobile-toggle-btn" onclick="toggleMobileSidebar()"><i class="fas fa-bars"></i></button>
+    </header>
+
+    <!-- OVERLAY LOGOWANIA z odświeżonym tłem -->
     <div id="loginOverlay">
         <div class="login-box">
             <img src="https://imgur.com/nwkFXR1.png" alt="Logo Głos Trójki">
@@ -223,6 +289,47 @@
         </div>
     </div>
 
+    <!-- NOWY MODAL EDYCJI OPUBLIKOWANEGO ARTYKUŁU -->
+    <div id="editArticleModal" class="custom-modal">
+        <div class="modal-content-box" style="max-width: 750px;">
+            <button class="modal-close" onclick="closeEditArticleModal()"><i class="fas fa-times"></i></button>
+            <h3 style="margin-bottom: 20px;"><i class="fas fa-edit" style="color: var(--primary-yellow);"></i> Edycja Artykułu</h3>
+            <form id="editArticleForm">
+                <input type="hidden" id="editArticleId">
+                <div class="form-group">
+                    <label>Tytuł artykułu</label>
+                    <input type="text" id="editArticleTitle" required>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Imię i nazwisko autora</label>
+                        <input type="text" id="editArticleAuthor" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Klasa</label>
+                        <input type="text" id="editArticleClass" placeholder="np. 6B">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Kącik / Kategoria</label>
+                    <input type="text" id="editArticleCategory" required placeholder="np. Kącik Pupilove lub Artykuł">
+                </div>
+                <div class="form-group">
+                    <label>Link do obrazka wyróżniającego (URL)</label>
+                    <input type="url" id="editArticleImageUrl" required placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>Treść artykułu</label>
+                    <textarea id="editArticleContent" style="min-height: 180px;" required></textarea>
+                </div>
+                <div style="margin-top: 25px; display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" class="btn btn-danger" onclick="closeEditArticleModal()">Anuluj</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Zapisz zmiany</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- MODAL DODAWANIA / EDYCJI GAZETKI -->
     <div id="magazineModal" class="custom-modal">
         <div class="modal-content-box" style="max-width: 700px;">
@@ -241,7 +348,7 @@
                 
                 <hr style="margin: 20px 0; border: 0; border-top: 1px solid var(--border-color);">
                 
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
                     <h4 style="font-size: 1.05rem;"><i class="fas fa-images"></i> Strony gazetki (wymagana parzysta liczba stron)</h4>
                     <button type="button" class="btn btn-info" onclick="addMagazinePageField()"><i class="fas fa-plus"></i> Dodaj stronę</button>
                 </div>
@@ -268,7 +375,7 @@
     </div>
 
     <!-- LEWY PANEL BOCZNY (SIDEBAR) -->
-    <aside class="admin-sidebar">
+    <aside class="admin-sidebar" id="adminSidebar">
         <div class="sidebar-header">
             <img src="https://imgur.com/nwkFXR1.png" alt="Logo" class="sidebar-logo">
             <div class="sidebar-title">
@@ -479,6 +586,14 @@
 
         const CORRECT_LOGIN = "redaktor1";
 
+        /* LOGIKA PRZEŁĄCZANIA MOBILNEGO SIDEBARU */
+        window.toggleMobileSidebar = function() {
+            const sidebar = document.getElementById('adminSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+
         function checkAuth() {
             const isAuth = sessionStorage.getItem('glosTrojkiAdminAuth');
             if (isAuth === 'true') {
@@ -520,6 +635,14 @@
             
             document.getElementById('sec-' + sectionId).classList.add('active');
             if(el) el.classList.add('active');
+
+            // Zamykanie menu na smartfonie po wybieraniu sekcji
+            if(window.innerWidth <= 768) {
+                const sidebar = document.getElementById('adminSidebar');
+                const overlay = document.getElementById('sidebarOverlay');
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            }
         }
 
         const firebaseConfig = {
@@ -626,7 +749,6 @@
 
             try {
                 if (editId) {
-                    // Aktualizacja istniejącej gazetki
                     await updateDoc(doc(db, "magazines", editId), {
                         number: number,
                         isPremium: isPremium,
@@ -634,7 +756,6 @@
                     });
                     alert("Gazetka została pomyślnie zaktualizowana!");
                 } else {
-                    // Tworzenie nowej gazetki
                     await addDoc(collection(db, "magazines"), {
                         number: number,
                         isPremium: isPremium,
@@ -723,7 +844,7 @@
             document.getElementById('viewMagazineModal').style.display = 'none';
         }
 
-        /* --- POZOSTAŁE FUNKJCJE PANELU --- */
+        /* --- LOGIKA PODGLĄDU I EDYCJI ARTYKUŁÓW --- */
         window.viewArticle = function(encodedData) {
             const data = JSON.parse(decodeURIComponent(encodedData));
             document.getElementById('modalTitle').innerText = data.title || "Bez tytułu";
@@ -736,6 +857,64 @@
         window.closePreview = function() {
             document.getElementById('previewModal').style.display = 'none';
         }
+
+        /* POPUP DEDYKOWANY DLA EDYCJI ARTYKUŁU */
+        window.openEditArticleModal = function(id, encodedData) {
+            const data = JSON.parse(decodeURIComponent(encodedData));
+            document.getElementById('editArticleId').value = id;
+            document.getElementById('editArticleTitle').value = data.title || '';
+            
+            // Rozpoznawanie autora oraz klasy (np. Jan Kowalski (6B))
+            let authorName = data.author || '';
+            let authorClass = '';
+            const match = authorName.match(/^(.*?)\s*\((.*?)\)$/);
+            if (match) {
+                authorName = match[1];
+                authorClass = match[2];
+            }
+            
+            document.getElementById('editArticleAuthor').value = authorName;
+            document.getElementById('editArticleClass').value = authorClass;
+            document.getElementById('editArticleCategory').value = data.category || 'Artykuł';
+            document.getElementById('editArticleImageUrl').value = data.imageUrl || '';
+            document.getElementById('editArticleContent').value = data.content || '';
+
+            document.getElementById('editArticleModal').style.display = 'flex';
+        }
+
+        window.closeEditArticleModal = function() {
+            document.getElementById('editArticleModal').style.display = 'none';
+        }
+
+        document.getElementById('editArticleForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('editArticleId').value;
+            const title = document.getElementById('editArticleTitle').value.trim();
+            const author = document.getElementById('editArticleAuthor').value.trim();
+            const authorClass = document.getElementById('editArticleClass').value.trim();
+            const category = document.getElementById('editArticleCategory').value.trim();
+            const imageUrl = document.getElementById('editArticleImageUrl').value.trim();
+            const content = document.getElementById('editArticleContent').value;
+
+            const fullAuthor = authorClass ? `${author} (${authorClass})` : author;
+            const excerpt = content ? (content.substring(0, 150) + "...") : "";
+
+            try {
+                await updateDoc(doc(db, "articles", id), {
+                    title: title,
+                    author: fullAuthor,
+                    category: category,
+                    imageUrl: imageUrl,
+                    content: content,
+                    excerpt: excerpt
+                });
+                alert("Artykuł został pomyślnie zaktualizowany!");
+                closeEditArticleModal();
+                fetchPublishedArticles();
+            } catch (err) {
+                alert("Błąd podczas zapisywania zmian artykułu.");
+            }
+        });
 
         async function fetchSubmissions() {
             const container = document.getElementById('submissionsList');
@@ -824,6 +1003,7 @@
                     const data = docSnap.data();
                     const id = docSnap.id;
                     const isFeatured = data.isFeatured === true;
+                    const encoded = encodeURIComponent(JSON.stringify(data));
 
                     container.insertAdjacentHTML('beforeend', `
                         <div class="list-item" style="border-left-color: ${isFeatured ? '#e91e63' : 'var(--primary-yellow)'};">
@@ -832,6 +1012,7 @@
                                 <p><i class="fas fa-user"></i> Autor: ${data.author} | Kategoria: ${data.category}</p>
                             </div>
                             <div class="action-buttons">
+                                <button class="btn btn-warning" onclick="openEditArticleModal('${id}', '${encoded}')" title="Edytuj artykuł"><i class="fas fa-edit"></i> Edytuj</button>
                                 <button class="btn btn-primary" onclick="toggleFeatured('${id}', ${isFeatured})" title="Wyróżnij"><i class="${isFeatured ? 'fas fa-star-half-alt' : 'fas fa-star'}"></i></button>
                                 <button class="btn btn-danger" onclick="deleteDocument('articles', '${id}')"><i class="fas fa-trash"></i></button>
                             </div>
