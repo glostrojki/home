@@ -58,7 +58,7 @@
             --shadow-lg: 0 20px 25px rgba(0,0,0,0.5);
         }
 
-        /* Tryb Wysokiego Kontrastu (Ułatwienia dostępu) */
+        /* Tryb Wysokiego Kontrastu */
         [data-high-contrast="true"] {
             --primary-yellow: #ffff00 !important;
             --primary-yellow-hover: #ffff00 !important;
@@ -1269,6 +1269,18 @@
         let isPaused = false;
         const categoryMap = new Map();
 
+        // Inicjalizacja głosów syntezatora dla przeglądarek (Chrome/Edge wczytują asynchronicznie)
+        let systemVoices = [];
+        function loadVoices() {
+            if (speechSynth) {
+                systemVoices = speechSynth.getVoices();
+            }
+        }
+        loadVoices();
+        if (speechSynth && speechSynth.onvoiceschanged !== undefined) {
+            speechSynth.onvoiceschanged = loadVoices;
+        }
+
         // Dark Mode
         const themeToggle = document.getElementById('themeToggle');
         const htmlElement = document.documentElement;
@@ -1719,7 +1731,7 @@
             if(btn) btn.classList.toggle('active', !isDyslexic);
         };
 
-        // OBSŁUGA SYNTEZATORA MOWY (CZYTANIE ARTYKUŁU NA GŁOS)
+        // POPRAWIONY SYNTEZATOR MOWY (CZYTANIE NA GŁOS)
         window.toggleSpeech = function(textToRead) {
             if (!speechSynth) {
                 alert("Przepraszamy, Twoja przeglądarka nie obsługuje czytania tekstu na głos.");
@@ -1748,19 +1760,23 @@
                 return;
             }
 
-            // Rozpocznij czytanie od nowa
+            // Anuluj poprzednie wypowiedzi
             speechSynth.cancel(); 
             
-            // Czyszczenie tekstu z kodu HTML
             const cleanText = textToRead.replace(/<[^>]*>?/gm, ' ');
             currentUtterance = new SpeechSynthesisUtterance(cleanText);
             currentUtterance.lang = 'pl-PL';
             currentUtterance.rate = speechRate;
 
-            // Szukanie polskiego głosu
+            // Wybór polskiego głosu
             const voices = speechSynth.getVoices();
-            const plVoice = voices.find(v => v.lang.includes('pl'));
-            if(plVoice) currentUtterance.voice = plVoice;
+            let plVoice = voices.find(v => v.lang === 'pl-PL' || v.lang === 'pl');
+            if (!plVoice && voices.length > 0) {
+                plVoice = voices.find(v => v.lang.toLowerCase().includes('pl'));
+            }
+            if (plVoice) {
+                currentUtterance.voice = plVoice;
+            }
 
             currentUtterance.onstart = () => {
                 isSpeaking = true;
@@ -1771,18 +1787,29 @@
             };
 
             currentUtterance.onend = () => {
-                stopSpeech();
+                window.stopSpeech();
             };
 
-            currentUtterance.onerror = () => {
-                stopSpeech();
+            currentUtterance.onerror = (e) => {
+                console.warn("Błąd syntezatora mowy:", e);
+                window.stopSpeech();
             };
+
+            // Zabezpieczenie przed zrywaniem mowy w niektórych przeglądarkach (Chrome bug fix)
+            window._speechInterval = setInterval(() => {
+                if (speechSynth.speaking && !speechSynth.paused) {
+                    speechSynth.resume();
+                } else {
+                    clearInterval(window._speechInterval);
+                }
+            }, 5000);
 
             speechSynth.speak(currentUtterance);
         };
 
         window.stopSpeech = function() {
             if(speechSynth) speechSynth.cancel();
+            if(window._speechInterval) clearInterval(window._speechInterval);
             isSpeaking = false;
             isPaused = false;
             const playBtn = document.getElementById('speechPlayBtn');
@@ -1797,13 +1824,10 @@
         window.changeSpeechRate = function(newRate) {
             speechRate = parseFloat(newRate);
             if (isSpeaking) {
-                // Jeśli lektor czyta, zatrzymaj i wznow z nową prędkością
                 const currentArticle = window.currentActiveArticle;
                 if (currentArticle) {
                     const fullText = currentArticle.title + ". " + currentArticle.content;
-                    speechSynth.cancel();
-                    isSpeaking = false;
-                    isPaused = false;
+                    window.stopSpeech();
                     window.toggleSpeech(fullText);
                 }
             }
