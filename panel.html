@@ -73,29 +73,66 @@
         .mobile-toggle-btn { background: rgba(255,255,255,0.1); color: #fff; font-size: 1.4rem; padding: 10px 14px; border-radius: var(--radius-sm); transition: var(--transition); }
         .mobile-toggle-btn:hover { background: rgba(255,255,255,0.2); }
 
-        /* MODAL LOGOWANIA Z EFEKTEM GLASS */
+        /* DWUCZĘŚCIOWY MODAL LOGOWANIA */
         #loginOverlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: radial-gradient(circle at center, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), url('https://imgur.com/YEGb4mB.png') center/cover no-repeat;
+            background: radial-gradient(circle at center, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%);
             backdrop-filter: blur(16px);
             z-index: 9999; display: flex; justify-content: center; align-items: center; padding: 20px;
         }
         .login-box { 
             background: rgba(255, 255, 255, 0.98); 
-            padding: 50px 40px; border-radius: var(--radius-lg); 
-            width: 100%; max-width: 440px; 
-            box-shadow: var(--shadow-lg); text-align: center;
+            border-radius: var(--radius-lg); 
+            width: 100%; max-width: 900px; 
+            display: flex;
+            box-shadow: var(--shadow-lg); text-align: left;
             border: 1px solid rgba(255, 255, 255, 0.2);
             position: relative; overflow: hidden;
             animation: modalFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .login-banner {
+            width: 45%;
+            background: url('https://imgur.com/eUx9TZa.png') center/cover no-repeat;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 40px 30px;
+            color: #ffffff;
+        }
+        .login-banner::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, rgba(15, 23, 42, 0.85) 100%);
+        }
+        .login-banner-content {
+            position: relative;
+            z-index: 2;
+        }
+        .login-banner-content h2 {
+            color: #ffffff;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        .login-banner-content p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        .login-form-side {
+            width: 55%;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         @keyframes modalFadeIn {
             from { opacity: 0; transform: translateY(30px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
-        .login-box img { height: 90px; margin-bottom: 20px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15)); }
-        .login-box h3 { font-size: 1.9rem; margin-bottom: 8px; color: var(--secondary-dark); letter-spacing: -0.5px; }
-        .login-box p.subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 30px; }
+        .login-form-side img.logo-mini { height: 50px; margin-bottom: 20px; width: fit-content; }
+        .login-form-side h3 { font-size: 1.9rem; margin-bottom: 8px; color: var(--secondary-dark); letter-spacing: -0.5px; }
+        .login-form-side p.subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 30px; }
         
         .login-input-group { position: relative; margin-bottom: 22px; text-align: left; }
         .login-input-group i { position: absolute; top: 50%; left: 18px; transform: translateY(-50%); color: var(--text-light); font-size: 1.2rem; }
@@ -256,7 +293,9 @@
             .action-buttons { width: 100%; justify-content: flex-start; }
             .action-buttons .btn { flex: 1; justify-content: center; }
             .modal-content-box { padding: 25px; width: 95%; max-height: 85vh; }
-            .login-box { padding: 35px 25px; margin: 15px; }
+            .login-box { flex-direction: column; max-width: 440px; margin: 15px; }
+            .login-banner { display: none; }
+            .login-form-side { width: 100%; padding: 35px 25px; }
         }
     </style>
 </head>
@@ -274,24 +313,32 @@
         <button class="mobile-toggle-btn" onclick="toggleMobileSidebar()"><i class="fas fa-bars"></i></button>
     </header>
 
-    <!-- MODAL LOGOWANIA -->
+    <!-- DWUCZĘŚCIOWY MODAL LOGOWANIA -->
     <div id="loginOverlay">
         <div class="login-box">
-            <img src="https://imgur.com/nwkFXR1.png" alt="Logo Głos Trójki">
-            <h3>Witaj Redaktorze!</h3>
-            <p class="subtitle">Zaloguj się do nowoczesnego panelu redakcji</p>
-            <form id="loginForm">
-                <div class="login-input-group">
-                    <i class="fas fa-user-shield"></i>
-                    <input type="password" id="loginUser" required placeholder="Wprowadź kod dostępu...">
+            <div class="login-banner">
+                <div class="login-banner-content">
+                    <h2>Głos Trójki Pro</h2>
+                    <p>Zarządzaj gazetką szkolną, publikuj artykuły i planuj treści z jednego nowoczesnego panelu.</p>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 16px; font-size: 1.05rem; border-radius: var(--radius-sm);">
-                    Zaloguj do systemu <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
-                </button>
-                <p id="loginError" style="color: #991b1b; background: #fee2e2; padding: 12px; border-radius: var(--radius-sm); font-size: 0.9rem; margin-top: 18px; font-weight: 700; display: none;">
-                    <i class="fas fa-exclamation-circle"></i> Odmowa dostępu. Niepoprawny kod.
-                </p>
-            </form>
+            </div>
+            <div class="login-form-side">
+                <img src="https://imgur.com/nwkFXR1.png" alt="Logo Głos Trójki" class="logo-mini">
+                <h3>Witaj Redaktorze!</h3>
+                <p class="subtitle">Wprowadź kod dostępu, aby zalogować się do systemu.</p>
+                <form id="loginForm">
+                    <div class="login-input-group">
+                        <i class="fas fa-user-shield"></i>
+                        <input type="password" id="loginUser" required placeholder="Kod dostępu...">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 16px; font-size: 1.05rem; border-radius: var(--radius-sm);">
+                        Zaloguj do systemu <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+                    </button>
+                    <p id="loginError" style="color: #991b1b; background: #fee2e2; padding: 12px; border-radius: var(--radius-sm); font-size: 0.9rem; margin-top: 18px; font-weight: 700; display: none;">
+                        <i class="fas fa-exclamation-circle"></i> Odmowa dostępu. Niepoprawny kod.
+                    </p>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -313,7 +360,6 @@
             <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Artykuł zostanie automatycznie opublikowany w wybranym przez Ciebie terminie i nie wcześniej.</p>
             <form id="scheduleArticleForm">
                 <input type="hidden" id="schedSubId">
-                <input type="hidden" id="schedSubData">
                 <div class="form-group">
                     <label>Tytuł artykułu</label>
                     <input type="text" id="schedTitle" required>
@@ -685,6 +731,12 @@
 
         const CORRECT_LOGIN = "redaktor1";
 
+        // Bezpieczne magazyny danych (cache) zapobiegające błędom cudzysłowów w treściach i wierszach
+        window.submissionsCache = {};
+        window.scheduledCache = {};
+        window.articlesCache = {};
+        window.magazinesCache = {};
+
         /* MOBILNY SIDEBAR */
         window.toggleMobileSidebar = function() {
             document.getElementById('adminSidebar').classList.toggle('open');
@@ -759,12 +811,11 @@
         }
 
         /* --- PLANOWANIE ARTYKUŁÓW --- */
-        window.openScheduleModal = function(id, encodedData) {
-            const data = JSON.parse(decodeURIComponent(encodedData));
+        window.openScheduleModal = function(id) {
+            const data = window.submissionsCache[id] || {};
             document.getElementById('schedSubId').value = id;
-            document.getElementById('schedSubData').value = encodedData;
-            document.getElementById('schedTitle').value = data.title || '';
-            document.getElementById('schedImageUrl').value = "https://images.unsplash.com/photo-1546422904-90eab23c3d7e?auto=format&fit=crop&w=800&q=80";
+            document.getElementById('schedTitle').value = data.title || data.tytul || '';
+            document.getElementById('schedImageUrl').value = data.imageUrl || "https://images.unsplash.com/photo-1546422904-90eab23c3d7e?auto=format&fit=crop&w=800&q=80";
             
             // Domyślnie ustaw jutrzejszą datę o 8:00
             const tomorrow = new Date();
@@ -782,8 +833,7 @@
         document.getElementById('scheduleArticleForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const subId = document.getElementById('schedSubId').value;
-            const encodedData = document.getElementById('schedSubData').value;
-            const data = JSON.parse(decodeURIComponent(encodedData));
+            const data = window.submissionsCache[subId] || {};
             
             const title = document.getElementById('schedTitle').value.trim();
             const imageUrl = document.getElementById('schedImageUrl').value.trim();
@@ -800,42 +850,44 @@
                 return;
             }
 
-            const articleText = data.content || data.textContent || data.body || "";
+            const articleText = data.content || data.textContent || data.body || data.text || data.tresc || data.article || data.message || "";
+            const authorVal = data.author ? `${data.author} ${data.authorClass ? '('+data.authorClass+')' : ''}` : "Redakcja";
+            const categoryVal = data.type === 'kacik' ? (data.cornerName || 'Kącik') : (data.category || 'Artykuł');
 
             try {
-                // Zapis do kolekcji zaplanowanych
                 await addDoc(collection(db, "scheduled_articles"), {
                     title: title,
                     content: articleText,
                     excerpt: articleText ? (articleText.substring(0, 150) + "...") : "",
-                    author: `${data.author} (${data.authorClass})`,
-                    category: data.type === 'kacik' ? (data.cornerName || 'Kącik') : 'Artykuł',
+                    author: authorVal,
+                    category: categoryVal,
                     imageUrl: imageUrl,
                     scheduledAt: Timestamp.fromDate(scheduledDate),
                     createdAt: serverTimestamp()
                 });
 
-                // Usuń ze zgłoszeń
                 await deleteDoc(doc(db, "submitted_articles", subId));
 
-                alert("Artykuł został pomyślnie zaplanowany!");
+                alert("Artykuł został pomyślnie zaplanowany i zapisany w bazie!");
                 closeScheduleModal();
                 fetchSubmissions();
                 fetchScheduledArticles();
             } catch (err) {
-                alert("Wystąpił błąd podczas planowania artykułu.");
+                console.error("Szczegóły błędu zapisu planowania w Firebase:", err);
+                alert("Wystąpił błąd podczas planowania artykułu: " + err.message);
             }
         });
 
         async function fetchScheduledArticles() {
             const container = document.getElementById('scheduledArticlesList');
             try {
+                window.scheduledCache = {};
                 const q = query(collection(db, "scheduled_articles"), orderBy("scheduledAt", "asc"));
                 const snapshot = await getDocs(q);
                 document.getElementById('statScheduled').innerText = snapshot.size;
 
                 if (snapshot.empty) {
-                    container.innerHTML = '<div class="empty-box"><i class="fas fa-calendar-check fa-2x" style="display:block; margin-bottom:12px; color:#0284c7;"></i>Brak zaplanowanych artykułów.</div>';
+                    container.innerHTML = '<div class="empty-box"><i class="fas fa-calendar-check fa-2x" style="display:block; margin-bottom:12px; color:#0284c7;"></i>Brak zaplanowanych artykułów w bazie.</div>';
                     return;
                 }
 
@@ -843,40 +895,42 @@
                 snapshot.forEach((docSnap) => {
                     const data = docSnap.data();
                     const id = docSnap.id;
+                    window.scheduledCache[id] = data;
+
                     const dateObj = data.scheduledAt ? data.scheduledAt.toDate() : new Date();
                     const dateFormatted = dateObj.toLocaleString('pl-PL', { dateStyle: 'medium', timeStyle: 'short' });
-                    const encoded = encodeURIComponent(JSON.stringify(data));
 
                     container.insertAdjacentHTML('beforeend', `
                         <div class="list-item" style="border-left-color: #0284c7;">
                             <div class="item-info">
-                                <h4 class="no-hover">${data.title}</h4>
-                                <p><i class="fas fa-clock" style="color: #0284c7;"></i> Publikacja: <strong>${dateFormatted}</strong> | Autor: ${data.author}</p>
+                                <h4 class="no-hover">${data.title || 'Bez tytułu'}</h4>
+                                <p><i class="fas fa-clock" style="color: #0284c7;"></i> Publikacja: <strong>${dateFormatted}</strong> | Autor: ${data.author || 'Redakcja'}</p>
                             </div>
                             <div class="action-buttons">
-                                <button class="btn btn-success" onclick="publishScheduledNow('${id}', '${encoded}')" title="Opublikuj natychmiast"><i class="fas fa-bolt"></i></button>
-                                <button class="btn btn-warning" onclick="openEditScheduledModal('${id}', '${encoded}', '${dateObj.toISOString().slice(0, 16)}')"><i class="fas fa-edit"></i> Edytuj</button>
+                                <button class="btn btn-success" onclick="publishScheduledNow('${id}')" title="Opublikuj natychmiast"><i class="fas fa-bolt"></i></button>
+                                <button class="btn btn-warning" onclick="openEditScheduledModal('${id}', '${dateObj.toISOString().slice(0, 16)}')"><i class="fas fa-edit"></i> Edytuj</button>
                                 <button class="btn btn-danger" onclick="deleteDocument('scheduled_articles', '${id}')"><i class="fas fa-trash"></i></button>
                             </div>
                         </div>
                     `);
                 });
             } catch (e) {
-                container.innerHTML = '<div class="empty-box" style="color: #991b1b;">Błąd ładowania zaplanowanych artykułów.</div>';
+                console.error("Błąd pobierania zaplanowanych:", e);
+                container.innerHTML = '<div class="empty-box" style="color: #991b1b;">Błąd ładowania zaplanowanych artykułów. Sprawdź konsolę (F12).</div>';
             }
         }
 
-        window.publishScheduledNow = async function(id, encodedData) {
+        window.publishScheduledNow = async function(id) {
             if(!confirm("Czy na pewno chcesz opublikować ten artykuł natychmiast?")) return;
-            const data = JSON.parse(decodeURIComponent(encodedData));
+            const data = window.scheduledCache[id] || {};
             try {
                 await addDoc(collection(db, "articles"), {
-                    title: data.title,
-                    content: data.content,
-                    excerpt: data.excerpt,
-                    author: data.author,
-                    category: data.category,
-                    imageUrl: data.imageUrl,
+                    title: data.title || "Bez tytułu",
+                    content: data.content || "",
+                    excerpt: data.excerpt || "",
+                    author: data.author || "Redakcja",
+                    category: data.category || "Artykuł",
+                    imageUrl: data.imageUrl || "",
                     likes: 0,
                     isFeatured: false,
                     createdAt: serverTimestamp()
@@ -886,15 +940,16 @@
                 fetchScheduledArticles();
                 fetchPublishedArticles();
             } catch (e) {
-                alert("Błąd publikacji.");
+                console.error("Błąd publikacji z planowanych:", e);
+                alert("Błąd publikacji: " + e.message);
             }
         }
 
-        window.openEditScheduledModal = function(id, encodedData, dateStr) {
-            const data = JSON.parse(decodeURIComponent(encodedData));
+        window.openEditScheduledModal = function(id, dateStr) {
+            const data = window.scheduledCache[id] || {};
             document.getElementById('editSchedId').value = id;
-            document.getElementById('editSchedTitle').value = data.title;
-            document.getElementById('editSchedImageUrl').value = data.imageUrl;
+            document.getElementById('editSchedTitle').value = data.title || '';
+            document.getElementById('editSchedImageUrl').value = data.imageUrl || '';
             document.getElementById('editSchedDateTime').value = dateStr;
             document.getElementById('editScheduledModal').style.display = 'flex';
         }
@@ -934,14 +989,13 @@
                     if (data.scheduledAt) {
                         const schedDate = data.scheduledAt.toDate();
                         if (now >= schedDate) {
-                            // Czas nadszedł - publikujemy!
                             await addDoc(collection(db, "articles"), {
-                                title: data.title,
-                                content: data.content,
-                                excerpt: data.excerpt,
-                                author: data.author,
-                                category: data.category,
-                                imageUrl: data.imageUrl,
+                                title: data.title || "Bez tytułu",
+                                content: data.content || "",
+                                excerpt: data.excerpt || "",
+                                author: data.author || "Redakcja",
+                                category: data.category || "Artykuł",
+                                imageUrl: data.imageUrl || "",
                                 likes: 0,
                                 isFeatured: false,
                                 createdAt: serverTimestamp()
@@ -961,6 +1015,7 @@
         async function fetchSubmissions() {
             const container = document.getElementById('submissionsList');
             try {
+                window.submissionsCache = {};
                 const snapshot = await getDocs(collection(db, "submitted_articles"));
                 document.getElementById('statSubmissions').innerText = snapshot.size;
 
@@ -973,32 +1028,34 @@
                 snapshot.forEach((docSnap) => {
                     const data = docSnap.data();
                     const id = docSnap.id;
-                    const encoded = encodeURIComponent(JSON.stringify(data));
-                    const typeDisplay = data.type === 'kacik' ? `Kącik (${data.cornerName})` : 'Artykuł';
+                    window.submissionsCache[id] = data;
+
+                    const typeDisplay = data.type === 'kacik' ? `Kącik (${data.cornerName || ''})` : 'Artykuł';
                     
                     container.insertAdjacentHTML('beforeend', `
                         <div class="list-item">
                             <div class="item-info">
-                                <h4 onclick="viewArticle('${encoded}')" title="Kliknij, aby przeczytać">${data.title || 'Bez tytułu'} <i class="fas fa-eye" style="font-size:0.85rem; color:var(--text-muted);"></i></h4>
-                                <p><i class="fas fa-user-edit"></i> Autor: <strong>${data.author}</strong> (${data.authorClass}) | <i class="fas fa-tag"></i> ${typeDisplay}</p>
+                                <h4 onclick="viewArticle('${id}')" title="Kliknij, aby przeczytać">${data.title || data.tytul || 'Bez tytułu'} <i class="fas fa-eye" style="font-size:0.85rem; color:var(--text-muted);"></i></h4>
+                                <p><i class="fas fa-user-edit"></i> Autor: <strong>${data.author || 'Anonim'}</strong> (${data.authorClass || '-'}) | <i class="fas fa-tag"></i> ${typeDisplay}</p>
                             </div>
                             <div class="action-buttons">
-                                <button class="btn btn-info" onclick="viewArticle('${encoded}')" title="Podgląd"><i class="fas fa-book-open"></i></button>
-                                <button class="btn btn-primary" onclick="openScheduleModal('${id}', '${encoded}')" title="Zaplanuj publikację"><i class="fas fa-clock"></i> Zaplanuj</button>
-                                <button class="btn btn-success" onclick="acceptSubmission('${id}', '${encoded}')" title="Opublikuj natychmiast"><i class="fas fa-check"></i> Publikuj</button>
+                                <button class="btn btn-info" onclick="viewArticle('${id}')" title="Podgląd"><i class="fas fa-book-open"></i></button>
+                                <button class="btn btn-primary" onclick="openScheduleModal('${id}')" title="Zaplanuj publikację"><i class="fas fa-clock"></i> Zaplanuj</button>
+                                <button class="btn btn-success" onclick="acceptSubmission('${id}')" title="Opublikuj natychmiast"><i class="fas fa-check"></i> Publikuj</button>
                                 <button class="btn btn-danger" onclick="deleteDocument('submitted_articles', '${id}')" title="Usuń"><i class="fas fa-trash"></i></button>
                             </div>
                         </div>
                     `);
                 });
             } catch (e) {
+                console.error("Błąd ładowania zgłoszeń:", e);
                 container.innerHTML = '<div class="empty-box" style="color: #991b1b;">Błąd pobierania zgłoszeń.</div>';
             }
         }
 
-        window.acceptSubmission = async function(id, encodedData) {
-            const data = JSON.parse(decodeURIComponent(encodedData));
-            const finalTitle = prompt("Wpisz ostateczny tytuł artykułu:", data.title || "");
+        window.acceptSubmission = async function(id) {
+            const data = window.submissionsCache[id] || {};
+            const finalTitle = prompt("Wpisz ostateczny tytuł artykułu:", data.title || data.tytul || "");
             if (finalTitle === null || finalTitle.trim() === "") return;
 
             const defaultImg = "https://images.unsplash.com/photo-1546422904-90eab23c3d7e?auto=format&fit=crop&w=800&q=80";
@@ -1007,14 +1064,17 @@
 
             if(!confirm(`Opublikować artykuł "${finalTitle.trim()}" natychmiast?`)) return;
 
-            const articleText = data.content || data.textContent || data.body || "";
+            const articleText = data.content || data.textContent || data.body || data.text || data.tresc || data.article || data.message || "";
+            const authorVal = data.author ? `${data.author} ${data.authorClass ? '('+data.authorClass+')' : ''}` : "Redakcja";
+            const categoryVal = data.type === 'kacik' ? (data.cornerName || 'Kącik') : (data.category || 'Artykuł');
+
             try {
                 await addDoc(collection(db, "articles"), {
                     title: finalTitle.trim(),
                     content: articleText,
                     excerpt: articleText ? (articleText.substring(0, 150) + "...") : "",
-                    author: `${data.author} (${data.authorClass})`,
-                    category: data.type === 'kacik' ? (data.cornerName || 'Kącik') : 'Artykuł',
+                    author: authorVal,
+                    category: categoryVal,
                     imageUrl: finalImageUrl.trim(),
                     likes: 0,
                     isFeatured: false,
@@ -1025,7 +1085,8 @@
                 fetchSubmissions();
                 fetchPublishedArticles();
             } catch (e) {
-                alert("Błąd podczas publikacji.");
+                console.error("Błąd publikacji ze zgłoszeń:", e);
+                alert("Błąd podczas publikacji: " + e.message);
             }
         }
 
@@ -1033,6 +1094,7 @@
         async function fetchPublishedArticles() {
             const container = document.getElementById('publishedArticlesList');
             try {
+                window.articlesCache = {};
                 const q = query(collection(db, "articles"), orderBy("createdAt", "desc"));
                 const snapshot = await getDocs(q);
                 document.getElementById('statPublished').innerText = snapshot.size;
@@ -1046,17 +1108,18 @@
                 snapshot.forEach((docSnap) => {
                     const data = docSnap.data();
                     const id = docSnap.id;
+                    window.articlesCache[id] = data;
+
                     const isFeatured = data.isFeatured === true;
-                    const encoded = encodeURIComponent(JSON.stringify(data));
 
                     container.insertAdjacentHTML('beforeend', `
                         <div class="list-item" style="border-left-color: ${isFeatured ? '#ec4899' : 'var(--primary-yellow)'};">
                             <div class="item-info">
-                                <h4 class="no-hover">${data.title} ${isFeatured ? '<span style="color: #be185d; font-size: 0.75rem; font-weight: bold; background: #fce7f3; padding: 3px 8px; border-radius: 6px; margin-left: 8px;"><i class="fas fa-star"></i> WYRÓŻNIONY</span>' : ''}</h4>
-                                <p><i class="fas fa-user"></i> Autor: ${data.author} | Kategoria: ${data.category}</p>
+                                <h4 class="no-hover">${data.title || 'Bez tytułu'} ${isFeatured ? '<span style="color: #be185d; font-size: 0.75rem; font-weight: bold; background: #fce7f3; padding: 3px 8px; border-radius: 6px; margin-left: 8px;"><i class="fas fa-star"></i> WYRÓŻNIONY</span>' : ''}</h4>
+                                <p><i class="fas fa-user"></i> Autor: ${data.author || 'Redakcja'} | Kategoria: ${data.category || 'Artykuł'}</p>
                             </div>
                             <div class="action-buttons">
-                                <button class="btn btn-warning" onclick="openEditArticleModal('${id}', '${encoded}')" title="Edytuj"><i class="fas fa-edit"></i> Edytuj</button>
+                                <button class="btn btn-warning" onclick="openEditArticleModal('${id}')" title="Edytuj"><i class="fas fa-edit"></i> Edytuj</button>
                                 <button class="btn btn-primary" onclick="toggleFeatured('${id}', ${isFeatured})" title="Wyróżnij"><i class="${isFeatured ? 'fas fa-star-half-alt' : 'fas fa-star'}"></i></button>
                                 <button class="btn btn-danger" onclick="deleteDocument('articles', '${id}')" title="Usuń"><i class="fas fa-trash"></i></button>
                             </div>
@@ -1077,8 +1140,8 @@
             }
         }
 
-        window.openEditArticleModal = function(id, encodedData) {
-            const data = JSON.parse(decodeURIComponent(encodedData));
+        window.openEditArticleModal = function(id) {
+            const data = window.articlesCache[id] || {};
             document.getElementById('editArticleId').value = id;
             document.getElementById('editArticleTitle').value = data.title || '';
             
@@ -1226,6 +1289,7 @@
         async function fetchMagazines() {
             const container = document.getElementById('magazinesManageList');
             try {
+                window.magazinesCache = {};
                 const q = query(collection(db, "magazines"), orderBy("createdAt", "desc"));
                 const snapshot = await getDocs(q);
                 document.getElementById('statMagazines').innerText = snapshot.size;
@@ -1239,19 +1303,20 @@
                 snapshot.forEach((docSnap) => {
                     const data = docSnap.data();
                     const id = docSnap.id;
+                    window.magazinesCache[id] = data;
+
                     const count = data.pages ? data.pages.length : 0;
                     const badge = data.isPremium ? '<span style="color: #b45309; font-size: 0.75rem; font-weight: bold; background: #fef3c7; padding: 3px 8px; border-radius: 6px; margin-left: 8px;"><i class="fas fa-crown"></i> PREMIUM</span>' : '<span style="color: #166534; font-size: 0.75rem; font-weight: bold; background: #dcfce7; padding: 3px 8px; border-radius: 6px; margin-left: 8px;">DARMOWA</span>';
-                    const encoded = encodeURIComponent(JSON.stringify(data));
 
                     container.insertAdjacentHTML('beforeend', `
                         <div class="list-item">
                             <div class="item-info">
-                                <h4 class="no-hover">Gazetka Nr ${data.number} ${badge}</h4>
+                                <h4 class="no-hover">Gazetka Nr ${data.number || ''} ${badge}</h4>
                                 <p><i class="fas fa-file-alt"></i> Liczba stron: ${count}</p>
                             </div>
                             <div class="action-buttons">
-                                <button class="btn btn-info" onclick="viewMagazine('${encoded}')" title="Podgląd"><i class="fas fa-eye"></i></button>
-                                <button class="btn btn-warning" onclick="editMagazine('${id}', '${encoded}')" title="Edytuj"><i class="fas fa-edit"></i> Edytuj</button>
+                                <button class="btn btn-info" onclick="viewMagazine('${id}')" title="Podgląd"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-warning" onclick="editMagazine('${id}')" title="Edytuj"><i class="fas fa-edit"></i> Edytuj</button>
                                 <button class="btn btn-danger" onclick="deleteDocument('magazines', '${id}')" title="Usuń"><i class="fas fa-trash"></i></button>
                             </div>
                         </div>
@@ -1262,31 +1327,37 @@
             }
         }
 
-        window.editMagazine = (id, enc) => openMagazineModal(JSON.parse(decodeURIComponent(enc)), id);
+        window.editMagazine = function(id) {
+            const data = window.magazinesCache[id];
+            openMagazineModal(data, id);
+        }
 
-        window.viewMagazine = function(enc) {
-            const data = JSON.parse(decodeURIComponent(enc));
-            document.getElementById('viewMagTitle').innerText = `Gazetka Nr ${data.number} (${data.isPremium ? 'Premium' : 'Darmowa'})`;
+        window.viewMagazine = function(id) {
+            const data = window.magazinesCache[id] || {};
+            document.getElementById('viewMagTitle').innerText = `Gazetka Nr ${data.number || ''} (${data.isPremium ? 'Premium' : 'Darmowa'})`;
             const list = document.getElementById('viewMagPagesList');
             list.innerHTML = '';
-            data.pages.forEach((p, idx) => {
-                list.insertAdjacentHTML('beforeend', `
-                    <div style="background: var(--bg-body); padding: 18px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
-                        <h5 style="margin-bottom: 10px; font-size: 1rem; color: var(--secondary-dark);">Strona ${idx + 1}: ${p.description}</h5>
-                        <img src="${p.imageUrl}" alt="Strona" style="max-width: 100%; border-radius: 8px; border: 1px solid var(--border-color);" onerror="this.src='https://via.placeholder.com/600x400?text=Blad+obrazu';">
-                    </div>
-                `);
-            });
+            if (data.pages && Array.isArray(data.pages)) {
+                data.pages.forEach((p, idx) => {
+                    list.insertAdjacentHTML('beforeend', `
+                        <div style="background: var(--bg-body); padding: 18px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                            <h5 style="margin-bottom: 10px; font-size: 1rem; color: var(--secondary-dark);">Strona ${idx + 1}: ${p.description || ''}</h5>
+                            <img src="${p.imageUrl || ''}" alt="Strona" style="max-width: 100%; border-radius: 8px; border: 1px solid var(--border-color);" onerror="this.src='https://via.placeholder.com/600x400?text=Blad+obrazu';">
+                        </div>
+                    `);
+                });
+            }
             document.getElementById('viewMagazineModal').style.display = 'flex';
         }
 
         window.closeViewMagazineModal = () => document.getElementById('viewMagazineModal').style.display = 'none';
 
-        window.viewArticle = function(enc) {
-            const data = JSON.parse(decodeURIComponent(enc));
-            document.getElementById('modalTitle').innerText = data.title || "Bez tytułu";
+        window.viewArticle = function(id) {
+            const data = window.submissionsCache[id] || {};
+            document.getElementById('modalTitle').innerText = data.title || data.tytul || "Bez tytułu";
             document.getElementById('modalMeta').innerHTML = `<i class="fas fa-user"></i> Autor: <strong>${data.author || 'Anonim'}</strong> (${data.authorClass || '-'})`;
-            document.getElementById('modalContent').innerText = data.content || data.textContent || data.body || "Brak treści.";
+            const content = data.content || data.textContent || data.body || data.text || data.tresc || data.article || data.message || "Brak treści.";
+            document.getElementById('modalContent').innerText = content;
             document.getElementById('previewModal').style.display = 'flex';
         }
 
@@ -1320,8 +1391,8 @@
                     container.insertAdjacentHTML('beforeend', `
                         <div class="list-item" style="border-left-color: #0d9488; padding: 14px 18px;">
                             <div class="item-info">
-                                <h4 class="no-hover" style="font-size: 1rem;">${data.title}</h4>
-                                <p style="font-size: 0.85rem;"><strong>${dateStr}</strong> • ${data.details}</p>
+                                <h4 class="no-hover" style="font-size: 1rem;">${data.title || ''}</h4>
+                                <p style="font-size: 0.85rem;"><strong>${dateStr}</strong> • ${data.details || ''}</p>
                             </div>
                             <button class="btn btn-danger" style="padding: 8px 12px;" onclick="deleteDocument('calendar_events', '${docSnap.id}')"><i class="fas fa-trash"></i></button>
                         </div>
@@ -1357,8 +1428,8 @@
                     container.insertAdjacentHTML('beforeend', `
                         <div class="list-item" style="border-left-color: #0284c7; padding: 14px 18px;">
                             <div class="item-info">
-                                <h4 class="no-hover" style="font-size: 1rem;">${data.title}</h4>
-                                <p style="font-size: 0.85rem;"><strong>${dateStr}</strong> • ${data.details}</p>
+                                <h4 class="no-hover" style="font-size: 1rem;">${data.title || ''}</h4>
+                                <p style="font-size: 0.85rem;"><strong>${dateStr}</strong> • ${data.details || ''}</p>
                             </div>
                             <button class="btn btn-danger" style="padding: 8px 12px;" onclick="deleteDocument('harmonogram', '${docSnap.id}')"><i class="fas fa-trash"></i></button>
                         </div>
@@ -1391,7 +1462,7 @@
                     const data = docSnap.data();
                     container.insertAdjacentHTML('beforeend', `
                         <div class="list-item" style="border-left-color: var(--primary-yellow); padding: 14px 18px;">
-                            <div class="item-info"><p style="font-size: 0.95rem;">${data.message}</p></div>
+                            <div class="item-info"><p style="font-size: 0.95rem;">${data.message || ''}</p></div>
                             <button class="btn btn-danger" style="padding: 8px 12px;" onclick="deleteDocument('notifications', '${docSnap.id}')"><i class="fas fa-trash"></i></button>
                         </div>
                     `);
