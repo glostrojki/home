@@ -85,7 +85,7 @@
         .theme-toggle { background: transparent; color: var(--primary-yellow); font-size: 1.2rem; display: flex; align-items: center; justify-content: center; padding: 5px; border-radius: 50%; transition: var(--transition); }
         .theme-toggle:hover { background: rgba(255, 255, 255, 0.1); transform: rotate(15deg); }
 
-        /* Przycisk logowania w górnym czarnym pasku (bez tła) */
+        /* Przycisk logowania w górnym czarnym pasku */
         .topbar-auth-btn {
             background: transparent;
             color: #ffffff;
@@ -523,6 +523,8 @@
             border-radius: var(--radius-sm);
             border-left: 4px solid var(--primary-yellow);
             border: 1px solid var(--border-color);
+            position: relative;
+            transition: var(--transition);
         }
         .site-comment-header {
             display: flex;
@@ -534,6 +536,9 @@
             font-weight: 700;
             font-size: 0.95rem;
             color: var(--secondary-dark);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         .site-comment-date {
             font-size: 0.8rem;
@@ -542,19 +547,56 @@
         .site-comment-text {
             font-size: 0.9rem;
             color: var(--text-main);
+            word-wrap: break-word;
+        }
+        .delete-comment-btn {
+            background: transparent;
+            color: #ef4444;
+            border: none;
+            font-size: 0.85rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            margin-left: 10px;
+        }
+        .delete-comment-btn:hover {
+            background: rgba(239, 68, 68, 0.15);
+            color: #dc2626;
+        }
+        .comments-more-btn {
+            background: var(--bg-gray);
+            color: var(--secondary-dark);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 0.88rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 15px auto 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .comments-more-btn:hover {
+            background: var(--primary-yellow);
+            color: #1E2227;
+            border-color: var(--primary-yellow);
         }
 
-        /* MODAL LOGOWANIA / REJESTRACJI Z ANIMACJAMI */
+        /* ULEPSZONY PEŁNOEKRANOWY MODAL LOGOWANIA / REJESTRACJI (SPLIT SCREEN) */
         .auth-modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(13, 17, 23, 0.85);
             z-index: 3000;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(12px);
             opacity: 0;
             visibility: hidden;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -564,120 +606,236 @@
             opacity: 1;
             visibility: visible;
         }
-        .auth-modal-box {
-            background: var(--bg-white);
-            width: 100%;
-            max-width: 440px;
-            border-radius: var(--radius-md);
-            padding: 30px;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border-color);
+        .auth-fullscreen-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
             position: relative;
-            transform: scale(0.9) translateY(20px);
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background: var(--bg-white);
+            overflow: hidden;
+            animation: authModalSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        .auth-modal-overlay.active .auth-modal-box {
-            transform: scale(1) translateY(0);
-            opacity: 1;
+        @keyframes authModalSlideIn {
+            from { opacity: 0; transform: scale(0.97); }
+            to { opacity: 1; transform: scale(1); }
         }
-        .auth-close-btn {
+
+        /* Lewa połowa - Wyjątkowe Zdjęcie */
+        .auth-split-image {
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(30, 34, 39, 0.55), rgba(15, 20, 28, 0.75)), url('https://imgur.com/seMvIhy.png') center/cover no-repeat;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 60px;
+            color: #ffffff;
+        }
+        .auth-split-image::after {
+            content: '';
             position: absolute;
-            top: 20px; right: 20px;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 193, 7, 0.2), transparent 70%);
+            pointer-events: none;
+        }
+        .auth-brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 10px 22px;
+            border-radius: var(--radius-full);
+            font-family: var(--font-headings);
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: #ffffff;
+            width: fit-content;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        .auth-brand-badge img {
+            height: 30px;
+            border-radius: 4px;
+        }
+        .auth-image-caption h2 {
+            font-size: 3rem;
+            color: #ffffff;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .auth-image-caption h2 span {
+            color: var(--primary-yellow);
+        }
+        .auth-image-caption p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.85);
+            max-width: 480px;
+            line-height: 1.6;
+        }
+
+        /* Prawa połowa - Panel Formularza */
+        .auth-split-form {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            position: relative;
+            background: var(--bg-white);
+            overflow-y: auto;
+        }
+        .auth-fullscreen-close {
+            position: absolute;
+            top: 30px; right: 30px;
             background: var(--bg-gray);
-            color: var(--text-main);
-            width: 32px; height: 32px;
+            color: var(--secondary-dark);
+            width: 46px; height: 46px;
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer;
             transition: var(--transition);
-        }
-        .auth-close-btn:hover { background: var(--primary-yellow); color: #1E2227; }
-        .auth-tabs {
-            display: flex;
-            background: var(--bg-body);
-            border-radius: var(--radius-sm);
-            padding: 4px;
-            margin-bottom: 25px;
+            font-size: 1.2rem;
             border: 1px solid var(--border-color);
+            z-index: 10;
         }
-        .auth-tab {
+        .auth-fullscreen-close:hover {
+            background: var(--primary-yellow);
+            color: #1E2227;
+            transform: rotate(90deg) scale(1.05);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .auth-form-card {
+            width: 100%;
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+        }
+        .auth-header-text {
+            margin-bottom: 30px;
+        }
+        .auth-header-text h3 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--secondary-dark);
+            margin-bottom: 8px;
+        }
+        .auth-header-text p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .auth-tabs-modern {
+            display: flex;
+            background: var(--bg-gray);
+            border-radius: var(--radius-full);
+            padding: 5px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+        .auth-tab-modern {
             flex: 1;
             background: transparent;
-            padding: 10px;
-            font-weight: 700;
-            font-size: 0.9rem;
+            padding: 12px;
+            font-weight: 800;
+            font-size: 0.95rem;
             color: var(--text-muted);
-            border-radius: 6px;
+            border-radius: var(--radius-full);
             text-align: center;
             cursor: pointer;
             transition: var(--transition);
+            font-family: var(--font-headings);
         }
-        .auth-tab.active {
-            background: var(--bg-white);
-            color: var(--secondary-dark);
-            box-shadow: var(--shadow-xs);
+        .auth-tab-modern.active {
+            background: var(--primary-yellow);
+            color: #1E2227;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
         }
-        .auth-form-group {
+
+        .auth-input-group {
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 20px;
+            position: relative;
         }
-        .auth-form-group label {
+        .auth-input-group label {
             font-size: 0.85rem;
             font-weight: 700;
             color: var(--secondary-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .auth-form-group input {
-            padding: 12px 15px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border-color);
-            background: var(--bg-body);
-            color: var(--text-main);
-            font-size: 0.95rem;
-            outline: none;
+        .auth-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .auth-input-wrapper i {
+            position: absolute;
+            left: 16px;
+            color: var(--text-muted);
+            font-size: 1rem;
             transition: var(--transition);
         }
-        .auth-form-group input:focus {
-            border-color: var(--primary-yellow);
-            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.15);
-        }
-        .auth-submit-btn {
+        .auth-input-wrapper input {
             width: 100%;
-            background: var(--primary-yellow);
+            padding: 14px 16px 14px 48px;
+            border-radius: var(--radius-md);
+            border: 2px solid var(--border-color);
+            background: var(--bg-body);
+            color: var(--text-main);
+            font-size: 0.98rem;
+            outline: none;
+            transition: var(--transition);
+            font-family: var(--font-body);
+        }
+        .auth-input-wrapper input:focus {
+            border-color: var(--primary-yellow);
+            background: var(--bg-white);
+            box-shadow: 0 0 0 4px rgba(255, 193, 7, 0.18);
+        }
+        .auth-input-wrapper input:focus + i,
+        .auth-input-wrapper input:not(:placeholder-shown) + i {
+            color: var(--primary-yellow-hover);
+        }
+
+        .auth-submit-btn-modern {
+            width: 100%;
+            background: linear-gradient(135deg, #FFC107, #FFB300);
             color: #1E2227;
-            padding: 12px;
-            border-radius: var(--radius-sm);
-            font-weight: 800;
-            font-size: 1rem;
+            padding: 16px;
+            border-radius: var(--radius-md);
+            font-weight: 900;
+            font-size: 1.05rem;
             font-family: var(--font-headings);
             margin-top: 10px;
             transition: var(--transition);
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 8px 20px rgba(255, 193, 7, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
-        .auth-submit-btn:hover { background: var(--primary-yellow-hover); transform: translateY(-2px); }
-        .auth-error-msg {
-            background: #ffebee;
-            color: #d32f2f;
-            padding: 10px 15px;
-            border-radius: var(--radius-sm);
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            display: none;
-            border: 1px solid #ffcdd2;
+        .auth-submit-btn-modern:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(255, 193, 7, 0.5);
+            background: linear-gradient(135deg, #FFCA28, #FFA000);
         }
-        .auth-success-msg {
-            background: #e8f5e9;
-            color: #2e7d32;
-            padding: 10px 15px;
-            border-radius: var(--radius-sm);
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            display: none;
-            border: 1px solid #c8e6c9;
+        .auth-submit-btn-modern:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 900px) {
+            .auth-split-image { display: none; }
+            .auth-split-form { width: 100%; padding: 30px 20px; }
         }
 
         /* NOWA NOWOCZESNA STOPKA Z FALĄ */
@@ -1378,8 +1536,11 @@
                 </div>
 
                 <div class="site-comments-list" id="siteCommentsFeed">
-                    <div class="empty-calendar">Brak opinii o stronie. Bądź pierwszy!</div>
+                    <div class="empty-calendar">Ładowanie opinii z bazy danych...</div>
                 </div>
+                <button id="siteCommentsMoreBtn" class="comments-more-btn" style="display: none;" onclick="toggleSiteCommentsLimit()">
+                    Pokaż więcej opinii <i class="fas fa-chevron-down"></i>
+                </button>
             </div>
         </div>
 
@@ -1414,51 +1575,95 @@
         </aside>
     </main>
 
-    <!-- MODAL LOGOWANIA / REJESTRACJI -->
+    <!-- NOWOCZESNY PEŁNOEKRANOWY MODAL LOGOWANIA / REJESTRACJI (SPLIT SCREEN 50/50) -->
     <div class="auth-modal-overlay" id="authModalOverlay" onclick="closeAuthModalOnOverlay(event)">
-        <div class="auth-modal-box">
-            <div class="auth-close-btn" onclick="closeAuthModal()"><i class="fas fa-times"></i></div>
-            
-            <div class="auth-tabs">
-                <button class="auth-tab active" id="tabLoginBtn" onclick="switchAuthTab('login')">Logowanie</button>
-                <button class="auth-tab" id="tabRegisterBtn" onclick="switchAuthTab('register')">Rejestracja</button>
+        <div class="auth-fullscreen-container">
+            <!-- Lewa Połowa - Obrazek -->
+            <div class="auth-split-image">
+                <div class="auth-brand-badge">
+                    <img src="https://imgur.com/nwkFXR1.png" alt="Głos Trójki">
+                    <span>Głos Trójki</span>
+                </div>
+                <div class="auth-image-caption">
+                    <h2>Dołącz do <span>naszej społeczności</span>!</h2>
+                    <p>Zaloguj się, aby mieć wpływ na treści szkolnego portalu – oceniaj artykuły, dziel się opiniami i twórz Głos Trójki razem z nami!</p>
+                </div>
             </div>
 
-            <div class="auth-error-msg" id="authErrorMsg"></div>
-            <div class="auth-success-msg" id="authSuccessMsg"></div>
+            <!-- Prawa Połowa - Formularz -->
+            <div class="auth-split-form">
+                <button class="auth-fullscreen-close" onclick="closeAuthModal()" title="Zamknij"><i class="fas fa-times"></i></button>
 
-            <!-- Formularz Logowania -->
-            <div id="loginFormContainer">
-                <div class="auth-form-group">
-                    <label>Adres email</label>
-                    <input type="email" id="loginEmail" placeholder="twoj@email.pl">
-                </div>
-                <div class="auth-form-group">
-                    <label>Hasło</label>
-                    <input type="password" id="loginPassword" placeholder="••••••••">
-                </div>
-                <button class="auth-submit-btn" onclick="handleLogin()">Zaloguj się</button>
-            </div>
+                <div class="auth-form-card">
+                    <div class="auth-header-text">
+                        <h3 id="authModalHeaderTitle">Witaj z powrotem!</h3>
+                        <p id="authModalHeaderSub">Zaloguj się na swoje konto, aby kontynuować.</p>
+                    </div>
 
-            <!-- Formularz Rejestracji -->
-            <div id="registerFormContainer" style="display: none;">
-                <div class="auth-form-group">
-                    <label>Imię nazwisko</label>
-                    <input type="text" id="regName" placeholder="Jan Kowalski">
+                    <div class="auth-tabs-modern">
+                        <button class="auth-tab-modern active" id="tabLoginBtn" onclick="switchAuthTab('login')">Logowanie</button>
+                        <button class="auth-tab-modern" id="tabRegisterBtn" onclick="switchAuthTab('register')">Rejestracja</button>
+                    </div>
+
+                    <div class="auth-error-msg" id="authErrorMsg"></div>
+                    <div class="auth-success-msg" id="authSuccessMsg"></div>
+
+                    <!-- Formularz Logowania -->
+                    <div id="loginFormContainer">
+                        <div class="auth-input-group">
+                            <label>Adres email</label>
+                            <div class="auth-input-wrapper">
+                                <input type="email" id="loginEmail" placeholder="twoj@email.pl">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                        </div>
+                        <div class="auth-input-group">
+                            <label>Hasło</label>
+                            <div class="auth-input-wrapper">
+                                <input type="password" id="loginPassword" placeholder="••••••••">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                        </div>
+                        <button class="auth-submit-btn-modern" onclick="handleLogin()">
+                            <i class="fas fa-sign-in-alt"></i> Zaloguj się
+                        </button>
+                    </div>
+
+                    <!-- Formularz Rejestracji -->
+                    <div id="registerFormContainer" style="display: none;">
+                        <div class="auth-input-group">
+                            <label>Imię i nazwisko</label>
+                            <div class="auth-input-wrapper">
+                                <input type="text" id="regName" placeholder="Jan Kowalski">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="auth-input-group">
+                            <label>Adres email</label>
+                            <div class="auth-input-wrapper">
+                                <input type="email" id="regEmail" placeholder="twoj@email.pl">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                        </div>
+                        <div class="auth-input-group">
+                            <label>Hasło</label>
+                            <div class="auth-input-wrapper">
+                                <input type="password" id="regPassword" placeholder="••••••••">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                        </div>
+                        <div class="auth-input-group">
+                            <label>Powtórz hasło</label>
+                            <div class="auth-input-wrapper">
+                                <input type="password" id="regPasswordConfirm" placeholder="••••••••">
+                                <i class="fas fa-key"></i>
+                            </div>
+                        </div>
+                        <button class="auth-submit-btn-modern" onclick="handleRegister()">
+                            <i class="fas fa-user-plus"></i> Zarejestruj się
+                        </button>
+                    </div>
                 </div>
-                <div class="auth-form-group">
-                    <label>Adres email</label>
-                    <input type="email" id="regEmail" placeholder="twoj@email.pl">
-                </div>
-                <div class="auth-form-group">
-                    <label>Hasło</label>
-                    <input type="password" id="regPassword" placeholder="••••••••">
-                </div>
-                <div class="auth-form-group">
-                    <label>Powtórz hasło</label>
-                    <input type="password" id="regPasswordConfirm" placeholder="••••••••">
-                </div>
-                <button class="auth-submit-btn" onclick="handleRegister()">Zarejestruj się</button>
             </div>
         </div>
     </div>
@@ -1503,7 +1708,7 @@
                             <li><a href="#"><i class="fas fa-chevron-right"></i> Wyślij własny artykuł</a></li>
                             <li><a href="#"><i class="fas fa-chevron-right"></i> Kącik twórczości uczeń-poeta</a></li>
                             <li><a href="#"><i class="fas fa-chevron-right"></i> Regulamin gazetki</a></li>
-                            <li><a href="#"><i class="fas fa-chevron-right"></i> Archimum archiwalne PDF</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Archiwum PDF</a></li>
                         </ul>
                     </div>
                     <div>
@@ -1601,8 +1806,8 @@
             });
 
             checkAuthStatus();
-            loadSiteComments();
-            loadSiteRatings();
+            if (window.loadSiteComments) window.loadSiteComments();
+            if (window.loadSiteRatings) window.loadSiteRatings();
 
             // Zamykanie popupu profilu po kliknięciu poza niego
             document.addEventListener('click', (e) => {
@@ -1687,17 +1892,23 @@
             const regForm = document.getElementById('registerFormContainer');
             const tabLoginBtn = document.getElementById('tabLoginBtn');
             const tabRegBtn = document.getElementById('tabRegisterBtn');
+            const titleEl = document.getElementById('authModalHeaderTitle');
+            const subEl = document.getElementById('authModalHeaderSub');
 
             if (tab === 'login') {
                 loginForm.style.display = 'block';
                 regForm.style.display = 'none';
                 tabLoginBtn.classList.add('active');
                 tabRegBtn.classList.remove('active');
+                titleEl.innerText = "Witaj z powrotem!";
+                subEl.innerText = "Zaloguj się na swoje konto, aby kontynuować.";
             } else {
                 loginForm.style.display = 'none';
                 regForm.style.display = 'block';
                 tabRegBtn.classList.add('active');
                 tabLoginBtn.classList.remove('active');
+                titleEl.innerText = "Stwórz nowe konto";
+                subEl.innerText = "Dołącz do czytelników i redakcji Głosu Trójki!";
             }
         }
 
@@ -1752,6 +1963,7 @@
             setTimeout(() => {
                 closeAuthModal();
                 checkAuthStatus();
+                if(window.loadSiteComments) window.loadSiteComments();
             }, 1000);
         }
 
@@ -1764,8 +1976,14 @@
                 return;
             }
 
-            let users = JSON.parse(localStorage.getItem('gt_users') || '[]');
-            const user = users.find(u => u.email === email && u.password === password);
+            // KONTO ADMINA SPECJALNE
+            let user = null;
+            if (email === 'gtrojki@gmail.com' && password === 'Toffi22!') {
+                user = { name: 'Głos Trójki (Admin)', email: email, password: password, isAdmin: true };
+            } else {
+                let users = JSON.parse(localStorage.getItem('gt_users') || '[]');
+                user = users.find(u => u.email === email && u.password === password);
+            }
 
             if (!user) {
                 showAuthError("Nieprawidłowy adres e-mail lub hasło.");
@@ -1777,12 +1995,14 @@
             setTimeout(() => {
                 closeAuthModal();
                 checkAuthStatus();
+                if(window.loadSiteComments) window.loadSiteComments();
             }, 1000);
         }
 
         window.handleLogout = function() {
             localStorage.removeItem('gt_logged_user');
             checkAuthStatus();
+            if(window.loadSiteComments) window.loadSiteComments();
         }
 
         window.checkAuthStatus = function() {
@@ -1810,174 +2030,13 @@
                 }
             }
         }
-
-        // Komentarze do artykułów
-        window.loadArticleComments = function(articleId) {
-            const container = document.getElementById('articleCommentsList_' + articleId);
-            if (!container) return;
-
-            let comments = JSON.parse(localStorage.getItem('gt_article_comments_' + articleId) || '[]');
-            if (comments.length === 0) {
-                container.innerHTML = '<div class="empty-calendar">Brak komentarzy. Bądź pierwszy!</div>';
-                return;
-            }
-
-            container.innerHTML = '';
-            comments.forEach(c => {
-                const html = `
-                    <div class="site-comment-item">
-                        <div class="site-comment-header">
-                            <span class="site-comment-author"><i class="fas fa-user-circle" style="color: var(--primary-yellow);"></i> ${c.name}</span>
-                            <span class="site-comment-date">${c.date}</span>
-                        </div>
-                        <div class="site-comment-text">${c.text}</div>
-                    </div>
-                `;
-                container.insertAdjacentHTML('beforeend', html);
-            });
-        }
-
-        window.submitArticleComment = function(articleId) {
-            const loggedUser = JSON.parse(localStorage.getItem('gt_logged_user'));
-            if (!loggedUser) {
-                alert("Musisz się zalogować, aby dodać komentarz!");
-                openAuthModal();
-                return;
-            }
-
-            const inputEl = document.getElementById('articleCommentInput_' + articleId);
-            if (!inputEl) return;
-            const text = inputEl.value.trim();
-
-            if (!text) {
-                alert("Komentarz nie może być pusty!");
-                return;
-            }
-
-            let comments = JSON.parse(localStorage.getItem('gt_article_comments_' + articleId) || '[]');
-            const newComment = {
-                name: loggedUser.name,
-                text: text,
-                date: new Date().toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })
-            };
-
-            comments.unshift(newComment);
-            localStorage.setItem('gt_article_comments_' + articleId, JSON.stringify(comments));
-
-            inputEl.value = '';
-            loadArticleComments(articleId);
-        }
-
-        // Ocena strony i komentarze strony
-        window.rateSite = function(starsCount) {
-            const loggedUser = JSON.parse(localStorage.getItem('gt_logged_user'));
-            if (!loggedUser) {
-                alert("Musisz się zalogować, aby ocenić stronę!");
-                openAuthModal();
-                return;
-            }
-
-            let ratings = JSON.parse(localStorage.getItem('gt_site_ratings') || '[]');
-            ratings = ratings.filter(r => r.email !== loggedUser.email);
-            ratings.push({ email: loggedUser.email, stars: starsCount });
-            localStorage.setItem('gt_site_ratings', JSON.stringify(ratings));
-
-            updateSiteRatingDisplay(ratings);
-            highlightStars(starsCount);
-        }
-
-        function loadSiteRatings() {
-            let ratings = JSON.parse(localStorage.getItem('gt_site_ratings') || '[]');
-            updateSiteRatingDisplay(ratings);
-
-            const loggedUser = JSON.parse(localStorage.getItem('gt_logged_user'));
-            if (loggedUser) {
-                const userRating = ratings.find(r => r.email === loggedUser.email);
-                if (userRating) {
-                    highlightStars(userRating.stars);
-                }
-            }
-        }
-
-        function updateSiteRatingDisplay(ratings) {
-            if (ratings.length === 0) {
-                document.getElementById('averageRatingText').innerText = "Średnia ocena: 0.0 / 5 (0 głosów)";
-                return;
-            }
-
-            const sum = ratings.reduce((acc, curr) => acc + curr.stars, 0);
-            const avg = (sum / ratings.length).toFixed(1);
-            document.getElementById('averageRatingText').innerText = `Średnia ocena: ${avg} / 5 (${ratings.length} ${ratings.length === 1 ? 'głos' : 'głosów'})`;
-        }
-
-        function highlightStars(count) {
-            const stars = document.querySelectorAll('#siteStars i');
-            stars.forEach((star, idx) => {
-                if (idx < count) {
-                    star.className = 'fas fa-star active';
-                } else {
-                    star.className = 'far fa-star';
-                }
-            });
-        }
-
-        window.submitSiteComment = function() {
-            const loggedUser = JSON.parse(localStorage.getItem('gt_logged_user'));
-            if (!loggedUser) {
-                alert("Musisz się zalogować, aby dodać komentarz!");
-                openAuthModal();
-                return;
-            }
-
-            const commentText = document.getElementById('siteCommentInput').value.trim();
-            if (!commentText) {
-                alert("Treść komentarza nie może być pusta!");
-                return;
-            }
-
-            let comments = JSON.parse(localStorage.getItem('gt_site_comments') || '[]');
-            const newComment = {
-                name: loggedUser.name,
-                text: commentText,
-                date: new Date().toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })
-            };
-
-            comments.unshift(newComment);
-            localStorage.setItem('gt_site_comments', JSON.stringify(comments));
-
-            document.getElementById('siteCommentInput').value = '';
-            loadSiteComments();
-        }
-
-        function loadSiteComments() {
-            const feed = document.getElementById('siteCommentsFeed');
-            let comments = JSON.parse(localStorage.getItem('gt_site_comments') || '[]');
-
-            if (comments.length === 0) {
-                feed.innerHTML = '<div class="empty-calendar">Brak opinii o stronie. Bądź pierwszy!</div>';
-                return;
-            }
-
-            feed.innerHTML = '';
-            comments.forEach(c => {
-                const html = `
-                    <div class="site-comment-item">
-                        <div class="site-comment-header">
-                            <span class="site-comment-author"><i class="fas fa-user-circle" style="color: var(--primary-yellow);"></i> ${c.name}</span>
-                            <span class="site-comment-date">${c.date}</span>
-                        </div>
-                        <div class="site-comment-text">${c.text}</div>
-                    </div>
-                `;
-                feed.insertAdjacentHTML('beforeend', html);
-            });
-        }
     </script>
 
+    <!-- FIREBASE FIRESTORE & LOGIKA BAZY KOMENTARZY -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-        import { getFirestore, collection, getDocs, doc, updateDoc, increment, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, updateDoc, increment, query, orderBy, limit, addDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCwWO7gJQjfhxusvDBhSFZGmX5UqzeHWsM",
@@ -1999,6 +2058,244 @@
         let fontScale = 1.0;
         let isFocusMode = false;
         const categoryMap = new Map();
+
+        // Paginacja komentarzy
+        window.articleCommentsLimitMap = {};
+        window.siteCommentsShowAll = false;
+
+        // Sprawdzanie czy dane konto to admin gtrojki@gmail.com
+        function isUserAdmin(loggedUser) {
+            return loggedUser && (loggedUser.email === 'gtrojki@gmail.com' || loggedUser.isAdmin === true);
+        }
+
+        // --- KOMENTARZE DO STRONY (Baza Firebase) ---
+        window.loadSiteComments = async function() {
+            const feed = document.getElementById('siteCommentsFeed');
+            const moreBtn = document.getElementById('siteCommentsMoreBtn');
+            if(!feed) return;
+
+            try {
+                const q = query(collection(db, "site_comments"), orderBy("createdAt", "desc"));
+                const snapshot = await getDocs(q);
+
+                if (snapshot.empty) {
+                    feed.innerHTML = '<div class="empty-calendar">Brak opinii o stronie. Bądź pierwszy!</div>';
+                    if(moreBtn) moreBtn.style.display = 'none';
+                    return;
+                }
+
+                const loggedUser = JSON.parse(localStorage.getItem('gt_logged_user'));
+                const isAdmin = isUserAdmin(loggedUser);
+
+                let comments = [];
+                snapshot.forEach(docSnap => {
+                    comments.push({ id: docSnap.id, ...docSnap.data() });
+                });
+
+                feed.innerHTML = '';
+                const displayCount = window.siteCommentsShowAll ? comments.length : 5;
+
+                comments.slice(0, displayCount).forEach(c => {
+                    const canDelete = isAdmin || (loggedUser && loggedUser.email === c.email);
+                    const deleteBtnHtml = canDelete ? `<button class="delete-comment-btn" onclick="deleteSiteComment('${c.id}')" title="Usuń komentarz"><i class="fas fa-trash"></i></button>` : '';
+
+                    let dateStr = c.date || "Niedawno";
+                    const html = `
+                        <div class="site-comment-item">
+                            <div class="site-comment-header">
+                                <span class="site-comment-author">
+                                    <i class="fas fa-user-circle" style="color: var(--primary-yellow);"></i> ${c.name}
+                                    ${deleteBtnHtml}
+                                </span>
+                                <span class="site-comment-date">${dateStr}</span>
+                            </div>
+                            <div class="site-comment-text">${c.text}</div>
+                        </div>
+                    `;
+                    feed.insertAdjacentHTML('beforeend', html);
+                });
+
+                if (moreBtn) {
+                    if (comments.length > 5) {
+                        moreBtn.style.display = 'flex';
+                        moreBtn.innerHTML = window.siteCommentsShowAll ? 'Pokaż mniej <i class="fas fa-chevron-up"></i>' : `Pokaż więcej opinii (${comments.length - 5}) <i class="fas fa-chevron-down"></i>`;
+                    } else {
+                        moreBtn.style.display = 'none';
+                    }
+                }
+            } catch (error) {
+                console.error("Błąd pobierania komentarzy strony:", error);
+            }
+        };
+
+        window.toggleSiteCommentsLimit = function() {
+            window.siteCommentsShowAll = !window.siteCommentsShowAll;
+            window.loadSiteComments();
+        };
+
+        window.submitSiteComment = async function() {
+            const loggedUser = JSON.parse(localStorage.getItem('gt_logged_user'));
+            if (!loggedUser) {
+                alert("Musisz się zalogować, aby dodać komentarz!");
+                window.openAuthModal();
+                return;
+            }
+
+            const inputEl = document.getElementById('siteCommentInput');
+            const commentText = inputEl ? inputEl.value.trim() : '';
+
+            if (!commentText) {
+                alert("Treść komentarza nie może być pusta!");
+                return;
+            }
+
+            try {
+                const now = new Date();
+                const dateStr = now.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' });
+                
+                await addDoc(collection(db, "site_comments"), {
+                    name: loggedUser.name,
+                    email: loggedUser.email,
+                    text: commentText,
+                    date: dateStr,
+                    createdAt: serverTimestamp()
+                });
+
+                if(inputEl) inputEl.value = '';
+                window.loadSiteComments();
+            } catch(e) {
+                console.error("Błąd zapisywania komentarza:", e);
+                alert("Wystąpił błąd podczas publikacji komentarza.");
+            }
+        };
+
+        window.deleteSiteComment = async function(commentId) {
+            if(!confirm("Czy na pewno chcesz usunąć ten komentarz?")) return;
+            try {
+                await deleteDoc(doc(db, "site_comments", commentId));
+                window.loadSiteComments();
+            } catch(e) {
+                console.error("Błąd usuwania komentarza:", e);
+                alert("Błąd podczas usuwania komentarza.");
+            }
+        };
+
+        // --- KOMENTARZE DO ARTYKUŁÓW (Baza Firebase) ---
+        window.loadArticleComments = async function(articleId) {
+            const container = document.getElementById('articleCommentsList_' + articleId);
+            const moreBtn = document.getElementById('articleCommentsMoreBtn_' + articleId);
+            if (!container) return;
+
+            try {
+                const q = query(collection(db, "article_comments"), orderBy("createdAt", "desc"));
+                const snapshot = await getDocs(q);
+
+                let comments = [];
+                snapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    if(data.articleId === articleId) {
+                        comments.push({ id: docSnap.id, ...data });
+                    }
+                });
+
+                if (comments.length === 0) {
+                    container.innerHTML = '<div class="empty-calendar">Brak komentarzy. Bądź pierwszy!</div>';
+                    if(moreBtn) moreBtn.style.display = 'none';
+                    return;
+                }
+
+                const loggedUser = JSON.parse(localStorage.getItem('gt_logged_user'));
+                const isAdmin = isUserAdmin(loggedUser);
+
+                container.innerHTML = '';
+                const isExpanded = !!window.articleCommentsLimitMap[articleId];
+                const displayCount = isExpanded ? comments.length : 5;
+
+                comments.slice(0, displayCount).forEach(c => {
+                    const canDelete = isAdmin || (loggedUser && loggedUser.email === c.email);
+                    const deleteBtnHtml = canDelete ? `<button class="delete-comment-btn" onclick="deleteArticleComment('${c.id}', '${articleId}')" title="Usuń komentarz"><i class="fas fa-trash"></i></button>` : '';
+
+                    const html = `
+                        <div class="site-comment-item">
+                            <div class="site-comment-header">
+                                <span class="site-comment-author">
+                                    <i class="fas fa-user-circle" style="color: var(--primary-yellow);"></i> ${c.name}
+                                    ${deleteBtnHtml}
+                                </span>
+                                <span class="site-comment-date">${c.date}</span>
+                            </div>
+                            <div class="site-comment-text">${c.text}</div>
+                        </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', html);
+                });
+
+                if (moreBtn) {
+                    if (comments.length > 5) {
+                        moreBtn.style.display = 'flex';
+                        moreBtn.innerHTML = isExpanded ? 'Pokaż mniej <i class="fas fa-chevron-up"></i>' : `Pokaż więcej komentarzy (${comments.length - 5}) <i class="fas fa-chevron-down"></i>`;
+                    } else {
+                        moreBtn.style.display = 'none';
+                    }
+                }
+            } catch(e) {
+                console.error("Błąd ładownaia komentarzy artykułu:", e);
+            }
+        };
+
+        window.toggleArticleCommentsLimit = function(articleId) {
+            window.articleCommentsLimitMap[articleId] = !window.articleCommentsLimitMap[articleId];
+            window.loadArticleComments(articleId);
+        };
+
+        window.submitArticleComment = async function(articleId) {
+            const loggedUser = JSON.parse(localStorage.getItem('gt_logged_user'));
+            if (!loggedUser) {
+                alert("Musisz się zalogować, aby dodać komentarz!");
+                window.openAuthModal();
+                return;
+            }
+
+            const inputEl = document.getElementById('articleCommentInput_' + articleId);
+            if (!inputEl) return;
+            const text = inputEl.value.trim();
+
+            if (!text) {
+                alert("Komentarz nie może być pusty!");
+                return;
+            }
+
+            try {
+                const now = new Date();
+                const dateStr = now.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' });
+
+                await addDoc(collection(db, "article_comments"), {
+                    articleId: articleId,
+                    name: loggedUser.name,
+                    email: loggedUser.email,
+                    text: text,
+                    date: dateStr,
+                    createdAt: serverTimestamp()
+                });
+
+                inputEl.value = '';
+                window.loadArticleComments(articleId);
+            } catch(e) {
+                console.error("Błąd dodawania komentarza:", e);
+                alert("Wystąpił błąd podczas dodawania komentarza.");
+            }
+        };
+
+        window.deleteArticleComment = async function(commentId, articleId) {
+            if(!confirm("Czy na pewno chcesz usunąć ten komentarz?")) return;
+            try {
+                await deleteDoc(doc(db, "article_comments", commentId));
+                window.loadArticleComments(articleId);
+            } catch(e) {
+                console.error("Błąd usuwania komentarza artykułu:", e);
+                alert("Błąd podczas usuwania komentarza.");
+            }
+        };
 
         // Dark Mode
         const themeToggle = document.getElementById('themeToggle');
@@ -2574,8 +2871,11 @@
                                     </button>
                                 </div>
                                 <div class="site-comments-list" id="articleCommentsList_${article.id}">
-                                    <div class="empty-calendar">Brak komentarzy. Bądź pierwszy!</div>
+                                    <div class="empty-calendar">Ładowanie komentarzy z bazy...</div>
                                 </div>
+                                <button id="articleCommentsMoreBtn_${article.id}" class="comments-more-btn" style="display: none;" onclick="toggleArticleCommentsLimit('${article.id}')">
+                                    Pokaż więcej komentarzy <i class="fas fa-chevron-down"></i>
+                                </button>
                             </div>
 
                         </div>
@@ -2605,7 +2905,7 @@
             if(modalContentScroll) modalContentScroll.scrollTop = 0;
             if(progressBar) progressBar.style.width = '0%';
             
-            loadArticleComments(article.id);
+            window.loadArticleComments(article.id);
         };
 
         window.closeModal = function() {
