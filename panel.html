@@ -222,7 +222,7 @@
         .admin-title i { color: var(--primary-yellow); background: var(--accent-glow); padding: 12px; border-radius: var(--radius-sm); font-size: 1.8rem; }
 
         /* STATYSTYKI */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 24px; margin-bottom: 35px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px; margin-bottom: 35px; }
         .stat-card { background: var(--bg-white); padding: 24px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); display: flex; align-items: center; gap: 18px; transition: var(--transition); }
         .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--primary-yellow); }
         .stat-icon { width: 56px; height: 56px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0; }
@@ -448,6 +448,41 @@
         </div>
     </div>
 
+    <!-- MODAL EDYCJI KĄCIKA -->
+    <div id="editKacikModal" class="custom-modal">
+        <div class="modal-content-box" style="max-width: 650px;">
+            <button class="modal-close" onclick="closeEditKacikModal()"><i class="fas fa-times"></i></button>
+            <h3 style="margin-bottom: 20px;"><i class="fas fa-edit" style="color: var(--primary-yellow);"></i> Edycja kącika</h3>
+            <form id="editKacikForm">
+                <input type="hidden" id="editKacikId">
+                <div class="form-group">
+                    <label>Nazwa kącika</label>
+                    <input type="text" id="editKacikName" required>
+                </div>
+                <div class="form-group">
+                    <label>Opis</label>
+                    <textarea id="editKacikDesc" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Link do logo (URL)</label>
+                    <input type="url" id="editKacikLogo" required placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>Link do banera (URL)</label>
+                    <input type="url" id="editKacikBanner" required placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>Osoba prowadząca</label>
+                    <input type="text" id="editKacikAuthor" required placeholder="np. Jan Kowalski (kl. 7A)">
+                </div>
+                <div style="margin-top: 25px; display: flex; justify-content: flex-end; gap: 12px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeEditKacikModal()">Anuluj</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Zapisz zmiany</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- MODAL DODAWANIA / EDYCJI GAZETKI -->
     <div id="magazineModal" class="custom-modal">
         <div class="modal-content-box" style="max-width: 720px;">
@@ -505,6 +540,7 @@
                 <li><a href="#" onclick="switchSection('submissions', this)"><i class="fas fa-inbox"></i> <span>Nadesłane Prace</span></a></li>
                 <li><a href="#" onclick="switchSection('scheduled', this)"><i class="fas fa-calendar-check"></i> <span>Zaplanowane Artykuły</span></a></li>
                 <li><a href="#" onclick="switchSection('articles', this)"><i class="fas fa-newspaper"></i> <span>Artykuły Główne</span></a></li>
+                <li><a href="#" onclick="switchSection('kaciki', this)"><i class="fas fa-shapes"></i> <span>Kąciki</span></a></li>
                 <li><a href="#" onclick="switchSection('magazines', this)"><i class="fas fa-book-open"></i> <span>Gazetki Szkolne</span></a></li>
                 <li><a href="#" onclick="switchSection('calendar', this)"><i class="fas fa-calendar-alt"></i> <span>Kalendarz Szkolny</span></a></li>
                 <li><a href="#" onclick="switchSection('schedule', this)"><i class="fas fa-truck"></i> <span>Harmonogram</span></a></li>
@@ -544,6 +580,13 @@
                     <div class="stat-info">
                         <h4 id="statPublished">0</h4>
                         <p>Opublikowane</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #fce7f3; color: #db2777;"><i class="fas fa-shapes"></i></div>
+                    <div class="stat-info">
+                        <h4 id="statKaciki">0</h4>
+                        <p>Kąciki</p>
                     </div>
                 </div>
                 <div class="stat-card">
@@ -592,7 +635,48 @@
             </div>
         </div>
 
-        <!-- 5. GAZETKI SZKOLNE -->
+        <!-- 5. KĄCIKI -->
+        <div id="sec-kaciki" class="admin-section-content">
+            <h2 class="admin-title"><i class="fas fa-shapes"></i> Zarządzanie Kącikami</h2>
+            <div class="admin-grid">
+                <div class="admin-card">
+                    <h3 class="admin-card-title"><i class="fas fa-plus-circle" style="color: var(--primary-yellow);"></i> Dodaj nowy kącik</h3>
+                    <form id="kacikForm">
+                        <div class="form-group">
+                            <label>Nazwa kącika</label>
+                            <input type="text" id="kacikName" required placeholder="np. Kącik Artystyczny">
+                        </div>
+                        <div class="form-group">
+                            <label>Opis</label>
+                            <textarea id="kacikDesc" required placeholder="Krótki opis kącika..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Link do logo (URL)</label>
+                            <input type="url" id="kacikLogo" required placeholder="https://...">
+                        </div>
+                        <div class="form-group">
+                            <label>Link do banera (URL)</label>
+                            <input type="url" id="kacikBanner" required placeholder="https://...">
+                        </div>
+                        <div class="form-group">
+                            <label>Osoba prowadząca</label>
+                            <input type="text" id="kacikAuthor" required placeholder="np. Jan Kowalski (kl. 7A)">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                            <i class="fas fa-plus"></i> Dodaj kącik do bazy danych
+                        </button>
+                    </form>
+                </div>
+                <div class="admin-card">
+                    <h3 class="admin-card-title"><i class="fas fa-list"></i> Istniejące kąciki</h3>
+                    <div id="kacikiManageList">
+                        <div class="empty-box"><i class="fas fa-spinner fa-spin" style="color: var(--primary-yellow);"></i> Ładowanie kącików...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. GAZETKI SZKOLNE -->
         <div id="sec-magazines" class="admin-section-content">
             <h2 class="admin-title"><i class="fas fa-book-open"></i> Zarządzanie Gazetkami</h2>
             <div class="admin-card">
@@ -606,7 +690,7 @@
             </div>
         </div>
 
-        <!-- 6. KALENDARZ SZKOLNY -->
+        <!-- 7. KALENDARZ SZKOLNY -->
         <div id="sec-calendar" class="admin-section-content">
             <h2 class="admin-title"><i class="fas fa-calendar-alt"></i> Kalendarz Szkolny i Wydarzenia</h2>
             <div class="admin-grid">
@@ -639,7 +723,7 @@
             </div>
         </div>
 
-        <!-- 7. HARMONOGRAM ROZDAWANIA -->
+        <!-- 8. HARMONOGRAM ROZDAWANIA -->
         <div id="sec-schedule" class="admin-section-content">
             <h2 class="admin-title"><i class="fas fa-truck"></i> Harmonogram Rozdawania</h2>
             <div class="admin-grid">
@@ -672,7 +756,7 @@
             </div>
         </div>
 
-        <!-- 8. POWIADOMIENIA -->
+        <!-- 9. POWIADOMIENIA -->
         <div id="sec-notifications" class="admin-section-content">
             <h2 class="admin-title"><i class="fas fa-bell"></i> Powiadomienia dla uczniów</h2>
             <div class="admin-grid">
@@ -697,12 +781,16 @@
             </div>
         </div>
 
-        <!-- 9. PORADNIK REDAKTORA -->
+        <!-- 10. PORADNIK REDAKTORA -->
         <div id="sec-guide" class="admin-section-content">
             <h2 class="admin-title"><i class="fas fa-book-reader"></i> Poradnik Redaktora</h2>
             <div class="admin-card" style="margin-bottom: 25px;">
                 <h3 class="admin-card-title"><i class="fas fa-star" style="color: var(--primary-yellow);"></i> Jak korzystać z panelu Głos Trójki Pro?</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div style="background: var(--bg-body); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                        <h4 style="font-size: 1.05rem; margin-bottom: 8px; color: var(--secondary-dark);"><i class="fas fa-shapes" style="color: #db2777;"></i> Zarządzanie Kącikami</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">W zakładce <em>Kąciki</em> możesz dodawać i edytować stałe rubryki szkolne. Podaj nazwę, opis, linki do grafiki (logo oraz baner) oraz osobę prowadzącą.</p>
+                    </div>
                     <div style="background: var(--bg-body); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
                         <h4 style="font-size: 1.05rem; margin-bottom: 8px; color: var(--secondary-dark);"><i class="fas fa-calendar-check" style="color: #0284c7;"></i> Planowanie publikacji</h4>
                         <p style="font-size: 0.9rem; color: var(--text-muted);">W zakładce <em>Nadesłane Prace</em> obok przycisku publikacji natychmiastowej masz teraz opcję <strong>Zaplanuj</strong>. Wybierz datę, godzinę oraz link do miniatury. System automatycznie wypuści artykuł o wyznaczonej godzinie.</p>
@@ -711,16 +799,12 @@
                         <h4 style="font-size: 1.05rem; margin-bottom: 8px; color: var(--secondary-dark);"><i class="fas fa-book-open" style="color: var(--primary-yellow);"></i> Gazetki i parzystość stron</h4>
                         <p style="font-size: 0.9rem; color: var(--text-muted);">Podczas dodawania lub edycji gazetek pamiętaj, że liczba stron musi być <strong>parzysta</strong> (np. 2, 4, 6, 8). System automatycznie zwaliduje pole przed zapisem w bazie danych.</p>
                     </div>
-                    <div style="background: var(--bg-body); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
-                        <h4 style="font-size: 1.05rem; margin-bottom: 8px; color: var(--secondary-dark);"><i class="fas fa-edit" style="color: #16a34a;"></i> Edycja i Wyróżnianie</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">Opublikowane artykuły oraz zaplanowane wpisy można w każdej chwili edytować za pomocą żółtego przycisku edycji. Możesz też wyróżniać najważniejsze teksty na stronie głównej.</p>
-                    </div>
                 </div>
             </div>
         </div>
 
         <footer class="site-footer">
-            <p>Głos Trójki © 2026 • Panel Redakcji Pro • Wersja 3.5 Ultra Modern</p>
+            <p>Głos Trójki © 2026 • Panel Redakcji Pro • Wersja 3.6 Ultra Modern</p>
         </footer>
     </main>
 
@@ -735,6 +819,7 @@
         window.submissionsCache = {};
         window.scheduledCache = {};
         window.articlesCache = {};
+        window.kacikiCache = {};
         window.magazinesCache = {};
 
         /* MOBILNY SIDEBAR */
@@ -801,6 +886,7 @@
             fetchSubmissions();
             fetchScheduledArticles();
             fetchPublishedArticles();
+            fetchKaciki();
             fetchMagazines();
             fetchCalendar();
             fetchSchedule();
@@ -810,6 +896,114 @@
             setInterval(checkScheduledArticlesTimer, 60000);
         }
 
+        /* --- KĄCIKI --- */
+        document.getElementById('kacikForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('kacikName').value.trim();
+            const description = document.getElementById('kacikDesc').value.trim();
+            const logo = document.getElementById('kacikLogo').value.trim();
+            const banner = document.getElementById('kacikBanner').value.trim();
+            const author = document.getElementById('kacikAuthor').value.trim();
+
+            try {
+                await addDoc(collection(db, "kaciki"), {
+                    name,
+                    description,
+                    logo,
+                    banner,
+                    author,
+                    createdAt: serverTimestamp()
+                });
+                alert("Kącik został pomyślnie dodany do bazy danych!");
+                document.getElementById('kacikForm').reset();
+                fetchKaciki();
+            } catch (err) {
+                console.error("Błąd zapisu kącika w Firebase:", err);
+                alert("Wystąpił błąd podczas dodawania kącika: " + err.message);
+            }
+        });
+
+        async function fetchKaciki() {
+            const container = document.getElementById('kacikiManageList');
+            try {
+                window.kacikiCache = {};
+                const q = query(collection(db, "kaciki"), orderBy("createdAt", "desc"));
+                const snapshot = await getDocs(q);
+                const statEl = document.getElementById('statKaciki');
+                if(statEl) statEl.innerText = snapshot.size;
+
+                if (snapshot.empty) {
+                    container.innerHTML = '<div class="empty-box"><i class="fas fa-shapes fa-2x" style="display:block; margin-bottom:12px; color:var(--primary-yellow);"></i>Brak kącików w bazie.</div>';
+                    return;
+                }
+
+                container.innerHTML = '';
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const id = docSnap.id;
+                    window.kacikiCache[id] = data;
+
+                    container.insertAdjacentHTML('beforeend', `
+                        <div class="list-item" style="border-left-color: #db2777;">
+                            <div class="item-info">
+                                <h4 class="no-hover">${data.name || 'Bez nazwy'}</h4>
+                                <p><i class="fas fa-user-edit" style="color: #db2777;"></i> Prowadzący: <strong>${data.author || 'Nieznany'}</strong></p>
+                                <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">${data.description ? (data.description.substring(0, 90) + '...') : ''}</p>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-warning" onclick="openEditKacikModal('${id}')" title="Edytuj kącik"><i class="fas fa-edit"></i> Edytuj</button>
+                                <button class="btn btn-danger" onclick="deleteDocument('kaciki', '${id}')" title="Usuń"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    `);
+                });
+            } catch (e) {
+                console.error("Błąd pobierania kącików:", e);
+                container.innerHTML = '<div class="empty-box" style="color: #991b1b;">Błąd ładowania kącików. Sprawdź konsolę (F12).</div>';
+            }
+        }
+
+        window.openEditKacikModal = function(id) {
+            const data = window.kacikiCache[id] || {};
+            document.getElementById('editKacikId').value = id;
+            document.getElementById('editKacikName').value = data.name || '';
+            document.getElementById('editKacikDesc').value = data.description || '';
+            document.getElementById('editKacikLogo').value = data.logo || '';
+            document.getElementById('editKacikBanner').value = data.banner || '';
+            document.getElementById('editKacikAuthor').value = data.author || '';
+            document.getElementById('editKacikModal').style.display = 'flex';
+        }
+
+        window.closeEditKacikModal = function() {
+            document.getElementById('editKacikModal').style.display = 'none';
+        }
+
+        document.getElementById('editKacikForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('editKacikId').value;
+            const name = document.getElementById('editKacikName').value.trim();
+            const description = document.getElementById('editKacikDesc').value.trim();
+            const logo = document.getElementById('editKacikLogo').value.trim();
+            const banner = document.getElementById('editKacikBanner').value.trim();
+            const author = document.getElementById('editKacikAuthor').value.trim();
+
+            try {
+                await updateDoc(doc(db, "kaciki", id), {
+                    name,
+                    description,
+                    logo,
+                    banner,
+                    author
+                });
+                alert("Kącik został pomyślnie zaktualizowany!");
+                closeEditKacikModal();
+                fetchKaciki();
+            } catch (err) {
+                console.error("Błąd edycji kącika:", err);
+                alert("Błąd zapisu zmian: " + err.message);
+            }
+        });
+
         /* --- PLANOWANIE ARTYKUŁÓW --- */
         window.openScheduleModal = function(id) {
             const data = window.submissionsCache[id] || {};
@@ -817,7 +1011,6 @@
             document.getElementById('schedTitle').value = data.title || data.tytul || '';
             document.getElementById('schedImageUrl').value = data.imageUrl || "https://images.unsplash.com/photo-1546422904-90eab23c3d7e?auto=format&fit=crop&w=800&q=80";
             
-            // Domyślnie ustaw jutrzejszą datę o 8:00
             const tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate() + 1);
             tomorrow.setHours(8, 0, 0, 0);
@@ -979,7 +1172,6 @@
             }
         });
 
-        // Automatyczne sprawdzanie i publikowanie w wyznaczonym terminie
         async function checkScheduledArticlesTimer() {
             try {
                 const snapshot = await getDocs(collection(db, "scheduled_articles"));
@@ -1216,7 +1408,7 @@
             } else {
                 document.getElementById('magazineModalTitle').innerHTML = `<i class="fas fa-book" style="color: var(--primary-yellow);"></i> Dodaj nowe wydanie gazetki`;
                 addMagazinePageField();
-                addMagazinePageField(); // Domyślnie 2 strony (parzysta liczba)
+                addMagazinePageField(); 
             }
 
             document.getElementById('magazineModal').style.display = 'flex';
@@ -1477,6 +1669,7 @@
                 if(col === 'submitted_articles') fetchSubmissions();
                 if(col === 'scheduled_articles') fetchScheduledArticles();
                 if(col === 'articles') fetchPublishedArticles();
+                if(col === 'kaciki') fetchKaciki();
                 if(col === 'magazines') fetchMagazines();
                 if(col === 'calendar_events') fetchCalendar();
                 if(col === 'harmonogram') fetchSchedule();
