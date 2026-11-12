@@ -25,6 +25,7 @@
             --text-light: #a0aab5;
             --bg-body: #f4f6f9;
             --bg-white: #ffffff;
+            --bg-white-rgb: 255, 255, 255;
             --bg-gray: #eef1f5;
             --border-color: #e2e8f0;
             --shadow-xs: 0 1px 3px rgba(0,0,0,0.05);
@@ -50,6 +51,7 @@
             --text-muted: #a0aec0;
             --bg-body: #0d1117;
             --bg-white: #161b22;
+            --bg-white-rgb: 22, 27, 34;
             --bg-gray: #21262d;
             --border-color: #30363d;
             --shadow-xs: 0 1px 3px rgba(0,0,0,0.2);
@@ -107,7 +109,7 @@
             color: var(--primary-yellow);
         }
 
-        /* Popup profilu obok przycisku */
+        /* Popup profilu obok przycisku - ulepszone animacje wejścia/wyjścia */
         .profile-dropdown-popup {
             position: absolute;
             top: 40px;
@@ -120,14 +122,17 @@
             width: 280px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.4);
             z-index: 3500;
-            display: none;
             opacity: 0;
-            transform: translateY(10px) scale(0.95);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-10px) scale(0.95);
+            transform-origin: top right;
+            transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.28s;
         }
         .profile-dropdown-popup.active {
-            display: block;
             opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
             transform: translateY(0) scale(1);
         }
         .profile-dropdown-header {
@@ -404,6 +409,237 @@
         .widget-title::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 50px; height: 2px; background: var(--primary-yellow); }
         .widget-title i { color: var(--primary-yellow); }
 
+        /* WIDGET KĄCIKA PO PRAWEJ STRONIE */
+        .corner-sidebar-widget {
+            display: none;
+            background: var(--bg-white);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 2px solid var(--primary-yellow);
+            animation: cornerCardIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes cornerCardIn {
+            from { opacity: 0; transform: translateY(-15px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .corner-widget-thumb {
+            width: 100%;
+            height: 155px;
+            position: relative;
+            overflow: hidden;
+            background: var(--bg-gray);
+        }
+        .corner-widget-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .corner-sidebar-widget:hover .corner-widget-thumb img {
+            transform: scale(1.06);
+        }
+        .corner-widget-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--primary-yellow);
+            color: #1E2227;
+            font-family: var(--font-headings);
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            box-shadow: var(--shadow-sm);
+        }
+        .corner-widget-body {
+            padding: 20px;
+            text-align: center;
+        }
+        .corner-widget-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--secondary-dark);
+            margin-bottom: 15px;
+            line-height: 1.25;
+        }
+        .btn-view-corner {
+            width: 100%;
+            background: var(--primary-yellow);
+            color: #1E2227;
+            padding: 12px 20px;
+            border-radius: var(--radius-full);
+            font-family: var(--font-headings);
+            font-weight: 800;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        .btn-view-corner:hover {
+            background: var(--primary-yellow-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* PEŁNOEKRANOWY POPUP KĄCIKA */
+        .corner-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(10, 14, 20, 0.88);
+            z-index: 2500;
+            opacity: 0;
+            visibility: hidden;
+            backdrop-filter: blur(12px);
+            transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s;
+        }
+        .corner-modal-overlay.active {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+        }
+        .corner-modal-overlay.closing {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .corner-modal-content {
+            background: var(--bg-body);
+            width: 100vw;
+            height: 100vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(30px) scale(0.97);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+        }
+        .corner-modal-overlay.active .corner-modal-content {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        .corner-modal-overlay.closing .corner-modal-content {
+            transform: translateY(25px) scale(0.97);
+            opacity: 0;
+        }
+        .corner-hero-banner {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        /* Gradientowe zanikanie baneru ku dołowi */
+        .corner-hero-banner::after {
+            content: '';
+            position: absolute;
+            left: 0; right: 0; bottom: 0;
+            height: 75%;
+            background: linear-gradient(
+                to bottom,
+                rgba(244, 246, 249, 0) 0%,
+                rgba(244, 246, 249, 0.65) 55%,
+                var(--bg-body) 100%
+            );
+            pointer-events: none;
+        }
+        [data-theme="dark"] .corner-hero-banner::after {
+            background: linear-gradient(
+                to bottom,
+                rgba(13, 17, 23, 0) 0%,
+                rgba(13, 17, 23, 0.7) 55%,
+                var(--bg-body) 100%
+            );
+        }
+        .corner-body-wrapper {
+            max-width: 1050px;
+            margin: -115px auto 0;
+            padding: 0 20px 80px;
+            position: relative;
+            z-index: 5;
+        }
+        .corner-header-card {
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            padding: 35px 40px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 45px;
+        }
+        .corner-logo-wrap {
+            width: 135px;
+            height: 135px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid var(--primary-yellow);
+            background: var(--bg-white);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-top: -95px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .corner-logo-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .corner-modal-title {
+            font-size: 2.6rem;
+            font-weight: 900;
+            color: var(--secondary-dark);
+            margin-bottom: 12px;
+            line-height: 1.15;
+        }
+        .corner-host-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-gray);
+            color: var(--secondary-dark);
+            padding: 8px 20px;
+            border-radius: var(--radius-full);
+            font-family: var(--font-headings);
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        .corner-host-badge i {
+            color: var(--primary-yellow);
+        }
+        .corner-description {
+            font-size: 1.08rem;
+            color: var(--text-main);
+            max-width: 760px;
+            line-height: 1.75;
+        }
+        .corner-articles-section-title {
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border-color);
+            color: var(--secondary-dark);
+        }
+        .corner-articles-section-title i {
+            color: var(--primary-yellow);
+        }
+
         .calendar-list { display: flex; flex-direction: column; gap: 15px; }
         .event-item { display: flex; gap: 15px; align-items: center; padding: 12px; background: var(--bg-body); border-radius: var(--radius-sm); border-left: 4px solid var(--primary-yellow); transition: var(--transition); }
         .event-item:hover { transform: translateX(5px); background: var(--bg-gray); }
@@ -586,7 +822,7 @@
             border-color: var(--primary-yellow);
         }
 
-        /* ULEPSZONY PEŁNOEKRANOWY MODAL LOGOWANIA / REJESTRACJI (SPLIT SCREEN) */
+        /* ULEPSZONY PEŁNOEKRANOWY MODAL LOGOWANIA / REJESTRACJI (SPLIT SCREEN) z animacjami wejścia i wyjścia */
         .auth-modal-overlay {
             display: none;
             position: fixed;
@@ -599,12 +835,16 @@
             backdrop-filter: blur(12px);
             opacity: 0;
             visibility: hidden;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s;
         }
         .auth-modal-overlay.active {
             display: flex;
             opacity: 1;
             visibility: visible;
+        }
+        .auth-modal-overlay.closing {
+            opacity: 0;
+            visibility: hidden;
         }
         .auth-fullscreen-container {
             width: 100vw;
@@ -613,11 +853,17 @@
             position: relative;
             background: var(--bg-white);
             overflow: hidden;
-            animation: authModalSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: scale(0.95) translateY(15px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
         }
-        @keyframes authModalSlideIn {
-            from { opacity: 0; transform: scale(0.97); }
-            to { opacity: 1; transform: scale(1); }
+        .auth-modal-overlay.active .auth-fullscreen-container {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        .auth-modal-overlay.closing .auth-fullscreen-container {
+            opacity: 0;
+            transform: scale(0.95) translateY(15px);
         }
 
         /* Lewa połowa - Wyjątkowe Zdjęcie */
@@ -757,6 +1003,29 @@
             background: var(--primary-yellow);
             color: #1E2227;
             box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+        }
+
+        .auth-error-msg {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: none;
+        }
+        .auth-success-msg {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: none;
         }
 
         .auth-input-group {
@@ -901,25 +1170,29 @@
         .footer-bottom-links a { color: #828d9a; transition: var(--transition); }
         .footer-bottom-links a:hover { color: var(--primary-yellow); }
 
-        /* Modal z artykułem z animacjami */
+        /* Modal z artykułem z animacjami wejścia i wyjścia */
         .modal-overlay { 
             display: none; 
             position: fixed; 
             top: 0; left: 0; 
             width: 100vw; height: 100vh; 
             background: rgba(0, 0, 0, 0.85); 
-            z-index: 2000; 
+            z-index: 2600; 
             align-items: center; 
             justify-content: center; 
             opacity: 0; 
             visibility: hidden;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+            transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s; 
             backdrop-filter: blur(10px); 
         }
         .modal-overlay.active { 
             display: flex; 
             opacity: 1; 
             visibility: visible;
+        }
+        .modal-overlay.closing {
+            opacity: 0;
+            visibility: hidden;
         }
         
         .modal-content { 
@@ -931,12 +1204,16 @@
             overflow-y: auto; 
             transform: scale(0.95) translateY(20px); 
             opacity: 0;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
         }
         
         .modal-overlay.active .modal-content { 
             transform: scale(1) translateY(0); 
             opacity: 1;
+        }
+        .modal-overlay.closing .modal-content {
+            transform: scale(0.95) translateY(20px);
+            opacity: 0;
         }
 
         .reading-progress-bar {
@@ -945,7 +1222,7 @@
             height: 5px;
             background: var(--primary-yellow);
             width: 0%;
-            z-index: 2200;
+            z-index: 2800;
             transition: width 0.1s ease-out;
             box-shadow: 0 0 10px rgba(255, 193, 7, 0.8);
         }
@@ -959,7 +1236,7 @@
             border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; 
             font-size: 1.5rem; 
-            z-index: 2100; 
+            z-index: 2700; 
             transition: var(--transition); 
             border: none; cursor: pointer; 
             box-shadow: var(--shadow-md); 
@@ -1310,6 +1587,9 @@
             .modal-close { top: 15px; right: 15px; width: 40px; height: 40px; font-size: 1.2rem; }
             .modal-body-content .modal-title { font-size: 2rem; }
             .reader-toolbar { flex-direction: column; align-items: flex-start; }
+            .corner-hero-banner { height: 280px; }
+            .corner-modal-title { font-size: 1.9rem; }
+            .corner-header-card { padding: 25px 20px; }
         }
     </style>
 </head>
@@ -1320,7 +1600,7 @@
         <div class="container">
             <div class="top-bar-left">
                 <span><i class="fas fa-school"></i> Gazetka szkolna SP3 w Sulejówku</span>
-                <span><i class="far fa-clock"></i> Wersja 3.2.2b</span>
+                <span><i class="far fa-clock"></i> Wersja 3.4.7f</span>
             </div>
             <div class="top-bar-right">
                 <button class="theme-toggle" id="themeToggle" title="Przełącz motyw"><i class="fas fa-moon"></i></button>
@@ -1545,6 +1825,20 @@
         </div>
 
         <aside class="sidebar">
+            <!-- OKNO KĄCIKA PO PRAWEJ STRONIE (pokazuje się gdy kategoria ma odpowiednik w bazie) -->
+            <div class="corner-sidebar-widget" id="cornerSidebarWidget">
+                <div class="corner-widget-thumb">
+                    <span class="corner-widget-badge"><i class="fas fa-star"></i> Kącik tematyczny</span>
+                    <img id="cornerSidebarThumb" src="" alt="Miniaturka kącika">
+                </div>
+                <div class="corner-widget-body">
+                    <h3 class="corner-widget-title" id="cornerSidebarTitle">Nazwa kącika</h3>
+                    <button class="btn-view-corner" id="openCornerPopupBtn">
+                        <i class="fas fa-external-link-alt"></i> Zobacz kącik
+                    </button>
+                </div>
+            </div>
+
             <!-- SZKOLNY KALENDARZ -->
             <div class="widget">
                 <h3 class="widget-title"><i class="far fa-calendar-check"></i> Szkolny Kalendarz</h3>
@@ -1732,6 +2026,14 @@
         </footer>
     </div>
 
+    <!-- PEŁNOEKRANOWY POPUP KĄCIKA -->
+    <div id="cornerModal" class="corner-modal-overlay" onclick="closeCornerModalOnOverlay(event)">
+        <div class="corner-modal-content" id="cornerModalContent">
+            <button class="modal-close" onclick="closeCornerModal()" title="Zamknij kącik"><i class="fas fa-times"></i></button>
+            <div id="cornerModalBody"></div>
+        </div>
+    </div>
+
     <!-- Modal (Popup z artykułem i bogatym panelem czytnika) -->
     <div id="articleModal" class="modal-overlay" onclick="closeModalOnOverlay(event)">
         <div class="reading-progress-bar" id="readingProgressBar"></div>
@@ -1756,24 +2058,24 @@
                 document.body.style.overflow = 'hidden';
             }
 
-            function closeMobileNav() {
+            window.closeMobileNav = function() {
                 mobileNavOverlay.classList.remove('active');
                 document.body.style.overflow = 'auto';
             }
 
             if (mobileMenuOpen) mobileMenuOpen.addEventListener('click', openMobileNav);
-            if (mobileMenuClose) mobileMenuClose.addEventListener('click', closeMobileNav);
+            if (mobileMenuClose) mobileMenuClose.addEventListener('click', window.closeMobileNav);
 
             if (mobileNavOverlay) {
                 mobileNavOverlay.addEventListener('click', (e) => {
                     if (e.target === mobileNavOverlay) {
-                        closeMobileNav();
+                        window.closeMobileNav();
                     }
                 });
             }
 
             document.querySelectorAll('.drawer-menu-list a').forEach(link => {
-                link.addEventListener('click', closeMobileNav);
+                link.addEventListener('click', window.closeMobileNav);
             });
 
             function updateDrawerThemeIcon() {
@@ -1801,7 +2103,7 @@
 
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && mobileNavOverlay.classList.contains('active')) {
-                    closeMobileNav();
+                    window.closeMobileNav();
                 }
             });
 
@@ -1868,16 +2170,31 @@
             alert("Zaktualizowano profil pomyślnie!");
         }
 
-        // System logowania i rejestracji
+        // System logowania i rejestracji z animacjami wejścia i wyjścia
         window.openAuthModal = function() {
-            document.getElementById('authModalOverlay').classList.add('active');
+            const overlay = document.getElementById('authModalOverlay');
+            overlay.classList.remove('closing');
+            overlay.style.display = 'flex';
+            requestAnimationFrame(() => {
+                overlay.classList.add('active');
+            });
             document.body.style.overflow = 'hidden';
             hideAuthMessages();
         }
 
         window.closeAuthModal = function() {
-            document.getElementById('authModalOverlay').classList.remove('active');
-            document.body.style.overflow = 'auto';
+            const overlay = document.getElementById('authModalOverlay');
+            if (!overlay.classList.contains('active')) return;
+            overlay.classList.add('closing');
+            overlay.classList.remove('active');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                overlay.classList.remove('closing');
+                if (!document.getElementById('articleModal').classList.contains('active') &&
+                    !document.getElementById('cornerModal').classList.contains('active')) {
+                    document.body.style.overflow = 'auto';
+                }
+            }, 350);
         }
 
         window.closeAuthModalOnOverlay = function(event) {
@@ -2032,7 +2349,7 @@
         }
     </script>
 
-    <!-- FIREBASE FIRESTORE & LOGIKA BAZY KOMENTARZY -->
+    <!-- FIREBASE FIRESTORE & LOGIKA BAZY KOMENTARZY ORAZ KĄCIKÓW -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
@@ -2053,6 +2370,7 @@
         const db = getFirestore(app);
 
         window.articlesData = {};
+        window.cornersData = {}; // Przechowuje kąciki z bazy (klucz: nazwa małą literą)
         let currentFilter = 'Wszystkie';
         let showAllArticles = false;
         let fontScale = 1.0;
@@ -2067,6 +2385,164 @@
         function isUserAdmin(loggedUser) {
             return loggedUser && (loggedUser.email === 'gtrojki@gmail.com' || loggedUser.isAdmin === true);
         }
+
+        // --- POBIERANIE KĄCIKÓW Z BAZY DANYCH PANELU ---
+        async function fetchCorners() {
+            const possibleCollections = ["kaciki", "corners", "kacik", "corner"];
+            for (const colName of possibleCollections) {
+                try {
+                    const snapshot = await getDocs(collection(db, colName));
+                    if (!snapshot.empty) {
+                        snapshot.forEach(docSnap => {
+                            const d = docSnap.data();
+                            const name = (d.name || d.title || d.nazwa || d.tytul || "").trim();
+                            if (name) {
+                                window.cornersData[name.toLowerCase()] = {
+                                    id: docSnap.id,
+                                    name: name,
+                                    host: d.host || d.leader || d.prowadzacy || d.osobaProwadzaca || d.author || d.autor || "Redakcja Głosu Trójki",
+                                    description: d.description || d.desc || d.opis || "Witamy w naszym kąciku tematycznym!",
+                                    bannerUrl: d.bannerUrl || d.banner || d.baner || d.imageUrl || d.image || d.obraz || "https://imgur.com/snavNsE.png",
+                                    logoUrl: d.logoUrl || d.logo || d.avatar || d.icon || "https://imgur.com/nwkFXR1.png",
+                                    thumbnailUrl: d.thumbnailUrl || d.thumbnail || d.miniaturka || d.bannerUrl || d.banner || d.baner || d.imageUrl || d.logoUrl || d.logo || "https://imgur.com/snavNsE.png"
+                                };
+                            }
+                        });
+                    }
+                } catch (e) {
+                    console.warn("Pominięto kolekcję kącików:", colName);
+                }
+            }
+            // Odśwież widok bocznego okna jeśli wybrano już kategorię
+            updateCornerSidebarWidget(currentFilter);
+        }
+
+        // Aktualizacja okna kącika po prawej stronie po kliknięciu kategorii
+        function updateCornerSidebarWidget(categoryName) {
+            const widget = document.getElementById('cornerSidebarWidget');
+            if (!widget) return;
+
+            const catLower = (categoryName || "").trim().toLowerCase();
+            if (!catLower || catLower === 'wszystkie' || !window.cornersData[catLower]) {
+                widget.style.display = 'none';
+                return;
+            }
+
+            const corner = window.cornersData[catLower];
+            document.getElementById('cornerSidebarThumb').src = corner.thumbnailUrl;
+            document.getElementById('cornerSidebarTitle').innerText = corner.name;
+            
+            const btn = document.getElementById('openCornerPopupBtn');
+            btn.onclick = () => window.openCornerModal(catLower);
+
+            // Ponowne wywołanie animacji wejścia
+            widget.style.display = 'none';
+            void widget.offsetWidth;
+            widget.style.display = 'block';
+        }
+
+        // Otwieranie pełnoekranowego popupu kącika
+        window.openCornerModal = function(catKey) {
+            const corner = window.cornersData[catKey];
+            if (!corner) return;
+
+            const modal = document.getElementById('cornerModal');
+            const body = document.getElementById('cornerModalBody');
+            const scrollContainer = document.getElementById('cornerModalContent');
+
+            // Wyszukaj artykuły z tego kącika
+            const matchingArticles = Object.values(window.articlesData).filter(art => {
+                return (art.category || "").trim().toLowerCase() === catKey;
+            });
+
+            let articlesHTML = '';
+            if (matchingArticles.length > 0) {
+                matchingArticles.forEach(art => {
+                    const attrTitle = escapeAttr(art.title);
+                    articlesHTML += `
+                        <article class="article-card" style="margin-bottom: 18px;" onclick="openArticleModal('${art.id}')">
+                            <div class="article-img-wrap">
+                                <span class="article-category">${art.category}</span>
+                                <img src="${art.imgUrl}" alt="${attrTitle}">
+                            </div>
+                            <div class="article-body">
+                                <div>
+                                    <div class="article-meta">
+                                        <span><i class="far fa-calendar-alt"></i> ${art.dateStr}</span>
+                                        <span><i class="fas fa-eye"></i> ${art.views} wyświetleń</span>
+                                    </div>
+                                    <h3 class="article-title">${art.title}</h3>
+                                    <p class="article-excerpt">${art.excerpt}</p>
+                                </div>
+                                <div class="article-footer">
+                                    <div class="author-box">
+                                        <div class="author-avatar">${art.authorInitials}</div>
+                                        <span class="author-name">${art.author}</span>
+                                    </div>
+                                    <div class="article-stats">
+                                        <span class="stat-btn views"><i class="far fa-heart" style="color:#f44336;"></i> ${art.likes}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    `;
+                });
+            } else {
+                articlesHTML = '<div class="empty-calendar"><i class="far fa-folder-open"></i> Brak opublikowanych artykułów w tym kąciku.</div>';
+            }
+
+            body.innerHTML = `
+                <div class="corner-hero-banner" style="background-image: url('${escapeAttr(corner.bannerUrl)}');"></div>
+                <div class="corner-body-wrapper">
+                    <div class="corner-header-card">
+                        <div class="corner-logo-wrap">
+                            <img src="${escapeAttr(corner.logoUrl)}" alt="Logo ${escapeAttr(corner.name)}">
+                        </div>
+                        <h2 class="corner-modal-title">${corner.name}</h2>
+                        <div class="corner-host-badge">
+                            <i class="fas fa-user-tie"></i> Prowadzący: ${corner.host}
+                        </div>
+                        <p class="corner-description">${corner.description.replace(/\n/g, '<br>')}</p>
+                    </div>
+
+                    <h3 class="corner-articles-section-title">
+                        <i class="fas fa-newspaper"></i> Artykuły w kąciku "${corner.name}"
+                    </h3>
+                    <div class="articles-feed">
+                        ${articlesHTML}
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('closing');
+            modal.style.display = 'block';
+            requestAnimationFrame(() => {
+                modal.classList.add('active');
+            });
+            document.body.style.overflow = 'hidden';
+            if (scrollContainer) scrollContainer.scrollTop = 0;
+        };
+
+        window.closeCornerModal = function() {
+            const modal = document.getElementById('cornerModal');
+            if (!modal.classList.contains('active')) return;
+            modal.classList.add('closing');
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.classList.remove('closing');
+                if (!document.getElementById('articleModal').classList.contains('active') &&
+                    !document.getElementById('authModalOverlay').classList.contains('active')) {
+                    document.body.style.overflow = 'auto';
+                }
+            }, 350);
+        };
+
+        window.closeCornerModalOnOverlay = function(event) {
+            if (event.target.id === 'cornerModal') {
+                window.closeCornerModal();
+            }
+        };
 
         // --- KOMENTARZE DO STRONY (Baza Firebase) ---
         window.loadSiteComments = async function() {
@@ -2345,7 +2821,7 @@
             const featuredFeed = document.getElementById('featuredFeed');
             
             try {
-                const q = query(collection(db, "articles"), orderBy("createdAt", "desc"), limit(16));
+                const q = query(collection(db, "articles"), orderBy("createdAt", "desc"), limit(50));
                 const querySnapshot = await getDocs(q);
 
                 const loader = document.getElementById('loaderItem');
@@ -2485,7 +2961,7 @@
                 btn.onclick = function() { window.filterByCategory(displayCat, this); };
                 filtersContainer.appendChild(btn);
 
-                tagsHTML += `<span class="tag" onclick="filterByCategory('${displayCat}', null)">#${displayCat.replace(/\s+/g, '')}</span>`;
+                tagsHTML += `<span class="tag" onclick="filterByCategory('${escapeAttr(displayCat)}', null)">#${displayCat.replace(/\s+/g, '')}</span>`;
             });
 
             if(tagsHTML !== '') tagsCloud.innerHTML = tagsHTML;
@@ -2506,6 +2982,7 @@
                     }
                 });
             }
+            updateCornerSidebarWidget(category);
             window.executeSearch();
         };
 
@@ -2899,7 +3376,11 @@
                 </div>
             `;
             
-            modal.classList.add('active');
+            modal.classList.remove('closing');
+            modal.style.display = 'flex';
+            requestAnimationFrame(() => {
+                modal.classList.add('active');
+            });
             document.body.style.overflow = 'hidden'; 
             
             if(modalContentScroll) modalContentScroll.scrollTop = 0;
@@ -2909,8 +3390,18 @@
         };
 
         window.closeModal = function() {
-            document.getElementById('articleModal').classList.remove('active');
-            document.body.style.overflow = 'auto'; 
+            const modal = document.getElementById('articleModal');
+            if (!modal.classList.contains('active')) return;
+            modal.classList.add('closing');
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.classList.remove('closing');
+                if (!document.getElementById('cornerModal').classList.contains('active') &&
+                    !document.getElementById('authModalOverlay').classList.contains('active')) {
+                    document.body.style.overflow = 'auto';
+                }
+            }, 350);
         };
 
         window.closeModalOnOverlay = function(event) {
@@ -2944,9 +3435,18 @@
         };
 
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') window.closeModal();
+            if (e.key === 'Escape') {
+                if (document.getElementById('articleModal').classList.contains('active')) {
+                    window.closeModal();
+                } else if (document.getElementById('cornerModal').classList.contains('active')) {
+                    window.closeCornerModal();
+                } else if (document.getElementById('authModalOverlay').classList.contains('active')) {
+                    window.closeAuthModal();
+                }
+            }
         });
 
+        fetchCorners();
         fetchArticles();
         fetchCalendarEvents();
         fetchDistributionDates();
