@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kingolandia – Wigilia</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e1a2e;--fg:#e8f2ff;--pn:#25406a;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15131c;--fg:#e8dcc0;--pn:#2a2536;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#15131c;--fg:#e8dcc0;--pn:#2a2536;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--fg);font:12px/1.4 system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+#g{display:block;width:min(94vw,calc((100dvh - 60px - var(--ctl,0px))*1.4286));aspect-ratio:320/224;image-rendering:pixelated;background:#000;box-shadow:0 0 0 3px var(--fg);border-radius:2px}
+#hint{text-align:center;opacity:.8;padding:0 8px}
+#pad{display:none;width:min(94vw,420px);justify-content:space-between;align-items:center}
+@media (hover:none){:root{--ctl:140px}#pad{display:flex}#hint{display:none}}
+#dp{display:grid;grid-template-areas:". u ." "l . r" ". d .";gap:4px}
+#ab{display:flex;gap:5px}
+#pad b{width:44px;height:44px;background:var(--pn);color:var(--fg);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;touch-action:none}
+[data-k=up]{grid-area:u}[data-k=left]{grid-area:l}[data-k=right]{grid-area:r}[data-k=down]{grid-area:d}
+#ab b{width:44px;height:44px;border-radius:50%}
+</style>
+</head>
+<body>
+<canvas id="g"></canvas>
+<div id="hint">WASD · Shift – bieg · E – rozmowa · F – kop · J – misje · M – mapa · N – muzyka · V – głos</div>
+<div id="pad"><div id="dp"><b data-k="up">▲</b><b data-k="left">◀</b><b data-k="right">▶</b><b data-k="down">▼</b></div><div id="ab"><b data-k="log">J</b><b data-k="map">M</b><b data-k="dig">F</b><b data-k="act">E</b></div></div>
+<script>
+(()=>{
+const TS=16,VW=320,VH=224,MW=52,MH=36,SOLID='TRWDsSXY';
+const cv=document.getElementById('g'),ctx=cv.getContext('2d');
+cv.width=VW;cv.height=VH;
+const F=s=>s+'px "Press Start 2P",monospace';
+try{document.fonts.load(F(8))}catch(e){}
+let seed=7;const rnd=()=>(seed=(seed*1664525+1013904223)>>>0)/4294967296;
+const hash=(x,y)=>{let h=Math.imul(x+7,374761393)^Math.imul(y+13,668265263);h=Math.imul(h^(h>>>13),1274126177);return (h^(h>>>16))>>>0};
+const P=(g,c,x,y,w=1,h=1)=>{g.fillStyle=c;g.fillRect(x,y,w,h)};
+const p=(c,x,y,w,h)=>P(ctx,c,x,y,w,h);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+/* ---------- MAPA ---------- */
+const map=Array.from({length:MH},()=>Array(MW).fill('.'));
+const set=(x,y,t)=>{if(x>=0&&y>=0&&x<MW&&y<MH)map[y][x]=t};
+const rect=(x,y,w,h,t)=>{for(let j=0;j<h;j++)for(let i=0;i<w;i++)set(x+i,y+j,t)};
+const rx=y=>y>=10&&y<=14?16:16+Math.round(Math.sin(y*.6)*1.4);
+for(let y=0;y<MH;y++)rect(rx(y),y,3,1,'~');
+rect(16,12,3,1,'b');
+rect(5,12,11,1,'p');rect(19,12,10,1,'p');rect(5,6,1,7,'p');rect(12,6,1,7,'p');rect(28,9,1,4,'p');
+rect(9,13,1,7,'p');rect(5,19,5,1,'p');rect(21,10,1,3,'p');
+const house=(x,y,w)=>{rect(x,y,w,2,'R');rect(x,y+2,w,1,'W');set(x+(w>>1),y+2,'D')};
+house(3,3,5);house(10,3,5);house(3,16,5);house(19,7,4);
+rect(23,1,11,8,'s');rect(24,3,9,5,'f');rect(28,4,1,4,'v');set(28,8,'c');set(26,2,'S');set(30,2,'S');
+rect(23,15,9,8,'k');rect(24,16,7,6,'i');
+rect(28,12,23,1,'p');rect(41,5,1,7,'p');rect(48,7,1,5,'p');house(38,2,6);house(46,4,4);house(36,16,5);rect(38,19,1,14,'p');
+rect(9,19,1,15,'p');rect(5,33,45,1,'p');rect(rx(33),33,3,1,'b');house(3,28,5);rect(5,31,1,2,'p');house(26,28,5);rect(28,31,1,2,'p');rect(41,24,8,7,'i');
+set(44,10,'X');set(34,14,'Y');set(46,13,'Y');set(20,25,'Y');set(35,31,'Y');
+
+const NP=(n,tx,ty,c)=>({n,tx,ty,x:tx*16+8,y:ty*16+14,c,dir:'down'});
+const npcs=[
+ NP('Mnich',13,7,{tunic:'#7a5430',hair:'#d8d8d8',robe:1}),
+ NP('Kowal',8,20,{tunic:'#5a5a64',hair:'#a2461e',apron:1}),
+ NP('Rybak',23,17,{tunic:'#3a8a8a',hair:'#8a6a3a',hat:'#d8b84a'}),
+ NP('Strażnik',19,12,{tunic:'#8a2222',hair:'#555',helm:'#a8a8b4',spear:1}),
+ NP('Król Bolesław',28,3,{tunic:'#6a2aa0',hair:'#d8b050',crown:1,cape:'#8a1a1a'}),
+ NP('Olek',27,19,{tunic:'#d94a2a',hair:'#1a1208',glasses:1,pants:'#2a3a6a'}),
+ NP('Kinga',31,5,{tunic:'#e060a0',hair:'#b8742a',crown:1}),
+ NP('Babcia Zofia',7,10,{tunic:'#7a3a6a',hair:'#e8e8e8',robe:1}),
+ NP('Święty Mikołaj',42,7,{tunic:'#c8201e',hair:'#f4f4f4',beard:1,robe:1}),NP('Elf Szczypiorek',44,14,{tunic:'#2a9a4a',hair:'#e0b040',hat:'#2a9a4a',pants:'#7a2a2a'})];
+const guard=npcs[3];
+const mkItem=([x,y])=>({x:x*16+8,y:y*16+8,got:0});
+const ores=[[2,9],[13,21],[13,9]].map(mkItem);
+const coins=[[8,10],[3,13],[10,22],[21,5],[33,13],[21,21],[48,10],[40,25]].map(mkItem);
+const gifts=[[10,31],[43,22],[44,2]].map(mkItem);
+const spots=[[7,9,'part'],[22,14,'coin'],[12,17,'part'],[31,11,'coin'],[4,21,'part']].map(([x,y,t])=>({...mkItem([x,y]),t}));
+const fishes=[2,7,19].map(y=>mkItem([rx(y)+1,y]));let holes=[];const TOT=12;
+const pts=[...npcs.map(n=>[n.tx,n.ty]),...ores.concat(gifts,coins,spots,fishes).map(o=>[o.x>>4,o.y>>4]),[5,8]];
+for(let y=1;y<MH-1;y++)for(let x=1;x<MW-1;x++){
+ const edge=x<3||x>MW-4||y<3||y>MH-4;
+ if(map[y][x]==='.'&&rnd()<(edge?.5:.12)&&!pts.some(q=>Math.abs(q[0]-x)<3&&Math.abs(q[1]-y)<3))set(x,y,'T')}
+for(let i=0;i<MW;i++){if(map[0][i]!=='~')set(i,0,'T');if(map[MH-1][i]!=='~')set(i,MH-1,'T')}
+for(let j=0;j<MH;j++){set(0,j,'T');set(MW-1,j,'T')}
+
+/* ---------- GRAFIKA KAFELKÓW ---------- */
+const mk=f=>{const c=document.createElement('canvas');c.width=c.height=TS;f(c.getContext('2d'));return c};
+const speck=(g,cl,n)=>{for(let i=0;i<n;i++)P(g,cl[i%cl.length],rnd()*TS|0,rnd()*TS|0)};
+const disc=(g,cx,cy,r,c)=>{g.fillStyle=c;for(let y=-r;y<=r;y++)for(let x=-r;x<=r;x++)if(x*x+y*y<=r*r+r*.5)g.fillRect(cx+x,cy+y,1,1)};
+const grass=[0,1,2].map(v=>mk(g=>{P(g,'#dfe9f2',0,0,16,16);speck(g,['#cfdcec','#f4f9ff','#bccde0'],22);
+ if(v===1){P(g,'#2a8048',4,5,2,1);P(g,'#d42a2a',4,4);P(g,'#d42a2a',6,4)}
+ if(v===2){P(g,'#8a7a4a',7,8,1,3);P(g,'#a8945a',6,9,1,2);P(g,'#a8945a',8,9,1,2);P(g,'#fff',6,8,3,1)}}));
+const pathT=mk(g=>{P(g,'#d6c9b0',0,0,16,16);speck(g,['#b8a88e','#e8dcc4','#a89878'],26);P(g,'#9a9a9a',3,4,2,1);P(g,'#9a9a9a',11,11,2,1)});
+const water=[0,1].map(f=>mk(g=>{P(g,'#3a78d0',0,0,16,16);P(g,'#2f66b8',0,8,16,1);[[2,3],[9,4],[5,11],[12,12]].forEach(([x,y])=>P(g,'#8cc0f4',(x+f*4)%13,y,3,1))}));
+const bridgeT=mk(g=>{P(g,'#9a6a34',0,0,16,16);[3,7,11,15].forEach(x=>P(g,'#6e4a22',x,0,1,16));P(g,'#5a3a18',0,0,16,3);P(g,'#7a5228',0,1,16,1);P(g,'#5a3a18',0,13,16,3);P(g,'#7a5228',0,13,16,1)});
+const treeT=mk(g=>{P(g,'#dfe9f2',0,0,16,16);speck(g,['#cfdcec','#f4f9ff'],10);P(g,'rgba(0,0,0,.18)',3,13,10,2);P(g,'#5a3a1a',7,11,3,4);
+ for(let r=0;r<11;r++){const w=2+r,x0=(8-w/2)|0;P(g,r%4===1?'#f4f9ff':r%2?'#1f6a3a':'#2a8048',x0,1+r,w,1)}});
+const roofT=mk(g=>{P(g,'#a8432b',0,0,16,16);for(let y=0;y<16;y+=4){P(g,'#7c2e1c',0,y+3,16,1);for(let x=(y/4%2)*4;x<16;x+=8)P(g,'#7c2e1c',x,y,1,3);P(g,'#c2593b',0,y,16,1)}P(g,'#f4f9ff',0,0,16,3);[2,7,12].forEach(x=>P(g,'#f4f9ff',x,3,3,1))});
+const wallBase=g=>{P(g,'#e9dcb4',0,0,16,16);speck(g,['#d8c898'],14);P(g,'#6b4423',0,0,16,2);P(g,'#6b4423',0,0,2,16);P(g,'#6b4423',14,0,2,16);P(g,'#6b4423',0,14,16,2)};
+const wallT=mk(wallBase);
+const wallW=mk(g=>{wallBase(g);P(g,'#2a3a5a',4,4,8,7);P(g,'#8cc0f4',5,5,6,5);P(g,'#6b4423',7,4,2,7);P(g,'#6b4423',4,7,8,1)});
+const doorT=mk(g=>{wallBase(g);P(g,'#3a200c',4,2,8,14);P(g,'#6a3e18',5,3,6,13);P(g,'#4a2a10',8,3,1,13);P(g,'#f0c040',10,9)});
+const stoneT=mk(g=>{P(g,'#8e919c',0,0,16,16);for(let y=0;y<16;y+=4){P(g,'#5f6270',0,y+3,16,1);for(let x=(y/4%2)*4;x<16;x+=8)P(g,'#5f6270',x,y,1,3)}speck(g,['#a6a9b4','#7a7d88'],10)});
+const stoneTop=mk(g=>{g.drawImage(stoneT,0,0);P(g,'#3a3d48',4,0,4,4);P(g,'#3a3d48',12,0,4,4);P(g,'#b8bbc6',0,4,16,1)});
+const torchT=mk(g=>{g.drawImage(stoneT,0,0);P(g,'#4a2d12',7,6,2,7);P(g,'#2a1a08',6,5,4,1)});
+const floorT=mk(g=>{P(g,'#b9b4a8',0,0,16,16);P(g,'#a39e92',0,0,8,8);P(g,'#a39e92',8,8,8,8);P(g,'#8c877b',0,15,16,1);P(g,'#8c877b',15,0,1,16)});
+const carpetT=mk(g=>{g.drawImage(floorT,0,0);P(g,'#a82a2a',2,0,12,16);P(g,'#e0b840',2,0,1,16);P(g,'#e0b840',13,0,1,16);P(g,'#c23a3a',4,0,8,16)});
+const gateT=mk(g=>{g.drawImage(floorT,0,0);P(g,'#2a2218',0,0,2,16);P(g,'#2a2218',14,0,2,16);P(g,'#3a2e20',0,0,16,3);P(g,'#6a5a40',2,3,1,13);P(g,'#6a5a40',13,3,1,13)});
+const iceT=mk(g=>{P(g,'#bfe6ff',0,0,16,16);speck(g,['#e8f8ff','#a8d4f0'],14);P(g,'#fff',2,3,5,1);P(g,'#8cc0e8',8,11,6,1)});
+const sandT=mk(g=>{P(g,'#ecd592',0,0,16,16);speck(g,['#d8bc72','#f6e6b4'],20)});
+const choinkaT=mk(g=>{P(g,'#dfe9f2',0,0,16,16);P(g,'rgba(0,0,0,.2)',3,14,10,2);P(g,'#5a3a1a',7,12,2,3);for(let r=0;r<12;r++){const w=1+r;P(g,r%3===2?'#f4f9ff':r%2?'#1f6a3a':'#2e9a4a',(8-w/2)|0,1+r,w,1)}P(g,'#ffd83a',7,0,2,2)});
+const snowmanT=mk(g=>{P(g,'#dfe9f2',0,0,16,16);P(g,'rgba(0,0,0,.2)',3,14,10,2);disc(g,8,11,4,'#fff');disc(g,8,7,3,'#f0f6ff');disc(g,8,4,2,'#fff');P(g,'#000',7,3);P(g,'#000',9,3);P(g,'#ff8a20',8,4,3,1);P(g,'#333',6,1,5,1);P(g,'#333',7,0,3,1);P(g,'#d42a2a',6,6,5,1)});
+function tileImg(x,y){const t=map[y][x],h=hash(x,y)%16;
+ switch(t){
+  case 'X':return choinkaT;case 'Y':return snowmanT;case 'p':return pathT;case '~':return water[(T/450|0)&1];case 'b':return bridgeT;case 'T':return treeT;case 'R':return roofT;
+  case 'W':return h&1?wallT:wallW;case 'D':return doorT;case 'S':return torchT;
+  case 's':return y>0&&'sS'.includes(map[y-1][x])?stoneT:stoneTop;
+  case 'f':return floorT;case 'v':return carpetT;case 'c':return gateT;case 'k':return sandT;case 'i':return iceT;
+  default:return grass[h<10?0:h<13?1:2]}}
+
+/* ---------- STAN GRY ---------- */
+let T=0,state='title',playT=0,dlg=null,showMap=false,showLog=false,endT=0;
+const cam={x:0,y:0};
+const pl={x:5*16+8,y:8*16+12,dir:'down',step:0,mv:0,vx:0,vy:0,sw:0};
+const PC={tunic:'#2f6fd0',hair:'#7a4a22',pants:'#4a3a2a'};
+const Q0=()=>({letter:0,ore:0,seal:0,open:0,coins:0,king:0,met:0,parts:0,kuk:0,fish:0,fishDone:0,olek:0,fin:0,gifts:0,giftDone:0,star:0});let Q=Q0();
+let ft=[],conf=[];
+const k={left:0,right:0,up:0,down:0,run:0};
+
+function reset(){Q=Q0();ores.concat(gifts,coins,spots,fishes).forEach(o=>o.got=0);holes=[];
+ Object.assign(pl,{x:5*16+8,y:8*16+12,dir:'down',vx:0,vy:0});guard.tx=19;guard.ty=12;guard.x=19*16+8;guard.y=12*16+14;playT=0;ft=[];conf=[]}
+
+/* ---------- DŹWIĘK ---------- */
+let au;const beep=(f,d=.09,ty='square',v)=>{try{au=au||new(window.AudioContext||window.webkitAudioContext)();const o=au.createOscillator(),g=au.createGain();o.type=ty;o.frequency.value=f;g.gain.value=v||.04;o.connect(g);g.connect(au.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,au.currentTime+d);o.stop(au.currentTime+d)}catch(e){}};
+
+/* ---------- DIALOGI ---------- */
+let mute=0,mi=0,si=0,nt=0,mg=null,voiceOn=1;
+const N0={C:0,D:2,E:4,F:5,G:7,A:9,B:11};
+const fr=s=>440*Math.pow(2,(N0[s[0]]+12*(+s[s.length-1]-4)-9)/12);
+const pr=(s,bpm)=>({bpm,n:s.split(' ').map(t=>{const [n,d]=t.split(':');return {n:n==='R'?null:n,d:+(d||1)}})});
+const SONGS=[
+ pr('E5 E5 E5:2 E5 E5 E5:2 E5 G5 C5:1.5 D5:.5 E5:4 F5 F5 F5:1.5 F5:.5 F5 E5 E5 E5:.5 E5:.5 E5 D5 D5 E5 D5:2 G5:2 E5 E5 E5:2 E5 E5 E5:2 E5 G5 C5:1.5 D5:.5 E5:4 F5 F5 F5:1.5 F5:.5 F5 E5 E5 E5:.5 E5:.5 G5 G5 F5 D5 C5:4 R:2',150),
+ pr('G4:3 A4:1 G4:2 E4:6 G4:3 A4:1 G4:2 E4:6 D5:4 D5:2 B4:6 C5:4 C5:2 G4:6 A4:4 A4:2 C5:3 B4:1 A4:2 G4:3 A4:1 G4:2 E4:6 A4:4 A4:2 C5:3 B4:1 A4:2 G4:3 A4:1 G4:2 E4:6 D5:4 D5:2 F5:3 D5:1 B4:2 C5:6 E5:6 C5:2 G4:2 E4:2 G4:3 F4:1 D4:2 C4:6 R:4',125)];
+function getMG(){if(!mg){mg=au.createGain();mg.gain.value=.55;mg.connect(au.destination)}return mg}
+function bell(f,t,d){const o=au.createOscillator(),o2=au.createOscillator(),g=au.createGain(),g2=au.createGain();o.frequency.value=f;o2.frequency.value=f*2.76;g2.gain.value=.18;o.connect(g);o2.connect(g2);g2.connect(g);g.connect(getMG());g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.16,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.start(t);o2.start(t);o.stop(t+d+.05);o2.stop(t+d+.05)}
+setInterval(()=>{if(!au||mute)return;if(au.state==='suspended')au.resume();if(nt<au.currentTime-.5)nt=au.currentTime+.05;
+ while(nt<au.currentTime+.4){const sg=SONGS[si],x=sg.n[mi],u=60/sg.bpm;if(x.n)bell(fr(x.n),nt,Math.min(1.8,x.d*u*1.4));nt+=x.d*u;if(++mi>=sg.n.length){mi=0;si=(si+1)%SONGS.length;nt+=u*2}}},100);
+const VP={'Peter':[.85,1],'Kinga':[1.7,1.08],'Olek':[1.35,1.1],'Święty Mikołaj':[.4,.8],'Elf Szczypiorek':[1.9,1.2],'Mnich':[.6,.9],'Kowal':[.5,.95],'Król Bolesław':[.7,.9],'Babcia Zofia':[1.2,.85],'Kronika':[.8,.95],'Rybak':[.7,1],'Strażnik':[.55,1.05]};
+function say(n,t){if(!voiceOn||!window.speechSynthesis)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='pl-PL';const v=speechSynthesis.getVoices().find(v=>/^pl/i.test(v.lang));if(v)u.voice=v;const q=VP[n]||[1,1];u.pitch=q[0];u.rate=q[1];speechSynthesis.speak(u)}catch(e){}}
+const SN=Array.from({length:120},()=>({x:Math.random()*VW,y:Math.random()*VH,r:Math.random()<.25?2:1,s:14+Math.random()*30,ph:Math.random()*6}));
+function drawSnow(){ctx.fillStyle='rgba(255,255,255,.9)';const t=T/1000;for(const o of SN)ctx.fillRect(((o.x+t*8+Math.sin(t*1.3+o.ph)*10)%VW+VW)%VW|0,(o.y+t*o.s)%VH|0,o.r,o.r)}
+const msg=s=>ft.push({s,x:pl.x,y:pl.y-14,t:0});
+function dig(){if(state!=='play'||dlg||showMap||showLog)return;
+ if('~i'.includes(map[(pl.y-2)>>4][pl.x>>4])){msg('Tu nie wykopiesz');return}
+ beep(150,.1,'sawtooth');holes.push({x:pl.x,y:pl.y-2});if(holes.length>40)holes.shift();
+ const o=spots.find(o=>!o.got&&Math.hypot(pl.x-o.x,pl.y-4-o.y)<14);
+ if(o){o.got=1;beep(900,.25);if(o.t==='part'){Q.parts++;msg('Część Kukirina! '+Q.parts+'/3')}else{Q.coins++;msg('+ Denar')}}else msg('Nic tu nie ma')}
+function wrap(s,w){ctx.font=F(8);const out=[];let l='';for(const wd of s.split(' ')){const t=l?l+' '+wd:wd;if(ctx.measureText(t).width>w&&l){out.push(l);l=wd}else l=t}out.push(l);return out}
+function setLine(){let q=dlg.L[dlg.i];const m=q.match(/^(Peter|Kinga|Olek)> /);dlg.sp=m?m[1]:dlg.n;if(m)q=q.slice(m[0].length);dlg.t=q;dlg.w=wrap(q,288);dlg.c=0;say(dlg.sp,q)}
+function startDlg(n,L,cb){dlg={n,L,i:0,cb};setLine();beep(520,.06)}
+function talk(n){
+ const dx=pl.x-n.x,dy=pl.y-n.y;n.dir=Math.abs(dx)>Math.abs(dy)?(dx>0?'right':'left'):(dy>0?'down':'up');
+ let L,cb;const N=n.n;
+ if(N==='Mnich'){
+  if(!Q.letter){L=['Peter! Dobrze, że jesteś. Dziś Wigilia, a ja z tej kaplicy modlę się o pokój w Kingolandii.','Weź ten list. Król Bolesław musi go przeczytać, nim wróg dotrze do grodu za rzeką.','Strażnik na moście nikogo nie przepuści bez królewskiej pieczęci.','Kowal z południa wykuje ją z trzech brył rudy. Szukaj ich w okolicy!','W rzece można pływać, a złotych denarów szukaj też pod ziemią.'];cb=()=>{Q.letter=1;beep(660,.15)}}
+  else if(!Q.king)L=['Idź, Peter. Niech Bóg prowadzi twe kroki!'];
+  else L=['Wróg się cofnął. Dziękuję ci, Peter. Pomóż jeszcze księżniczce Kindze.']}
+ else if(N==='Kowal'){
+  if(!Q.letter)L=['Witaj, Peter! Kowadło dzwoni, ale mnich ma do ciebie sprawę.','Zajrzyj najpierw do kaplicy na północy wsi.'];
+  else if(Q.kuk)L=['Kukirin śmiga jak szalony? Dbaj o niego, Peter!'];
+  else if(Q.king&&Q.parts>=3){L=['Akumulator, koło i hamulec! To części Kukirina Kingi!','Stuk, puk, bzzz… Gotowe! Kukirin działa jak nowy. Jedź nim do Kingi!'];cb=()=>{Q.kuk=1;beep(880,.3)}}
+  else if(Q.king)L=Q.met?['Naprawię Kukirina, ale potrzebuję 3 części ('+Q.parts+'/3).','Bandyci zakopali je w okolicy. Kop klawiszem F tam, gdzie widać iskierki!']:['Zajrzyj do zamku – księżniczka Kinga ma kłopot.'];
+  else if(Q.seal)L=['Pieczęć już masz. Spiesz się do grodu, chłopcze!'];
+  else if(Q.ore>=3){L=['Masz rudę! Rozpalam piec…','Stuk, stuk, stuk! Gotowe – królewska pieczęć Kingolandii!'];cb=()=>{Q.seal=1;beep(880,.2)}}
+  else L=['Potrzebuję trzech brył rudy (masz '+Q.ore+'/3). Błyszczą w trawie – szukaj uważnie.']}
+ else if(N==='Rybak'){
+  if(Q.fishDone)L=['Dzięki za ryby, Peter! Dziś będzie uczta nad rzeką.'];
+  else if(Q.fish>=3){L=['Trzy ryby! Jesteś lepszy ode mnie. Masz nagrodę – dwa denary!'];cb=()=>{Q.fishDone=1;Q.coins+=2;beep(1040,.2)}}
+  else L=['Ryby dziś nie biorą… ale pływają w rzece. Wskocz do wody i złap 3 ('+Q.fish+'/3).','Zgubione denary leżą w trawie, a skarby pod ziemią. Kop klawiszem F!']}
+ else if(N==='Strażnik'){
+  if(!Q.seal)L=['Stój! W imieniu króla Bolesława nikt nie przejdzie bez pieczęci.','Wróć, gdy ją zdobędziesz.'];
+  else if(!Q.open){L=['Pieczęć króla! Wybacz, posłańcu. Droga wolna!'];cb=()=>{Q.open=1;guard.tx=19;guard.ty=13;guard.x=19*16+8;guard.y=13*16+14}}
+  else L=['Droga wolna, posłańcu!']}
+ else if(N==='Olek'){
+  if(Q.kuk)L=['Hej, Peter! Kinga ma już Kukirina? Super! Lubię Kukirina Kingi.','Pojeździmy razem na łyżwach, a ja kupię jej paluszki!'];
+  else{L=['Cześć! Jestem Olek, mam 14 lat. Idę jeździć z Kingą na łyżwach!','Kupię jej paluszki – uwielbia je.','Lubię Kukirina Kingi, jest super szybki. Szkoda, że się zepsuł…'];cb=()=>{Q.olek=1}}}
+ else if(N==='Kinga'){
+  if(!Q.king)L=['Cześć, jestem Kinga! Tata jest zajęty, ale miło cię poznać.','Wróć, gdy porozmawiasz z królem.'];
+  else if(!Q.met){L=['Peter! Mój Kukirin się zepsuł. Bandyci rozkradli z niego części!','Potrzebuję akumulatora, koła i hamulca. Zakopali je gdzieś w Kingolandii.','Kop klawiszem F tam, gdzie błyszczą iskierki. Potem zanieś części kowalowi.','Olek czeka na lodowisku – obiecałam, że pojeżdżę z nim na łyżwach!'];cb=()=>{Q.met=1;beep(700,.15)}}
+  else if(!Q.kuk)L=['Znalazłeś już części? ('+Q.parts+'/3) Kowal naprawi mojego Kukirina.'];
+  else if(!Q.star)L=['Mój Kukirin jeździ! Dziękuję, Peter! Ale na choince brakuje Gwiazdy Betlejemskiej.','Święty Mikołaj ma warsztat na wschodzie, za strażnikiem. Pomóż mu znaleźć prezenty!'];
+  else{L=['Mój Kukirin! Jest jak nowy! Dziękuję, Peter!','I Gwiazda Betlejemska! Zawieszam ją na choince, patrz, jak lśni!','Peter> Wesołych Świąt, Kingo!','Wesołych Świąt! Teraz pędzę na lodowisko do Olka. Jesteś bohaterem Kingolandii!'];cb=()=>{Q.fin=1;state='end';endT=0;beep(990,.4)}}}
+ else if(N==='Święty Mikołaj'){
+  if(Q.giftDone)L=['Ho, ho, ho! Zanieś Gwiazdę Kindze, niech zawiśnie na choince. Wesołych Świąt, Peter!'];
+  else if(Q.gifts>=3){L=['Trzy prezenty! Ho, ho, ho! Jesteś najlepszym pomocnikiem, jakiego miałem od stu lat!','Weź tę Gwiazdę Betlejemską. Niech zawiśnie na choince przy lodowisku. Zanieś ją Kindze!'];cb=()=>{Q.giftDone=1;Q.star=1;beep(990,.4)}}
+  else L=Q.gifts?['Ho, ho! Masz już '+Q.gifts+'/3 prezentów. Szukaj dalej: na południu, nad lodowiskiem i przy moim domu!']:['Ho, ho, ho! Jestem Święty Mikołaj, a to mój wiejski warsztat. Dziś Wigilia, a ja mam kłopot!','Peter> Co się stało, Mikołaju?','Moje sanie wpadły w zaspę, a trzy prezenty wypadły i zginęły w śniegu!','Peter> Znajdę je!','Błyszczą w śniegu jak czerwone paczki ze złotą kokardą. Szukaj w całej Kingolandii! (0/3)']}
+ else if(N==='Elf Szczypiorek')L=Q.giftDone?['Pomogłeś Mikołajowi! Hi, hi! Dla mnie jesteś elfem honorowym!']:['Cześć! Jestem Elf Szczypiorek, pomocnik Mikołaja. Hi, hi!','Renifer Rudolf pogonił śnieżynki i sanie wpadły w zaspę. Prezenty rozsypały się po okolicy!','Jeden leży na południu przy drodze, drugi tuż nad lodowiskiem, trzeci za domkiem Mikołaja. ('+Q.gifts+'/3)'];
+ else if(N==='Babcia Zofia')L=Q.met?['Szukasz części Kukirina? Za moich czasów skarby zakopywano pod drzewami.','Chodź po wsi i kop (F). Iskierki w trawie znaczą dobre miejsce!']:['Wesołych Świąt, Peter! Piekę pierogi na Wigilię. Pamiętasz, jak pływałeś w rzece w dzieciństwie?','Woda spowalnia, ale lód na lodowisku niesie jak masło!'];
+ else{L=['Peter! Posłaniec z Kingolandii… Mów, co niesiesz?','Mnich pisze o wojskach na granicy? Każę wzmocnić gród i podwoić straże.','Dzięki tobie zdążymy! Wróg zawrócił, ale moja córka Kinga jest smutna.','Idź do niej. Jej Kukirin się zepsuł, a ona tak kocha na nim jeździć!'];
+  if(Q.king)L=Q.kuk?['Jedź na Kukirinie do Kingi! Czeka na ciebie.']:['Pomóż Kindze, Peter. Babcia Zofia zna wiele opowieści o skarbach.'];else cb=()=>{Q.king=1;beep(990,.4)}}
+ startDlg(N,L,cb)}
+function press(){
+ if(state==='title'){state='play';reset();beep(440);
+  startDlg('Kronika',['Wigilia, rok Pański 1025. Śnieg otulił Kingolandię jak puchowa pierzyna, a w oknach chat płoną świece.','Z daleka niesie się dźwięk dzwonków. To renifery Świętego Mikołaja szukają drogi nad rzeką.','Na granicach widziano jednak obce wojska. Król Bolesław czeka na wieści, ale nikt nie zna prawdy.','Księżniczka Kinga się martwi: jej Kukirin się zepsuł, a Olek obiecał jej wigilijną jazdę na łyżwach.','Jesteś Peterem, posłańcem. Biegaj (Shift), pływaj w lodowatej rzece i kop (F), a znajdziesz skarby.','Ruszaj do mnicha w kaplicy na północy wsi. Niech te święta będą niezapomniane!']);return}
+ if(state==='end'){if(endT>1){state='title'}return}
+ if(showMap){showMap=false;return}
+ if(showLog){showLog=false;return}
+ if(dlg){if(dlg.c<dlg.t.length)dlg.c=dlg.t.length;else if(++dlg.i<dlg.L.length)setLine();else{const cb=dlg.cb;dlg=null;try{speechSynthesis.cancel()}catch(e){}cb&&cb()}return}
+ let best=null,bd=24;
+ for(const n of npcs){const d=Math.hypot(n.x-pl.x,n.y-pl.y);if(d<bd){bd=d;best=n}}
+ if(best){pl.dir=Math.abs(best.x-pl.x)>Math.abs(best.y-pl.y)?(best.x>pl.x?'right':'left'):(best.y>pl.y?'down':'up');talk(best)}}
+
+/* ---------- RYSOWANIE POSTACI ---------- */
+function sprite(x,y,d,wf,c){x|=0;y|=0;const lf=[0,1,0,2][wf&3],b=wf&1?1:0,pant=c.pants||'#4a3a2a';
+ p('rgba(0,0,0,.28)',x-5,y-1,10,3);
+ if(c.cape)p(c.cape,x-5,y-10-b,10,9);
+ p(pant,x-3,y-5-(lf===1?1:0),2,5);p(pant,x+1,y-5-(lf===2?1:0),2,5);
+ p('#2a1a0a',x-3,y-1-(lf===1?1:0),2,1);p('#2a1a0a',x+1,y-1-(lf===2?1:0),2,1);
+ p(c.tunic,x-4,y-11-b,8,c.robe?10:7);
+ if(c.robe)p('rgba(0,0,0,.2)',x-4,y-2,8,1);
+ if(c.apron&&d!=='up')p('#2a2a2a',x-3,y-9-b,6,5);
+ p('#3b2410',x-4,y-6-b,8,1);
+ p(c.tunic,x-6,y-10-b,2,5);p(c.tunic,x+4,y-10-b,2,5);p('#f0c090',x-6,y-5-b,2,1);p('#f0c090',x+4,y-5-b,2,1);
+ p('#f0c090',x-3,y-17-b,6,6);
+ const h=c.hair;
+ if(d==='up')p(h,x-3,y-17-b,6,5);
+ else{p(h,x-3,y-17-b,6,2);
+  if(d==='down'){p(h,x-3,y-15-b,1,2);p(h,x+2,y-15-b,1,2);p('#222',x-2,y-14-b);p('#222',x+1,y-14-b)}
+  if(d==='left'){p(h,x+0,y-15-b,3,3);p('#222',x-2,y-14-b)}
+  if(d==='right'){p(h,x-3,y-15-b,3,3);p('#222',x+1,y-14-b)}}
+ if(c.glasses&&d!=='up'){if(d==='down'){p('#111',x-3,y-15-b,3,2);p('#111',x,y-15-b,3,2);p('#bfe3ff',x-2,y-15-b);p('#bfe3ff',x+1,y-15-b)}else{p('#111',x+(d==='left'?-3:0),y-15-b,3,2);p('#bfe3ff',x+(d==='left'?-2:1),y-15-b)}}
+ if(c.helm){p(c.helm,x-4,y-18-b,8,3);p(c.helm,x-4,y-15-b,1,3);p(c.helm,x+3,y-15-b,1,3)}
+ if(c.hat){p(c.hat,x-5,y-18-b,10,2);p(c.hat,x-3,y-20-b,6,3)}
+ if(c.crown){p('#ffd83a',x-3,y-19-b,6,2);p('#ffd83a',x-3,y-20-b);p('#ffd83a',x,y-20-b);p('#ffd83a',x+2,y-20-b)}
+ if(c.beard&&d!=='up')p('#f4f4f4',x-3,y-13-b,6,3);if(!(c.crown||c.helm||c.hat)){p('#d42a2a',x-3,y-19-b,6,3);p('#fff',x-3,y-17-b,6,1);p('#fff',x+2,y-21-b,2,2)}
+ if(c.spear){p('#c8c8c8',x+6,y-22,1,2);p('#8a6a3a',x+6,y-20,1,19)}}
+function drawPl(){const X=pl.x-cam.x|0,Y=pl.y-cam.y|0;
+ if(Q.kuk){p('#1a1a1a',X-8,Y-1,16,2);p('#555',X-9,Y-2,3,3);p('#555',X+6,Y-2,3,3);p('#9aa',X+(pl.dir==='left'?-7:6),Y-11,1,10)}
+ sprite(X,Y,pl.dir,pl.mv?(pl.step/6|0):0,PC);
+ if(pl.sw){p('rgba(70,140,230,.8)',X-7,Y-7,14,8);p('#cfe8ff',X-6+((T/120|0)%4)*3,Y-3,3,1)}}
+function drawFish(o){const X=(o.x-cam.x+Math.sin(T/300+o.y)*5)|0,Y=(o.y-cam.y)|0;p('#ff9a3a',X-4,Y-1,7,3);p('#ffd08a',X-3,Y-1,4,1);p('#ff6a1a',X+3,Y-2,2,5);p('#000',X-3,Y-1,1,1)}
+function drawOre(o){const X=(o.x-cam.x)|0,Y=(o.y-cam.y)|0;p('rgba(0,0,0,.3)',X-6,Y+2,12,3);p('#5e6674',X-5,Y-3,10,6);p('#8390a4',X-4,Y-5,8,3);p('#aab6cc',X-3,Y-5,3,1);p('#4fd0ff',X-2,Y-3,2,4);p('#8fe8ff',X+1,Y-2,2,3);
+ if(((T/220|0)+(o.x>>4))%5===0){p('#fff',X+3,Y-7,1,3);p('#fff',X+2,Y-6,3,1)}}
+function drawGift(o){const X=(o.x-cam.x)|0,Y=(o.y-cam.y)|0;p('rgba(0,0,0,.3)',X-6,Y+2,12,3);p('#d42a2a',X-5,Y-5,10,8);p('#ffd83a',X-1,Y-5,2,8);p('#ffd83a',X-5,Y-2,10,2);p('#ffd83a',X-3,Y-7,3,2);p('#ffd83a',X+1,Y-7,3,2);if(((T/220|0)+(o.x>>4))%4===0){p('#fff',X+4,Y-9,1,3);p('#fff',X+3,Y-8,3,1)}}
+function drawCoin(o){const X=(o.x-cam.x)|0,b=Math.sin(T/220+o.x)*2|0,Y=((o.y-cam.y)|0)+b,w=1+Math.abs(Math.cos(T/260+o.y))*3|0;
+ p('rgba(0,0,0,.25)',X-3,((o.y-cam.y)|0)+4,6,2);p('#b57a00',X-w-1,Y-5,w*2+2,8);p('#ffd83a',X-w,Y-4,w*2,6);p('#fff6a8',X-w,Y-4,Math.max(1,w-1),1)}
+
+/* ---------- UI ---------- */
+function txt(s,x,y,col='#fff',al='left',sz=8){ctx.font=F(sz);ctx.textAlign=al;ctx.textBaseline='top';const sh=Math.max(1,sz/8|0);ctx.fillStyle='#000';ctx.fillText(s,x+sh,y+sh);ctx.fillStyle=col;ctx.fillText(s,x,y)}
+const panel=(x,y,w,h)=>{p('#1b1410',x-2,y-2,w+4,h+4);p('#e0c080',x-1,y-1,w+2,h+2);p('#2a1f3a',x,y,w,h);p('#3a2d52',x+2,y+2,w-4,2)};
+function drawDlg(){const x=8,y=146,w=304,h=68;
+ panel(x,y,w,h);ctx.font=F(8);const nw=ctx.measureText(dlg.sp).width+10;panel(x+8,y-10,nw,12);txt(dlg.sp,x+13,y-7,'#ffd070');
+ let left=Math.floor(dlg.c);dlg.w.forEach((ln,i)=>{txt(ln.slice(0,Math.max(0,left)),x+8,y+10+i*12);left-=ln.length+1});
+ if(dlg.c>=dlg.t.length&&(T/400|0)%2){const ax=x+w-14,ay=y+h-10;p('#ffd070',ax,ay,7,1);p('#ffd070',ax+1,ay+1,5,1);p('#ffd070',ax+2,ay+2,3,1);p('#ffd070',ax+3,ay+3,1,1)}}
+function missions(){return[['Porozmawiaj z mnichem',Q.letter],['Zbierz rudę '+Q.ore+'/3',Q.seal||Q.ore>=3],['Odbierz pieczęć u kowala',Q.seal],['Pokaż pieczęć strażnikowi',Q.open],['Dostarcz list królowi',Q.king],['Wysłuchaj księżniczki Kingi',Q.met],['Kop (F): części '+Q.parts+'/3',Q.parts>=3],['Zmontuj Kukirina u kowala',Q.kuk],['Prezenty Mikołaja '+Q.gifts+'/3',Q.giftDone],['Kukirin i Gwiazda dla Kingi',Q.fin],['Poznaj Olka z lodowiska',Q.olek],['Złap 3 ryby (pływaj) '+Q.fish+'/3',Q.fishDone]]}
+const obj=()=>{const m=missions().slice(0,10).find(x=>!x[1]);return m?m[0]:'Odkrywaj Kingolandię!'};
+function drawLog(){p('rgba(0,0,0,.72)',0,0,VW,VH);panel(16,14,288,196);txt('MISJE',VW/2,22,'#ffd070','center');
+ missions().forEach((m,i)=>txt((m[1]?'[x] ':'[ ] ')+m[0],26,42+i*12,m[1]?'#8fe86a':i>9?'#8fe8ff':'#fff'));txt('Niebieskie: misje poboczne · J – zamknij',VW/2,198,'#c8c8d8','center',8)}
+const MC={X:'#2a8048',Y:'#fff','.':'#dfe9f2',p:'#b8a88e',T:'#1f6a3a','~':'#2e5fa8',b:'#9a6a34',R:'#a8432b',W:'#e9dcb4',D:'#6a3e18',s:'#8e919c',S:'#8e919c',f:'#b9b4a8',v:'#a82a2a',c:'#2a2218',k:'#ecd592',i:'#bfe6ff'};
+function minimap(s,ox,oy){for(let y=0;y<MH;y++)for(let x=0;x<MW;x++)p(MC[map[y][x]],ox+x*s,oy+y*s,s,s);
+ if((T/300|0)%2)p('#fff',ox+(pl.x/16*s|0)-1,oy+(pl.y/16*s|0)-1,3,3);else p('#e03030',ox+(pl.x/16*s|0)-1,oy+(pl.y/16*s|0)-1,3,3)}
+function drawMapOverlay(){p('rgba(0,0,0,.72)',0,0,VW,VH);const s=5,ox=(VW-MW*s)/2,oy=24;panel(ox,oy,MW*s,MH*s);minimap(s,ox,oy);
+ npcs.forEach(n=>{p('#fff',ox+n.tx*s+1,oy+n.ty*s+1,4,4);p('#000',ox+n.tx*s+2,oy+n.ty*s+2,2,2)});
+ txt('MAPA KINGOLANDII',VW/2,14,'#ffd070','center');txt('Biały punkt – postać · M – zamknij',VW/2,VH-16,'#fff','center')}
+
+/* ---------- EKRANY ---------- */
+function title(){
+ for(let i=0;i<14;i++)p('hsl('+(265-i*17)+','+(45+i)+'%,'+(14+i*3.4)+'%)',0,i*10,VW,10);
+ for(let i=0;i<40;i++)if(((T/400|0)+i)%7)p('#fff',hash(i,1)%VW,hash(i,2)%90,1,1);
+ p('#ffd070',60,96,30,30);p('#ffe9a8',63,99,24,24);
+ p('#10161c',226,112,60,50);p('#10161c',220,96,14,66);p('#10161c',278,96,14,66);
+ for(let i=0;i<4;i++){p('#10161c',220+i*4+(i>2?0:0),92,3,4);p('#10161c',226+i*20,108,6,4)}
+ p('#ffcc55',254,126,4,7);
+ for(let x=0;x<VW;x+=2){const y=146+Math.sin(x*.03)*10+Math.sin(x*.11)*3;p('#dce8f6',x,y|0,2,VH)}
+ for(let x=0;x<VW;x+=2){const y=170+Math.sin(x*.05+2)*8;p('#b9cde4',x,y|0,2,VH)}
+ txt('KINGOLANDIA',VW/2,44,'#ffd83a','center',24);
+ txt('Wigilia w krainie Kingi',VW/2,84,'#fff','center');drawSnow();
+ if((T/500|0)%2)txt('Naciśnij ENTER lub dotknij',VW/2,184,'#fff','center');
+ txt('WASD · E – rozmowa · F – kop · J – misje',VW/2,204,'#c8c8d8','center')}
+function endScreen(){p('rgba(0,0,0,.78)',0,0,VW,VH);drawSnow();
+ conf.forEach(c=>p(c.col,c.x|0,c.y|0,2,2));
+ txt('KINGOLANDIA URATOWANA!',VW/2,40,'#ffd83a','center',12);
+ const m=Math.floor(playT/60),s=Math.floor(playT%60);
+ txt('Czas: '+m+':'+String(s).padStart(2,'0'),VW/2,84,'#fff','center');
+ txt('Denary: '+Q.coins+'/'+TOT,VW/2,102,'#fff','center');txt('Wesołych Świąt!',VW/2,146,'#ff6a6a','center',12);txt('Olek i Kinga jadą na łyżwy!',VW/2,166,'#8fe8ff','center');
+ txt(Q.coins>=TOT?'Tytuł: Skarbnik królewski':'Tytuł: Wierny posłaniec',VW/2,126,'#ffd070','center');
+ if(endT>1&&(T/500|0)%2)txt('ENTER – menu główne',VW/2,190,'#fff','center')}
+
+/* ---------- PĘTLA ---------- */
+function update(dt){
+ if(state==='play'){playT+=dt;
+  const ol=npcs[5];if(!(dlg&&dlg.n==='Olek')){const nx=27*16+8+Math.sin(T/1400)*52;ol.dir=nx>ol.x?'right':'left';ol.x=nx;ol.y=19*16+14+Math.sin(T/900)*18}
+  if(dlg)dlg.c=Math.min(dlg.t.length,dlg.c+dt*45);
+  else if(!showMap&&!showLog){
+   let dx=k.right-k.left,dy=k.down-k.up;
+   if(dx&&dy){dx*=.7071;dy*=.7071}
+   const tt=map[(pl.y-2)>>4][pl.x>>4],ice=tt==='i';pl.sw=tt==='~';
+   const sp=58*(k.run?1.6:1)*(Q.kuk?1.6:1)*(pl.sw?.55:1)*(ice?1.2:1),f=ice?Math.min(1,dt*2.2):1;
+   pl.vx+=(dx*sp-pl.vx)*f;pl.vy+=(dy*sp-pl.vy)*f;
+   const blocked=(x,y)=>{for(const [a,b] of [[-4,-5],[4,-5],[-4,0],[4,0]]){const tx=(x+a)>>4,ty=(y+b)>>4;if(tx<0||ty<0||tx>=MW||ty>=MH||SOLID.includes(map[ty][tx]))return true}
+    return npcs.some(n=>Math.abs(x-n.x)<9&&Math.abs(y-n.y)<7)};
+   const mx=pl.vx*dt,my=pl.vy*dt;
+   if(mx&&!blocked(pl.x+mx,pl.y))pl.x+=mx;else pl.vx=0;
+   if(my&&!blocked(pl.x,pl.y+my))pl.y+=my;else pl.vy=0;
+   if(dy)pl.dir=dy>0?'down':'up';if(dx)pl.dir=dx>0?'right':'left';
+   pl.mv=dx||dy;if(pl.mv)pl.step+=dt*60*(k.run?1.5:1);else pl.step=0}
+  for(const o of ores)if(!o.got&&Math.hypot(pl.x-o.x,pl.y-6-o.y)<10){o.got=1;Q.ore++;beep(740,.12);ft.push({s:'+ Ruda',x:o.x,y:o.y-10,t:0})}
+  for(const o of gifts)if(!o.got&&Math.hypot(pl.x-o.x,pl.y-6-o.y)<10){o.got=1;Q.gifts++;beep(880,.15);ft.push({s:'+ Prezent '+Q.gifts+'/3',x:o.x,y:o.y-10,t:0})}
+  for(const o of coins)if(!o.got&&Math.hypot(pl.x-o.x,pl.y-6-o.y)<10){o.got=1;Q.coins++;beep(1040,.1);ft.push({s:'+ Denar',x:o.x,y:o.y-10,t:0})}
+  for(const o of fishes)if(!o.got&&pl.sw&&Math.hypot(pl.x-o.x,pl.y-6-o.y)<12){o.got=1;Q.fish++;beep(600,.15);msg('+ Ryba '+Q.fish+'/3')}
+  ft.forEach(f=>{f.t+=dt;f.y-=18*dt});ft=ft.filter(f=>f.t<1)}
+ if(state==='end'){endT+=dt;for(let i=0;i<2;i++)conf.push({x:rnd()*VW,y:-4,vy:30+rnd()*40,col:['#ffd83a','#e84a6a','#4fd0ff','#8fe86a'][rnd()*4|0]});
+  conf.forEach(c=>c.y+=c.vy*dt);conf=conf.filter(c=>c.y<VH)}}
+let vg;
+function render(){
+ if(state==='title'){title();return}
+ cam.x=clamp(pl.x-VW/2,0,MW*TS-VW)|0;cam.y=clamp(pl.y-VH/2-8,0,MH*TS-VH)|0;
+ for(let y=cam.y>>4;y<=(cam.y+VH)>>4;y++)for(let x=cam.x>>4;x<=(cam.x+VW)>>4;x++){
+  if(x<0||y<0||x>=MW||y>=MH)continue;const sx=x*16-cam.x,sy=y*16-cam.y;ctx.drawImage(tileImg(x,y),sx,sy);
+  {const mt=map[y][x];if(mt==='R'&&y+1<MH&&map[y+1][x]==='W')for(let i=0;i<4;i++)p(['#ff4040','#ffd83a','#40d0ff','#6aff6a'][(i+(T/350|0)+x)%4],sx+1+i*4,sy+13,2,2);
+   if(mt==='X'){p('rgba(255,230,120,.22)',sx-4,sy-4,24,24);for(let i=0;i<5;i++)p(['#ff4040','#ffd83a','#40d0ff','#fff'][(i+(T/300|0))%4],sx+4+(i*5)%9,sy+5+i*2,2,2)}}
+  if(map[y][x]==='S'){const f=((T/90|0)+x)%3;p('rgba(255,170,60,.14)',sx-4,sy-2,24,22);p('#ff8a20',sx+6,sy+1+f%2,4,5);p('#ffd040',sx+7,sy+2+f%2,2,3)}}
+ holes.forEach(h=>{const X=h.x-cam.x|0,Y=h.y-cam.y|0;p('#6b4a2a',X-4,Y-2,8,4);p('#4a3018',X-3,Y-1,6,2)});
+ spots.forEach(o=>{if(!o.got&&Math.hypot(pl.x-o.x,pl.y-o.y)<64&&((T/200|0)+o.x)%3===0){const X=o.x-cam.x|0,Y=o.y-cam.y|0;p('#fff',X,Y-1,1,3);p('#fff',X-1,Y,3,1)}});
+ const ents=[...npcs.map(n=>({y:n.y,f:()=>sprite(n.x-cam.x,n.y-cam.y,n.dir,0,n.c)})),
+  {y:pl.y,f:drawPl},
+  ...fishes.filter(o=>!o.got).map(o=>({y:o.y,f:()=>drawFish(o)})),
+  ...gifts.filter(o=>!o.got).map(o=>({y:o.y,f:()=>drawGift(o)})),
+  ...ores.filter(o=>!o.got).map(o=>({y:o.y,f:()=>drawOre(o)})),
+  ...coins.filter(o=>!o.got).map(o=>({y:o.y,f:()=>drawCoin(o)}))];
+ ents.sort((a,b)=>a.y-b.y).forEach(e=>e.f());
+ ft.forEach(f=>txt(f.s,(f.x-cam.x)|0,(f.y-cam.y)|0,'#ffd83a','center'));
+ ctx.fillStyle='rgba(10,10,60,'+(.12+(Math.sin(T/30000)+1)*.07).toFixed(2)+')';ctx.fillRect(0,0,VW,VH);
+ if(!vg){vg=ctx.createRadialGradient(160,112,90,160,112,210);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(10,10,40,.38)')}
+ ctx.fillStyle=vg;ctx.fillRect(0,0,VW,VH);drawSnow();
+ p('rgba(0,0,0,.6)',0,0,VW,12);txt(obj(),4,2,'#fff');txt('Monety '+Q.coins+'/'+TOT,VW-4,2,'#ffd83a','right');
+ ctx.globalAlpha=.85;panel(VW-MW*2-6,16,MW*2,MH*2);minimap(2,VW-MW*2-6,16);ctx.globalAlpha=1;
+ if(dlg)drawDlg();
+ if(showMap)drawMapOverlay();
+ if(showLog)drawLog();
+ if(state==='end')endScreen()}
+let last=0;
+function loop(ts){const dt=Math.min(.05,(ts-last)/1000||0);last=ts;T=ts;update(dt);render();requestAnimationFrame(loop)}
+requestAnimationFrame(loop);
+
+/* ---------- STEROWANIE ---------- */
+const KM={arrowleft:'left',a:'left',arrowright:'right',d:'right',arrowup:'up',w:'up',arrowdown:'down',s:'down'};
+const toggleMap=()=>{if(state==='play'&&!dlg){showMap=!showMap;showLog=false}};
+const toggleLog=()=>{if(state==='play'&&!dlg){showLog=!showLog;showMap=false}};
+addEventListener('keydown',e=>{const key=e.key.toLowerCase(),a=KM[key];k.run=e.shiftKey?1:0;
+ if(a){k[a]=1;e.preventDefault();return}
+ if(key==='e'||key===' '||key==='enter'){e.preventDefault();if(!e.repeat)press()}
+ if(key==='m')toggleMap();if(key==='f')dig();if(key==='j')toggleLog();if(key==='n')mute=!mute;if(key==='v'){voiceOn=!voiceOn;try{speechSynthesis.cancel()}catch(e){}}});
+addEventListener('keyup',e=>{k.run=e.shiftKey?1:0;const a=KM[e.key.toLowerCase()];if(a)k[a]=0});
+addEventListener('blur',()=>{for(const a in k)k[a]=0});
+addEventListener('contextmenu',e=>e.preventDefault());
+cv.addEventListener('pointerdown',()=>press());
+document.querySelectorAll('#pad b').forEach(b=>{const a=b.dataset.k;
+ b.addEventListener('pointerdown',e=>{e.preventDefault();if(a in k)k[a]=1;else if(a==='act')press();else if(a==='map')toggleMap();else if(a==='dig')dig();else if(a==='log')toggleLog()});
+ ['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>{if(a in k)k[a]=0}))});
+})();
+</script>
+</body>
+</html>
