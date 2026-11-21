@@ -1591,7 +1591,92 @@
             .corner-modal-title { font-size: 1.9rem; }
             .corner-header-card { padding: 25px 20px; }
         }
-    </style>
+    
+/* ===== ULEPSZENIA ===== */
+.article-card,.featured-article{border:1px solid var(--border-color);box-shadow:var(--shadow-xs)}
+.article-card:hover,.featured-article:hover{box-shadow:var(--shadow-md)}
+:focus-visible{outline:2px solid var(--primary-yellow);outline-offset:2px}
+.modal-body-content .modal-text{max-width:68ch;line-height:1.7}
+.modal-text p{margin:0 0 .8em}
+.modal-text.serif{font-family:Georgia,'Times New Roman',serif;line-height:1.75}
+.modal-text a{color:#d99a00;text-decoration:underline}
+#searchMeta{font-size:.85rem;color:var(--text-muted);margin-top:8px;min-height:1.2em}
+.cm-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:.85rem;color:var(--text-muted)}
+.cm-bar select{background:var(--bg-white);color:var(--text-main);border:1px solid var(--border-color);border-radius:8px;padding:4px 8px}
+.cm{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid var(--border-color)}
+.cm.reply{border:0;padding:8px 0 0}
+.cm-av{flex:0 0 36px;height:36px;border-radius:50%;background:var(--primary-yellow);color:#1E2227;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:.8rem}
+.cm.reply .cm-av{flex-basis:28px;height:28px;font-size:.7rem}
+.cm-main{flex:1;min-width:0}
+.cm-head{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:.9rem}
+.cm-date{color:var(--text-muted);font-size:.78rem}
+.cm-badge{background:var(--primary-yellow);color:#1E2227;border-radius:6px;padding:0 6px;font-size:.7rem;font-weight:700}
+.cm-text{margin:4px 0;white-space:pre-wrap;word-break:break-word;line-height:1.5}
+.cm-actions{display:flex;gap:14px;font-size:.8rem}
+.cm-actions button{background:none;color:var(--text-muted);padding:2px 0}
+.cm-actions button:hover,.cm-actions button.on{color:#e0a000}
+.cm-replies{margin-left:4px;padding-left:12px;border-left:2px solid var(--border-color);margin-top:6px}
+.cm-form textarea{width:100%;min-height:70px;margin-top:8px;padding:10px;border:1px solid var(--border-color);border-radius:10px;background:var(--bg-white);color:var(--text-main);font:inherit;resize:vertical}
+.cm-form .row{display:flex;gap:8px;margin-top:6px;justify-content:flex-end;align-items:center}
+.cm-form .row small{margin-right:auto;color:var(--text-muted)}
+.cm-form button{padding:6px 14px;border-radius:8px;background:var(--primary-yellow);color:#1E2227;font-weight:700}
+.cm-form button.ghost{background:var(--bg-gray);color:var(--text-main)}
+#gtToast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);background:#1E2227;color:#fff;padding:10px 18px;border-radius:10px;opacity:0;transition:.25s;z-index:9999;pointer-events:none}
+#gtToast.show{opacity:1;transform:translate(-50%,0)}
+#toTop{position:fixed;right:20px;bottom:20px;width:44px;height:44px;border-radius:50%;background:var(--primary-yellow);color:#1E2227;box-shadow:var(--shadow-md);display:none;z-index:900}
+
+#searchSuggest{position:absolute;left:0;right:0;top:calc(100% + 10px);background:var(--bg-white);border:1px solid var(--border-color);border-radius:18px;box-shadow:var(--shadow-lg);z-index:300;overflow:hidden;display:none;text-align:left}
+#searchSuggest.open{display:block;animation:sgIn .18s ease}
+@keyframes sgIn{from{opacity:0;transform:translateY(-6px)}}
+.sg-head{padding:10px 18px 4px;font-size:.75rem;font-weight:700;color:var(--text-muted)}
+.sg-item{display:flex;align-items:center;gap:12px;padding:8px 18px;cursor:pointer}
+.sg-item img{width:48px;height:48px;border-radius:10px;object-fit:cover;flex:0 0 48px}
+.sg-item>div{flex:1;min-width:0}
+.sg-item>i{color:var(--text-light);font-size:.75rem}
+.sg-item:hover,.sg-item.act{background:var(--primary-yellow-light)}
+[data-theme=dark] .sg-item:hover,[data-theme=dark] .sg-item.act{background:var(--bg-gray)}
+.sg-t{font-weight:700;color:var(--secondary-dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.95rem}
+.sg-t mark{background:rgba(255,193,7,.45);color:inherit;border-radius:3px;padding:0 1px}
+.sg-m{font-size:.78rem;color:var(--text-muted)}
+.sg-empty{padding:18px;color:var(--text-muted);text-align:center;font-size:.9rem}
+/* logowanie */
+.auth-split-image{overflow:hidden}
+.auth-split-image>*{position:relative;z-index:2}
+.auth-orb{position:absolute!important;border-radius:50%;filter:blur(50px);opacity:.55;z-index:1!important;animation:orb 14s ease-in-out infinite alternate}
+.auth-orb.o1{width:320px;height:320px;background:#FFC107;top:-80px;right:-60px}
+.auth-orb.o2{width:260px;height:260px;background:#ff7a59;bottom:-60px;left:-60px;animation-delay:-6s}
+@keyframes orb{to{transform:translate(40px,30px) scale(1.15)}}
+.auth-feats{margin-top:22px;display:grid;gap:12px}
+.auth-feats div{display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);padding:10px 14px;border-radius:14px;color:#fff;font-weight:600;font-size:.92rem}
+.auth-feats i{color:#FFC107;width:20px;text-align:center}
+.auth-form-card{position:relative}
+.auth-fade{animation:authFade .35s ease}
+@keyframes authFade{from{opacity:0;transform:translateY(10px)}}
+.auth-shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.auth-eye{position:absolute;right:12px;background:none;color:var(--text-muted);padding:6px;left:auto!important;width:auto}
+.auth-eye:hover{color:var(--primary-yellow-hover)}
+.auth-input-wrapper input[type=password],.auth-input-wrapper input.pw{padding-right:44px}
+.auth-input-group.bad input{border-color:#e5484d}
+.auth-hint{font-size:.78rem;color:var(--text-muted);min-height:1em}
+.auth-hint.warn{color:#e5484d}
+.pw-meter{display:flex;gap:4px;margin-top:4px}
+.pw-meter span{flex:1;height:4px;border-radius:4px;background:var(--border-color);transition:.25s}
+.auth-submit-btn-modern:disabled{opacity:.7;cursor:wait}
+.auth-pop{position:absolute;inset:-20px;background:var(--bg-white);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;z-index:20;animation:authFade .3s;overflow:hidden;border-radius:20px}
+.auth-pop .ck{width:84px;height:84px;border-radius:50%;background:#FFC107;color:#1E2227;font-size:2.4rem;display:flex;align-items:center;justify-content:center;animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pop{from{transform:scale(0)}}
+.auth-pop h3{margin-top:18px;font-size:1.8rem}
+.auth-pop p{color:var(--text-muted)}
+.cf{position:absolute;top:-10px;width:8px;height:14px;animation:fall 1.6s ease-in forwards}
+@keyframes fall{to{transform:translateY(520px) rotate(540deg);opacity:0}}
+.nav-art{display:flex;gap:12px;margin-top:30px}
+.nav-art button{flex:1;text-align:left;background:var(--bg-white);border:1px solid var(--border-color);border-radius:14px;padding:12px 16px;color:var(--text-main);font-size:.85rem;line-height:1.35}
+.nav-art button:hover{border-color:var(--primary-yellow);box-shadow:var(--shadow-sm)}
+.nav-art small{display:block;color:var(--text-muted)}
+.nav-art b{display:block;color:var(--secondary-dark)}
+.nav-art .nx{text-align:right}
+</style>
 </head>
 <body>
 
@@ -2871,7 +2956,7 @@
 
                     if (isFirst) {
                         const featuredHTML = `
-                            <article class="featured-article dynamic-article" data-title="${attrTitle}" data-excerpt="${attrExcerpt}" data-category="${attrCategory}">
+                            <article class="featured-article dynamic-article" data-id="${articleId}" data-title="${attrTitle}" data-excerpt="${attrExcerpt}" data-category="${attrCategory}">
                                 <div class="featured-img-wrap" onclick="openArticleModal('${articleId}')">
                                     <span class="article-category">${category}</span>
                                     <img src="${imgUrl}" alt="${attrTitle}">
@@ -2903,7 +2988,7 @@
                         const isHidden = !showAllArticles && regularCount >= 4;
                         const displayAttr = isHidden ? 'style="display: none;"' : '';
                         const articleHTML = `
-                            <article class="article-card dynamic-article" data-title="${attrTitle}" data-excerpt="${attrExcerpt}" data-category="${attrCategory}" ${displayAttr}>
+                            <article class="article-card dynamic-article" data-id="${articleId}" data-title="${attrTitle}" data-excerpt="${attrExcerpt}" data-category="${attrCategory}" ${displayAttr}>
                                 <div class="article-img-wrap" onclick="openArticleModal('${articleId}')">
                                     <span class="article-category">${category}</span>
                                     <img src="${imgUrl}" alt="${attrTitle}">
@@ -3335,7 +3420,7 @@
                             </div>
                             
                             <div class="modal-text">
-                                ${article.content.replace(/\n/g, '<br><br>')}
+                                ${window.fmtArticle(article.content)}
                             </div>
 
                             <!-- SEKCJA KOMENTARZY DO ARTYKUŁU -->
@@ -3450,6 +3535,162 @@
         fetchArticles();
         fetchCalendarEvents();
         fetchDistributionDates();
-    </script>
+    
+/* ===== ULEPSZENIA JS ===== */
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const gtUser=()=>{try{return JSON.parse(localStorage.getItem('gt_logged_user'))}catch(e){return null}};
+const norm=t=>(t||'').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ł/g,'l');
+function toast(m){let t=document.getElementById('gtToast');if(!t){t=document.createElement('div');t.id='gtToast';document.body.appendChild(t)}t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2400)}
+window.fmtArticle=function(t){t=String(t||'').replace(/\r/g,'').trim();if(/<(p|div|h[1-6]|ul|ol)\b/i.test(t))return t;
+ return t.split(/\n+/).map(l=>l.trim()).filter(Boolean).map(l=>'<p>'+l.replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>')+'</p>').join('')};
+
+/* --- komentarze: odpowiedzi, lajki, edycja, sortowanie --- */
+const CM={site:{col:'site_comments',el:()=>document.getElementById('siteCommentsFeed'),more:()=>document.getElementById('siteCommentsMoreBtn')},
+ art:{col:'article_comments',el:a=>document.getElementById('articleCommentsList_'+a),more:a=>document.getElementById('articleCommentsMoreBtn_'+a)}};
+const cmData={},cmSort={site:'new',art:'new'},cmAll={site:false,art:{}};
+const liked=()=>{try{return new Set(JSON.parse(localStorage.getItem('gt_cl')||'[]'))}catch(e){return new Set()}};
+const ini=n=>(n||'?').trim().split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
+function ago(c){const t=c.createdAt&&c.createdAt.toDate&&c.createdAt.toDate();if(!t)return c.date||'przed chwilą';const s=(Date.now()-t)/1000;
+ if(s<60)return 'przed chwilą';if(s<3600)return Math.floor(s/60)+' min temu';if(s<86400)return Math.floor(s/3600)+' godz. temu';if(s<604800)return Math.floor(s/86400)+' dn. temu';return t.toLocaleDateString('pl-PL')}
+function cmHtml(k,a,c,kids,isReply){const u=gtUser(),mine=u&&u.email===c.email,adm=isUserAdmin(u),L=liked().has(c.id);
+ return `<div class="cm${isReply?' reply':''}" id="cm_${c.id}"><div class="cm-av">${esc(ini(c.name))}</div><div class="cm-main">
+ <div class="cm-head"><b>${esc(c.name)}</b>${isUserAdmin(c)?'<span class="cm-badge">Redakcja</span>':''}<span class="cm-date">${ago(c)}${c.edited?' · edytowano':''}</span></div>
+ <div class="cm-text" id="cmt_${c.id}">${esc(c.text)}</div>
+ <div class="cm-actions"><button class="${L?'on':''}" id="cml_${c.id}" onclick="cm.like('${k}','${a}','${c.id}')"><i class="${L?'fas':'far'} fa-heart"></i> <span>${c.likes||0}</span></button>
+ <button onclick="cm.reply('${k}','${a}','${c.id}')"><i class="fas fa-reply"></i> Odpowiedz</button>
+ ${mine?`<button onclick="cm.edit('${k}','${a}','${c.id}')"><i class="fas fa-pen"></i> Edytuj</button>`:''}
+ ${mine||adm?`<button onclick="cm.del('${k}','${a}','${c.id}')"><i class="fas fa-trash"></i> Usuń</button>`:''}</div>
+ <div id="slot_${c.id}"></div>${kids&&kids.length?`<div class="cm-replies">${kids.map(r=>cmHtml(k,a,r,null,true)).join('')}</div>`:''}</div></div>`}
+async function cmLoad(k,a){const box=CM[k].el(a);if(!box)return;
+ try{const snap=await getDocs(query(collection(db,CM[k].col),orderBy('createdAt','desc')));let all=[];
+  snap.forEach(d=>{const x={id:d.id,...d.data()};if(k==='site'||x.articleId===a){all.push(x);cmData[x.id]=x}});
+  const top=all.filter(x=>!x.parentId),kids={};all.filter(x=>x.parentId).forEach(x=>(kids[x.parentId]=kids[x.parentId]||[]).push(x));
+  Object.values(kids).forEach(l=>l.sort((p,q)=>(p.createdAt?.seconds||9e9)-(q.createdAt?.seconds||9e9)));
+  const m=cmSort[k];if(m==='old')top.reverse();if(m==='top')top.sort((p,q)=>(q.likes||0)-(p.likes||0));
+  const exp=k==='site'?cmAll.site:!!cmAll.art[a],n=exp?top.length:5;
+  box.innerHTML=`<div class="cm-bar"><span>${all.length} ${all.length===1?'komentarz':'komentarzy'}</span><select onchange="cm.sort('${k}','${a}',this.value)"><option value="new"${m==='new'?' selected':''}>Najnowsze</option><option value="old"${m==='old'?' selected':''}>Najstarsze</option><option value="top"${m==='top'?' selected':''}>Najpopularniejsze</option></select></div>`+
+   (top.length?top.slice(0,n).map(c=>cmHtml(k,a,c,kids[c.id])).join(''):'<div class="empty-calendar">Brak komentarzy. Bądź pierwszy!</div>');
+  const mb=CM[k].more(a);if(mb){if(top.length>5){mb.style.display='flex';mb.innerHTML=exp?'Pokaż mniej <i class="fas fa-chevron-up"></i>':`Pokaż więcej (${top.length-5}) <i class="fas fa-chevron-down"></i>`}else mb.style.display='none'}
+ }catch(e){console.error(e);box.innerHTML='<div class="empty-calendar">Nie udało się wczytać komentarzy.</div>'}}
+window.loadSiteComments=()=>cmLoad('site','');
+window.loadArticleComments=a=>cmLoad('art',a);
+window.toggleSiteCommentsLimit=()=>{cmAll.site=!cmAll.site;cmLoad('site','')};
+window.toggleArticleCommentsLimit=a=>{cmAll.art[a]=!cmAll.art[a];cmLoad('art',a)};
+async function cmPost(k,a,text,parentId){const u=gtUser();if(!u){toast('Zaloguj się, aby komentować');window.openAuthModal();return false}
+ text=text.trim();if(!text){toast('Komentarz jest pusty');return false}if(text.length>1000){toast('Maks. 1000 znaków');return false}
+ const d={name:u.name,email:u.email,text,likes:0,date:new Date().toLocaleDateString('pl-PL',{day:'numeric',month:'long',year:'numeric'}),createdAt:serverTimestamp()};
+ if(k==='art')d.articleId=a;if(parentId)d.parentId=parentId;
+ try{await addDoc(collection(db,CM[k].col),d);return true}catch(e){console.error(e);toast('Błąd publikacji');return false}}
+window.submitSiteComment=async()=>{const i=document.getElementById('siteCommentInput');if(await cmPost('site','',i.value)){i.value='';toast('Dodano opinię');cmLoad('site','')}};
+window.submitArticleComment=async a=>{const i=document.getElementById('articleCommentInput_'+a);if(i&&await cmPost('art',a,i.value)){i.value='';toast('Dodano komentarz');cmLoad('art',a)}};
+window.cm={
+ sort(k,a,v){cmSort[k]=v;cmLoad(k,a)},
+ async like(k,a,id){if(!gtUser()){toast('Zaloguj się, aby polubić');return}const s=liked(),on=!s.has(id);on?s.add(id):s.delete(id);localStorage.setItem('gt_cl',JSON.stringify([...s]));
+  const b=document.getElementById('cml_'+id),n=b.querySelector('span');n.textContent=Math.max(0,+n.textContent+(on?1:-1));b.classList.toggle('on',on);b.querySelector('i').className=(on?'fas':'far')+' fa-heart';
+  try{await updateDoc(doc(db,CM[k].col,id),{likes:increment(on?1:-1)})}catch(e){toast('Nie udało się zapisać polubienia')}},
+ reply(k,a,id){const c=cmData[id],root=c.parentId||id,slot=document.getElementById('slot_'+id);if(slot.innerHTML){slot.innerHTML='';return}
+  slot.innerHTML=`<div class="cm-form"><textarea maxlength="1000" id="rt_${id}" placeholder="Odpowiedz użytkownikowi ${esc(c.name)}...">${c.parentId?'@'+esc(c.name)+' ':''}</textarea><div class="row"><small>Ctrl+Enter wysyła</small><button class="ghost" onclick="document.getElementById('slot_${id}').innerHTML=''">Anuluj</button><button onclick="cm.send('${k}','${a}','${id}','${root}')">Wyślij</button></div></div>`;
+  const t=document.getElementById('rt_'+id);t.focus();t.addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))cm.send(k,a,id,root)})},
+ async send(k,a,id,root){if(await cmPost(k,a,document.getElementById('rt_'+id).value,root)){toast('Odpowiedź dodana');cmLoad(k,a)}},
+ edit(k,a,id){const c=cmData[id],slot=document.getElementById('slot_'+id);slot.innerHTML=`<div class="cm-form"><textarea maxlength="1000" id="et_${id}">${esc(c.text)}</textarea><div class="row"><button class="ghost" onclick="document.getElementById('slot_${id}').innerHTML=''">Anuluj</button><button onclick="cm.save('${k}','${a}','${id}')">Zapisz</button></div></div>`},
+ async save(k,a,id){const t=document.getElementById('et_'+id).value.trim();if(!t)return;try{await updateDoc(doc(db,CM[k].col,id),{text:t,edited:true});toast('Zapisano');cmLoad(k,a)}catch(e){toast('Błąd zapisu')}},
+ async del(k,a,id){if(!confirm('Usunąć komentarz wraz z odpowiedziami?'))return;try{
+  for(const x of Object.values(cmData))if(x.parentId===id)await deleteDoc(doc(db,CM[k].col,x.id));await deleteDoc(doc(db,CM[k].col,id));toast('Usunięto');cmLoad(k,a)}catch(e){toast('Błąd usuwania')}}};
+document.addEventListener('keydown',e=>{const t=e.target;if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){if(t.id==='siteCommentInput')submitSiteComment();else if(t.id&&t.id.startsWith('articleCommentInput_'))submitArticleComment(t.id.split('_')[1])}});
+
+/* --- wyszukiwanie z podpowiedziami (ranking trafności) --- */
+const words=t=>norm(t).split(/[^a-z0-9]+/).filter(Boolean);
+function lev1(a,b){if(Math.abs(a.length-b.length)>1)return false;let i=0,j=0,e=0;while(i<a.length&&j<b.length){if(a[i]===b[j]){i++;j++;continue}if(++e>1)return false;if(a.length>b.length)i++;else if(a.length<b.length)j++;else{i++;j++}}return e+(a.length-i)+(b.length-j)<=1}
+function tokScore(tk,ws){let m=0;for(const w of ws){let v=0;if(w===tk)v=1;else if(w.startsWith(tk))v=.9;else if(tk.length>=5&&w.startsWith(tk.slice(0,-1)))v=.6;else if(tk.length>=4&&lev1(tk,w))v=.5;else if(tk.length>=3&&w.includes(tk))v=.3;if(v>m)m=v;if(m===1)break}return m}
+const sIdx={};
+function idxOf(id){const a=window.articlesData[id];if(!a)return null;return sIdx[id]||(sIdx[id]={t:words(a.title),c:words(a.category),a:words(a.author),e:words(a.excerpt),b:words(a.content)})}
+function scoreArt(id,tk){const x=idxOf(id);if(!x||!tk.length)return 0;let tot=0;for(const t of tk){const v=Math.max(6*tokScore(t,x.t),3*tokScore(t,x.c),2*tokScore(t,x.a),2*tokScore(t,x.e),tokScore(t,x.b));if(!v)return 0;tot+=v}return tot}
+const tokens=q=>norm(q).split(/\s+/).filter(Boolean);
+function ranked(q){const tk=tokens(q);return Object.keys(window.articlesData).map(id=>({id,s:scoreArt(id,tk)})).filter(r=>r.s>0).sort((p,q)=>q.s-p.s)}
+window.executeSearch=function(){const inp=document.getElementById('searchInput'),tk=tokens(inp?inp.value:''),fc=norm(currentFilter),sc={};
+ tk.length&&ranked(inp.value).forEach(r=>sc[r.id]=r.s);let found=0,ri=0;
+ document.querySelectorAll('.dynamic-article').forEach(el=>{const ok=(!tk.length||sc[el.dataset.id])&&(fc==='wszystkie'||norm(el.dataset.category)===fc);
+  el.style.order=tk.length&&sc[el.dataset.id]?String(-Math.round(sc[el.dataset.id]*10)):'';
+  if(!ok){el.style.display='none';return}found++;
+  if(el.classList.contains('featured-article')){el.style.display='';return}
+  el.style.display=(tk.length||fc!=='wszystkie'||showAllArticles||ri<4)?'':'none';ri++});
+ const nr=document.getElementById('noResultsMsg');if(nr)nr.style.display=found?'none':'flex';
+ const lm=document.getElementById('loadMoreContainer');if(lm)lm.style.display=(tk.length||fc!=='wszystkie'||ri<=4)?'none':'block';
+ const meta=document.getElementById('searchMeta');if(meta)meta.textContent=(tk.length||fc!=='wszystkie')?`Znaleziono: ${found}`:''};
+(function(){const i=document.getElementById('searchInput');if(!i)return;const w=i.parentElement;w.style.position='relative';
+ const box=document.createElement('div');box.id='searchSuggest';w.appendChild(box);
+ const m=document.createElement('div');m.id='searchMeta';document.querySelector('.search-bar-section .container').appendChild(m);
+ let act=-1,list=[];const hide=()=>{box.classList.remove('open');act=-1};
+ const hl=(t,tk)=>{let h=esc(t);tk.forEach(k=>{if(k.length<2)return;const r=new RegExp('('+k.split('').map(c=>({'a':'[aą]','c':'[cć]','e':'[eę]','l':'[lł]','n':'[nń]','o':'[oó]','s':'[sś]','z':'[zźż]'}[c]||c.replace(/[^a-z0-9]/g,''))).join('')+')','gi');h=h.replace(r,'<mark>$1</mark>')});return h};
+ function show(){const q=i.value,tk=tokens(q);let head,items;
+  if(tk.length){items=ranked(q).slice(0,6);head=items.length?'Podobne artykuły':''}
+  else{items=Object.keys(window.articlesData).map(id=>({id,v:window.articlesData[id].views||0})).sort((p,q)=>q.v-p.v).slice(0,5);head=items.length?'Popularne artykuły':''}
+  list=items.map(r=>window.articlesData[r.id]);
+  if(!list.length){box.innerHTML=tk.length?`<div class="sg-empty">Brak podobnych artykułów dla „${esc(q)}”</div>`:'';box.classList.toggle('open',!!tk.length);return}
+  box.innerHTML=`<div class="sg-head">${head}</div>`+list.map((a,n)=>`<div class="sg-item" data-n="${n}"><img src="${esc(a.imgUrl)}" alt=""><div><div class="sg-t">${hl(a.title,tk)}</div><div class="sg-m">${esc(a.category)} · ${esc(a.author)} · ${calculateReadTime(a.content)} min</div></div><i class="fas fa-chevron-right"></i></div>`).join('');
+  box.classList.add('open');act=-1}
+ box.addEventListener('mousedown',e=>{const it=e.target.closest('.sg-item');if(!it)return;e.preventDefault();hide();window.openArticleModal(list[+it.dataset.n].id)});
+ const mark=()=>box.querySelectorAll('.sg-item').forEach((el,n)=>el.classList.toggle('act',n===act));
+ let h;i.addEventListener('input',()=>{show();clearTimeout(h);h=setTimeout(window.executeSearch,120)});
+ i.addEventListener('focus',show);i.addEventListener('blur',()=>setTimeout(hide,120));
+ i.addEventListener('keydown',e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){if(!list.length)return;e.preventDefault();act=(act+(e.key==='ArrowDown'?1:-1)+list.length)%list.length;mark()}
+  else if(e.key==='Enter'){if(act>=0){e.preventDefault();const id=list[act].id;hide();window.openArticleModal(id)}else{hide();window.executeSearch()}}
+  else if(e.key==='Escape'){hide();i.blur()}});
+ const btn=w.querySelector('button');if(btn)btn.addEventListener('click',hide);
+ document.addEventListener('keydown',e=>{if(e.key==='/'&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName)){e.preventDefault();i.focus()}});
+ i.placeholder+=' (naciśnij /)'})();
+
+/* --- czytanie: narzędzia w oknie artykułu, link do artykułu --- */
+const _open=window.openArticleModal;
+window.openArticleModal=async function(id){await _open(id);history.replaceState(null,'','#artykul-'+id);
+ const tb=document.querySelector('.reader-toolbar');if(!tb)return;const g=document.createElement('div');g.className='reader-tool-group';
+ g.innerHTML=`<button class="tool-btn" id="serifBtn" title="Czcionka szeryfowa">Aa</button><button class="tool-btn" id="linkBtn" title="Kopiuj link"><i class="fas fa-link"></i> Link</button><button class="tool-btn" id="cmBtn" title="Przejdź do komentarzy"><i class="fas fa-comments"></i></button>`;tb.appendChild(g);
+ document.getElementById('serifBtn').onclick=e=>{const t=document.querySelector('.modal-text');t.classList.toggle('serif');e.currentTarget.classList.toggle('active')};
+ document.getElementById('linkBtn').onclick=()=>navigator.clipboard.writeText(location.href.split('#')[0]+'#artykul-'+id).then(()=>toast('Skopiowano link'));
+ document.getElementById('cmBtn').onclick=()=>document.getElementById('articleCommentsList_'+id).scrollIntoView({behavior:'smooth',block:'center'});
+ const ta=document.getElementById('articleCommentInput_'+id);if(ta)ta.maxLength=1000};
+const _close=window.closeModal;window.closeModal=function(){_close();history.replaceState(null,'',location.pathname+location.search)};
+(function(){const h=location.hash.match(/^#artykul-(.+)$/);if(!h)return;let n=0;const t=setInterval(()=>{if(window.articlesData&&window.articlesData[h[1]]){clearInterval(t);window.openArticleModal(h[1])}else if(++n>50)clearInterval(t)},200)})();
+const tt=document.createElement('button');tt.id='toTop';tt.innerHTML='<i class="fas fa-arrow-up"></i>';tt.onclick=()=>scrollTo({top:0,behavior:'smooth'});document.body.appendChild(tt);
+addEventListener('scroll',()=>tt.style.display=scrollY>600?'block':'none');
+window.loadSiteComments();
+
+/* --- czas czytania na kartach, poprzedni/następny artykuł --- */
+function badgeCards(){document.querySelectorAll('.dynamic-article:not([data-rt])').forEach(el=>{const a=window.articlesData[el.dataset.id];if(!a)return;el.dataset.rt=1;const m=el.querySelector('.article-meta');if(m)m.insertAdjacentHTML('beforeend',`<span><i class="far fa-clock"></i> ${calculateReadTime(a.content)} min</span>`)})}
+['featuredFeed','articlesFeed'].forEach(i=>{const e=document.getElementById(i);if(e)new MutationObserver(badgeCards).observe(e,{childList:true})});
+const _open2=window.openArticleModal;
+window.openArticleModal=async function(id){await _open2(id);const ids=Object.keys(window.articlesData),n=ids.indexOf(id),t=document.querySelector('.modal-text');if(!t||n<0)return;
+ const P=ids[n-1],N=ids[n+1],A=window.articlesData;
+ const nav=document.createElement('div');nav.className='nav-art';
+ nav.innerHTML=(P?`<button onclick="openArticleModal('${P}')"><small>← Nowszy</small><b>${esc(A[P].title)}</b></button>`:'')+(N?`<button class="nx" onclick="openArticleModal('${N}')"><small>Starszy →</small><b>${esc(A[N].title)}</b></button>`:'');
+ if(nav.children.length)t.after(nav);document.getElementById('modalContentScroll').scrollTop=0};
+
+/* --- logowanie: walidacja, oko, siła hasła, animacje --- */
+(function(){const $=i=>document.getElementById(i),okMail=v=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+ const L=document.querySelector('.auth-split-image');
+ if(L&&!L.querySelector('.auth-feats')){L.insertAdjacentHTML('afterbegin','<div class="auth-orb o1"></div><div class="auth-orb o2"></div>');
+  const c=L.querySelector('.auth-image-caption');if(c)c.insertAdjacentHTML('beforeend','<div class="auth-feats"><div><i class="fas fa-comments"></i> Komentuj i odpowiadaj innym</div><div><i class="fas fa-heart"></i> Lajkuj artykuły i komentarze</div><div><i class="fas fa-bolt"></i> Wszystko za darmo, w kilka sekund</div></div>')}
+ document.querySelectorAll('.auth-input-wrapper input[type=password]').forEach(inp=>{const b=document.createElement('button');b.type='button';b.className='auth-eye';b.innerHTML='<i class="far fa-eye" style="position:static"></i>';b.onclick=()=>{const sh=inp.type==='password';inp.type=sh?'text':'password';b.firstChild.className=sh?'far fa-eye-slash':'far fa-eye';b.firstChild.style.position='static'};inp.parentElement.appendChild(b);
+  inp.addEventListener('keyup',e=>{const g=inp.closest('.auth-input-group');let h=g.querySelector('.caps');if(!h){h=document.createElement('div');h.className='auth-hint warn caps';g.appendChild(h)}h.textContent=e.getModifierState&&e.getModifierState('CapsLock')?'Włączony Caps Lock':''})});
+ const rp=$('regPassword');if(rp){const m=document.createElement('div');m.className='pw-meter';m.innerHTML='<span></span><span></span><span></span><span></span>';const h=document.createElement('div');h.className='auth-hint';rp.closest('.auth-input-group').append(m,h);
+  rp.addEventListener('input',()=>{const v=rp.value;let n=(v.length>=6)+(v.length>=10)+(/[A-Z]/.test(v)&&/[a-z]/.test(v))+(/\d/.test(v)&&/[^\w\s]/.test(v));const col=['#e5484d','#f5a524','#c8c32a','#2db36f'][Math.max(0,n-1)];
+   m.querySelectorAll('span').forEach((x,k)=>x.style.background=k<n?col:'');h.textContent=v?['Zbyt słabe','Słabe','Średnie','Dobre','Silne'][n]:''})}
+ const rc=$('regPasswordConfirm');if(rc){const h=document.createElement('div');h.className='auth-hint';rc.closest('.auth-input-group').appendChild(h);const f=()=>{h.className='auth-hint'+(rc.value&&rc.value!==rp.value?' warn':'');h.textContent=rc.value?(rc.value===rp.value?'Hasła są zgodne':'Hasła się różnią'):''};rc.addEventListener('input',f);rp.addEventListener('input',f)}
+ const le=$('loginEmail');if(le)le.value=localStorage.getItem('gt_last_email')||'';
+ document.querySelectorAll('#authModalOverlay input').forEach(inp=>inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();const reg=$('registerFormContainer').style.display!=='none';reg?handleRegister():handleLogin()}}));
+ const eS=window.showAuthError,sS=window.showAuthSuccess;
+ window.showAuthError=m=>{eS(m);const c=document.querySelector('.auth-form-card');c.classList.remove('auth-shake');void c.offsetWidth;c.classList.add('auth-shake');document.querySelectorAll('.auth-submit-btn-modern').forEach(b=>{b.disabled=false;b.innerHTML=b.dataset.h||b.innerHTML})};
+ window.showAuthSuccess=m=>{sS(m);const u=gtUser(),c=document.querySelector('.auth-form-card');if(!u)return;c.querySelector('.auth-pop')?.remove();
+  const col=['#FFC107','#ff7a59','#2db36f','#4c8dff','#e5484d'];let cf='';for(let i=0;i<30;i++)cf+=`<span class="cf" style="left:${Math.random()*100}%;background:${col[i%5]};animation-delay:${Math.random()*.5}s"></span>`;
+  c.insertAdjacentHTML('beforeend',`<div class="auth-pop">${cf}<div class="ck"><i class="fas fa-check"></i></div><h3>Witaj, ${esc(u.name.split(' ')[0])}!</h3><p>Za chwilę wrócisz na stronę…</p></div>`);localStorage.setItem('gt_last_email',u.email)};
+ const bad=(id,msg)=>{const g=$(id).closest('.auth-input-group');g.classList.add('bad');$(id).focus();showAuthError(msg);setTimeout(()=>g.classList.remove('bad'),2500);return false};
+ function wrap(fn,btnSel,check){const o=window[fn];window[fn]=function(){if(!check())return;const b=document.querySelector(btnSel);b.dataset.h=b.innerHTML;b.disabled=true;b.innerHTML='<i class="fas fa-circle-notch fa-spin"></i> Chwileczkę…';setTimeout(()=>{o();if($('authSuccessMsg').style.display!=='block'){b.disabled=false;b.innerHTML=b.dataset.h}},450)}}
+ wrap('handleLogin','#loginFormContainer .auth-submit-btn-modern',()=>{const e=$('loginEmail').value.trim();if(!okMail(e))return bad('loginEmail','Podaj poprawny adres e-mail.');return true});
+ wrap('handleRegister','#registerFormContainer .auth-submit-btn-modern',()=>{if($('regName').value.trim().length<2)return bad('regName','Podaj imię i nazwisko.');if(!okMail($('regEmail').value.trim()))return bad('regEmail','Podaj poprawny adres e-mail.');if($('regPassword').value.length<6)return bad('regPassword','Hasło musi mieć min. 6 znaków.');return true});
+ const sw=window.switchAuthTab;window.switchAuthTab=t=>{sw(t);const f=$(t==='login'?'loginFormContainer':'registerFormContainer');f.classList.remove('auth-fade');void f.offsetWidth;f.classList.add('auth-fade')};
+ const oa=window.openAuthModal;window.openAuthModal=()=>{oa();document.querySelector('.auth-pop')?.remove();setTimeout(()=>{const f=$('loginFormContainer').style.display!=='none'?$('loginEmail'):$('regName');f&&f.focus()},400)};
+})();
+badgeCards();
+</script>
 </body>
 </html>
