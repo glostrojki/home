@@ -1676,9 +1676,161 @@
 .nav-art small{display:block;color:var(--text-muted)}
 .nav-art b{display:block;color:var(--secondary-dark)}
 .nav-art .nx{text-align:right}
+
+        /* ===== PRZERWA TECHNICZNA (sterowana z panelu admina) ===== */
+        #gtmFull { position:fixed; inset:0; z-index:2147483000; background:#fff; display:flex; align-items:center; justify-content:center; padding:24px; overflow:auto; font-family:'Montserrat',sans-serif; color:#1E2227; animation:gtmIn .5s ease; }
+        @keyframes gtmIn { from { opacity:0; } to { opacity:1; } }
+        .gtm-blob { position:absolute; border-radius:50%; filter:blur(60px); opacity:.35; animation:gtmFloat 9s ease-in-out infinite; pointer-events:none; }
+        .gtm-blob.b1 { width:340px; height:340px; background:#FFC107; top:-90px; left:-90px; }
+        .gtm-blob.b2 { width:280px; height:280px; background:#FFE082; bottom:-80px; right:-60px; animation-delay:-3s; }
+        .gtm-blob.b3 { width:200px; height:200px; background:#ffd54f; top:55%; left:60%; animation-delay:-6s; opacity:.2; }
+        @keyframes gtmFloat { 0%,100% { transform:translate(0,0); } 50% { transform:translate(30px,-25px); } }
+        .gtm-box { position:relative; z-index:1; max-width:640px; width:100%; text-align:center; margin:auto; }
+        .gtm-logo { height:64px; margin-bottom:6px; border-radius:12px; }
+        .gtm-gears svg { width:230px; max-width:70vw; height:auto; display:block; margin:0 auto; }
+        .gtm-g1, .gtm-g2 { transform-box:fill-box; transform-origin:center; animation:gtmSpin 10s linear infinite; }
+        .gtm-g1 { fill:#FFC107; } .gtm-g2 { fill:#1E2227; animation-duration:7s; animation-direction:reverse; }
+        @keyframes gtmSpin { to { transform:rotate(360deg); } }
+        .gtm-title { font-size:clamp(1.9rem,5vw,3rem); font-weight:900; letter-spacing:-.5px; margin:6px 0 12px; color:#1E2227; }
+        .gtm-desc { font-family:'Open Sans',sans-serif; font-size:1.1rem; line-height:1.7; color:#4b5563; white-space:pre-wrap; margin-bottom:22px; }
+        .gtm-chips { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-bottom:22px; }
+        .gtm-chip { background:#FFF8E1; border:1px solid #FFE082; padding:8px 14px; border-radius:999px; font-size:.85rem; font-weight:700; color:#7a5a00; }
+        .gtm-chip i { margin-right:6px; color:#FFB300; }
+        .gtm-cd { display:flex; justify-content:center; gap:12px; margin-bottom:24px; flex-wrap:wrap; }
+        .gtm-u { min-width:74px; background:#1E2227; color:#fff; border-radius:16px; padding:12px 8px; box-shadow:0 10px 24px rgba(30,34,39,.18); }
+        .gtm-u b { display:block; font-size:1.9rem; font-weight:900; color:#FFC107; font-variant-numeric:tabular-nums; line-height:1.1; }
+        .gtm-u small { font-size:.7rem; text-transform:uppercase; letter-spacing:1px; color:#a0aab5; font-weight:700; }
+        .gtm-prog { height:6px; max-width:320px; margin:0 auto 20px; background:#eef1f5; border-radius:6px; overflow:hidden; }
+        .gtm-prog i { display:block; height:100%; width:40%; background:linear-gradient(90deg,#FFC107,#FFB300); border-radius:6px; animation:gtmBar 1.6s ease-in-out infinite; }
+        @keyframes gtmBar { 0% { transform:translateX(-110%); } 100% { transform:translateX(280%); } }
+        .gtm-foot { font-size:.85rem; color:#9aa5b1; font-weight:600; }
+
+        #gtmBar { position:fixed; left:16px; bottom:16px; z-index:3900; max-width:min(420px, calc(100vw - 32px)); display:flex; gap:14px; align-items:flex-start; background:linear-gradient(135deg,#dc2626,#b91c1c); color:#fff; padding:14px 18px; border-radius:16px; box-shadow:0 12px 30px rgba(185,28,28,.45); font-family:'Open Sans',sans-serif; animation:gtmBarIn .5s cubic-bezier(.16,1,.3,1), gtmGlow 2.4s 1s infinite; }
+        @keyframes gtmBarIn { from { transform:translateY(30px); opacity:0; } to { transform:none; opacity:1; } }
+        @keyframes gtmGlow { 0%,100% { box-shadow:0 12px 30px rgba(185,28,28,.45); } 50% { box-shadow:0 12px 40px rgba(220,38,38,.85); } }
+        .gtm-bar-ic { width:40px; height:40px; flex-shrink:0; border-radius:12px; background:rgba(255,255,255,.18); display:flex; align-items:center; justify-content:center; font-size:1.1rem; }
+        .gtm-bar-ic i { animation:gtmWobble 2s ease-in-out infinite; }
+        @keyframes gtmWobble { 0%,100% { transform:rotate(-12deg); } 50% { transform:rotate(12deg); } }
+        .gtm-bar-tx { display:flex; flex-direction:column; gap:3px; min-width:0; max-height:40vh; overflow:auto; }
+        .gtm-bar-tx strong { font-family:'Montserrat',sans-serif; font-size:.98rem; }
+        .gtm-bar-d { font-size:.86rem; line-height:1.45; white-space:pre-wrap; }
+        .gtm-bar-m { font-size:.76rem; opacity:.85; font-weight:700; }
+        @media (prefers-reduced-motion: reduce) { #gtmFull *, #gtmBar, #gtmBar * { animation:none !important; } }
 </style>
 </head>
 <body>
+
+    <!-- PRZERWA TECHNICZNA + USTAWIENIA STRONY Z PANELU ADMINA (settings/site) -->
+    <script>
+    (function () {
+        var KEY = 'gt_site_cfg', DEF_LOGO = 'https://imgur.com/nwkFXR1.png', cfg = null, sig = '', ui = {};
+        function q(sel) { return document.querySelector(sel); }
+        function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+        function fmt(iso) { var d = new Date(iso); return isNaN(d) ? '' : d.toLocaleString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }); }
+        function isOn(m) {
+            if (!m || !m.enabled) return false;
+            var n = Date.now();
+            if (m.from && n < Date.parse(m.from)) return false;
+            if (m.to && n > Date.parse(m.to)) return false;
+            return true;
+        }
+        function left(iso) { var s = Math.max(0, Math.floor((Date.parse(iso) - Date.now()) / 1000)); return { d: Math.floor(s / 86400), h: Math.floor(s % 86400 / 3600), m: Math.floor(s % 3600 / 60), s: s % 60 }; }
+        function two(n) { return n < 10 ? '0' + n : '' + n; }
+
+        function gearPath(cx, cy, r, n, h, hole) {
+            var a = Math.PI * 2 / n, ri = r - h, d = '';
+            for (var i = 0; i < n; i++) {
+                var s = i * a, pts = [[ri, s], [r, s + a * .12], [r, s + a * .38], [ri, s + a * .5]];
+                for (var k = 0; k < 4; k++) d += (i + k === 0 ? 'M' : 'L') + (cx + pts[k][0] * Math.cos(pts[k][1])).toFixed(1) + ' ' + (cy + pts[k][0] * Math.sin(pts[k][1])).toFixed(1) + ' ';
+            }
+            return d + 'Z M' + (cx + hole) + ' ' + cy + ' A' + hole + ' ' + hole + ' 0 1 0 ' + (cx - hole) + ' ' + cy + ' A' + hole + ' ' + hole + ' 0 1 0 ' + (cx + hole) + ' ' + cy + ' Z';
+        }
+        function chip(icon, label, text) {
+            var c = el('span', 'gtm-chip'), i = el('i', 'fas ' + icon), b = el('b', null, label + ': ');
+            c.appendChild(i); c.appendChild(b); c.appendChild(document.createTextNode(text)); return c;
+        }
+
+        function buildFull(m, c) {
+            var o = el('div'); o.id = 'gtmFull'; o.setAttribute('role', 'alert');
+            o.appendChild(el('span', 'gtm-blob b1')); o.appendChild(el('span', 'gtm-blob b2')); o.appendChild(el('span', 'gtm-blob b3'));
+            var box = el('div', 'gtm-box'), logo = el('img', 'gtm-logo'); logo.src = c.logoUrl || DEF_LOGO; logo.alt = 'Głos Trójki';
+            var gears = el('div', 'gtm-gears');
+            gears.innerHTML = '<svg viewBox="0 0 190 160" aria-hidden="true"><path class="gtm-g1" fill-rule="evenodd" d="' + gearPath(70, 70, 48, 10, 10, 14) + '"/><path class="gtm-g2" fill-rule="evenodd" d="' + gearPath(132, 106, 32, 7, 9, 9) + '"/></svg>';
+            box.appendChild(logo); box.appendChild(gears);
+            box.appendChild(el('h1', 'gtm-title', m.title || 'Przerwa techniczna'));
+            box.appendChild(el('p', 'gtm-desc', m.description || 'Pracujemy nad ulepszeniami. Wrócimy za chwilę!'));
+            var chips = el('div', 'gtm-chips');
+            if (m.from) chips.appendChild(chip('fa-play', 'Od', fmt(m.from)));
+            if (m.to) chips.appendChild(chip('fa-flag-checkered', 'Do', fmt(m.to)));
+            if (chips.children.length) box.appendChild(chips);
+            ui.cd = null;
+            if (m.countdown && m.to) {
+                var cd = el('div', 'gtm-cd'); ui.cd = [];
+                ['dni', 'godz.', 'min', 'sek'].forEach(function (lab) {
+                    var u = el('div', 'gtm-u'), b = el('b', null, '00'); u.appendChild(b); u.appendChild(el('small', null, lab)); cd.appendChild(u); ui.cd.push(b);
+                });
+                box.appendChild(cd);
+            }
+            var prog = el('div', 'gtm-prog'); prog.appendChild(el('i')); box.appendChild(prog);
+            box.appendChild(el('p', 'gtm-foot', 'Strona wróci automatycznie. Dziękujemy za cierpliwość! • Głos Trójki' + (c.siteVersion ? ' • wersja ' + c.siteVersion : '')));
+            o.appendChild(box); document.body.appendChild(o);
+        }
+        function buildBar(m) {
+            var b = el('div'); b.id = 'gtmBar'; b.setAttribute('role', 'status');
+            var ic = el('div', 'gtm-bar-ic'); ic.appendChild(el('i', 'fas fa-screwdriver-wrench'));
+            var tx = el('div', 'gtm-bar-tx'); tx.appendChild(el('strong', null, m.title || 'Przerwa techniczna'));
+            if (m.description) tx.appendChild(el('span', 'gtm-bar-d', m.description));
+            ui.meta = el('small', 'gtm-bar-m'); tx.appendChild(ui.meta);
+            b.appendChild(ic); b.appendChild(tx); document.body.appendChild(b);
+        }
+        function clear() {
+            ['gtmFull', 'gtmBar'].forEach(function (id) { var e = document.getElementById(id); if (e) e.remove(); });
+            document.documentElement.style.overflow = ''; ui = {};
+        }
+        function tickText(m) {
+            if (ui.cd && m.to) { var t = left(m.to); [t.d, t.h, t.m, t.s].forEach(function (v, i) { ui.cd[i].textContent = two(v); }); }
+            if (ui.meta) {
+                var p = [];
+                if (m.to) p.push('Do: ' + fmt(m.to));
+                if (m.countdown && m.to) { var t2 = left(m.to); p.push('koniec za ' + (t2.d ? t2.d + ' d ' : '') + t2.h + ' h ' + t2.m + ' min'); }
+                ui.meta.textContent = p.join(' • ');
+            }
+        }
+        function render() {
+            var m = (cfg && cfg.maint) || {}, on = isOn(m), mode = m.mode === 'bar' ? 'bar' : 'full';
+            var s = on ? JSON.stringify([mode, m.title, m.description, m.from, m.to, m.countdown, cfg.logoUrl, cfg.siteVersion]) : '';
+            if (s !== sig) {
+                sig = s; clear();
+                if (on) { if (mode === 'full') { buildFull(m, cfg); document.documentElement.style.overflow = 'hidden'; } else buildBar(m); }
+            }
+            if (on) tickText(m);
+        }
+
+        function applySite(c) {
+            if (c.logoUrl) document.querySelectorAll('.logo-img, .mobile-logo-img').forEach(function (i) { if (i.getAttribute('src') !== c.logoUrl) i.src = c.logoUrl; });
+            if (c.siteVersion) document.querySelectorAll('.top-bar-left span').forEach(function (sp) {
+                if (/Wersja/.test(sp.textContent) && sp.lastChild && sp.lastChild.nodeType === 3) sp.lastChild.textContent = ' Wersja ' + c.siteVersion;
+            });
+            var hero = q('.hero-banner-section'); if (!hero) return;
+            hero.style.display = c.bannerEnabled === false ? 'none' : '';
+            if (c.bannerImage) hero.style.background = 'linear-gradient(rgba(15, 20, 28, 0.75), rgba(30, 37, 48, 0.75)), url(' + JSON.stringify(c.bannerImage) + ') center/cover no-repeat';
+            var sub = q('.banner-subtitle'); if (sub && c.bannerText) sub.textContent = c.bannerText;
+            var a = q('.link-game-text'); if (a && c.bannerLink) { a.href = c.bannerLink; a.target = c.bannerNewTab === false ? '_self' : '_blank'; a.rel = 'noopener'; }
+        }
+
+        window.gtSite = {
+            apply: function (c, fresh) {
+                cfg = c || {};
+                if (fresh) { try { localStorage.setItem(KEY, JSON.stringify(cfg)); } catch (e) {} }
+                render();
+                if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { applySite(cfg); });
+                else applySite(cfg);
+            }
+        };
+        try { var cached = JSON.parse(localStorage.getItem(KEY)); if (cached) window.gtSite.apply(cached, false); } catch (e) {}
+        setInterval(render, 1000);
+    })();
+    </script>
 
     <!-- Górny czarny pasek zawierający przycisk/profil z popupem obok -->
     <div class="top-bar">
@@ -3692,5 +3844,25 @@ window.openArticleModal=async function(id){await _open2(id);const ids=Object.key
 })();
 badgeCards();
 </script>
+
+    <!-- ODBIÓR USTAWIEŃ STRONY NA ŻYWO (settings/site) -->
+    <script type="module">
+        import { getApps, getApp, initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        const siteCfg = {
+            apiKey: "AIzaSyCwWO7gJQjfhxusvDBhSFZGmX5UqzeHWsM",
+            authDomain: "glos-trojki-sp3.firebaseapp.com",
+            projectId: "glos-trojki-sp3",
+            storageBucket: "glos-trojki-sp3.firebasestorage.app",
+            messagingSenderId: "1014711078934",
+            appId: "1:1014711078934:web:144c5acedae00ff31c2537"
+        };
+        const siteApp = getApps().length ? getApp() : initializeApp(siteCfg);
+        onSnapshot(doc(getFirestore(siteApp), "settings", "site"), (snap) => {
+            const d = snap.exists() ? snap.data() : {};
+            delete d.updatedAt;
+            window.gtSite.apply(d, true);
+        }, (err) => console.warn("Ustawienia strony (settings/site):", err.message));
+    </script>
 </body>
 </html>
