@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Głos Trójki - Panel Administratora Pro Ultra</title>
+    <title>Głos Trójki - Panel Administratora</title>
     
     <link rel="icon" type="image/png" href="https://imgur.com/nwkFXR1.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -311,6 +311,90 @@
             .login-banner { display: none; }
             .login-form-side { width: 100%; padding: 35px 25px; }
         }
+
+        /* ===== v5: MOTYW CIEMNY ===== */
+        [data-theme="dark"] { --bg-body:#0B1220; --bg-white:#111B2E; --bg-gray:#1A2740; --border-color:#27344d; --text-main:#E2E8F0; --text-muted:#94A3B8; --secondary-dark:#F1F5F9; --accent-glow:rgba(245,158,11,.22); color-scheme: dark; }
+        [data-theme="dark"] .admin-sidebar, [data-theme="dark"] .mobile-header { background:#070D19; }
+        [data-theme="dark"] .sidebar-header, [data-theme="dark"] .sidebar-footer { background:transparent; }
+        [data-theme="dark"] .form-group input, [data-theme="dark"] .form-group textarea, [data-theme="dark"] .form-group select, [data-theme="dark"] .search-filter-bar input, [data-theme="dark"] .search-filter-bar select { background:#0B1220; color:var(--text-main); }
+        [data-theme="dark"] .list-item:hover, [data-theme="dark"] .calendar-cell:hover { background:var(--bg-gray); }
+        [data-theme="dark"] .calendar-grid-container { background:var(--bg-white); }
+        [data-theme="dark"] .btn-primary { color:#0F172A; }
+        [data-theme="dark"] .btn-primary:hover { color:#fff; }
+
+        /* ===== v5: PASEK GÓRNY, PIGUŁKI, PRZEŁĄCZNIKI ===== */
+        @media (min-width: 901px) { body.sb-collapsed .admin-sidebar { transform: translateX(-100%); } body.sb-collapsed .admin-main { margin-left: 0; } }
+        .topbar { display:flex; align-items:center; gap:10px; margin:-10px 0 28px; flex-wrap:wrap; }
+        .tb-btn { width:42px; height:42px; border-radius:12px; background:var(--bg-white); border:1px solid var(--border-color); color:var(--text-main); font-size:1rem; transition:var(--transition); }
+        .tb-btn:hover { border-color:var(--primary-yellow); color:var(--primary-yellow-hover); transform:translateY(-2px); }
+        .tb-spacer, .grow { flex:1; }
+        .tb-clock { font-weight:700; color:var(--text-muted); font-variant-numeric:tabular-nums; padding:0 8px; }
+        .pill { display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:999px; font-size:.8rem; font-weight:800; white-space:nowrap; }
+        .pill-off, .pill-ended { background:#f1f5f9; color:#64748b; }
+        .pill-sched { background:#e0f2fe; color:#0369a1; }
+        .pill-on { background:#fee2e2; color:#991b1b; animation:pulse 1.8s infinite; }
+        .pill-ok { background:#dcfce7; color:#166534; }
+        .pill-dirty { background:#fef3c7; color:#b45309; }
+        @keyframes pulse { 0%,100% { box-shadow:0 0 0 0 rgba(239,68,68,.35); } 50% { box-shadow:0 0 0 8px rgba(239,68,68,0); } }
+        #maintPill { cursor:pointer; }
+        .nav-dot { margin-left:auto; width:10px; height:10px; border-radius:50%; background:#ef4444; display:none; box-shadow:0 0 0 4px rgba(239,68,68,.25); }
+        .menu-search { position:relative; padding:16px 22px 0; }
+        .menu-search input { width:100%; padding:10px 14px 10px 38px; border-radius:12px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.06); color:#fff; font-family:inherit; font-size:.88rem; outline:none; }
+        .menu-search input:focus { border-color:var(--primary-yellow); }
+        .menu-search i { position:absolute; left:37px; top:29px; color:var(--text-light); font-size:.85rem; }
+
+        .switch { position:relative; width:52px; height:30px; flex-shrink:0; display:inline-block; }
+        .switch input { opacity:0; width:0; height:0; }
+        .slider { position:absolute; inset:0; background:#cbd5e1; border-radius:30px; cursor:pointer; transition:var(--transition); }
+        .slider::before { content:''; position:absolute; width:22px; height:22px; left:4px; top:4px; background:#fff; border-radius:50%; transition:var(--transition); box-shadow:0 2px 4px rgba(0,0,0,.2); }
+        .switch input:checked + .slider { background:var(--primary-yellow); }
+        .switch input:checked + .slider::before { transform:translateX(22px); }
+        .switch input:focus-visible + .slider { box-shadow:0 0 0 4px var(--accent-glow); }
+        .switch-row { display:flex; align-items:center; justify-content:space-between; gap:16px; background:var(--bg-body); border:1px solid var(--border-color); border-radius:var(--radius-sm); padding:14px 16px; margin-bottom:18px; }
+        .switch-row b { display:block; font-family:var(--font-headings); color:var(--secondary-dark); }
+        .switch-row small, .muted { color:var(--text-muted); font-size:.85rem; }
+        .chk-row { display:flex; gap:10px; align-items:center; margin-bottom:16px; font-weight:600; font-size:.92rem; cursor:pointer; }
+        .chk-row input { width:18px; height:18px; accent-color:var(--primary-yellow); }
+        .row2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+        @media (max-width:600px) { .row2 { grid-template-columns:1fr; } }
+        .btn-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+        .btn-sm { padding:7px 11px; font-size:.8rem; }
+        .savebar { position:sticky; top:0; z-index:50; display:flex; align-items:center; gap:12px; flex-wrap:wrap; background:var(--bg-white); border:1px solid var(--border-color); border-radius:var(--radius-md); padding:14px 18px; margin-bottom:24px; box-shadow:var(--shadow-sm); }
+        @media (max-width:900px) { .savebar { top:78px; } .topbar #tbMenu { display:none; } }
+        .bn-prev { border-radius:var(--radius-sm); overflow:hidden; border:1px solid var(--border-color); min-height:140px; background-size:cover; background-position:center; display:flex; align-items:flex-end; transition:var(--transition); }
+        .bn-txt { width:100%; padding:16px 18px; color:#fff; font-weight:800; font-family:var(--font-headings); background:linear-gradient(0deg,rgba(0,0,0,.75),transparent); }
+        .logo-prev { height:56px; border-radius:12px; background:var(--bg-gray); padding:6px; }
+        .maint-prev { border-radius:var(--radius-sm); padding:22px; text-align:center; background:#fff; border:1px solid #e2e8f0; color:#1E2227; }
+        .maint-prev h4 { color:#1E2227; font-size:1.3rem; margin-bottom:8px; }
+        .maint-prev p { color:#4b5563; margin-bottom:10px; white-space:pre-wrap; }
+        .maint-prev small { color:#b45309; font-weight:700; }
+        .maint-prev.bar { background:linear-gradient(135deg,#dc2626,#b91c1c); border:0; text-align:left; padding:14px 18px; max-width:420px; }
+        .maint-prev.bar h4, .maint-prev.bar p, .maint-prev.bar small { color:#fff; }
+        .maint-prev.bar h4 { font-size:1rem; margin-bottom:2px; } .maint-prev.bar p { margin-bottom:4px; font-size:.88rem; }
+        pre.code-box { background:#0F172A; color:#e2e8f0; padding:16px; border-radius:var(--radius-sm); font-size:.78rem; overflow:auto; max-height:260px; line-height:1.5; }
+
+        #toasts { position:fixed; top:20px; right:20px; z-index:20000; display:flex; flex-direction:column; gap:10px; max-width:360px; }
+        .toast { display:flex; gap:12px; align-items:flex-start; background:var(--bg-white); color:var(--text-main); border:1px solid var(--border-color); border-left:5px solid #0284c7; border-radius:14px; padding:14px 16px; box-shadow:var(--shadow-md); font-weight:600; font-size:.92rem; animation:toastIn .35s ease; }
+        .toast.success { border-left-color:#16a34a; } .toast.error { border-left-color:#dc2626; }
+        .toast i.t-ico { margin-top:3px; } .toast.success i.t-ico { color:#16a34a; } .toast.error i.t-ico { color:#dc2626; }
+        .toast button { margin-left:auto; background:none; color:var(--text-muted); font-size:1rem; }
+        @keyframes toastIn { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:none; } }
+        #toTop { position:fixed; right:20px; bottom:20px; width:46px; height:46px; border-radius:50%; background:var(--primary-yellow); color:#0F172A; font-size:1.1rem; box-shadow:var(--shadow-md); display:none; z-index:90; }
+        #toTop:hover { transform:translateY(-3px); }
+
+        /* ===== v5: LOGOWANIE ===== */
+        .login-input-group input { padding-right:48px; }
+        .pw-toggle { position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; color:var(--text-light); padding:8px; }
+        .pw-toggle i { position:static; transform:none; font-size:1rem; color:inherit; }
+        .login-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; font-size:.88rem; font-weight:600; gap:10px; flex-wrap:wrap; }
+        .login-row a { color:var(--primary-yellow-hover); }
+        .login-row label { display:flex; gap:8px; align-items:center; cursor:pointer; }
+        .login-row input { accent-color:var(--primary-yellow); width:16px; height:16px; }
+        .login-hint { color:#b45309; background:#fef3c7; padding:8px 12px; border-radius:10px; font-size:.82rem; font-weight:700; margin:-10px 0 16px; }
+        .login-chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+        .login-chips span { background:rgba(255,255,255,.14); backdrop-filter:blur(4px); padding:6px 12px; border-radius:999px; font-size:.78rem; font-weight:700; color:#fff; }
+        .shake { animation:shake .4s; }
+        @keyframes shake { 20%,60% { transform:translateX(-10px); } 40%,80% { transform:translateX(10px); } }
     </style>
 </head>
 <body>
@@ -334,6 +418,7 @@
                 <div class="login-banner-content">
                     <h2>Głos Trójki Pro Ultra</h2>
                     <p>Zarządzaj gazetką szkolną, publikuj artykuły, korzystaj z kalendarza i notatnika z jednego nowoczesnego panelu.</p>
+                    <div class="login-chips"><span><i class="fas fa-shield-halved"></i> Bezpieczna sesja</span><span><i class="fas fa-moon"></i> Tryb ciemny</span><span><i class="fas fa-globe"></i> Zarządzanie stroną</span></div>
                 </div>
             </div>
             <div class="login-form-side">
@@ -343,10 +428,16 @@
                 <form id="loginForm">
                     <div class="login-input-group">
                         <i class="fas fa-user-shield"></i>
-                        <input type="password" id="loginUser" required placeholder="Kod dostępu...">
+                        <input type="password" id="loginUser" required placeholder="Kod dostępu..." autocomplete="current-password">
+                        <button type="button" class="pw-toggle" id="pwToggle" title="Pokaż / ukryj kod"><i class="fas fa-eye"></i></button>
                     </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 16px; font-size: 1.05rem; border-radius: var(--radius-sm);">
-                        Zaloguj do systemu <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+                    <div id="capsWarn" class="login-hint" style="display:none;"><i class="fas fa-triangle-exclamation"></i> Caps Lock jest włączony</div>
+                    <div class="login-row">
+                        <label><input type="checkbox" id="loginRemember"> Zapamiętaj mnie (7 dni)</label>
+                        <a href="#" id="loginHelp">Nie pamiętam kodu</a>
+                    </div>
+                    <button type="submit" id="loginBtn" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 16px; font-size: 1.05rem; border-radius: var(--radius-sm);">
+                        <span id="loginBtnText">Zaloguj do systemu</span> <i class="fas fa-arrow-right" id="loginBtnIcon" style="margin-left: 8px;"></i>
                     </button>
                     <p id="loginError" style="color: #991b1b; background: #fee2e2; padding: 12px; border-radius: var(--radius-sm); font-size: 0.9rem; margin-top: 18px; font-weight: 700; display: none;">
                         <i class="fas fa-exclamation-circle"></i> Odmowa dostępu. Niepoprawny kod.
@@ -539,6 +630,19 @@
         </div>
     </div>
 
+    <div id="toasts"></div>
+    <button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Do góry"><i class="fas fa-arrow-up"></i></button>
+    <input type="file" id="siteImportFile" accept="application/json" style="display:none;">
+
+    <!-- MODAL PODGLĄDU PRZERWY -->
+    <div id="maintPreviewModal" class="custom-modal">
+        <div class="modal-content-box" style="max-width:640px;">
+            <button class="modal-close" onclick="document.getElementById('maintPreviewModal').style.display='none'"><i class="fas fa-times"></i></button>
+            <h3 style="margin-bottom:20px;"><i class="fas fa-eye" style="color:var(--primary-yellow);"></i> Podgląd przerwy technicznej</h3>
+            <div id="maintPreviewFull"></div>
+        </div>
+    </div>
+
     <!-- LEWY PANEL BOCZNY -->
     <aside class="admin-sidebar" id="adminSidebar">
         <div class="sidebar-header">
@@ -548,9 +652,11 @@
                 <small>Panel Pro Ultra</small>
             </div>
         </div>
+        <div class="menu-search"><i class="fas fa-search"></i><input type="text" id="menuSearch" placeholder="Szukaj w menu… (Ctrl+K)" autocomplete="off"></div>
         <nav class="sidebar-menu">
             <ul>
                 <li><a href="#" class="active" onclick="switchSection('dashboard', this)"><i class="fas fa-chart-pie"></i> <span>Pulpit i Statystyki</span></a></li>
+                <li><a href="#" onclick="switchSection('site', this)"><i class="fas fa-globe"></i> <span>Strona</span> <span class="nav-dot" id="navMaintDot"></span></a></li>
                 <li><a href="#" onclick="switchSection('submissions', this)"><i class="fas fa-inbox"></i> <span>Nadesłane Prace</span></a></li>
                 <li><a href="#" onclick="switchSection('scheduled', this)"><i class="fas fa-calendar-check"></i> <span>Zaplanowane Artykuły</span></a></li>
                 <li><a href="#" onclick="switchSection('articles', this)"><i class="fas fa-newspaper"></i> <span>Artykuły Główne</span></a></li>
@@ -572,6 +678,17 @@
 
     <!-- GŁÓWNA ZAWARTOŚĆ -->
     <main class="admin-main">
+
+        <div class="topbar">
+            <button class="tb-btn" id="tbMenu" onclick="toggleSidebarDesktop()" title="Zwiń / rozwiń menu (Alt+B)"><i class="fas fa-bars-staggered"></i></button>
+            <span id="maintPill" class="pill pill-off" onclick="go('site')" title="Przejdź do ustawień przerwy"><i class="fas fa-screwdriver-wrench"></i> <span>Przerwa: wyłączona</span></span>
+            <div class="tb-spacer"></div>
+            <span class="tb-clock" id="clock"></span>
+            <button class="tb-btn" onclick="refreshAll()" title="Odśwież dane (Alt+R)"><i class="fas fa-rotate"></i></button>
+            <button class="tb-btn" onclick="toggleTheme()" title="Motyw jasny / ciemny (Alt+D)"><i class="fas fa-moon" id="themeIcon"></i></button>
+            <button class="tb-btn" onclick="toggleFullscreen()" title="Pełny ekran"><i class="fas fa-expand"></i></button>
+            <button class="tb-btn" onclick="showShortcuts()" title="Skróty klawiszowe"><i class="fas fa-keyboard"></i></button>
+        </div>
 
         <!-- 1. PULPIT -->
         <div id="sec-dashboard" class="admin-section-content active">
@@ -617,6 +734,22 @@
                 <h3 class="admin-card-title"><i class="fas fa-rocket" style="color: var(--primary-yellow);"></i> Witamy w zaawansowanym panelu Głos Trójki Pro Ultra!</h3>
                 <p style="margin-bottom: 15px; color: var(--text-muted); font-size: 1.02rem;">System automatycznie monitoruje i publikuje artykuły zaplanowane na dzisiejszy dzień oraz każdą inną wyznaczoną godzinę. Dodatkowo dodano interaktywny kalendarz miesięczny oraz notatnik zsynchronizowany z bazą danych!</p>
                 <button class="btn btn-primary" onclick="switchSection('calendar-interactive', document.querySelector('.sidebar-menu a:nth-child(8)'))"><i class="fas fa-calendar-days"></i> Otwórz Kalendarz Interaktywny</button>
+            </div>
+            <div class="admin-card">
+                <h3 class="admin-card-title"><span><i class="fas fa-bolt" style="color: var(--primary-yellow);"></i> Szybkie akcje</span> <span id="dashMaint" class="pill pill-off">Przerwa: wyłączona</span></h3>
+                <div class="btn-row">
+                    <button class="btn btn-primary" onclick="go('site')"><i class="fas fa-globe"></i> Ustawienia strony</button>
+                    <button class="btn btn-danger" onclick="go('site'); maintQuickStart();"><i class="fas fa-screwdriver-wrench"></i> Włącz przerwę (1 h)</button>
+                    <button class="btn btn-info" onclick="go('submissions')"><i class="fas fa-inbox"></i> Nadesłane prace</button>
+                    <button class="btn btn-info" onclick="go('notifications')"><i class="fas fa-bell"></i> Nowe powiadomienie</button>
+                    <button class="btn btn-warning" onclick="go('notes')"><i class="fas fa-note-sticky"></i> Dodaj notatkę</button>
+                    <button class="btn btn-success" onclick="go('calendar')"><i class="fas fa-calendar-plus"></i> Dodaj wydarzenie</button>
+                    <button class="btn btn-secondary" onclick="refreshAll()"><i class="fas fa-rotate"></i> Odśwież dane</button>
+                    <button class="btn btn-secondary" onclick="toggleTheme()"><i class="fas fa-circle-half-stroke"></i> Zmień motyw</button>
+                    <button class="btn btn-secondary" onclick="toggleFullscreen()"><i class="fas fa-expand"></i> Pełny ekran</button>
+                    <button class="btn btn-secondary" onclick="showShortcuts()"><i class="fas fa-keyboard"></i> Skróty</button>
+                    <button class="btn btn-danger" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt"></i> Wyloguj</button>
+                </div>
             </div>
         </div>
 
@@ -860,6 +993,114 @@
             </div>
         </div>
 
+        <!-- 0. STRONA -->
+        <div id="sec-site" class="admin-section-content">
+            <h2 class="admin-title"><i class="fas fa-globe"></i> Strona główna – ustawienia</h2>
+            <div class="savebar">
+                <span id="siteDirty" class="pill pill-ok"><i class="fas fa-check"></i> Zapisano</span>
+                <span id="siteLastSaved" class="muted"></span>
+                <div class="grow"></div>
+                <button class="btn btn-secondary" onclick="siteReload()"><i class="fas fa-rotate-left"></i> Przywróć zapisane</button>
+                <button class="btn btn-warning" onclick="siteDefaults()"><i class="fas fa-eraser"></i> Domyślne</button>
+                <button class="btn btn-primary" id="siteSaveBtn" onclick="saveSite()"><i class="fas fa-save"></i> Zapisz zmiany</button>
+            </div>
+            <div class="admin-grid">
+                <div>
+                    <!-- BANER -->
+                    <div class="admin-card">
+                        <h3 class="admin-card-title"><span><i class="fas fa-image" style="color:var(--primary-yellow);"></i> Baner</span></h3>
+                        <div class="switch-row"><div><b>Baner widoczny</b><small>Wyłącz, aby ukryć baner na stronie głównej</small></div><label class="switch"><input type="checkbox" id="sBannerEnabled"><span class="slider"></span></label></div>
+                        <div class="form-group"><label>Obraz banera (URL)</label><input type="url" id="sBannerImage" placeholder="https://..."></div>
+                        <div class="form-group"><label>Link banera (po kliknięciu)</label><input type="url" id="sBannerLink" placeholder="https://..."></div>
+                        <div class="form-group"><label>Tekst banera <span class="muted" id="bannerTextCount"></span></label><input type="text" id="sBannerText" maxlength="140" placeholder="np. Nowe wydanie gazetki już dostępne!"></div>
+                        <div class="row2">
+                            <div class="form-group"><label>Kolor tła banera</label><input type="color" id="sBannerBg" style="height:48px;padding:4px;"></div>
+                            <div style="padding-top:30px;">
+                                <label class="chk-row"><input type="checkbox" id="sBannerNewTab"> Otwieraj link w nowej karcie</label>
+                                <label class="chk-row"><input type="checkbox" id="sBannerDismiss"> Pozwól zamknąć baner</label>
+                            </div>
+                        </div>
+                        <div class="btn-row">
+                            <button class="btn btn-info btn-sm" onclick="openBannerLink()"><i class="fas fa-arrow-up-right-from-square"></i> Testuj link</button>
+                            <button class="btn btn-secondary btn-sm" onclick="window.open(document.getElementById('sBannerImage').value||'#','_blank')"><i class="fas fa-magnifying-glass-plus"></i> Otwórz obraz</button>
+                            <button class="btn btn-danger btn-sm" onclick="clearBanner()"><i class="fas fa-trash"></i> Wyczyść baner</button>
+                        </div>
+                    </div>
+
+                    <!-- OGÓLNE -->
+                    <div class="admin-card">
+                        <h3 class="admin-card-title"><span><i class="fas fa-sliders" style="color:#0284c7;"></i> Ogólne</span></h3>
+                        <div class="form-group"><label>Wersja strony</label><input type="text" id="sVersion" maxlength="30" placeholder="np. 2.4.1"></div>
+                        <div class="btn-row" style="margin-bottom:20px;">
+                            <button class="btn btn-secondary btn-sm" onclick="bumpVersion('patch')"><i class="fas fa-plus"></i> Patch</button>
+                            <button class="btn btn-secondary btn-sm" onclick="bumpVersion('minor')"><i class="fas fa-plus"></i> Minor</button>
+                            <button class="btn btn-secondary btn-sm" onclick="bumpVersion('major')"><i class="fas fa-plus"></i> Major</button>
+                        </div>
+                        <div class="form-group"><label>Link do logo głównego strony (URL)</label><input type="url" id="sLogo" placeholder="https://..."></div>
+                        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                            <img id="logoPrev" class="logo-prev" alt="Podgląd logo">
+                            <button class="btn btn-secondary btn-sm" onclick="resetLogo()"><i class="fas fa-rotate-left"></i> Logo domyślne</button>
+                        </div>
+                    </div>
+
+                    <!-- PRZERWA TECHNICZNA -->
+                    <div class="admin-card">
+                        <h3 class="admin-card-title"><span><i class="fas fa-screwdriver-wrench" style="color:#dc2626;"></i> Przerwa techniczna</span> <span id="mStatusPill" class="pill pill-off">Wyłączona</span></h3>
+                        <div class="switch-row"><div><b>Włącz przerwę techniczną</b><small>Strona pokaże komunikat w podanym przedziale czasu</small></div><label class="switch"><input type="checkbox" id="mEnabled"><span class="slider"></span></label></div>
+                        <div class="form-group"><label>Tytuł komunikatu</label><input type="text" id="mTitle" maxlength="80" placeholder="Przerwa techniczna"></div>
+                        <div class="row2">
+                            <div class="form-group"><label>Od kiedy</label><input type="datetime-local" id="mFrom"></div>
+                            <div class="form-group"><label>Do kiedy</label><input type="datetime-local" id="mTo"></div>
+                        </div>
+                        <div class="btn-row" style="margin-bottom:20px;">
+                            <button class="btn btn-secondary btn-sm" onclick="maintSetFromNow()"><i class="fas fa-clock"></i> Start: teraz</button>
+                            <button class="btn btn-secondary btn-sm" onclick="maintAdd(1)">Koniec +1 h</button>
+                            <button class="btn btn-secondary btn-sm" onclick="maintAdd(2)">+2 h</button>
+                            <button class="btn btn-secondary btn-sm" onclick="maintAdd(6)">+6 h</button>
+                            <button class="btn btn-secondary btn-sm" onclick="maintAdd(24)">+1 dzień</button>
+                            <button class="btn btn-secondary btn-sm" onclick="maintClearDates()"><i class="fas fa-xmark"></i> Wyczyść daty</button>
+                        </div>
+                        <div class="form-group"><label>Opis zmian <span class="muted" id="mDescCount"></span></label><textarea id="mDesc" maxlength="600" placeholder="Co się zmienia? np. Wdrażamy nowy system komentarzy i poprawki wydajności."></textarea></div>
+                        <div class="row2">
+                            <div class="form-group"><label>Sposób wyświetlania</label><select id="mMode"><option value="full">Cały ekran (biały, z animacją)</option><option value="bar">Czerwony pasek w lewym dolnym rogu</option></select></div>
+                            <div style="padding-top:30px;"><label class="chk-row"><input type="checkbox" id="mCountdown"> Pokaż odliczanie do końca</label></div>
+                        </div>
+                        <div class="btn-row">
+                            <button class="btn btn-danger" onclick="maintQuickStart()"><i class="fas fa-play"></i> Włącz teraz (1 h)</button>
+                            <button class="btn btn-success" onclick="maintOffSave()"><i class="fas fa-power-off"></i> Wyłącz i zapisz</button>
+                            <button class="btn btn-info" onclick="previewMaint()"><i class="fas fa-eye"></i> Podgląd pełny</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="admin-card">
+                        <h3 class="admin-card-title"><span><i class="fas fa-eye" style="color:var(--primary-yellow);"></i> Podgląd na żywo</span></h3>
+                        <p class="muted" style="margin-bottom:8px;">Baner</p>
+                        <div class="bn-prev" id="bnPrev"><div class="bn-txt" id="bnTxt"></div></div>
+                        <p class="muted" style="margin:18px 0 8px;">Przerwa techniczna</p>
+                        <div id="mPrev"></div>
+                        <p class="muted" style="margin-top:18px;">Wersja strony: <strong id="verPrev">—</strong></p>
+                    </div>
+                    <div class="admin-card">
+                        <h3 class="admin-card-title"><span><i class="fas fa-toolbox" style="color:#9333ea;"></i> Narzędzia</span></h3>
+                        <div class="btn-row">
+                            <button class="btn btn-info btn-sm" onclick="copySiteJson()"><i class="fas fa-copy"></i> Kopiuj JSON</button>
+                            <button class="btn btn-info btn-sm" onclick="downloadSiteJson()"><i class="fas fa-download"></i> Pobierz JSON</button>
+                            <button class="btn btn-info btn-sm" onclick="document.getElementById('siteImportFile').click()"><i class="fas fa-upload"></i> Importuj JSON</button>
+                            <button class="btn btn-secondary btn-sm" onclick="loadSiteSettings()"><i class="fas fa-cloud-arrow-down"></i> Wczytaj z bazy</button>
+                        </div>
+                    </div>
+                    <div class="admin-card">
+                        <h3 class="admin-card-title"><span><i class="fas fa-code" style="color:#0d9488;"></i> Co trafia na stronę główną</span></h3>
+                        <p class="muted" style="margin-bottom:12px;">Ustawienia zapisują się w Firestore: <code>settings/site</code>. Strona główna ma już wbudowany odbiór – nic nie trzeba wklejać.</p>
+                        <pre class="code-box" id="integrationCode"></pre>
+                        <button class="btn btn-primary btn-sm" style="margin-top:12px;" onclick="copyIntegration()"><i class="fas fa-copy"></i> Kopiuj</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 10. PORADNIK REDAKTORA -->
         <div id="sec-guide" class="admin-section-content">
             <h2 class="admin-title"><i class="fas fa-book-reader"></i> Poradnik Redaktora</h2>
@@ -883,14 +1124,14 @@
         </div>
 
         <footer class="site-footer">
-            <p>Głos Trójki © 2026 • Panel Redakcji Pro Ultra • Wersja 4.0</p>
+            <p>Głos Trójki © 2026 • Panel Redakcji Pro Ultra • Wersja 5.0</p>
         </footer>
     </main>
 
     <!-- SKRYPTY FIREBASE I LOGIKA -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, addDoc, doc, deleteDoc, updateDoc, serverTimestamp, query, orderBy, Timestamp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, addDoc, doc, deleteDoc, updateDoc, setDoc, getDoc, serverTimestamp, query, orderBy, Timestamp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         const CORRECT_LOGIN = "redaktor1";
 
@@ -910,32 +1151,72 @@
             document.getElementById('sidebarOverlay').classList.toggle('active');
         }
 
-        function checkAuth() {
-            if (sessionStorage.getItem('glosTrojkiAdminAuth') === 'true') {
-                document.getElementById('loginOverlay').style.display = 'none';
-                document.body.style.overflow = 'auto';
-                initAdminPanel();
+        const AUTH_KEY = 'glosTrojkiAdminAuth', LOCK_KEY = 'glosTrojkiLock', MAX_TRIES = 5, LOCK_MS = 60000;
+        const $ = id => document.getElementById(id);
+        function authRead() { try { const raw = localStorage.getItem(AUTH_KEY) || sessionStorage.getItem(AUTH_KEY); return !!raw && Date.now() < JSON.parse(raw).exp; } catch (e) { return false; } }
+        function authWrite(remember) {
+            const v = JSON.stringify({ exp: Date.now() + (remember ? 7 * 864e5 : 2 * 36e5) });
+            localStorage.removeItem(AUTH_KEY); sessionStorage.removeItem(AUTH_KEY);
+            (remember ? localStorage : sessionStorage).setItem(AUTH_KEY, v);
+        }
+        function lockState() { try { return JSON.parse(localStorage.getItem(LOCK_KEY)) || { n: 0, until: 0 }; } catch (e) { return { n: 0, until: 0 }; } }
+        let lockTimer = null;
+        function renderLock() {
+            const st = lockState(), left = st.until - Date.now(), btn = $('loginBtn'), err = $('loginError'), inp = $('loginUser');
+            if (left > 0) {
+                btn.disabled = true; inp.disabled = true; err.style.display = 'block';
+                err.innerHTML = `<i class="fas fa-lock"></i> Zbyt wiele prób. Odczekaj ${Math.ceil(left / 1000)} s.`;
+                if (!lockTimer) lockTimer = setInterval(renderLock, 1000);
             } else {
-                document.getElementById('loginOverlay').style.display = 'flex';
-                document.body.style.overflow = 'hidden';
+                if (lockTimer) { clearInterval(lockTimer); lockTimer = null; }
+                btn.disabled = false; inp.disabled = false;
+                if (st.until) { err.style.display = 'none'; localStorage.setItem(LOCK_KEY, JSON.stringify({ n: 0, until: 0 })); }
+            }
+        }
+        function checkAuth() {
+            if (authRead()) {
+                $('loginOverlay').style.display = 'none'; document.body.style.overflow = 'auto'; initAdminPanel();
+            } else {
+                $('loginOverlay').style.display = 'flex'; document.body.style.overflow = 'hidden'; renderLock();
+                setTimeout(() => $('loginUser').focus(), 100);
             }
         }
 
-        document.getElementById('loginForm').addEventListener('submit', (e) => {
+        $('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            if (document.getElementById('loginUser').value.trim() === CORRECT_LOGIN) {
-                sessionStorage.setItem('glosTrojkiAdminAuth', 'true');
-                document.getElementById('loginOverlay').style.display = 'none';
-                document.body.style.overflow = 'auto';
-                document.getElementById('loginError').style.display = 'none';
-                initAdminPanel();
-            } else {
-                document.getElementById('loginError').style.display = 'block';
-            }
+            const st = lockState(); if (st.until > Date.now()) return;
+            const btn = $('loginBtn'); btn.disabled = true;
+            $('loginBtnText').textContent = 'Sprawdzam…'; $('loginBtnIcon').className = 'fas fa-spinner fa-spin';
+            setTimeout(() => {
+                if ($('loginUser').value.trim() === CORRECT_LOGIN) {
+                    localStorage.setItem(LOCK_KEY, JSON.stringify({ n: 0, until: 0 }));
+                    authWrite($('loginRemember').checked);
+                    $('loginError').style.display = 'none'; $('loginOverlay').style.display = 'none';
+                    document.body.style.overflow = 'auto'; initAdminPanel();
+                    toast('Zalogowano pomyślnie. Witaj w panelu!', 'success');
+                } else {
+                    const n = st.n + 1, until = n >= MAX_TRIES ? Date.now() + LOCK_MS : 0;
+                    localStorage.setItem(LOCK_KEY, JSON.stringify({ n: until ? 0 : n, until }));
+                    const box = document.querySelector('.login-box'); box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake');
+                    $('loginUser').value = ''; $('loginUser').focus();
+                    if (until) renderLock();
+                    else { const err = $('loginError'); err.style.display = 'block'; err.innerHTML = `<i class="fas fa-exclamation-circle"></i> Niepoprawny kod. Pozostało prób: ${MAX_TRIES - n}`; }
+                }
+                btn.disabled = lockState().until > Date.now();
+                $('loginBtnText').textContent = 'Zaloguj do systemu'; $('loginBtnIcon').className = 'fas fa-arrow-right';
+            }, 450);
         });
 
+        $('pwToggle').addEventListener('click', () => {
+            const i = $('loginUser'), show = i.type === 'password'; i.type = show ? 'text' : 'password';
+            $('pwToggle').firstElementChild.className = show ? 'fas fa-eye-slash' : 'fas fa-eye'; i.focus();
+        });
+        $('loginUser').addEventListener('keyup', e => { $('capsWarn').style.display = (e.getModifierState && e.getModifierState('CapsLock')) ? 'block' : 'none'; });
+        $('loginHelp').addEventListener('click', e => { e.preventDefault(); toast('Kod dostępu otrzymasz od opiekuna redakcji.', 'info', 5000); });
+
         window.logoutAdmin = function() {
-            sessionStorage.removeItem('glosTrojkiAdminAuth');
+            if (!confirm('Na pewno chcesz się wylogować?')) return;
+            localStorage.removeItem(AUTH_KEY); sessionStorage.removeItem(AUTH_KEY);
             location.reload();
         }
 
@@ -969,6 +1250,7 @@
         const db = getFirestore(app);
 
         function initAdminPanel() {
+            loadSiteSettings(true);
             fetchSubmissions();
             fetchScheduledArticles();
             fetchPublishedArticles();
@@ -1838,6 +2120,173 @@
                 if(col === 'redaktor_notes') fetchNotes();
             } catch (e) { alert("Błąd usuwania."); }
         }
+
+        /* ================= v5: NARZĘDZIA UI ================= */
+        function toast(msg, type = 'info', ms = 3800) {
+            const t = document.createElement('div'); t.className = 'toast ' + type;
+            const ic = type === 'success' ? 'fa-circle-check' : type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-info';
+            t.innerHTML = `<i class="fas ${ic} t-ico"></i><span></span><button aria-label="Zamknij"><i class="fas fa-xmark"></i></button>`;
+            t.querySelector('span').textContent = msg;
+            t.querySelector('button').onclick = () => t.remove();
+            $('toasts').appendChild(t); setTimeout(() => t.remove(), ms);
+        }
+        window.alert = m => toast(String(m), /błąd|nie udało|niepopraw/i.test(m) ? 'error' : 'success');
+        async function copyText(t) { try { await navigator.clipboard.writeText(t); toast('Skopiowano do schowka', 'success'); } catch (e) { toast('Nie udało się skopiować', 'error'); } }
+
+        window.go = id => switchSection(id, document.querySelector(`.sidebar-menu a[onclick*="'${id}'"]`));
+        function applyTheme(t) { document.documentElement.dataset.theme = t; localStorage.setItem('gt_theme', t); $('themeIcon').className = t === 'dark' ? 'fas fa-sun' : 'fas fa-moon'; }
+        window.toggleTheme = () => applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+        window.toggleSidebarDesktop = () => { const c = document.body.classList.toggle('sb-collapsed'); localStorage.setItem('gt_sb', c ? '1' : '0'); };
+        window.toggleFullscreen = () => { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => toast('Pełny ekran niedostępny', 'error')); };
+        window.refreshAll = () => {
+            fetchSubmissions(); fetchScheduledArticles(); fetchPublishedArticles(); fetchKaciki(); fetchMagazines();
+            fetchCalendar(); fetchSchedule(); fetchNotifications(); fetchNotes(); loadSiteSettings(true);
+            toast('Dane odświeżone', 'success');
+        };
+        window.showShortcuts = () => toast('Ctrl+K – szukaj w menu • Ctrl+S – zapisz stronę • Alt+D – motyw • Alt+B – menu • Alt+R – odśwież • Esc – zamknij okna', 'info', 9000);
+
+        applyTheme(localStorage.getItem('gt_theme') || 'light');
+        if (localStorage.getItem('gt_sb') === '1') document.body.classList.add('sb-collapsed');
+        setInterval(() => { $('clock').textContent = new Date().toLocaleString('pl-PL', { weekday: 'short', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', second: '2-digit' }); }, 1000);
+        window.addEventListener('scroll', () => { $('toTop').style.display = window.scrollY > 400 ? 'block' : 'none'; });
+        $('menuSearch').addEventListener('input', e => {
+            const q = e.target.value.toLowerCase();
+            document.querySelectorAll('.sidebar-menu li').forEach(li => { li.style.display = li.innerText.toLowerCase().includes(q) ? '' : 'none'; });
+        });
+        document.addEventListener('keydown', e => {
+            if (e.ctrlKey && e.key.toLowerCase() === 'k') { e.preventDefault(); $('menuSearch').focus(); }
+            if (e.ctrlKey && e.key.toLowerCase() === 's' && $('sec-site').classList.contains('active')) { e.preventDefault(); saveSite(); }
+            if (e.altKey && e.key.toLowerCase() === 'd') toggleTheme();
+            if (e.altKey && e.key.toLowerCase() === 'b') toggleSidebarDesktop();
+            if (e.altKey && e.key.toLowerCase() === 'r') refreshAll();
+            if (e.key === 'Escape') { document.querySelectorAll('.custom-modal').forEach(m => m.style.display = 'none'); $('menuSearch').value = ''; $('menuSearch').dispatchEvent(new Event('input')); }
+        });
+        setInterval(() => { if ($('loginOverlay').style.display === 'none' && !authRead()) { toast('Sesja wygasła. Zaloguj się ponownie.', 'error'); setTimeout(() => location.reload(), 1500); } }, 60000);
+
+        /* ================= v5: ZAKŁADKA STRONA ================= */
+        const SITE_DEFAULTS = {
+            bannerEnabled: true, bannerImage: '', bannerLink: '', bannerNewTab: true, bannerText: '', bannerBg: '#0F172A', bannerDismiss: true,
+            siteVersion: '3.5.1a', logoUrl: 'https://imgur.com/nwkFXR1.png',
+            maint: { enabled: false, from: '', to: '', title: 'Przerwa techniczna', description: '', mode: 'full', countdown: true }
+        };
+        let siteSaved = null;
+        const pad = n => String(n).padStart(2, '0');
+        const toLocalInput = iso => { if (!iso) return ''; const d = new Date(iso); return isNaN(d) ? '' : `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+        const fromLocalInput = v => v ? new Date(v).toISOString() : '';
+        const fmtDT = iso => iso ? new Date(iso).toLocaleString('pl-PL', { dateStyle: 'medium', timeStyle: 'short' }) : '—';
+        function fmtLeft(iso) { let m = Math.max(0, Math.floor((new Date(iso) - Date.now()) / 60000)); const d = Math.floor(m / 1440); m -= d * 1440; const h = Math.floor(m / 60); return (d ? d + ' d ' : '') + h + ' h ' + (m % 60) + ' min'; }
+        const mergeSite = d => { d = d || {}; return { ...SITE_DEFAULTS, ...d, maint: { ...SITE_DEFAULTS.maint, ...(d.maint || {}) } }; };
+
+        function readSiteForm() {
+            return {
+                bannerEnabled: $('sBannerEnabled').checked, bannerImage: $('sBannerImage').value.trim(), bannerLink: $('sBannerLink').value.trim(),
+                bannerNewTab: $('sBannerNewTab').checked, bannerText: $('sBannerText').value.trim(), bannerBg: $('sBannerBg').value, bannerDismiss: $('sBannerDismiss').checked,
+                siteVersion: $('sVersion').value.trim(), logoUrl: $('sLogo').value.trim(),
+                maint: { enabled: $('mEnabled').checked, from: fromLocalInput($('mFrom').value), to: fromLocalInput($('mTo').value), title: $('mTitle').value.trim(), description: $('mDesc').value.trim(), mode: $('mMode').value, countdown: $('mCountdown').checked }
+            };
+        }
+        function fillSiteForm(s) {
+            $('sBannerEnabled').checked = !!s.bannerEnabled; $('sBannerImage').value = s.bannerImage; $('sBannerLink').value = s.bannerLink;
+            $('sBannerNewTab').checked = !!s.bannerNewTab; $('sBannerText').value = s.bannerText; $('sBannerBg').value = s.bannerBg || '#0F172A'; $('sBannerDismiss').checked = !!s.bannerDismiss;
+            $('sVersion').value = s.siteVersion; $('sLogo').value = s.logoUrl;
+            const m = s.maint; $('mEnabled').checked = !!m.enabled; $('mFrom').value = toLocalInput(m.from); $('mTo').value = toLocalInput(m.to);
+            $('mTitle').value = m.title; $('mDesc').value = m.description; $('mMode').value = m.mode; $('mCountdown').checked = !!m.countdown;
+        }
+        function maintStatus(m) {
+            if (!m.enabled) return { k: 'off', t: 'Wyłączona' };
+            const now = Date.now(), f = m.from ? new Date(m.from).getTime() : null, t = m.to ? new Date(m.to).getTime() : null;
+            if (f && now < f) return { k: 'sched', t: 'Zaplanowana' };
+            if (t && now > t) return { k: 'ended', t: 'Zakończona' };
+            return { k: 'on', t: 'Trwa teraz' };
+        }
+        function renderMaint(el, m) {
+            el.className = 'maint-prev' + (m.mode === 'bar' ? ' bar' : ''); el.replaceChildren();
+            const h = document.createElement('h4'), p = document.createElement('p'), t = document.createElement('small');
+            h.textContent = (m.mode === 'bar' ? '⚠ ' : '') + (m.title || 'Przerwa techniczna');
+            p.textContent = m.description || 'Brak opisu zmian.';
+            t.textContent = `Od: ${fmtDT(m.from)} • Do: ${fmtDT(m.to)}` + (m.countdown && m.to && new Date(m.to) > new Date() ? ` • Koniec za ${fmtLeft(m.to)}` : '');
+            el.append(h, p, t);
+        }
+        function setPill(el, st, prefix = '') { el.className = el.className.replace(/pill-\w+/, 'pill-' + st.k); (el.querySelector('span') || el).textContent = prefix + st.t; }
+        function updateSitePreview() {
+            const s = readSiteForm(), st = maintStatus(s.maint);
+            const bp = $('bnPrev'); bp.style.backgroundColor = s.bannerBg; bp.style.backgroundImage = s.bannerImage ? `url(${JSON.stringify(s.bannerImage)})` : 'none'; bp.style.opacity = s.bannerEnabled ? 1 : .4;
+            $('bnTxt').textContent = s.bannerText || '(brak tekstu banera)';
+            $('logoPrev').src = s.logoUrl || SITE_DEFAULTS.logoUrl; $('verPrev').textContent = s.siteVersion || '—';
+            renderMaint($('mPrev'), s.maint);
+            $('bannerTextCount').textContent = `${s.bannerText.length}/140`; $('mDescCount').textContent = `${s.maint.description.length}/600`;
+            setPill($('mStatusPill'), st); setPill($('maintPill'), st, 'Przerwa: '); setPill($('dashMaint'), st, 'Przerwa: ');
+            $('navMaintDot').style.display = st.k === 'on' ? 'block' : 'none';
+            const dirty = siteSaved && JSON.stringify(s) !== JSON.stringify(siteSaved);
+            $('siteDirty').className = 'pill ' + (dirty ? 'pill-dirty' : 'pill-ok');
+            $('siteDirty').innerHTML = dirty ? '<i class="fas fa-pen"></i> Niezapisane zmiany' : '<i class="fas fa-check"></i> Zapisano';
+        }
+        function validateSite(s) {
+            for (const [k, v] of [['Obraz banera', s.bannerImage], ['Link banera', s.bannerLink], ['Logo', s.logoUrl]]) {
+                if (v) { try { const u = new URL(v); if (!/^https?:$/.test(u.protocol)) throw 0; } catch (e) { return k + ': niepoprawny adres URL (musi zaczynać się od http/https).'; } }
+            }
+            if (!s.siteVersion) return 'Podaj wersję strony.';
+            if (s.maint.enabled && s.maint.from && s.maint.to && new Date(s.maint.to) <= new Date(s.maint.from)) return 'Przerwa: data końca musi być późniejsza niż początku.';
+            if (s.maint.enabled && !s.maint.description) return 'Przerwa: dodaj opis zmian.';
+            return '';
+        }
+        async function saveSite() {
+            const s = readSiteForm(), err = validateSite(s); if (err) { toast(err, 'error', 5000); return; }
+            const btn = $('siteSaveBtn'); btn.disabled = true;
+            try {
+                const iso = new Date().toISOString();
+                await setDoc(doc(db, 'settings', 'site'), { ...s, updatedAt: serverTimestamp(), updatedAtIso: iso }, { merge: true });
+                siteSaved = s; $('siteLastSaved').textContent = 'Ostatni zapis: ' + fmtDT(iso); updateSitePreview(); toast('Ustawienia strony zapisane', 'success');
+            } catch (e) { toast('Błąd zapisu: ' + e.message, 'error', 6000); }
+            btn.disabled = false;
+        }
+        async function loadSiteSettings(silent) {
+            try {
+                const snap = await getDoc(doc(db, 'settings', 'site')), d = snap.exists() ? snap.data() : null;
+                fillSiteForm(mergeSite(d)); siteSaved = readSiteForm();
+                $('siteLastSaved').textContent = d && d.updatedAtIso ? 'Ostatni zapis: ' + fmtDT(d.updatedAtIso) : 'Brak zapisanych ustawień';
+                updateSitePreview(); if (silent !== true) toast('Wczytano ustawienia z bazy', 'success');
+            } catch (e) { fillSiteForm(mergeSite()); siteSaved = readSiteForm(); updateSitePreview(); toast('Nie udało się wczytać ustawień strony: ' + e.message, 'error', 6000); }
+        }
+        window.saveSite = saveSite; window.loadSiteSettings = loadSiteSettings;
+        window.siteReload = () => { if (siteSaved) { fillSiteForm(siteSaved); updateSitePreview(); toast('Przywrócono ostatni zapis', 'info'); } };
+        window.siteDefaults = () => { if (confirm('Przywrócić wartości domyślne? (zapis nastąpi po kliknięciu „Zapisz zmiany”)')) { fillSiteForm(SITE_DEFAULTS); updateSitePreview(); } };
+        const touch = () => updateSitePreview();
+        window.maintSetFromNow = () => { $('mFrom').value = toLocalInput(new Date().toISOString()); touch(); };
+        window.maintAdd = h => { const base = $('mFrom').value ? new Date($('mFrom').value) : new Date(); $('mTo').value = toLocalInput(new Date(base.getTime() + h * 36e5).toISOString()); touch(); };
+        window.maintClearDates = () => { $('mFrom').value = ''; $('mTo').value = ''; touch(); };
+        window.maintQuickStart = () => { $('mEnabled').checked = true; maintSetFromNow(); maintAdd(1); if (!$('mDesc').value.trim()) $('mDesc').value = 'Wprowadzamy zmiany i ulepszenia. Strona wróci wkrótce!'; touch(); toast('Przerwa ustawiona – kliknij „Zapisz zmiany”', 'info'); };
+        window.maintOffSave = () => { $('mEnabled').checked = false; touch(); saveSite(); };
+        window.previewMaint = () => { renderMaint($('maintPreviewFull'), readSiteForm().maint); $('maintPreviewModal').style.display = 'flex'; };
+        window.openBannerLink = () => { const u = $('sBannerLink').value.trim(); u ? window.open(u, '_blank', 'noopener') : toast('Brak linku banera', 'error'); };
+        window.clearBanner = () => { $('sBannerImage').value = ''; $('sBannerLink').value = ''; $('sBannerText').value = ''; touch(); };
+        window.resetLogo = () => { $('sLogo').value = SITE_DEFAULTS.logoUrl; touch(); };
+        window.bumpVersion = type => {
+            const p = ($('sVersion').value.match(/\d+/g) || [1, 0, 0]).map(Number); while (p.length < 3) p.push(0);
+            if (type === 'major') { p[0]++; p[1] = 0; p[2] = 0; } else if (type === 'minor') { p[1]++; p[2] = 0; } else p[2]++;
+            $('sVersion').value = p.slice(0, 3).join('.'); touch();
+        };
+        window.copySiteJson = () => copyText(JSON.stringify(readSiteForm(), null, 2));
+        window.downloadSiteJson = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(readSiteForm(), null, 2)], { type: 'application/json' })); a.download = 'ustawienia-strony.json'; a.click(); URL.revokeObjectURL(a.href); };
+        $('siteImportFile').addEventListener('change', async e => {
+            try { fillSiteForm(mergeSite(JSON.parse(await e.target.files[0].text()))); touch(); toast('Zaimportowano – kliknij „Zapisz zmiany”', 'success'); } catch (err) { toast('Błąd: niepoprawny plik JSON', 'error'); }
+            e.target.value = '';
+        });
+        const INTEGRATION = [
+            '// Dokument Firestore: settings/site  (strona główna odbiera go na żywo)',
+            'bannerEnabled  -> pokazuje / ukrywa baner hero',
+            'bannerImage    -> tło banera hero (puste = bez zmian)',
+            'bannerText     -> podtytuł banera (puste = bez zmian)',
+            'bannerLink     -> link „Zagraj w naszą grę” (puste = bez zmian)',
+            'siteVersion    -> „Wersja …” w górnym pasku',
+            'logoUrl        -> logo w nagłówku, menu mobilnym i na ekranie przerwy',
+            'maint.*        -> przerwa: cały ekran (biały) lub czerwony pasek w lewym dolnym rogu'
+        ].join('\n');
+        $('integrationCode').textContent = INTEGRATION;
+        window.copyIntegration = () => copyText(INTEGRATION);
+        document.querySelectorAll('#sec-site input, #sec-site select, #sec-site textarea').forEach(el => { el.addEventListener('input', touch); el.addEventListener('change', touch); });
+        setInterval(() => { if (siteSaved) updateSitePreview(); }, 30000);
+        window.addEventListener('beforeunload', e => { if (siteSaved && JSON.stringify(readSiteForm()) !== JSON.stringify(siteSaved)) { e.preventDefault(); e.returnValue = ''; } });
 
         checkAuth();
     </script>
