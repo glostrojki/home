@@ -395,6 +395,248 @@
         .login-chips span { background:rgba(255,255,255,.14); backdrop-filter:blur(4px); padding:6px 12px; border-radius:999px; font-size:.78rem; font-weight:700; color:#fff; }
         .shake { animation:shake .4s; }
         @keyframes shake { 20%,60% { transform:translateX(-10px); } 40%,80% { transform:translateX(10px); } }
+
+        /* ===================== v6 PREMIUM UI ===================== */
+        :root {
+            --primary-yellow:#F5A524; --primary-yellow-hover:#D98A0B;
+            --accent-glow:rgba(245,165,36,.28);
+            --grad-brand:linear-gradient(135deg,#FBBF24 0%,#F59E0B 45%,#EA580C 100%);
+            --grad-dark:linear-gradient(180deg,#0B1226 0%,#0F172A 55%,#131C36 100%);
+            --glass:rgba(255,255,255,.72);
+            --shadow-sm:0 1px 2px rgba(15,23,42,.04),0 6px 16px -6px rgba(15,23,42,.08);
+            --shadow-md:0 2px 4px rgba(15,23,42,.04),0 18px 40px -14px rgba(15,23,42,.18);
+            --shadow-lg:0 40px 80px -24px rgba(15,23,42,.45);
+            --radius-sm:14px; --radius-md:22px; --radius-lg:30px;
+            --ease:cubic-bezier(.22,1,.36,1);
+        }
+        body {
+            background:
+              radial-gradient(900px 500px at 85% -10%, rgba(245,165,36,.16), transparent 60%),
+              radial-gradient(700px 500px at -10% 110%, rgba(99,102,241,.10), transparent 60%),
+              var(--bg-body);
+            background-attachment: fixed;
+            -webkit-font-smoothing:antialiased;
+        }
+        ::selection { background:var(--primary-yellow); color:#0F172A; }
+        ::-webkit-scrollbar { width:10px; height:10px; }
+        ::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:10px; border:2px solid transparent; background-clip:content-box; }
+        ::-webkit-scrollbar-thumb:hover { background:var(--primary-yellow); background-clip:content-box; border:2px solid transparent; }
+        :focus-visible { outline:3px solid var(--accent-glow); outline-offset:2px; }
+
+        /* Sidebar */
+        .admin-sidebar { background:var(--grad-dark); box-shadow:20px 0 60px -20px rgba(2,6,23,.55); border-right:1px solid rgba(255,255,255,.04); }
+        .admin-sidebar::after { content:''; position:absolute; inset:0; pointer-events:none; background:radial-gradient(300px 260px at 0% 0%, rgba(245,165,36,.18), transparent 70%); }
+        .sidebar-header { background:transparent; position:relative; z-index:1; }
+        .sidebar-logo { box-shadow:0 0 0 2px rgba(245,165,36,.5),0 10px 24px rgba(245,165,36,.25); }
+        .sidebar-title h2 span { background:var(--grad-brand); -webkit-background-clip:text; background-clip:text; color:transparent; }
+        .sidebar-menu, .menu-search, .sidebar-footer { position:relative; z-index:1; }
+        .sidebar-menu ul li { padding:2px 14px; }
+        .sidebar-menu ul li a { border-left:0; border-radius:14px; padding:12px 16px; transition:all .35s var(--ease); position:relative; }
+        .sidebar-menu ul li a:hover { transform:translateX(4px); background:rgba(255,255,255,.06); }
+        .sidebar-menu ul li a.active { background:linear-gradient(90deg,rgba(245,165,36,.28),rgba(245,165,36,.04)); box-shadow:inset 0 0 0 1px rgba(245,165,36,.28),0 8px 24px -10px rgba(245,165,36,.45); }
+        .sidebar-menu ul li a.active::before { content:''; position:absolute; left:-14px; top:20%; bottom:20%; width:4px; border-radius:0 6px 6px 0; background:var(--grad-brand); }
+        .menu-search input { background:rgba(255,255,255,.07); border-radius:14px; backdrop-filter:blur(8px); }
+        .sidebar-footer { background:linear-gradient(0deg,rgba(0,0,0,.35),transparent); border-top:1px solid rgba(255,255,255,.06); }
+
+        /* Główna treść */
+        .admin-main { padding:40px 48px; }
+        .admin-section-content { animation:rise .6s var(--ease); }
+        @keyframes rise { from{opacity:0; transform:translateY(18px) scale(.995);} to{opacity:1; transform:none;} }
+        .admin-title { font-size:2.4rem; font-weight:800; letter-spacing:-1px; }
+        .admin-title i { background:var(--grad-brand); color:#fff; box-shadow:0 12px 28px -8px rgba(245,165,36,.65); border-radius:18px; padding:14px; font-size:1.6rem; }
+
+        /* Topbar */
+        .topbar { background:var(--glass); backdrop-filter:blur(16px) saturate(160%); border:1px solid rgba(255,255,255,.6); border-radius:20px; padding:10px 14px; margin:0 0 30px; box-shadow:var(--shadow-sm); position:sticky; top:12px; z-index:60; }
+        .tb-btn { border-radius:14px; background:#fff; }
+        .tb-btn:hover { background:var(--grad-brand); color:#fff; border-color:transparent; box-shadow:0 10px 22px -8px rgba(245,165,36,.7); }
+
+        /* Karty */
+        .admin-card { border:1px solid rgba(226,232,240,.8); border-radius:var(--radius-md); box-shadow:var(--shadow-sm); position:relative; overflow:hidden; transition:box-shadow .4s var(--ease), transform .4s var(--ease); }
+        .admin-card::before { content:''; position:absolute; left:0; top:0; right:0; height:3px; background:var(--grad-brand); opacity:.9; }
+        .admin-card:hover { box-shadow:var(--shadow-md); }
+        .admin-card-title { border-bottom:1px dashed var(--border-color); }
+
+        /* Statystyki */
+        .stat-card { position:relative; overflow:hidden; border-radius:24px; border:1px solid rgba(226,232,240,.9); padding:26px; background:linear-gradient(160deg,#fff 0%,#fff 55%,#fffaf0 100%); transition:all .45s var(--ease); }
+        .stat-card::after { content:''; position:absolute; right:-30px; top:-30px; width:110px; height:110px; border-radius:50%; background:radial-gradient(circle,var(--accent-glow),transparent 70%); transition:transform .6s var(--ease); }
+        .stat-card:hover { transform:translateY(-8px) scale(1.02); box-shadow:0 30px 50px -22px rgba(245,165,36,.5); }
+        .stat-card:hover::after { transform:scale(2.2); }
+        .stat-icon { width:62px; height:62px; border-radius:20px; box-shadow:inset 0 0 0 1px rgba(255,255,255,.6),0 10px 20px -10px currentColor; }
+        .stat-info h4 { font-size:2.2rem; font-weight:800; letter-spacing:-1px; }
+
+        /* Listy */
+        .list-item { border-radius:18px; border:1px solid var(--border-color); border-left:6px solid var(--primary-yellow); background:linear-gradient(90deg,var(--bg-body),var(--bg-white)); transition:all .4s var(--ease); }
+        .list-item:hover { transform:translateX(6px) translateY(-2px); box-shadow:var(--shadow-md); background:var(--bg-white); }
+
+        /* Przyciski */
+        .btn { border-radius:14px; font-weight:800; letter-spacing:.1px; transition:all .3s var(--ease); position:relative; overflow:hidden; }
+        .btn:active { transform:scale(.96); }
+        .btn-primary { background:var(--grad-brand); color:#fff; border-color:transparent; text-shadow:0 1px 1px rgba(0,0,0,.15); box-shadow:0 10px 22px -10px rgba(234,88,12,.75); }
+        .btn-primary:hover { filter:brightness(1.08) saturate(1.1); box-shadow:0 16px 30px -10px rgba(234,88,12,.8); color:#fff; background:var(--grad-brand); }
+        [data-theme="dark"] .btn-primary { color:#fff; }
+        .btn-success:hover, .btn-danger:hover, .btn-info:hover, .btn-warning:hover { box-shadow:0 12px 24px -10px rgba(15,23,42,.55); }
+        .btn-primary::after { content:''; position:absolute; inset:0; background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%); transform:translateX(-120%); transition:transform .7s var(--ease); }
+        .btn-primary:hover::after { transform:translateX(120%); }
+
+        /* Formularze */
+        .form-group input, .form-group textarea, .form-group select, .search-filter-bar input, .search-filter-bar select { border-radius:14px; border:1.5px solid var(--border-color); transition:all .3s var(--ease); }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { transform:translateY(-1px); box-shadow:0 0 0 5px var(--accent-glow),0 10px 24px -14px rgba(245,165,36,.6); }
+        input[type="datetime-local"] { font-weight:700; letter-spacing:.3px; }
+
+        /* Modale */
+        .custom-modal { background:rgba(8,13,28,.62); backdrop-filter:blur(14px) saturate(140%); }
+        .modal-content-box { border-radius:30px; border:1px solid rgba(255,255,255,.5); box-shadow:var(--shadow-lg); background:linear-gradient(180deg,var(--bg-white),var(--bg-white)); }
+        .modal-content-box::before { content:''; position:absolute; left:0; right:0; top:0; height:5px; background:var(--grad-brand); border-radius:30px 30px 0 0; }
+        .modal-content-box h3 { font-size:1.5rem; letter-spacing:-.5px; padding-right:50px; }
+
+        /* Logowanie */
+        #loginOverlay { background:radial-gradient(900px 600px at 20% 10%, rgba(245,165,36,.28), transparent 60%), radial-gradient(800px 600px at 90% 90%, rgba(99,102,241,.25), transparent 60%), linear-gradient(135deg,#050914,#0F172A 60%,#111a33); }
+        .login-box { border-radius:34px; box-shadow:0 60px 120px -30px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.08); }
+        .login-banner::before { background:linear-gradient(180deg,rgba(15,23,42,.1) 0%,rgba(15,23,42,.9) 100%),linear-gradient(135deg,rgba(245,165,36,.25),transparent 60%); }
+        .login-form-side h3 { font-size:2.1rem; font-weight:800; }
+        .login-input-group input { border-radius:16px; }
+
+        /* Piguły, toasty, kalendarz, notatki */
+        .pill { box-shadow:inset 0 0 0 1px rgba(0,0,0,.04); }
+        .toast { border-radius:18px; backdrop-filter:blur(14px); box-shadow:var(--shadow-md); }
+        .calendar-grid-container { border-radius:24px; box-shadow:var(--shadow-sm); }
+        .calendar-cell { border-radius:16px; transition:all .3s var(--ease); }
+        .calendar-cell:hover { transform:translateY(-3px); box-shadow:var(--shadow-md); }
+        .cal-event-pill { background:var(--grad-brand); color:#fff; border-radius:8px; padding:3px 8px; }
+        .note-card { border-radius:20px; background:linear-gradient(160deg,#fef9c3,#fde68a); box-shadow:0 14px 28px -16px rgba(180,83,9,.5); transform:rotate(-.6deg); }
+        .note-card:nth-child(even) { transform:rotate(.7deg); }
+        .note-card:hover { transform:rotate(0) translateY(-6px) scale(1.02); }
+        .empty-box { border-radius:20px; border:2px dashed var(--border-color); background:repeating-linear-gradient(45deg,transparent 0 12px,rgba(148,163,184,.05) 12px 24px); }
+        .sched-eta { display:inline-block; margin-left:6px; padding:2px 10px; border-radius:999px; background:#e0f2fe; color:#0369a1; font-weight:800; font-size:.78rem; }
+        #toTop { background:var(--grad-brand); color:#fff; box-shadow:0 14px 28px -10px rgba(234,88,12,.7); }
+        .site-footer { border-top:1px dashed var(--border-color); }
+
+        /* Ciemny motyw */
+        [data-theme="dark"] body { background:radial-gradient(900px 500px at 85% -10%, rgba(245,165,36,.12), transparent 60%), #0B1220; }
+        [data-theme="dark"] .topbar { background:rgba(17,27,46,.75); border-color:rgba(255,255,255,.06); }
+        [data-theme="dark"] .tb-btn, [data-theme="dark"] .stat-card, [data-theme="dark"] .list-item { background:var(--bg-white); }
+        [data-theme="dark"] .stat-card { background:linear-gradient(160deg,#111B2E,#16233b); }
+        [data-theme="dark"] .modal-content-box { border-color:rgba(255,255,255,.08); }
+        [data-theme="dark"] .sched-eta { background:rgba(2,132,199,.2); color:#7dd3fc; }
+
+        @media (max-width:900px) { .admin-main { padding:90px 16px 30px; } .admin-title { font-size:1.8rem; } .topbar { top:80px; } }
+        @media (prefers-reduced-motion:reduce) { *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
+
+        /* ===================== v7: NOWY UKŁAD I STYL ===================== */
+        /* Układ: pływający panel boczny + treść w "kartach" */
+        @media (min-width: 901px) {
+            .admin-sidebar { left:16px; top:16px; height:calc(100vh - 32px); width:272px; border-radius:30px; border:1px solid rgba(255,255,255,.08); overflow:hidden; }
+            .admin-main { margin-left:304px; padding:24px 36px 40px 16px; max-width:1500px; }
+            body.sb-collapsed .admin-sidebar { transform:translateX(calc(-100% - 32px)); }
+            body.sb-collapsed .admin-main { margin-left:0; padding-left:36px; margin-inline:auto; }
+        }
+        .sidebar-header { padding:26px 22px 20px; }
+        .sidebar-logo { height:46px; }
+        .sidebar-menu { padding:14px 0; }
+        .sidebar-menu ul li { padding:2px 12px; }
+        .sidebar-menu ul li a { padding:8px 12px; gap:12px; font-size:.9rem; }
+        .sidebar-menu ul li a i { width:36px; height:36px; display:grid; place-items:center; border-radius:12px; background:rgba(255,255,255,.07); font-size:.95rem; transition:all .35s var(--ease); }
+        .sidebar-menu ul li a:hover i { background:rgba(245,165,36,.2); transform:none; }
+        .sidebar-menu ul li a.active i { background:var(--grad-brand); color:#fff; box-shadow:0 8px 18px -6px rgba(234,88,12,.8); transform:none; }
+        .sidebar-menu ul li a.active::before { display:none; }
+        .sidebar-menu ul li a:hover i, .sidebar-menu ul li a.active i { color:#fff; }
+
+        /* Topbar jako wyspa */
+        .topbar { border-radius:999px; padding:8px 10px 8px 12px; margin:0 0 26px; top:10px; }
+        .tb-btn { border-radius:50%; width:40px; height:40px; }
+        .pill { border-radius:999px; }
+
+        /* Tytuł strony */
+        .admin-title { font-size:2rem; margin-bottom:24px; padding-bottom:0; }
+        .admin-title i { border-radius:16px; font-size:1.3rem; padding:13px; }
+
+        /* HERO na pulpicie */
+        .hero { position:relative; overflow:hidden; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:38px 42px; margin-bottom:26px; border-radius:34px; color:#fff;
+            background:radial-gradient(500px 300px at 90% 0%, rgba(245,165,36,.55), transparent 65%), radial-gradient(400px 300px at 0% 120%, rgba(99,102,241,.5), transparent 60%), linear-gradient(135deg,#0B1226,#1B2547);
+            box-shadow:0 30px 60px -28px rgba(15,23,42,.7); }
+        .hero::before, .hero::after { content:''; position:absolute; border-radius:50%; border:1px solid rgba(255,255,255,.1); pointer-events:none; }
+        .hero::before { width:360px; height:360px; right:-80px; top:-140px; }
+        .hero::after { width:220px; height:220px; right:60px; top:-60px; }
+        .hero-txt { position:relative; z-index:1; max-width:640px; }
+        .hero-kicker { display:inline-block; text-transform:capitalize; font-weight:800; font-size:.8rem; letter-spacing:.6px; padding:6px 14px; border-radius:999px; background:rgba(255,255,255,.12); backdrop-filter:blur(6px); margin-bottom:14px; }
+        .hero h2 { color:#fff; font-size:2.3rem; font-weight:800; letter-spacing:-1px; line-height:1.15; margin-bottom:10px; }
+        .hero p { color:rgba(255,255,255,.75); margin-bottom:22px; font-size:1rem; }
+        .btn-hero { background:rgba(255,255,255,.12); color:#fff; border-color:rgba(255,255,255,.25); backdrop-filter:blur(6px); }
+        .btn-hero:hover { background:#fff; color:#0F172A; }
+        .hero-art { position:relative; z-index:1; width:120px; height:120px; flex-shrink:0; border-radius:34px; display:grid; place-items:center; font-size:3rem; color:#fff; background:var(--grad-brand); box-shadow:0 24px 44px -14px rgba(234,88,12,.8); transform:rotate(-8deg); }
+        @media (max-width:700px) { .hero { padding:26px 22px; } .hero h2 { font-size:1.6rem; } .hero-art { display:none; } }
+
+        /* Statystyki: pionowe kafelki */
+        .stats-grid { grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:16px; }
+        .stat-card { flex-direction:column; align-items:flex-start; gap:16px; padding:22px; border-radius:26px; }
+        .stat-info h4 { font-size:2.6rem; line-height:1; }
+        .stat-info p { margin-top:6px; }
+
+        /* Karty i listy */
+        .admin-card { border-radius:28px; padding:28px; }
+        .admin-card::before { height:0; }
+        .admin-card-title { border-bottom:0; padding-bottom:0; margin-bottom:20px; font-size:1.25rem; }
+        .list-item { border-left-width:1px; border-radius:20px; padding:18px 20px; position:relative; }
+        .list-item::before { content:''; position:absolute; left:0; top:18%; bottom:18%; width:5px; border-radius:0 6px 6px 0; background:var(--grad-brand); }
+        .list-item:hover { transform:translateY(-3px); }
+        .action-buttons .btn { border-radius:12px; }
+
+        /* Kalendarz redakcji */
+        .cal-layout { display:grid; grid-template-columns:minmax(0,1fr) 350px; gap:24px; align-items:start; }
+        .cal-side { position:sticky; top:84px; display:flex; flex-direction:column; }
+        @media (max-width:1280px) { .cal-layout { grid-template-columns:1fr; } .cal-side { position:static; } }
+        .cal-main { padding:24px; }
+        .calendar-header-nav { flex-wrap:wrap; gap:12px; }
+        .cal-month { font-size:1.7rem; font-weight:800; letter-spacing:-.6px; }
+        .cal-nav { display:flex; gap:8px; flex-wrap:wrap; }
+        .cal-legend { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+        .leg { display:inline-flex; align-items:center; gap:8px; padding:7px 14px; border-radius:999px; font-weight:800; font-size:.8rem; border:1.5px solid var(--border-color); background:var(--bg-white); color:var(--text-main); transition:all .3s var(--ease); }
+        .leg small { font-weight:600; color:var(--text-muted); }
+        .leg-priv i { color:#8B5CF6; } .leg-pub i { color:#0d9488; } .leg-sched i { color:#0284c7; }
+        .leg.off { opacity:.45; text-decoration:line-through; }
+        .leg:hover { transform:translateY(-2px); border-color:var(--primary-yellow); }
+        .calendar-grid-container { padding:14px; border-radius:24px; background:var(--bg-body); }
+        .calendar-days-grid { gap:6px; }
+        .calendar-day-header { text-transform:uppercase; letter-spacing:1px; font-size:.7rem; }
+        .calendar-cell { min-height:112px; cursor:pointer; padding:8px; border-radius:16px; background:var(--bg-white); position:relative; }
+        .calendar-cell.weekend { background:linear-gradient(180deg,var(--bg-white),var(--bg-gray)); }
+        .calendar-cell.selected { border-color:var(--primary-yellow); box-shadow:0 0 0 3px var(--accent-glow); }
+        .calendar-cell.today .calendar-cell-date span { background:var(--grad-brand); color:#fff; box-shadow:0 6px 14px -4px rgba(234,88,12,.7); }
+        .calendar-cell-date { display:flex; justify-content:space-between; align-items:center; margin-bottom:2px; }
+        .calendar-cell-date span { display:grid; place-items:center; min-width:26px; height:26px; border-radius:50%; font-weight:800; font-size:.82rem; }
+        .cell-add { width:24px; height:24px; border-radius:50%; background:var(--bg-gray); color:var(--text-muted); font-size:.7rem; opacity:0; transform:scale(.7); transition:all .25s var(--ease); }
+        .calendar-cell:hover .cell-add { opacity:1; transform:none; }
+        .cell-add:hover { background:var(--grad-brand); color:#fff; }
+        @media (hover:none) { .cell-add { opacity:.7; transform:none; } }
+        .cal-pill { display:flex; align-items:center; gap:5px; padding:3px 7px; border-radius:8px; font-size:.72rem; font-weight:800; color:#fff; background:var(--c); white-space:nowrap; overflow:hidden; cursor:default; }
+        .cal-pill.priv { cursor:pointer; box-shadow:0 4px 10px -5px var(--c); }
+        .cal-pill.pub { background:transparent; color:var(--c); box-shadow:inset 0 0 0 1.5px var(--c); }
+        .cal-pill.sched { background:transparent; color:var(--c); box-shadow:inset 0 0 0 1.5px var(--c); border-style:dashed; }
+        .cal-pill i { font-size:.62rem; flex-shrink:0; }
+        .cal-pill .t { overflow:hidden; text-overflow:ellipsis; }
+        .cal-more { font-size:.7rem; font-weight:800; color:var(--text-muted); padding-left:4px; }
+        @media (max-width:700px) { .calendar-cell { min-height:68px; padding:5px; } .cal-pill .t { display:none; } .cal-pill { width:18px; height:8px; padding:0; border-radius:4px; } .cal-pill i { display:none; } .calendar-cell-date span { min-width:22px; height:22px; font-size:.72rem; } .cell-add { display:none; } }
+
+        .cal-row { display:flex; gap:12px; align-items:flex-start; padding:12px; border-radius:16px; background:var(--bg-body); border:1px solid var(--border-color); margin-bottom:10px; transition:all .3s var(--ease); position:relative; }
+        .cal-row.pub, .cal-row.sched { cursor:default; }
+        .cal-row:not(.pub):not(.sched) { cursor:pointer; }
+        .cal-row:not(.pub):not(.sched):hover { transform:translateX(4px); border-color:var(--c); box-shadow:var(--shadow-sm); }
+        .cal-row-ico { width:38px; height:38px; flex-shrink:0; display:grid; place-items:center; border-radius:12px; color:#fff; background:var(--c); font-size:.9rem; }
+        .cal-row.pub .cal-row-ico, .cal-row.sched .cal-row-ico { background:transparent; color:var(--c); box-shadow:inset 0 0 0 1.5px var(--c); }
+        .cal-row-txt { flex:1; min-width:0; display:flex; flex-direction:column; }
+        .cal-row-txt b { font-family:var(--font-headings); color:var(--secondary-dark); font-size:.95rem; }
+        .cal-row-txt small { color:var(--text-muted); font-weight:600; font-size:.78rem; }
+        .cal-row-txt em { font-style:normal; color:var(--text-muted); font-size:.82rem; margin-top:4px; white-space:pre-wrap; }
+        .cal-row-edit { color:var(--text-light); font-size:.8rem; margin-top:4px; opacity:0; transition:opacity .2s; }
+        .cal-row:hover .cal-row-edit { opacity:1; }
+        .color-pick { display:flex; gap:10px; flex-wrap:wrap; }
+        .color-dot { width:34px; height:34px; border-radius:50%; border:3px solid transparent; box-shadow:0 0 0 1.5px var(--border-color); transition:all .25s var(--ease); }
+        .color-dot:hover { transform:scale(1.12); }
+        .color-dot.sel { border-color:var(--bg-white); box-shadow:0 0 0 3px var(--secondary-dark); transform:scale(1.1); }
+        [data-theme="dark"] .calendar-grid-container { background:#0B1220; }
+        [data-theme="dark"] .calendar-cell.weekend { background:linear-gradient(180deg,var(--bg-white),#0f1a2e); }
+        [data-theme="dark"] .leg { background:var(--bg-white); }
+        [data-theme="dark"] .hero { box-shadow:0 30px 60px -28px rgba(0,0,0,.8); }
     </style>
 </head>
 <body>
@@ -643,6 +885,36 @@
         </div>
     </div>
 
+    <!-- MODAL WPISU KALENDARZA REDAKCJI (prywatny) -->
+    <div id="calEventModal" class="custom-modal">
+        <div class="modal-content-box" style="max-width: 560px;">
+            <button class="modal-close" onclick="closeCalEvent()"><i class="fas fa-times"></i></button>
+            <h3 id="calEvModalTitle" style="margin-bottom: 6px;"><i class="fas fa-lock" style="color:#8B5CF6;"></i> Nowy wpis</h3>
+            <p class="muted" style="margin-bottom:18px;"><i class="fas fa-eye-slash"></i> Widoczny tylko w panelu administratora.</p>
+            <form id="calEventForm">
+                <input type="hidden" id="calEvId">
+                <div class="form-group"><label>Tytuł</label><input type="text" id="calEvTitle" required maxlength="80" placeholder="np. Zebranie redakcji"></div>
+                <div class="row2">
+                    <div class="form-group"><label>Data</label><input type="date" id="calEvDate" required></div>
+                    <div class="form-group"><label>Godzina (opcjonalnie)</label><input type="time" id="calEvTime"></div>
+                </div>
+                <div class="form-group"><label>Kategoria</label>
+                    <select id="calEvCat">
+                        <option value="spotkanie">Spotkanie</option><option value="termin">Termin</option><option value="pomysl">Pomysł</option><option value="przypomnienie">Przypomnienie</option><option value="inne">Inne</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Kolor</label><div class="color-pick" id="calEvColors"></div></div>
+                <div class="form-group"><label>Notatka</label><textarea id="calEvNote" rows="3" placeholder="Szczegóły, kto, gdzie, co przygotować…"></textarea></div>
+                <div style="display:flex; justify-content:space-between; gap:12px; margin-top:22px; flex-wrap:wrap;">
+                    <button type="button" class="btn btn-danger" id="calEvDelete" onclick="deleteCalEvent()" style="display:none;"><i class="fas fa-trash"></i> Usuń</button>
+                    <span class="grow"></span>
+                    <button type="button" class="btn btn-secondary" onclick="closeCalEvent()">Anuluj</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Zapisz</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- LEWY PANEL BOCZNY -->
     <aside class="admin-sidebar" id="adminSidebar">
         <div class="sidebar-header">
@@ -662,8 +934,8 @@
                 <li><a href="#" onclick="switchSection('articles', this)"><i class="fas fa-newspaper"></i> <span>Artykuły Główne</span></a></li>
                 <li><a href="#" onclick="switchSection('kaciki', this)"><i class="fas fa-shapes"></i> <span>Kąciki</span></a></li>
                 <li><a href="#" onclick="switchSection('magazines', this)"><i class="fas fa-book-open"></i> <span>Gazetki Szkolne</span></a></li>
-                <li><a href="#" onclick="switchSection('calendar', this)"><i class="fas fa-calendar-alt"></i> <span>Kalendarz i Wydarzenia</span></a></li>
-                <li><a href="#" onclick="switchSection('calendar-interactive', this)"><i class="fas fa-calendar-days"></i> <span>Kalendarz Interaktywny</span></a></li>
+                <li><a href="#" onclick="switchSection('calendar', this)"><i class="fas fa-calendar-alt"></i> <span>Kalendarz publiczny</span></a></li>
+                <li><a href="#" onclick="switchSection('calendar-interactive', this)"><i class="fas fa-calendar-days"></i> <span>Kalendarz redakcji</span></a></li>
                 <li><a href="#" onclick="switchSection('notes', this)"><i class="fas fa-note-sticky"></i> <span>Notatnik Redaktora</span></a></li>
                 <li><a href="#" onclick="switchSection('schedule', this)"><i class="fas fa-truck"></i> <span>Harmonogram</span></a></li>
                 <li><a href="#" onclick="switchSection('notifications', this)"><i class="fas fa-bell"></i> <span>Powiadomienia</span></a></li>
@@ -693,6 +965,18 @@
         <!-- 1. PULPIT -->
         <div id="sec-dashboard" class="admin-section-content active">
             <h2 class="admin-title"><i class="fas fa-chart-pie"></i> Centrum Dowodzenia Redakcji</h2>
+            <div class="hero">
+                <div class="hero-txt">
+                    <span class="hero-kicker" id="heroDate"></span>
+                    <h2 id="heroGreet">Dzień dobry!</h2>
+                    <p>Artykuły zaplanowane publikują się automatycznie, dopóki panel jest otwarty. Własne wpisy w kalendarzu redakcji widzisz tylko Ty.</p>
+                    <div class="btn-row">
+                        <button class="btn btn-primary" onclick="go('submissions')"><i class="fas fa-inbox"></i> Nadesłane prace</button>
+                        <button class="btn btn-hero" onclick="go('calendar-interactive')"><i class="fas fa-calendar-days"></i> Kalendarz redakcji</button>
+                    </div>
+                </div>
+                <div class="hero-art"><i class="fas fa-feather-pointed"></i></div>
+            </div>
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon" style="background: #fef3c7; color: #d97706;"><i class="fas fa-inbox"></i></div>
@@ -729,11 +1013,6 @@
                         <p>Gazetki</p>
                     </div>
                 </div>
-            </div>
-            <div class="admin-card">
-                <h3 class="admin-card-title"><i class="fas fa-rocket" style="color: var(--primary-yellow);"></i> Witamy w zaawansowanym panelu Głos Trójki Pro Ultra!</h3>
-                <p style="margin-bottom: 15px; color: var(--text-muted); font-size: 1.02rem;">System automatycznie monitoruje i publikuje artykuły zaplanowane na dzisiejszy dzień oraz każdą inną wyznaczoną godzinę. Dodatkowo dodano interaktywny kalendarz miesięczny oraz notatnik zsynchronizowany z bazą danych!</p>
-                <button class="btn btn-primary" onclick="switchSection('calendar-interactive', document.querySelector('.sidebar-menu a:nth-child(8)'))"><i class="fas fa-calendar-days"></i> Otwórz Kalendarz Interaktywny</button>
             </div>
             <div class="admin-card">
                 <h3 class="admin-card-title"><span><i class="fas fa-bolt" style="color: var(--primary-yellow);"></i> Szybkie akcje</span> <span id="dashMaint" class="pill pill-off">Przerwa: wyłączona</span></h3>
@@ -880,29 +1159,41 @@
 
         <!-- 7.5. NOWOŚĆ: KALENDARZ INTERAKTYWNY (Z BAZĄ DANYCH) -->
         <div id="sec-calendar-interactive" class="admin-section-content">
-            <h2 class="admin-title"><i class="fas fa-calendar-days"></i> Interaktywny Kalendarz Redakcji</h2>
-            <div class="admin-card">
-                <div class="calendar-header-nav">
-                    <h3 id="calMonthYearTitle" style="font-size: 1.4rem;">Listopad 2026</h3>
-                    <div style="display: flex; gap: 8px;">
-                        <button class="btn btn-secondary" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i> Poprzedni</button>
-                        <button class="btn btn-secondary" onclick="changeMonth(1)">Następny <i class="fas fa-chevron-right"></i></button>
+            <h2 class="admin-title"><i class="fas fa-calendar-days"></i> Kalendarz Redakcji</h2>
+            <div class="cal-layout">
+                <div class="admin-card cal-main">
+                    <div class="calendar-header-nav">
+                        <h3 id="calMonthYearTitle" class="cal-month">Listopad 2026</h3>
+                        <div class="cal-nav">
+                            <button class="btn btn-secondary btn-sm" onclick="changeMonth(-1)" title="Poprzedni miesiąc"><i class="fas fa-chevron-left"></i></button>
+                            <button class="btn btn-secondary btn-sm" onclick="calToday()">Dziś</button>
+                            <button class="btn btn-secondary btn-sm" onclick="changeMonth(1)" title="Następny miesiąc"><i class="fas fa-chevron-right"></i></button>
+                            <button class="btn btn-primary btn-sm" onclick="openCalEvent(null)"><i class="fas fa-plus"></i> Dodaj wpis</button>
+                        </div>
+                    </div>
+                    <div class="cal-legend">
+                        <button class="leg leg-priv" onclick="toggleCalFilter('priv', this)"><i class="fas fa-lock"></i> Moje wpisy <small>tylko panel</small></button>
+                        <button class="leg leg-pub" onclick="toggleCalFilter('pub', this)"><i class="fas fa-globe"></i> Publiczne <small>strona główna</small></button>
+                        <button class="leg leg-sched" onclick="toggleCalFilter('sched', this)"><i class="fas fa-clock"></i> Publikacje <small>zaplanowane</small></button>
+                    </div>
+                    <div class="calendar-grid-container">
+                        <div class="calendar-days-grid" style="margin-bottom: 8px;">
+                            <div class="calendar-day-header">Pon</div><div class="calendar-day-header">Wto</div><div class="calendar-day-header">Śro</div><div class="calendar-day-header">Czw</div><div class="calendar-day-header">Pią</div><div class="calendar-day-header">Sob</div><div class="calendar-day-header">Nie</div>
+                        </div>
+                        <div id="interactiveCalendarDays" class="calendar-days-grid"></div>
                     </div>
                 </div>
-                <div class="calendar-grid-container">
-                    <div class="calendar-days-grid" style="margin-bottom: 8px;">
-                        <div class="calendar-day-header">Pon</div>
-                        <div class="calendar-day-header">Wto</div>
-                        <div class="calendar-day-header">Śro</div>
-                        <div class="calendar-day-header">Czw</div>
-                        <div class="calendar-day-header">Pią</div>
-                        <div class="calendar-day-header">Sob</div>
-                        <div class="calendar-day-header">Nie</div>
+                <aside class="cal-side">
+                    <div class="admin-card">
+                        <h3 class="admin-card-title"><span id="calDayTitle"><i class="fas fa-calendar-day" style="color:var(--primary-yellow)"></i> Wybrany dzień</span><button class="btn btn-primary btn-sm" onclick="openCalEvent(null, calSelected)"><i class="fas fa-plus"></i></button></h3>
+                        <div id="calDayList"></div>
                     </div>
-                    <div id="interactiveCalendarDays" class="calendar-days-grid">
-                        <!-- Generowane dynamicznie -->
+                    <div class="admin-card">
+                        <h3 class="admin-card-title"><span><i class="fas fa-lock" style="color:#8B5CF6"></i> Moje nadchodzące</span></h3>
+                        <p class="muted" style="margin:-8px 0 14px;"><i class="fas fa-eye-slash"></i> Te wpisy widzisz tylko w panelu — nie trafiają na stronę główną.</p>
+                        <div id="calUpcoming"></div>
                     </div>
-                </div>
+                </aside>
             </div>
         </div>
 
@@ -1249,6 +1540,28 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        /* === POPRAWKI: czas lokalny + bezpieczna auto-publikacja === */
+        // toLocalInput() (czas lokalny) jest zdefiniowane niżej w skrypcie
+        const escH = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        let schedRunning = false;
+
+        // Idempotentna publikacja: stałe ID dokumentu => brak duplikatów (kilka kart / nakładające się timery)
+        async function publishScheduledDoc(id, data) {
+            await setDoc(doc(db, "articles", "sched_" + id), {
+                title: data.title || "Bez tytułu",
+                content: data.content || "",
+                excerpt: data.excerpt || "",
+                author: data.author || "Redakcja",
+                category: data.category || "Artykuł",
+                imageUrl: data.imageUrl || "",
+                likes: 0,
+                isFeatured: false,
+                createdAt: data.scheduledAt || serverTimestamp(),
+                publishedFromSchedule: true
+            });
+            await deleteDoc(doc(db, "scheduled_articles", id));
+        }
+
         function initAdminPanel() {
             loadSiteSettings(true);
             fetchSubmissions();
@@ -1263,7 +1576,7 @@
 
             // NATYCHMIASTOWE SPRAWDZENIE I AUTO-PUBLIKACJA ZAPLANOWANYCH (NAPRAWA BŁĘDU DZIŚ 10:00)
             checkScheduledArticlesTimer();
-            setInterval(checkScheduledArticlesTimer, 30000);
+            setInterval(checkScheduledArticlesTimer, 15000);
         }
 
         /* --- NOTATNIK REDAKTORA --- */
@@ -1317,67 +1630,188 @@
             }
         }
 
-        /* --- INTERAKTYWNY KALENDARZ MIESIĘCZNY --- */
+        /* --- KALENDARZ REDAKCJI (wpisy prywatne + publiczne + publikacje) --- */
+        const CAL_COL = 'admin_calendar_private';   // kolekcja TYLKO dla panelu (strona główna jej nie czyta)
+        const CAL_COLORS = ['#F59E0B', '#EF4444', '#8B5CF6', '#10B981', '#3B82F6', '#EC4899'];
+        const CAL_CATS = { spotkanie: ['Spotkanie', 'fa-users'], termin: ['Termin', 'fa-flag'], pomysl: ['Pomysł', 'fa-lightbulb'], przypomnienie: ['Przypomnienie', 'fa-bell'], inne: ['Inne', 'fa-thumbtack'] };
+        const calFilters = { pub: true, priv: true, sched: true };
+        let calData = { pub: [], priv: [], sched: [] };
+        let calSelected = null;
+        let calColorSel = CAL_COLORS[0];
+        window.privateCalCache = {};
+        const dayKey = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+        const hhmm = d => String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+
         window.changeMonth = function(direction) {
-            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + direction);
-            renderInteractiveCalendar();
+            currentCalendarDate = new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth() + direction, 1);
+            renderInteractiveCalendar(false);
+        }
+        window.calToday = function() { currentCalendarDate = new Date(); calSelected = dayKey(new Date()); renderInteractiveCalendar(false); }
+        window.toggleCalFilter = function(k, el) { calFilters[k] = !calFilters[k]; el.classList.toggle('off', !calFilters[k]); renderInteractiveCalendar(false); }
+        window.selectCalDay = function(key) { calSelected = key; renderInteractiveCalendar(false); }
+
+        async function loadCalData() {
+            const out = { pub: [], priv: [], sched: [] };
+            window.privateCalCache = {};
+            try {
+                (await getDocs(collection(db, "calendar_events"))).forEach(d => { const x = d.data(); if (x.eventDate) out.pub.push({ title: x.title || '', date: x.eventDate.toDate(), details: x.details || '' }); });
+            } catch (e) { console.error('kalendarz publiczny', e); }
+            try {
+                (await getDocs(collection(db, "scheduled_articles"))).forEach(d => { const x = d.data(); if (x.scheduledAt) out.sched.push({ title: x.title || 'Bez tytułu', date: x.scheduledAt.toDate() }); });
+            } catch (e) { console.error('zaplanowane', e); }
+            try {
+                (await getDocs(collection(db, CAL_COL))).forEach(d => {
+                    const x = d.data(); if (!x.eventDate) return;
+                    const ev = { id: d.id, title: x.title || '', note: x.note || '', color: x.color || CAL_COLORS[0], cat: x.cat || 'inne', hasTime: !!x.hasTime, date: x.eventDate.toDate() };
+                    out.priv.push(ev); window.privateCalCache[d.id] = ev;
+                });
+            } catch (e) {
+                console.error('kalendarz prywatny', e);
+                if (typeof toast === 'function') toast('Nie można wczytać wpisów prywatnych (' + (e.code || e.message) + '). Sprawdź reguły Firestore dla kolekcji ' + CAL_COL + '.', 'error', 7000);
+            }
+            calData = out;
         }
 
-        async function renderInteractiveCalendar() {
+        function calEventsFor(key) {
+            const list = [];
+            if (calFilters.priv) calData.priv.forEach(e => { if (dayKey(e.date) === key) list.push({ kind: 'priv', ...e }); });
+            if (calFilters.pub) calData.pub.forEach(e => { if (dayKey(e.date) === key) list.push({ kind: 'pub', ...e }); });
+            if (calFilters.sched) calData.sched.forEach(e => { if (dayKey(e.date) === key) list.push({ kind: 'sched', ...e }); });
+            return list.sort((a, b) => a.date - b.date);
+        }
+
+        function calRowHtml(e) {
+            const t = (e.kind === 'priv' && !e.hasTime) ? 'cały dzień' : hhmm(e.date);
+            if (e.kind === 'priv') {
+                const c = CAL_CATS[e.cat] || CAL_CATS.inne;
+                return `<div class="cal-row" style="--c:${e.color}" onclick="openCalEvent('${e.id}')"><span class="cal-row-ico"><i class="fas ${c[1]}"></i></span><div class="cal-row-txt"><b>${escH(e.title)}</b><small>${t} • ${c[0]} • <i class="fas fa-lock"></i> prywatny</small>${e.note ? `<em>${escH(e.note)}</em>` : ''}</div><i class="fas fa-pen cal-row-edit"></i></div>`;
+            }
+            if (e.kind === 'pub') return `<div class="cal-row pub" style="--c:#0d9488"><span class="cal-row-ico"><i class="fas fa-globe"></i></span><div class="cal-row-txt"><b>${escH(e.title)}</b><small>Na stronie głównej${e.details ? ' • ' + escH(e.details) : ''}</small></div></div>`;
+            return `<div class="cal-row sched" style="--c:#0284c7"><span class="cal-row-ico"><i class="fas fa-clock"></i></span><div class="cal-row-txt"><b>${escH(e.title)}</b><small>Publikacja o ${hhmm(e.date)}</small></div></div>`;
+        }
+
+        async function renderInteractiveCalendar(reload = true) {
             const container = document.getElementById('interactiveCalendarDays');
             const titleEl = document.getElementById('calMonthYearTitle');
-            if(!container) return;
+            if (!container) return;
+            if (reload) await loadCalData();
+            if (!calSelected) calSelected = dayKey(new Date());
 
             const year = currentCalendarDate.getFullYear();
             const month = currentCalendarDate.getMonth();
             const monthNames = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"];
             titleEl.innerText = `${monthNames[month]} ${year}`;
 
-            try {
-                const snapshot = await getDocs(collection(db, "calendar_events"));
-                window.calendarEventsCache = [];
-                snapshot.forEach(docSnap => {
-                    const data = docSnap.data();
-                    if(data.eventDate) {
-                        window.calendarEventsCache.push({
-                            title: data.title,
-                            date: data.eventDate.toDate()
-                        });
-                    }
-                });
-            } catch(e) { console.error(e); }
-
-            container.innerHTML = '';
+            const todayKey = dayKey(new Date());
             const firstDayIndex = (new Date(year, month, 1).getDay() + 6) % 7; // Poniedziałek = 0
             const totalDays = new Date(year, month + 1, 0).getDate();
-            const prevMonthDays = new Date(year, month, 0).getDate();
-
-            // Dni poprzedniego miesiąca
-            for(let i = firstDayIndex; i > 0; i--) {
-                const dayNum = prevMonthDays - i + 1;
-                container.insertAdjacentHTML('beforeend', `<div class="calendar-cell other-month"><div class="calendar-cell-date">${dayNum}</div></div>`);
+            const totalCells = Math.ceil((firstDayIndex + totalDays) / 7) * 7;
+            let html = '';
+            for (let i = 0; i < totalCells; i++) {
+                const d = new Date(year, month, i - firstDayIndex + 1);
+                const key = dayKey(d);
+                const other = d.getMonth() !== month;
+                const wk = d.getDay() === 0 || d.getDay() === 6;
+                const evs = calEventsFor(key);
+                const shown = evs.slice(0, 3);
+                const pills = shown.map(e => {
+                    const ico = e.kind === 'priv' ? 'fa-lock' : e.kind === 'pub' ? 'fa-globe' : 'fa-clock';
+                    const col = e.kind === 'priv' ? e.color : e.kind === 'pub' ? '#0d9488' : '#0284c7';
+                    const click = e.kind === 'priv' ? `onclick="event.stopPropagation();openCalEvent('${e.id}')"` : '';
+                    return `<div class="cal-pill ${e.kind}" style="--c:${col}" ${click} title="${escH(e.title)}"><i class="fas ${ico}"></i><span class="t">${escH(e.title)}</span></div>`;
+                }).join('');
+                const more = evs.length > 3 ? `<div class="cal-more">+${evs.length - 3} więcej</div>` : '';
+                html += `<div class="calendar-cell${other ? ' other-month' : ''}${key === todayKey ? ' today' : ''}${wk ? ' weekend' : ''}${key === calSelected ? ' selected' : ''}" onclick="selectCalDay('${key}')">
+                    <div class="calendar-cell-date"><span>${d.getDate()}</span><button type="button" class="cell-add" title="Dodaj wpis" onclick="event.stopPropagation();openCalEvent(null,'${key}')"><i class="fas fa-plus"></i></button></div>${pills}${more}</div>`;
             }
+            container.innerHTML = html;
 
-            // Dni bieżącego miesiąca
-            for(let day = 1; day <= totalDays; day++) {
-                const currentDateObj = new Date(year, month, day);
-                const dateStringFormatted = currentDateObj.toISOString().split('T')[0];
+            // panel wybranego dnia
+            const [sy, sm, sd] = calSelected.split('-').map(Number);
+            const selDate = new Date(sy, sm - 1, sd);
+            document.getElementById('calDayTitle').innerHTML = `<i class="fas fa-calendar-day" style="color:var(--primary-yellow)"></i> ${selDate.toLocaleDateString('pl-PL', { weekday: 'long', day: 'numeric', month: 'long' })}`;
+            const dayEvs = calEventsFor(calSelected);
+            document.getElementById('calDayList').innerHTML = dayEvs.length ? dayEvs.map(calRowHtml).join('') : '<div class="empty-box" style="padding:22px;">Brak wpisów tego dnia.<br><button class="btn btn-secondary btn-sm" style="margin-top:12px;" onclick="openCalEvent(null, calSelected)"><i class="fas fa-plus"></i> Dodaj wpis</button></div>';
 
-                let eventsHtml = '';
-                window.calendarEventsCache.forEach(ev => {
-                    if(ev.date.toISOString().split('T')[0] === dateStringFormatted) {
-                        eventsHtml += `<div class="cal-event-pill" title="${ev.title}">${ev.title}</div>`;
-                    }
-                });
-
-                container.insertAdjacentHTML('beforeend', `
-                    <div class="calendar-cell">
-                        <div class="calendar-cell-date">${day}</div>
-                        ${eventsHtml}
-                    </div>
-                `);
-            }
+            // najbliższe prywatne
+            const now = new Date(); now.setHours(0, 0, 0, 0);
+            const up = calData.priv.filter(e => e.date >= now).sort((a, b) => a.date - b.date).slice(0, 6);
+            document.getElementById('calUpcoming').innerHTML = up.length ? up.map(e => {
+                const c = CAL_CATS[e.cat] || CAL_CATS.inne;
+                return `<div class="cal-row" style="--c:${e.color}" onclick="openCalEvent('${e.id}')"><span class="cal-row-ico"><i class="fas ${c[1]}"></i></span><div class="cal-row-txt"><b>${escH(e.title)}</b><small>${e.date.toLocaleDateString('pl-PL', { day: 'numeric', month: 'short' })}${e.hasTime ? ' • ' + hhmm(e.date) : ''}</small></div></div>`;
+            }).join('') : '<div class="empty-box" style="padding:18px;">Brak nadchodzących wpisów.</div>';
         }
+
+        /* --- Dodawanie / edycja wpisu prywatnego --- */
+        function buildColorPick() {
+            const box = document.getElementById('calEvColors');
+            box.innerHTML = CAL_COLORS.map(c => `<button type="button" class="color-dot${c === calColorSel ? ' sel' : ''}" style="background:${c}" data-c="${c}" aria-label="kolor ${c}"></button>`).join('');
+            box.querySelectorAll('.color-dot').forEach(b => b.onclick = () => { calColorSel = b.dataset.c; buildColorPick(); });
+        }
+        window.openCalEvent = function(id, dateKey) {
+            const ev = id ? window.privateCalCache[id] : null;
+            document.getElementById('calEvId').value = id || '';
+            document.getElementById('calEvTitle').value = ev ? ev.title : '';
+            document.getElementById('calEvDate').value = ev ? dayKey(ev.date) : (dateKey || calSelected || dayKey(new Date()));
+            document.getElementById('calEvTime').value = ev && ev.hasTime ? hhmm(ev.date) : '';
+            document.getElementById('calEvCat').value = ev ? ev.cat : 'spotkanie';
+            document.getElementById('calEvNote').value = ev ? ev.note : '';
+            calColorSel = ev ? ev.color : CAL_COLORS[0];
+            buildColorPick();
+            document.getElementById('calEvDelete').style.display = ev ? 'inline-flex' : 'none';
+            document.getElementById('calEvModalTitle').innerHTML = `<i class="fas fa-lock" style="color:#8B5CF6;"></i> ${ev ? 'Edytuj wpis' : 'Nowy wpis'}`;
+            document.getElementById('calEventModal').style.display = 'flex';
+            setTimeout(() => document.getElementById('calEvTitle').focus(), 60);
+        }
+        window.closeCalEvent = function() { document.getElementById('calEventModal').style.display = 'none'; }
+        document.getElementById('calEventForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('calEvId').value;
+            const dateStr = document.getElementById('calEvDate').value;
+            const timeStr = document.getElementById('calEvTime').value;
+            const [y, m, d] = dateStr.split('-').map(Number);
+            const [hh, mm] = timeStr ? timeStr.split(':').map(Number) : [0, 0];
+            const payload = {
+                title: document.getElementById('calEvTitle').value.trim(),
+                note: document.getElementById('calEvNote').value.trim(),
+                cat: document.getElementById('calEvCat').value,
+                color: calColorSel,
+                hasTime: !!timeStr,
+                eventDate: Timestamp.fromDate(new Date(y, m - 1, d, hh, mm))
+            };
+            try {
+                if (id) await updateDoc(doc(db, CAL_COL, id), payload);
+                else await addDoc(collection(db, CAL_COL), { ...payload, createdAt: serverTimestamp() });
+                calSelected = dateStr;
+                currentCalendarDate = new Date(y, m - 1, 1);
+                closeCalEvent();
+                if (typeof toast === 'function') toast(id ? 'Wpis zaktualizowany' : 'Wpis dodany (widoczny tylko w panelu)', 'success');
+                renderInteractiveCalendar(true);
+            } catch (err) {
+                console.error(err);
+                alert('Nie udało się zapisać wpisu: ' + (err.code || err.message) + '\nJeśli to permission-denied, dodaj w regułach Firestore zezwolenie dla kolekcji "' + CAL_COL + '".');
+            }
+        });
+        window.deleteCalEvent = async function() {
+            const id = document.getElementById('calEvId').value;
+            if (!id || !confirm('Usunąć ten wpis z kalendarza?')) return;
+            try {
+                await deleteDoc(doc(db, CAL_COL, id));
+                closeCalEvent();
+                if (typeof toast === 'function') toast('Wpis usunięty', 'success');
+                renderInteractiveCalendar(true);
+            } catch (err) { alert('Błąd usuwania: ' + (err.code || err.message)); }
+        }
+
+        /* --- Powitanie na pulpicie --- */
+        function updateHero() {
+            const g = document.getElementById('heroGreet'), dt = document.getElementById('heroDate');
+            if (!g || !dt) return;
+            const h = new Date().getHours();
+            g.textContent = h < 5 ? 'Dobranoc, redaktorze!' : h < 12 ? 'Dzień dobry, redaktorze!' : h < 18 ? 'Miłego dnia, redaktorze!' : 'Dobry wieczór, redaktorze!';
+            dt.textContent = new Date().toLocaleDateString('pl-PL', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+        }
+        updateHero(); setInterval(updateHero, 60000);
 
         /* --- WYSZUKIWARKA / FILTRY --- */
         window.filterSubmissions = function() {
@@ -1491,9 +1925,11 @@
             document.getElementById('schedTitle').value = data.title || data.tytul || '';
             document.getElementById('schedImageUrl').value = data.imageUrl || "https://images.unsplash.com/photo-1546422904-90eab23c3d7e?auto=format&fit=crop&w=800&q=80";
             
-            const tomorrow = new Date();
-            tomorrow.setHours(tomorrow.getHours() + 2);
-            document.getElementById('schedDateTime').value = tomorrow.toISOString().slice(0, 16);
+            const soon = new Date();
+            soon.setMinutes(soon.getMinutes() + 30);
+            const dtEl = document.getElementById('schedDateTime');
+            dtEl.value = toLocalInput(soon);
+            dtEl.min = toLocalInput(new Date());
 
             document.getElementById('scheduleArticleModal').style.display = 'flex';
         }
@@ -1517,6 +1953,7 @@
             }
 
             const scheduledDate = new Date(dateTimeStr);
+            if (isNaN(scheduledDate.getTime())) { alert("Nieprawidłowa data publikacji."); return; }
             const articleText = data.content || data.textContent || data.body || data.text || data.tresc || data.article || data.message || "";
             const authorVal = data.author ? `${data.author} ${data.authorClass ? '('+data.authorClass+')' : ''}` : "Redakcja";
             const categoryVal = data.type === 'kacik' ? (data.cornerName || 'Kącik') : (data.category || 'Artykuł');
@@ -1569,12 +2006,12 @@
                     container.insertAdjacentHTML('beforeend', `
                         <div class="list-item" style="border-left-color: #0284c7;">
                             <div class="item-info">
-                                <h4 class="no-hover">${data.title || 'Bez tytułu'}</h4>
-                                <p><i class="fas fa-clock" style="color: #0284c7;"></i> Publikacja: <strong>${dateFormatted}</strong> | Autor: ${data.author || 'Redakcja'}</p>
+                                <h4 class="no-hover">${escH(data.title || 'Bez tytułu')}</h4>
+                                <p><i class="fas fa-clock" style="color: #0284c7;"></i> Publikacja: <strong>${dateFormatted}</strong> | Autor: ${escH(data.author || 'Redakcja')} <span class="sched-eta" data-ts="${dateObj.getTime()}"></span></p>
                             </div>
                             <div class="action-buttons">
                                 <button class="btn btn-success" onclick="publishScheduledNow('${id}')" title="Opublikuj natychmiast"><i class="fas fa-bolt"></i></button>
-                                <button class="btn btn-warning" onclick="openEditScheduledModal('${id}', '${dateObj.toISOString().slice(0, 16)}')"><i class="fas fa-edit"></i> Edytuj</button>
+                                <button class="btn btn-warning" onclick="openEditScheduledModal('${id}', '${toLocalInput(dateObj)}')"><i class="fas fa-edit"></i> Edytuj</button>
                                 <button class="btn btn-danger" onclick="deleteDocument('scheduled_articles', '${id}')"><i class="fas fa-trash"></i></button>
                             </div>
                         </div>
@@ -1589,18 +2026,7 @@
             if(!confirm("Czy na pewno chcesz opublikować ten artykuł natychmiast?")) return;
             const data = window.scheduledCache[id] || {};
             try {
-                await addDoc(collection(db, "articles"), {
-                    title: data.title || "Bez tytułu",
-                    content: data.content || "",
-                    excerpt: data.excerpt || "",
-                    author: data.author || "Redakcja",
-                    category: data.category || "Artykuł",
-                    imageUrl: data.imageUrl || "",
-                    likes: 0,
-                    isFeatured: false,
-                    createdAt: serverTimestamp()
-                });
-                await deleteDoc(doc(db, "scheduled_articles", id));
+                await publishScheduledDoc(id, data);
                 alert("Artykuł został opublikowany!");
                 fetchScheduledArticles();
                 fetchPublishedArticles();
@@ -1623,11 +2049,13 @@
         document.getElementById('editScheduledForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const id = document.getElementById('editSchedId').value;
+            const newDate = new Date(document.getElementById('editSchedDateTime').value);
+            if (isNaN(newDate.getTime())) { alert("Nieprawidłowa data publikacji."); return; }
             try {
                 await updateDoc(doc(db, "scheduled_articles", id), {
                     title: document.getElementById('editSchedTitle').value.trim(),
                     imageUrl: document.getElementById('editSchedImageUrl').value.trim(),
-                    scheduledAt: Timestamp.fromDate(new Date(document.getElementById('editSchedDateTime').value))
+                    scheduledAt: Timestamp.fromDate(newDate)
                 });
                 alert("Zaplanowany artykuł zaktualizowany!");
                 closeEditScheduledModal();
@@ -1635,35 +2063,41 @@
             } catch (e) { alert("Błąd edycji zaplanowanego artykułu."); }
         });
 
-        // NAPRAWIONY TIMER AUTO-PUBLIKACJI (Sprawdza również zaplanowane na dzisiaj i przeszłe)
+        // TIMER AUTO-PUBLIKACJI: bez nakładania się wywołań, sekwencyjnie, idempotentnie
         async function checkScheduledArticlesTimer() {
+            if (schedRunning) return;
+            schedRunning = true;
             try {
                 const snapshot = await getDocs(collection(db, "scheduled_articles"));
-                const now = new Date();
-                snapshot.forEach(async (docSnap) => {
+                const now = Date.now();
+                let published = 0;
+                for (const docSnap of snapshot.docs) {
                     const data = docSnap.data();
-                    if (data.scheduledAt) {
-                        const schedDate = data.scheduledAt.toDate();
-                        if (now >= schedDate) {
-                            await addDoc(collection(db, "articles"), {
-                                title: data.title || "Bez tytułu",
-                                content: data.content || "",
-                                excerpt: data.excerpt || "",
-                                author: data.author || "Redakcja",
-                                category: data.category || "Artykuł",
-                                imageUrl: data.imageUrl || "",
-                                likes: 0,
-                                isFeatured: false,
-                                createdAt: serverTimestamp()
-                            });
-                            await deleteDoc(doc(db, "scheduled_articles", docSnap.id));
-                            fetchScheduledArticles();
-                            fetchPublishedArticles();
-                        }
+                    if (!data.scheduledAt) continue;
+                    if (now >= data.scheduledAt.toDate().getTime()) {
+                        try {
+                            await publishScheduledDoc(docSnap.id, data);
+                            published++;
+                            if (typeof toast === 'function') toast('Opublikowano zaplanowany artykuł: ' + (data.title || 'Bez tytułu'), 'success');
+                        } catch (err) { console.error('Błąd publikacji', docSnap.id, err); }
                     }
-                });
+                }
+                if (published) { fetchScheduledArticles(); fetchPublishedArticles(); }
             } catch (e) { console.error("Błąd auto-publikacji", e); }
+            finally { schedRunning = false; }
         }
+        // przeglądarki spowalniają timery w tle -> sprawdź od razu po powrocie do karty
+        document.addEventListener('visibilitychange', () => { if (!document.hidden && authRead()) checkScheduledArticlesTimer(); });
+        window.addEventListener('focus', () => { if (authRead()) checkScheduledArticlesTimer(); });
+        // odliczanie "za X min" na liście zaplanowanych
+        setInterval(() => {
+            document.querySelectorAll('.sched-eta').forEach(el => {
+                const diff = Number(el.dataset.ts) - Date.now();
+                if (diff <= 0) { el.textContent = '• publikowanie…'; return; }
+                const m = Math.floor(diff / 60000), h = Math.floor(m / 60), d = Math.floor(h / 24);
+                el.textContent = '• za ' + (d ? d + ' d ' + (h % 24) + ' h' : h ? h + ' h ' + (m % 60) + ' min' : Math.max(m, 1) + ' min');
+            });
+        }, 15000);
 
         /* --- ZGŁOSZENIA --- */
         async function fetchSubmissions() {
