@@ -232,7 +232,7 @@
 
         /* HERO BANNER - JESIEŃ */
         .hero-banner-section {
-            background: linear-gradient(rgba(15, 20, 28, 0.75), rgba(30, 37, 48, 0.75)), url('https://imgur.com/txMEtdo.png') center/cover no-repeat;
+            background: linear-gradient(rgba(10, 28, 54, 0.72), rgba(24, 58, 98, 0.72)), url('https://imgur.com/txMEtdo.png') center/cover no-repeat;
             padding: 90px 20px 40px;
             position: relative;
             overflow: hidden;
@@ -1716,6 +1716,88 @@
         .gtm-bar-d { font-size:.86rem; line-height:1.45; white-space:pre-wrap; }
         .gtm-bar-m { font-size:.76rem; opacity:.85; font-weight:700; }
         @media (prefers-reduced-motion: reduce) { #gtmFull *, #gtmBar, #gtmBar * { animation:none !important; } }
+
+/* ===================== ZIMA Z GŁOSEM TRÓJKI ===================== */
+:root{
+  --bg-body:#eaf2fb; --bg-gray:#dfeaf7; --border-color:#cbdcef;
+  --secondary-dark:#17283f; --secondary-dark-hover:#22395a;
+  --text-main:#26364d; --text-muted:#5f7391;
+  --shadow-xs:0 1px 3px rgba(23,60,110,.07); --shadow-sm:0 4px 8px rgba(23,60,110,.08);
+  --shadow-md:0 10px 18px rgba(23,60,110,.10); --shadow-lg:0 20px 28px rgba(23,60,110,.14);
+  --winter-navy:#12233b; --ice:#bfe0ff;
+}
+[data-theme="dark"]{
+  --secondary-dark:#eaf3ff; --secondary-dark-hover:#d5e5fa;
+  --text-main:#dbe7f7; --text-muted:#9db1cb;
+  --bg-body:#0a1424; --bg-white:#111f35; --bg-white-rgb:17,31,53; --bg-gray:#182a45; --border-color:#25395a;
+  --winter-navy:#0b1526;
+}
+.top-bar{background-color:var(--winter-navy);border-bottom:1px solid rgba(191,224,255,.12)}
+.main-header{box-shadow:0 4px 14px rgba(23,60,110,.10);border-bottom:1px solid var(--border-color)}
+.hero-banner-section{background:linear-gradient(rgba(10,28,54,.72),rgba(24,58,98,.72)),url('https://imgur.com/txMEtdo.png') center/cover no-repeat;border-bottom:3px solid var(--ice)}
+.hero-banner-section .container{position:relative;z-index:1}
+.hero-banner-bg{background:radial-gradient(circle at 50% 30%,rgba(191,224,255,.22) 0%,rgba(0,0,0,0) 70%)}
+.banner-subtitle{color:#c9dcf2}
+.banner-badge i{font-size:.8em}
+.hero-banner-section::after{content:"";position:absolute;left:0;right:0;bottom:0;height:34px;pointer-events:none;z-index:0;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 40' preserveAspectRatio='none'%3E%3Cpath d='M0 40V22c60-14 110 8 180-2s120-16 190 2 130 12 200-2 120-14 190 2 120 10 190-4 130-6 250 4v18z' fill='%23eaf2fb'/%3E%3C/svg%3E") bottom/100% 100% no-repeat}
+[data-theme="dark"] .hero-banner-section::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 40' preserveAspectRatio='none'%3E%3Cpath d='M0 40V22c60-14 110 8 180-2s120-16 190 2 130 12 200-2 120-14 190 2 120 10 190-4 130-6 250 4v18z' fill='%230a1424'/%3E%3C/svg%3E")}
+.article-card:hover,.featured-article:hover{border-color:var(--ice);box-shadow:0 14px 28px rgba(60,130,210,.18)}
+::-webkit-scrollbar-thumb:hover{background:var(--primary-yellow)}
+::selection{background:#bfe0ff;color:#12233b}
+.widget-title{border-bottom-color:var(--border-color)}
+
+/* --- przełącznik efektów (biała śnieżynka w czarnym pasku) --- */
+.fx-toggle{color:#fff !important;position:relative}
+.fx-toggle:hover{transform:rotate(30deg) !important}
+.fx-toggle.off{opacity:.5}
+.fx-toggle.off::after{content:"";position:absolute;left:50%;top:50%;width:22px;height:2px;background:#fff;border-radius:2px;transform:translate(-50%,-50%) rotate(-45deg);box-shadow:0 0 0 1px var(--winter-navy)}
+.fx-toggle-m{background:transparent;color:var(--secondary-dark) !important;width:42px;height:42px;border-radius:50%;font-size:1.25rem;display:flex;align-items:center;justify-content:center;position:relative}
+.fx-toggle-m.off::after{background:var(--secondary-dark);box-shadow:0 0 0 1px var(--bg-white)}
+
+/* --- efekty świąteczne (śnieg, światełka, Mikołaj) --- */
+#snowCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:800}
+.xmas-lights{position:absolute;left:0;right:0;top:100%;height:26px;pointer-events:none;overflow:hidden;z-index:1}
+.xmas-lights::before{content:"";position:absolute;left:-2%;right:-2%;top:-6px;height:14px;border-bottom:2px solid #1c3a2a;border-radius:0 0 50% 50%/0 0 100% 100%}
+.xmas-lights i{position:absolute;top:2px;width:9px;height:13px;border-radius:50% 50% 45% 45%;background:var(--c);transform-origin:50% 0;animation:bulb 2.4s ease-in-out infinite;animation-delay:var(--d);will-change:opacity}
+.xmas-lights i::before{content:"";position:absolute;left:50%;top:-4px;width:5px;height:5px;background:#33473b;border-radius:1px;transform:translateX(-50%)}
+.xmas-lights i::after{content:"";position:absolute;left:-9px;top:-5px;width:27px;height:27px;border-radius:50%;background:radial-gradient(circle,var(--c) 0%,transparent 68%);opacity:.38}
+@keyframes bulb{0%,100%{opacity:1}50%{opacity:.3}}
+.santa-walk{position:fixed;left:0;bottom:0;z-index:850;pointer-events:none;width:64px;height:96px;animation:santaWalk 48s linear infinite;will-change:transform}
+.santa-walk svg{width:100%;height:100%;animation:santaBob .5s ease-in-out infinite;overflow:visible}
+.santa-leg{transform-box:fill-box;transform-origin:50% 0}
+.santa-leg.l1{animation:legA .5s ease-in-out infinite alternate}
+.santa-leg.l2{animation:legA .5s ease-in-out infinite alternate-reverse}
+@keyframes legA{from{transform:rotate(-24deg)}to{transform:rotate(24deg)}}
+@keyframes santaBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes santaWalk{0%{transform:translateX(-110px)}60%,100%{transform:translateX(calc(100vw + 110px))}}
+.fx-off #snowCanvas,.fx-off .xmas-lights,.fx-off .santa-walk{display:none !important}
+@media (max-width:768px){.santa-walk{width:48px;height:72px}}
+@media (prefers-reduced-motion:reduce){.santa-walk,.santa-walk *,.xmas-lights i{animation:none !important}}
+
+/* --- przerwa techniczna: X --- */
+#gtmBar{padding-right:46px}
+.gtm-bar-x{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.18);color:#fff;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s}
+.gtm-bar-x:hover{background:rgba(255,255,255,.35);transform:rotate(90deg)}
+
+/* --- czytanie artykułów: jedna ikonka + panel --- */
+.reader-toolbar{position:relative;justify-content:space-between;padding:10px 14px;margin-bottom:22px;flex-wrap:nowrap}
+.reader-gear{width:40px;height:40px;border-radius:50%;background:var(--bg-white);color:var(--secondary-dark);border:1px solid var(--border-color);font-size:1rem;display:flex;align-items:center;justify-content:center;transition:var(--transition)}
+.reader-gear:hover,.reader-gear.active{background:var(--primary-yellow);border-color:var(--primary-yellow);color:#1E2227}
+.reader-gear.active i{transform:rotate(90deg)}
+.reader-gear i{transition:transform .3s}
+.reader-panel{display:none;position:absolute;right:0;top:calc(100% + 8px);z-index:30;min-width:270px;flex-direction:column;align-items:stretch;gap:14px;padding:16px;background:var(--bg-white);border:1px solid var(--border-color);border-radius:var(--radius-md);box-shadow:var(--shadow-lg)}
+.reader-panel.open{display:flex;animation:rpIn .2s ease}
+.reader-panel .reader-tool-group{flex-wrap:wrap}
+.reader-panel .tool-label{width:100%;font-size:.72rem;letter-spacing:.5px}
+@keyframes rpIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@media (max-width:768px){.reader-toolbar{flex-direction:row !important;align-items:center !important}.reader-panel{left:0;right:0;min-width:0}}
+.modal-body-content .modal-text{max-width:70ch;font-size:1.15rem;line-height:1.85;letter-spacing:.005em;hyphens:auto}
+.modal-text p{margin:0 0 1.05em}
+.modal-text h2,.modal-text h3{margin:1.6em 0 .6em;line-height:1.3}
+.modal-text blockquote{margin:1.3em 0;padding:.6em 1.2em;border-left:4px solid var(--primary-yellow);background:var(--bg-body);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-style:italic;color:var(--text-muted)}
+.modal-text img{max-width:100%;height:auto;border-radius:var(--radius-sm)}
+.modal-body-content .modal-title{text-wrap:balance}
 </style>
 </head>
 <body>
@@ -1735,6 +1817,7 @@
             return true;
         }
         function left(iso) { var s = Math.max(0, Math.floor((Date.parse(iso) - Date.now()) / 1000)); return { d: Math.floor(s / 86400), h: Math.floor(s % 86400 / 3600), m: Math.floor(s % 3600 / 60), s: s % 60 }; }
+        function barClosed(s) { try { return sessionStorage.getItem('gt_bar_x') === s; } catch (e) { return false; } }
         function two(n) { return n < 10 ? '0' + n : '' + n; }
 
         function gearPath(cx, cy, r, n, h, hole) {
@@ -1781,7 +1864,14 @@
             var tx = el('div', 'gtm-bar-tx'); tx.appendChild(el('strong', null, m.title || 'Przerwa techniczna'));
             if (m.description) tx.appendChild(el('span', 'gtm-bar-d', m.description));
             ui.meta = el('small', 'gtm-bar-m'); tx.appendChild(ui.meta);
-            b.appendChild(ic); b.appendChild(tx); document.body.appendChild(b);
+            var x = el('button', 'gtm-bar-x'); x.type = 'button'; x.setAttribute('aria-label', 'Zamknij komunikat'); x.title = 'Zamknij';
+            x.appendChild(el('i', 'fas fa-xmark'));
+            x.addEventListener('click', function () {
+                try { sessionStorage.setItem('gt_bar_x', sig); } catch (e) {}
+                b.style.transition = 'opacity .25s, transform .25s'; b.style.opacity = '0'; b.style.transform = 'translateY(20px)';
+                setTimeout(function () { b.remove(); ui.meta = null; }, 250);
+            });
+            b.appendChild(ic); b.appendChild(tx); b.appendChild(x); document.body.appendChild(b);
         }
         function clear() {
             ['gtmFull', 'gtmBar'].forEach(function (id) { var e = document.getElementById(id); if (e) e.remove(); });
@@ -1801,7 +1891,7 @@
             var s = on ? JSON.stringify([mode, m.title, m.description, m.from, m.to, m.countdown, cfg.logoUrl, cfg.siteVersion]) : '';
             if (s !== sig) {
                 sig = s; clear();
-                if (on) { if (mode === 'full') { buildFull(m, cfg); document.documentElement.style.overflow = 'hidden'; } else buildBar(m); }
+                if (on) { if (mode === 'full') { buildFull(m, cfg); document.documentElement.style.overflow = 'hidden'; } else if (!barClosed(s)) buildBar(m); }
             }
             if (on) tickText(m);
         }
@@ -1813,7 +1903,7 @@
             });
             var hero = q('.hero-banner-section'); if (!hero) return;
             hero.style.display = c.bannerEnabled === false ? 'none' : '';
-            if (c.bannerImage) hero.style.background = 'linear-gradient(rgba(15, 20, 28, 0.75), rgba(30, 37, 48, 0.75)), url(' + JSON.stringify(c.bannerImage) + ') center/cover no-repeat';
+            if (c.bannerImage) hero.style.background = 'linear-gradient(rgba(10, 28, 54, 0.72), rgba(24, 58, 98, 0.72)), url(' + JSON.stringify(c.bannerImage) + ') center/cover no-repeat';
             var sub = q('.banner-subtitle'); if (sub && c.bannerText) sub.textContent = c.bannerText;
             var a = q('.link-game-text'); if (a && c.bannerLink) { a.href = c.bannerLink; a.target = c.bannerNewTab === false ? '_self' : '_blank'; a.rel = 'noopener'; }
         }
@@ -1840,6 +1930,7 @@
                 <span><i class="far fa-clock"></i> Wersja 3.5.1a</span>
             </div>
             <div class="top-bar-right">
+                <button class="theme-toggle fx-toggle" id="fxToggle" type="button" title="Wyłącz efekty świąteczne" aria-label="Włącz lub wyłącz efekty świąteczne" aria-pressed="true"><i class="fas fa-snowflake"></i></button>
                 <button class="theme-toggle" id="themeToggle" title="Przełącz motyw"><i class="fas fa-moon"></i></button>
                 <a href="https://www.facebook.com/profile.php?id=61596658884155"><i class="fab fa-facebook"></i></a>
                 <a href="https://www.instagram.com/glostrojki/"><i class="fab fa-instagram"></i></a>
@@ -1909,9 +2000,12 @@
                     <h1>Głos <span>Trójki</span></h1>
                 </div>
             </a>
-            <button class="hamburger-btn" id="mobileMenuOpen" aria-label="Otwórz menu">
-                <i class="fas fa-bars"></i>
-            </button>
+            <div style="display:flex;align-items:center;gap:8px;">
+                <button class="fx-toggle fx-toggle-m" id="fxToggleM" type="button" title="Wyłącz efekty świąteczne" aria-label="Włącz lub wyłącz efekty świąteczne" aria-pressed="true"><i class="fas fa-snowflake"></i></button>
+                <button class="hamburger-btn" id="mobileMenuOpen" aria-label="Otwórz menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -1957,17 +2051,17 @@
         </div>
     </div>
 
-    <!-- BANER HERO JESIENNY -->
+    <!-- BANER HERO ZIMOWY -->
     <section class="hero-banner-section">
         <div class="hero-banner-bg"></div>
         <div class="container">
-            <span class="banner-badge"><i class="fas fa-sparkles"></i> OFICJALNA STRONA GAZETKI <i class="fas fa-sparkles"></i></span>
-            <h1 class="banner-wow-title">Jesień z <span>głosem trójki</span></h1>
+            <span class="banner-badge"><i class="fas fa-snowflake"></i> OFICJALNA STRONA GAZETKI <i class="fas fa-snowflake"></i></span>
+            <h1 class="banner-wow-title">Zima z <span>głosem trójki</span></h1>
             <p class="banner-subtitle">Strona gazetki szkolnej w Szkole Podstawowej nr 3 i.m. Marszałka Józefa Piłsudskiego w Sulejówku</p>
             
             <div class="game-link-container">
                 <a href="https://glostrojki.pl/gra" target="_blank" class="link-game-text">
-                    <i class="fas fa-leaf"></i> Zagraj w naszą grę
+                    Zagraj w naszą grę
                 </a>
             </div>
         </div>
@@ -3535,20 +3629,22 @@
                     <div class="modal-main-content">
                         
                         <div class="reader-toolbar">
-                            <div class="reader-tool-group">
-                                <span class="tool-label">Rozmiar tekstu:</span>
-                                <button class="tool-btn" onclick="changeFontSize(-0.1)" title="Zmniejsz czcionkę">A-</button>
-                                <button class="tool-btn" onclick="changeFontSize(0)" title="Resetuj czcionkę">A</button>
-                                <button class="tool-btn" onclick="changeFontSize(0.1)" title="Powiększ czcionkę">A+</button>
-                            </div>
-
-                            <div class="reader-tool-group">
-                                <button class="tool-btn" id="focusBtn" onclick="toggleFocusMode()" title="Tryb skupienia (bez bocznego paska)">
-                                    <i class="fas fa-glasses"></i> Tryb czytania
-                                </button>
-                                <span class="read-time-badge">
-                                    <i class="far fa-clock" style="color: var(--primary-yellow);"></i> ~${readTime} min czytania
-                                </span>
+                            <span class="read-time-badge">
+                                <i class="far fa-clock" style="color: var(--primary-yellow);"></i> ~${readTime} min czytania
+                            </span>
+                            <button class="reader-gear" id="readerGear" type="button" onclick="toggleReaderPanel(event)" title="Dostosuj czytanie" aria-label="Dostosuj czytanie" aria-expanded="false"><i class="fas fa-sliders"></i></button>
+                            <div class="reader-panel" id="readerPanel" onclick="event.stopPropagation()">
+                                <div class="reader-tool-group">
+                                    <span class="tool-label">Rozmiar tekstu</span>
+                                    <button class="tool-btn" onclick="changeFontSize(-0.1)" title="Zmniejsz czcionkę">A-</button>
+                                    <button class="tool-btn" onclick="changeFontSize(0)" title="Resetuj czcionkę">A</button>
+                                    <button class="tool-btn" onclick="changeFontSize(0.1)" title="Powiększ czcionkę">A+</button>
+                                </div>
+                                <div class="reader-tool-group">
+                                    <button class="tool-btn" id="focusBtn" onclick="toggleFocusMode()" title="Tryb skupienia (bez bocznego paska)">
+                                        <i class="fas fa-glasses"></i> Tryb czytania
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
@@ -3795,9 +3891,12 @@ window.executeSearch=function(){const inp=document.getElementById('searchInput')
 /* --- czytanie: narzędzia w oknie artykułu, link do artykułu --- */
 const _open=window.openArticleModal;
 window.openArticleModal=async function(id){await _open(id);history.replaceState(null,'','#artykul-'+id);
- const tb=document.querySelector('.reader-toolbar');if(!tb)return;const g=document.createElement('div');g.className='reader-tool-group';
+ const tb=document.getElementById('readerPanel');if(!tb)return;const g=document.createElement('div');g.className='reader-tool-group';
  g.innerHTML=`<button class="tool-btn" id="serifBtn" title="Czcionka szeryfowa">Aa</button><button class="tool-btn" id="linkBtn" title="Kopiuj link"><i class="fas fa-link"></i> Link</button><button class="tool-btn" id="cmBtn" title="Przejdź do komentarzy"><i class="fas fa-comments"></i></button>`;tb.appendChild(g);
- document.getElementById('serifBtn').onclick=e=>{const t=document.querySelector('.modal-text');t.classList.toggle('serif');e.currentTarget.classList.toggle('active')};
+ document.getElementById('serifBtn').onclick=e=>{const t=document.querySelector('.modal-text');const on=t.classList.toggle('serif');e.currentTarget.classList.toggle('active',on);try{localStorage.setItem('gt_serif',on?'1':'0')}catch(_){}};
+ try{if(localStorage.getItem('gt_serif')==='1'){document.querySelector('.modal-text').classList.add('serif');document.getElementById('serifBtn').classList.add('active')}
+  }catch(_){}
+ document.querySelector('.modal-text').style.fontSize=(1.15*window.gtFs)+'rem'
  document.getElementById('linkBtn').onclick=()=>navigator.clipboard.writeText(location.href.split('#')[0]+'#artykul-'+id).then(()=>toast('Skopiowano link'));
  document.getElementById('cmBtn').onclick=()=>document.getElementById('articleCommentsList_'+id).scrollIntoView({behavior:'smooth',block:'center'});
  const ta=document.getElementById('articleCommentInput_'+id);if(ta)ta.maxLength=1000};
@@ -3842,8 +3941,82 @@ window.openArticleModal=async function(id){await _open2(id);const ids=Object.key
  const sw=window.switchAuthTab;window.switchAuthTab=t=>{sw(t);const f=$(t==='login'?'loginFormContainer':'registerFormContainer');f.classList.remove('auth-fade');void f.offsetWidth;f.classList.add('auth-fade')};
  const oa=window.openAuthModal;window.openAuthModal=()=>{oa();document.querySelector('.auth-pop')?.remove();setTimeout(()=>{const f=$('loginFormContainer').style.display!=='none'?$('loginEmail'):$('regName');f&&f.focus()},400)};
 })();
+
+/* --- czytanie: rozwijany panel dostosowań --- */
+window.toggleReaderPanel=function(e){if(e)e.stopPropagation();const p=document.getElementById('readerPanel'),b=document.getElementById('readerGear');if(!p)return;const o=p.classList.toggle('open');b.classList.toggle('active',o);b.setAttribute('aria-expanded',o)};
+document.addEventListener('click',()=>{const p=document.getElementById('readerPanel');if(p&&p.classList.contains('open')){p.classList.remove('open');const b=document.getElementById('readerGear');b.classList.remove('active');b.setAttribute('aria-expanded','false')}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){const p=document.getElementById('readerPanel');if(p&&p.classList.contains('open')){p.classList.remove('open');document.getElementById('readerGear').classList.remove('active')}}});
+window.gtFs=1;try{const v=parseFloat(localStorage.getItem('gt_fs'));if(v>=.8&&v<=1.4)window.gtFs=v}catch(_){}
+window.changeFontSize=function(d){window.gtFs=d===0?1:Math.round(Math.min(Math.max(window.gtFs+d,.8),1.4)*10)/10;const t=document.querySelector('.modal-text');if(t)t.style.fontSize=(1.15*window.gtFs)+'rem';try{localStorage.setItem('gt_fs',window.gtFs)}catch(_){}};
 badgeCards();
 </script>
+
+
+    <!-- EFEKTY ŚWIĄTECZNE: śnieg, światełka, Mikołaj (wyłączane śnieżynką w górnym pasku) -->
+    <script>
+    (function () {
+        var KEY = 'gt_fx', root = document.documentElement, canvas, ctx, flakes = [], raf = 0, W = 0, H = 0, santa, lights, running = false;
+        var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+        function saved() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+        function save(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+
+        function build() {
+            if (canvas) return;
+            canvas = document.createElement('canvas'); canvas.id = 'snowCanvas'; canvas.setAttribute('aria-hidden', 'true'); document.body.appendChild(canvas); ctx = canvas.getContext('2d');
+            santa = document.createElement('div'); santa.className = 'santa-walk'; santa.setAttribute('aria-hidden', 'true');
+            santa.innerHTML = '<svg viewBox="0 0 60 90"><g class="santa-leg l1"><rect x="21" y="58" width="8" height="22" rx="3" fill="#b3202a"/><rect x="19" y="76" width="12" height="9" rx="3" fill="#1c1c1c"/></g><g class="santa-leg l2"><rect x="31" y="58" width="8" height="22" rx="3" fill="#b3202a"/><rect x="29" y="76" width="12" height="9" rx="3" fill="#1c1c1c"/></g><rect x="14" y="30" width="32" height="34" rx="12" fill="#d7263d"/><rect x="14" y="48" width="32" height="6" fill="#1c1c1c"/><rect x="26" y="47" width="8" height="8" rx="1.5" fill="#FFC107"/><rect x="12" y="62" width="36" height="5" rx="2.5" fill="#fff"/><rect x="8" y="34" width="9" height="20" rx="4.5" fill="#d7263d"/><rect x="43" y="34" width="9" height="20" rx="4.5" fill="#d7263d"/><circle cx="12.5" cy="56" r="4.5" fill="#fff"/><circle cx="47.5" cy="56" r="4.5" fill="#fff"/><circle cx="30" cy="22" r="11" fill="#f6c9a0"/><path d="M19 24c0 14 6 18 11 18s11-4 11-18c-4 5-8 6-11 6s-7-1-11-6z" fill="#fff"/><circle cx="26" cy="20" r="1.4" fill="#222"/><circle cx="34" cy="20" r="1.4" fill="#222"/><path d="M17 17c1-11 8-17 13-17s12 6 13 17z" fill="#d7263d"/><rect x="16" y="14" width="28" height="6" rx="3" fill="#fff"/><circle cx="30" cy="1" r="3.5" fill="#fff"/></svg>';
+            document.body.appendChild(santa);
+            var tb = document.querySelector('.top-bar');
+            if (tb) { lights = document.createElement('div'); lights.className = 'xmas-lights'; lights.setAttribute('aria-hidden', 'true'); tb.appendChild(lights); buildLights(); }
+            addEventListener('resize', onResize);
+        }
+        function buildLights() {
+            if (!lights) return;
+            var cols = ['#ff4d5a', '#ffc107', '#3ddc84', '#4da3ff', '#ff8ad8'], n = Math.ceil(innerWidth / 40), h = '';
+            for (var i = 0; i < n; i++) {
+                var y = 2 + Math.round(5 * Math.sin(i / n * Math.PI * (n / 9)) + 5);
+                h += '<i style="left:' + (i * 40 + 12) + 'px;top:' + y + 'px;--c:' + cols[i % 5] + ';--d:-' + ((i * 0.37) % 2.4).toFixed(2) + 's"></i>';
+            }
+            lights.innerHTML = h;
+        }
+        var rt; function onResize() { clearTimeout(rt); rt = setTimeout(function () { size(); buildLights(); }, 200); }
+        function size() {
+            if (!canvas) return; W = canvas.width = innerWidth; H = canvas.height = innerHeight;
+            var n = Math.min(90, Math.round(W / 16)); if (innerWidth < 768) n = Math.min(n, 40);
+            while (flakes.length < n) flakes.push(mk(true)); flakes.length = n;
+        }
+        function mk(rand) { return { x: Math.random() * (W || innerWidth), y: rand ? Math.random() * (H || innerHeight) : -10, r: Math.random() * 2.4 + .8, v: Math.random() * .9 + .5, s: Math.random() * Math.PI * 2, a: Math.random() * .5 + .4 }; }
+        function frame() {
+            if (!running) return;
+            raf = requestAnimationFrame(frame);
+            ctx.clearRect(0, 0, W, H); ctx.fillStyle = '#fff'; ctx.shadowColor = 'rgba(120,170,230,.9)'; ctx.shadowBlur = 3;
+            for (var i = 0; i < flakes.length; i++) {
+                var f = flakes[i]; f.y += f.v; f.s += .012; f.x += Math.sin(f.s) * .5;
+                if (f.y > H + 5) { flakes[i] = mk(false); flakes[i].x = Math.random() * W; continue; }
+                ctx.globalAlpha = f.a; ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.2832); ctx.fill();
+            }
+            ctx.globalAlpha = 1;
+        }
+        function start() {
+            build(); size(); running = true; root.classList.remove('fx-off'); cancelAnimationFrame(raf); if (!reduce) frame(); else { ctx.clearRect(0, 0, W, H); }
+        }
+        function stop() { running = false; cancelAnimationFrame(raf); root.classList.add('fx-off'); if (ctx) ctx.clearRect(0, 0, W, H); }
+        document.addEventListener('visibilitychange', function () { if (document.hidden) { running = false; cancelAnimationFrame(raf); } else if (!root.classList.contains('fx-off') && canvas) { running = true; if (!reduce) frame(); } });
+
+        function ui(on) {
+            ['fxToggle', 'fxToggleM'].forEach(function (id) {
+                var b = document.getElementById(id); if (!b) return;
+                b.classList.toggle('off', !on); b.setAttribute('aria-pressed', on);
+                b.title = on ? 'Wyłącz efekty świąteczne' : 'Włącz efekty świąteczne';
+            });
+        }
+        function set(on, persist) { if (on) start(); else stop(); ui(on); if (persist) save(on ? 'on' : 'off'); }
+        ['fxToggle', 'fxToggleM'].forEach(function (id) {
+            var b = document.getElementById(id); if (b) b.addEventListener('click', function () { set(root.classList.contains('fx-off'), true); });
+        });
+        var s = saved(); set(s === 'on' ? true : s === 'off' ? false : !reduce, false);
+    })();
+    </script>
 
     <!-- ODBIÓR USTAWIEŃ STRONY NA ŻYWO (settings/site) -->
     <script type="module">
